@@ -34,7 +34,6 @@ kotlin {
             dependencies {
                 api(KotlinX.coroutines.core)
                 api(KotlinX.serialization.json)
-                api(Koin.core)
                 api(project.project(":sdk:firebase"))
                 api(project.project(":sdk:places"))
             }
@@ -55,7 +54,11 @@ kotlin {
                 implementation("junit:junit:4.13.2")
             }
         }
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation(Koin.core)
+            }
+        }
         val iosTest by getting
     }
 }

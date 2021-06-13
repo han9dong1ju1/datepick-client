@@ -1,18 +1,6 @@
 object Koin {
 
     const val core = "io.insert-koin:koin-core:_"
-    const val ext = "io.insert-koin:koin-core-ext:_"
-
-    object Ktor {
-        const val ktor = "io.insert-koin:koin-ktor:_"
-    }
-
-    object Android {
-        const val android = "io.insert-koin:koin-android:_"
-        const val ext = "io.insert-koin:koin-android-ext:_"
-        const val compose = "io.insert-koin:koin-androidx-compose:_"
-    }
-
 
 }
 

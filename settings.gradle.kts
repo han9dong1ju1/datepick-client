@@ -12,7 +12,8 @@ plugins {
     id("de.fayard.refreshVersions") version "0.10.0"
 }
 
-include(":androidApp")
+include(":android:app")
 include(":shared")
 include(":sdk:firebase")
 include(":sdk:places")
+include(":android:ui")
