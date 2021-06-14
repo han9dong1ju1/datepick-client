@@ -13,7 +13,7 @@ plugins {
 }
 
 include(":android:app")
+include(":android:ui")
 include(":shared")
 include(":sdk:firebase")
-include(":sdk:places")
-include(":android:ui")
+include(":server")

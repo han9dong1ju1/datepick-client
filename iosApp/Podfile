@@ -7,8 +7,6 @@ target 'iosApp' do
   pod 'Firebase/Auth'
   pod 'Firebase/RemoteConfig'
   pod 'Firebase/Crashlytics'
-  pod 'GooglePlaces'
   pod 'shared', :path => '../shared'
   pod 'firebase', :path => '../sdk/firebase'
-  pod 'places', :path => '../sdk/places'
 end

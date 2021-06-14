@@ -4,6 +4,8 @@ plugins {
     kotlin("plugin.serialization") version "1.5.0"
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
 }
 
 version = "1.0"
@@ -18,6 +20,7 @@ kotlin {
         create("testReleaseApi")
     }
 
+    jvm()
     android()
     iosX64("ios")
 
@@ -34,8 +37,6 @@ kotlin {
             dependencies {
                 api(KotlinX.coroutines.core)
                 api(KotlinX.serialization.json)
-                api(project.project(":sdk:firebase"))
-                api(project.project(":sdk:places"))
             }
         }
         val commonTest by getting {
@@ -60,6 +61,9 @@ kotlin {
             }
         }
         val iosTest by getting
+
+        val jvmMain by getting
+        val jvmTest by getting
     }
 }
 
