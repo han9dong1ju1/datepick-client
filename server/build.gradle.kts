@@ -1,15 +1,13 @@
+import de.fayard.refreshVersions.core.versionFor
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
+    kotlin("plugin.allopen")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     war
-}
-
-repositories {
-    mavenCentral()
 }
 
 java {
