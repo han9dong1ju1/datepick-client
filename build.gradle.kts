@@ -1,3 +1,11 @@
+
+allprojects {
+    group = "app.hdj"
+    version = "1.0.0-SNAPSHOT"
+}
+
+
+@Suppress("AndroidGradlePluginVersion")
 buildscript {
     repositories {
         gradlePluginPortal()
@@ -5,12 +13,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.1.0-alpha02")
+        classpath("com.android.tools.build:gradle:7.0.0-beta03")
         classpath(Google.playServicesGradlePlugin)
         classpath(Google.dagger.hilt.android.gradlePlugin)
         classpath(Firebase.`no-BoM`.crashlyticsGradlePlugin)
         classpath(Utils.mokoResourcePlugins)
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
     }
 }
 
@@ -19,8 +26,8 @@ plugins {
     val springBootVersion = "2.5.1"
     val springBootDependencyManagementVersion = "1.0.11.RELEASE"
 
+    kotlin("jvm") version kotlinVersion apply false
     kotlin("multiplatform") version kotlinVersion apply false
-    kotlin("js") version kotlinVersion apply false
     kotlin("plugin.spring") version kotlinVersion apply false
     id("org.springframework.boot") version springBootVersion apply false
     id("io.spring.dependency-management") version springBootDependencyManagementVersion apply false

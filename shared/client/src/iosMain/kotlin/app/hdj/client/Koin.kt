@@ -1,4 +1,4 @@
-package app.hdj.datepick
+package app.hdj.client
 
 import kotlinx.cinterop.ObjCProtocol
 import kotlinx.cinterop.getOriginalKotlinClass

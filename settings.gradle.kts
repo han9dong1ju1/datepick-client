@@ -14,6 +14,9 @@ plugins {
 
 include(":android:app")
 include(":android:ui")
-include(":shared")
-include(":sdk:firebase")
+
 include(":server")
+
+include(":shared:firebase")
+include(":shared:client")
+include(":shared:data")

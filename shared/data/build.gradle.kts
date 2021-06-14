@@ -28,8 +28,8 @@ kotlin {
         summary = "DatePick Multiplatform"
         homepage = "https://github.com/han9dong1ju1/DatePick"
         ios.deploymentTarget = "14.0"
-        frameworkName = "shared"
-        podfile = project.file("../iosApp/Podfile")
+        frameworkName = "data"
+        podfile = project.file("../../iosApp/Podfile")
     }
     
     sourceSets {

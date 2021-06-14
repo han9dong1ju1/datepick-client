@@ -8,8 +8,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":shared"))
     implementation(project(":android:ui"))
+    implementation(project(":shared:client"))
 
     implementation(AndroidX.compose.compiler)
     implementation(AndroidX.compose.material)
@@ -39,7 +39,6 @@ dependencies {
     implementation(AndroidX.hilt.navigationCompose)
 
     kapt(Google.dagger.hilt.compiler)
-    implementation(Google.dagger.hilt)
     implementation(Google.dagger.hilt.android)
 }
 
