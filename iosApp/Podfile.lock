@@ -218,8 +218,9 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.7):
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
-  - client (1.0)
+  - client (1.0.0-SNAPSHOT)
   - data (1.0)
+  - domain (1.0)
   - firebase (1.0):
     - FirebaseAnalytics
     - FirebaseCrashlytics
@@ -402,6 +403,7 @@ PODS:
 DEPENDENCIES:
   - client (from `../shared/client`)
   - data (from `../shared/data`)
+  - domain (from `../shared/domain`)
   - firebase (from `../shared/firebase`)
   - Firebase/Analytics
   - Firebase/Auth
@@ -441,14 +443,17 @@ EXTERNAL SOURCES:
     :path: "../shared/client"
   data:
     :path: "../shared/data"
+  domain:
+    :path: "../shared/domain"
   firebase:
     :path: "../shared/firebase"
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
-  client: 9bfc47e454c27b4dc91e63e8bcd11affc1f09aa8
+  client: b617a610ad0a8648a352c9bc7ea5540a217d189b
   data: 7bb7938b689f2e393882e347fe45997c9ea793ba
+  domain: 859eef669d51f929fc8518279a0b0767c85f912b
   Firebase: 4bb49ae87756034cef870fa3c4006235eb46f475
   firebase: 6cc82e307cb06c315f688232c17df086f34bb928
   FirebaseABTesting: 5b22abfa9a55d5b9cd3d1e500a3ca29f6b1264cb
@@ -472,6 +477,6 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
 
-PODFILE CHECKSUM: ffaee52d740ff6d0d8447b5f207042f9c04ac89d
+PODFILE CHECKSUM: d0be1bbf984049d4a0d2ce732c9930ac769ca129
 
 COCOAPODS: 1.10.1

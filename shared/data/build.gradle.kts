@@ -37,6 +37,7 @@ kotlin {
             dependencies {
                 api(KotlinX.coroutines.core)
                 api(KotlinX.serialization.json)
+                implementation(project(":shared:domain"))
             }
         }
         val commonTest by getting {
@@ -62,7 +63,11 @@ kotlin {
         }
         val iosTest by getting
 
-        val jvmMain by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation("org.springframework.boot:spring-boot-starter-webflux")
+            }
+        }
         val jvmTest by getting
     }
 }

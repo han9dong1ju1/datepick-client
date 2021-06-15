@@ -4,8 +4,6 @@ allprojects {
     version = "1.0.0-SNAPSHOT"
 }
 
-
-@Suppress("AndroidGradlePluginVersion")
 buildscript {
     repositories {
         gradlePluginPortal()

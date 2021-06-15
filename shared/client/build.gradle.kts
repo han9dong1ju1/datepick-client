@@ -32,6 +32,7 @@ kotlin {
             dependencies {
                 api(KotlinX.coroutines.core)
                 api(KotlinX.serialization.json)
+                api(project(":shared:domain"))
             }
         }
         val commonTest by getting {

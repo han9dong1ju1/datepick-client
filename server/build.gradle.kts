@@ -2,6 +2,7 @@ import de.fayard.refreshVersions.core.versionFor
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    java
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.allopen")
@@ -17,9 +18,10 @@ java {
 
 dependencies {
     implementation(project(":shared:data"))
+    implementation(project(":shared:domain"))
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("io.jsonwebtoken:jjwt:_")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation(KotlinX.coroutines.reactor)
 }
 
 tasks {
