@@ -1,13 +1,14 @@
-package app.hdj.datepick.ui.screens.setting
+package app.hdj.datepick.ui.screens.main.home
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.utils.extract
 
 @Composable
-fun SettingScreen() {
+fun HomeScreen() {
 
-    val (state, effect, event) = hiltViewModel<SettingViewModel>().extract()
+    val (state, effect, event) = hiltViewModel<HomeViewModel>().extract()
+
 
 
 }

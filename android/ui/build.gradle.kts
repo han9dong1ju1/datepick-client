@@ -16,6 +16,7 @@ dependencies {
     implementation(AndroidX.compose.foundation)
     implementation(AndroidX.compose.runtime)
     implementation(AndroidX.compose.ui)
+    implementation(AndroidX.compose.ui.tooling)
     implementation(AndroidX.appCompat)
 
     implementation(AndroidX.paging.commonKtx)

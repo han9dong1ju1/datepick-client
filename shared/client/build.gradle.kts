@@ -23,7 +23,7 @@ kotlin {
         summary = "DatePick Multiplatform"
         homepage = "https://github.com/han9dong1ju1/DatePick"
         ios.deploymentTarget = "14.0"
-        frameworkName = "client"
+        frameworkName = "app/hdj/shared/client/client"
         podfile = project.file("../../iosApp/Podfile")
     }
     
@@ -32,7 +32,10 @@ kotlin {
             dependencies {
                 api(KotlinX.coroutines.core)
                 api(KotlinX.serialization.json)
-                api(project(":shared:domain"))
+                api(Ktor.client.core)
+                api(Ktor.client.json)
+                api(Ktor.client.serialization)
+                api(Ktor.client.logging)
             }
         }
         val commonTest by getting {

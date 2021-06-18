@@ -13,17 +13,15 @@ data class ViewModelComponent<S, EF, E>(
 )
 
 @Composable
-fun <S, EF, E> viewModelComponent(viewModel: StateViewModel<S, EF, E>): ViewModelComponent<S, EF, E> {
+fun <S, EF, E> StateViewModel<S, EF, E>.extract(): ViewModelComponent<S, EF, E> {
 
-    val state by viewModel.state.collectAsState()
+    val state by state.collectAsState()
 
-    val dispatch: (E) -> Unit = { event ->
-        viewModel.event(event)
-    }
+    val dispatch: (E) -> Unit = { event -> event(event) }
 
     return ViewModelComponent(
         state = state,
-        effect = viewModel.effect,
+        effect = effect,
         dispatch = dispatch
     )
 }

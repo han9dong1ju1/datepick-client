@@ -1,25 +1,24 @@
-package app.hdj.datepick.ui.screens.login
+package app.hdj.datepick.ui.screens.main.profile
 
 import app.hdj.datepick.ui.StateViewModel
+import app.hdj.shared.client.domain.entity.Course
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class ProfileViewModel @Inject constructor(
 
-) : StateViewModel<LoginViewModel.State, LoginViewModel.Effect, LoginViewModel.Event>() {
+) : StateViewModel<ProfileViewModel.State, ProfileViewModel.Effect, ProfileViewModel.Event>() {
 
-    data class State(
-        val showProgress: Boolean
-    )
+    class State
 
     sealed class Effect {
-        object LoginSucceed : Effect()
+
     }
 
     sealed class Event {
-        object RequestGoogleLogin : Event()
+
     }
 
     override val state: StateFlow<State>
