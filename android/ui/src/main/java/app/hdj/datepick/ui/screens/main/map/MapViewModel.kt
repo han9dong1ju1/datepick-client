@@ -1,4 +1,4 @@
-package app.hdj.datepick.ui.screens.main.home
+package app.hdj.datepick.ui.screens.main.map
 
 import app.hdj.datepick.ui.StateViewModel
 import app.hdj.datepick.ui.screens.main.pick.PickViewModel
@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class MapViewModel @Inject constructor(
 
-) : StateViewModel<HomeViewModel.State, HomeViewModel.Effect, HomeViewModel.Event>() {
+) : StateViewModel<MapViewModel.State, MapViewModel.Effect, MapViewModel.Event>() {
 
     data class State(
         val courses : List<Course>,

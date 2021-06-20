@@ -25,3 +25,17 @@ fun <S, EF, E> StateViewModel<S, EF, E>.extract(): ViewModelComponent<S, EF, E> 
         dispatch = dispatch
     )
 }
+
+@Composable
+fun <S, EF, E> extractForPreview(vm : StateViewModel<S, EF, E>): ViewModelComponent<S, EF, E> {
+
+    val state by vm.state.collectAsState()
+
+    val dispatch: (E) -> Unit = { event -> vm.event(event) }
+
+    return ViewModelComponent(
+        state = state,
+        effect = vm.effect,
+        dispatch = dispatch
+    )
+}

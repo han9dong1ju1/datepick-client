@@ -10,34 +10,9 @@ plugins {
 dependencies {
     implementation(project(":android:ui"))
     implementation(project(":shared:client"))
-
-    implementation(AndroidX.compose.compiler)
-    implementation(AndroidX.compose.material)
-    implementation(AndroidX.compose.foundation)
-    implementation(AndroidX.compose.runtime)
-    implementation(AndroidX.compose.ui)
-    implementation(AndroidX.appCompat)
-
-    implementation(AndroidX.paging.commonKtx)
-    implementation(AndroidX.paging.compose)
     kapt(AndroidX.paging.runtimeKtx)
-
-    implementation(AndroidX.navigation.compose)
-    implementation(AndroidX.navigation.commonKtx)
-    implementation(AndroidX.navigation.uiKtx)
     kapt(AndroidX.navigation.runtimeKtx)
-
-    implementation(AndroidX.activity)
-
-    implementation(AndroidX.security.cryptoKtx)
-
-    implementation(AndroidX.lifecycle.viewModelCompose)
-    implementation(AndroidX.lifecycle.viewModelKtx)
-    implementation(AndroidX.lifecycle.liveDataKtx)
-
     kapt(AndroidX.hilt.compiler)
-    implementation(AndroidX.hilt.navigationCompose)
-
     kapt(Google.dagger.hilt.compiler)
     implementation(Google.dagger.hilt.android)
 }

@@ -1,16 +1,15 @@
-package app.hdj.datepick.ui.screens.main.home
+package app.hdj.datepick.ui.screens.main.pick
 
 import app.hdj.datepick.ui.StateViewModel
-import app.hdj.datepick.ui.screens.main.pick.PickViewModel
 import app.hdj.shared.client.domain.entity.Course
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class PickViewModel @Inject constructor(
 
-) : StateViewModel<HomeViewModel.State, HomeViewModel.Effect, HomeViewModel.Event>() {
+) : StateViewModel<PickViewModel.State, PickViewModel.Effect, PickViewModel.Event>() {
 
     data class State(
         val courses : List<Course>,
