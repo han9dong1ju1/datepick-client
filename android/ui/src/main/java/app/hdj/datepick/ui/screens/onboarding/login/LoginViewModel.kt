@@ -1,10 +1,8 @@
-package app.hdj.datepick.ui.screens.course
+package app.hdj.datepick.ui.screens.onboarding.login
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import app.hdj.datepick.ui.screens.course.CourseViewModelDelegate.*
-import app.hdj.datepick.ui.screens.login.LoginViewModelDelegate
+import app.hdj.datepick.ui.screens.onboarding.login.LoginViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import app.hdj.shared.client.domain.entity.Course
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,11 +11,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Composable
-fun fakeCourseViewModel() = object : CourseViewModelDelegate {
+fun fakeLoginViewModel() = object : LoginViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
@@ -31,7 +28,7 @@ fun fakeCourseViewModel() = object : CourseViewModelDelegate {
 
 }
 
-interface CourseViewModelDelegate :
+interface LoginViewModelDelegate :
     ViewModelDelegate<State, Effect, Event> {
 
     data class State(
@@ -39,43 +36,28 @@ interface CourseViewModelDelegate :
     )
 
     sealed class Effect {
-        data class ShowToast(val message: String) : Effect()
+
     }
 
     sealed class Event {
         object ReloadContents : Event()
-        data class RequestContents(val courseId: Long) : Event()
     }
 
 }
 
 @HiltViewModel
-class CourseViewModel @Inject constructor(
+class LoginViewModel @Inject constructor(
 
-) : ViewModel(), CourseViewModelDelegate {
-
-    private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
-
-    override val effect = effectChannel.receiveAsFlow()
+) : ViewModel(), LoginViewModelDelegate {
 
     override val state: StateFlow<State>
         get() = TODO("Not yet implemented")
 
-    override fun event(event: Event) {
-        viewModelScope.launch {
-            event.runCatching {
-                when (this) {
-                    Event.ReloadContents -> {
+    override val effect: Flow<Effect>
+        get() = TODO("Not yet implemented")
 
-                    }
-                    is Event.RequestContents -> {
-                        courseId
-                    }
-                }
-            }.onFailure {
-                effectChannel.send(Effect.ShowToast(""))
-            }
-        }
+    override fun event(event: Event) {
+        TODO("Not yet implemented")
     }
 
 }

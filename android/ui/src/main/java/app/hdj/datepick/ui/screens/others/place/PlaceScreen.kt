@@ -1,4 +1,4 @@
-package app.hdj.datepick.ui.screens.course
+package app.hdj.datepick.ui.screens.others.place
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -7,17 +7,17 @@ import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 
 @Composable
-fun CourseScreen(loginViewModel: CourseViewModelDelegate = hiltViewModel<CourseViewModel>()) {
+fun PlaceScreen(vm: PlaceViewModelDelegate = hiltViewModel<PlaceViewModel>()) {
 
-    val (state, effect, event) = loginViewModel.extract()
+    val (state, effect, event) = vm.extract()
 
 
 }
 
 @Composable
 @Preview
-fun CourseScreenPreview() {
+fun PlaceScreenPreview() {
     DatePickTheme {
-        CourseScreen(fakeCourseViewModel())
+        PlaceScreen(fakePlaceViewModel())
     }
 }

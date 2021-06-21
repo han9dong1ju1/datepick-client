@@ -1,17 +1,39 @@
 package app.hdj.datepick.ui.navigation
 
-sealed class NavigationGraph(val route: String) {
+sealed class NestedNavigationGraph(val parentRoute: String, nestedRoute : String) : NavigationGraph(parentRoute) {
+    override val route = "$parentRoute/$nestedRoute"
+}
 
-    object Login : NavigationGraph("login")
+sealed class NavigationGraph(open val route: String) {
+
+    sealed class OnBoarding(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
+
+        companion object {
+            const val route = "onboarding"
+        }
+
+        object Splash : NavigationGraph("splash")
+        object Login : NavigationGraph("login")
+        object Register : NavigationGraph("register")
+
+    }
 
     /* Main Start */
-    object Home : NavigationGraph("home")
+    sealed class Main(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
 
-    object Pick : NavigationGraph("pick")
+        companion object {
+            const val route = "main"
+        }
 
-    object Map : NavigationGraph("map")
+        object Home : Main("home")
 
-    object Profile : NavigationGraph("profile")
+        object Pick : Main("pick")
+
+        object Map : Main("map")
+
+        object Profile : Main("profile")
+
+    }
     /* Main End */
 
     object Place : NavigationGraph("place/{placeId}") {

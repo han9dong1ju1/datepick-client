@@ -1,8 +1,7 @@
-package app.hdj.datepick.ui.screens.login
+package app.hdj.datepick.ui.screens.main.map
 
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
-import app.hdj.datepick.ui.screens.login.LoginViewModelDelegate.*
+import app.hdj.datepick.ui.screens.main.map.MapViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import app.hdj.shared.client.domain.entity.Course
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,8 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
-@Composable
-fun fakeLoginViewModel() = object : LoginViewModelDelegate {
+fun fakeMapViewModel() = object : MapViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
@@ -28,8 +26,7 @@ fun fakeLoginViewModel() = object : LoginViewModelDelegate {
 
 }
 
-interface LoginViewModelDelegate :
-    ViewModelDelegate<State, Effect, Event> {
+interface MapViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
         val courses: List<Course>,
@@ -46,9 +43,9 @@ interface LoginViewModelDelegate :
 }
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class MapViewModel @Inject constructor(
 
-) : ViewModel(), LoginViewModelDelegate {
+) : ViewModel(), MapViewModelDelegate {
 
     override val state: StateFlow<State>
         get() = TODO("Not yet implemented")

@@ -10,14 +10,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import app.hdj.datepick.ui.navigation.NavigationGraph
-import app.hdj.datepick.ui.screens.course.CourseScreen
-import app.hdj.datepick.ui.screens.login.LoginScreen
-import app.hdj.datepick.ui.screens.main.home.HomeScreen
-import app.hdj.datepick.ui.screens.main.map.MapScreen
-import app.hdj.datepick.ui.screens.main.pick.PickScreen
-import app.hdj.datepick.ui.screens.main.profile.ProfileScreen
-import app.hdj.datepick.ui.screens.place.PlaceScreen
-import app.hdj.datepick.ui.screens.setting.SettingScreen
+import app.hdj.datepick.ui.screens.others.course.CourseScreen
+import app.hdj.datepick.ui.screens.main.mainScreens
+import app.hdj.datepick.ui.screens.onboarding.onBoardingScreens
+import app.hdj.datepick.ui.screens.others.place.PlaceScreen
+import app.hdj.datepick.ui.screens.others.settings.SettingsScreen
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.currentScreenRoute
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -39,10 +36,10 @@ fun DatePickApp() {
                 bottomBar = {
 
                     val allowedRoutes = listOf(
-                        NavigationGraph.Home.route,
-                        NavigationGraph.Profile.route,
-                        NavigationGraph.Map.route,
-                        NavigationGraph.Pick.route,
+                        NavigationGraph.Main.Home.route,
+                        NavigationGraph.Main.Profile.route,
+                        NavigationGraph.Main.Map.route,
+                        NavigationGraph.Main.Pick.route,
                     )
 
                     val isRouteAllowedForBottomNavigation = allowedRoutes.contains(route)
@@ -55,32 +52,20 @@ fun DatePickApp() {
                 }
             ) {
 
-
                 NavHost(
                     navController = navController,
-                    startDestination = NavigationGraph.Login.route
+                    startDestination = NavigationGraph.OnBoarding.route
                 ) {
 
-                    composable(NavigationGraph.Login.route) { LoginScreen() }
+                    onBoardingScreens()
 
-                    /* Main */
-                    composable(NavigationGraph.Home.route) { HomeScreen() }
-
-                    composable(NavigationGraph.Map.route) { MapScreen() }
-
-                    composable(NavigationGraph.Pick.route) { PickScreen() }
-
-                    composable(NavigationGraph.Profile.route) { ProfileScreen() }
-                    /* Main */
+                    mainScreens()
 
                     composable(NavigationGraph.Place.route, listOf(
                         navArgument(NavigationGraph.Place.ARGUMENT_ID) {
                             type = NavType.LongType
                         }
                     )) {
-                        val placeId = it.arguments?.getLong(NavigationGraph.Place.ARGUMENT_ID)
-                            ?: return@composable
-
                         PlaceScreen()
                     }
 
@@ -89,13 +74,12 @@ fun DatePickApp() {
                             type = NavType.LongType
                         }
                     )) {
-                        val courseId = it.arguments?.getLong(NavigationGraph.Course.ARGUMENT_ID)
-                            ?: return@composable
-
                         CourseScreen()
                     }
 
-                    composable(NavigationGraph.Settings.route) { SettingScreen() }
+                    composable(NavigationGraph.Settings.route) {
+                        SettingsScreen()
+                    }
                 }
 
             }

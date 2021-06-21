@@ -1,4 +1,4 @@
-package app.hdj.datepick.ui.screens.login
+package app.hdj.datepick.ui.screens.main.map
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -7,16 +7,18 @@ import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModelDelegate = hiltViewModel<LoginViewModel>()) {
+fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
 
-    val (state, effect, event) = loginViewModel.extract()
+    val (state, effect, event) = vm.extract()
+
+
 
 }
 
 @Composable
 @Preview
-fun LoginScreenPreview() {
+fun MapScreenPreview() {
     DatePickTheme {
-        LoginScreen(fakeLoginViewModel())
+        MapScreen(fakeMapViewModel())
     }
 }

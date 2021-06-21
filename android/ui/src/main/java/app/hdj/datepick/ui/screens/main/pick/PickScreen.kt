@@ -1,4 +1,4 @@
-package app.hdj.datepick.ui.screens.main.home
+package app.hdj.datepick.ui.screens.main.pick
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -7,18 +7,17 @@ import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 
 @Composable
-fun HomeScreen(vm: HomeViewModelDelegate = hiltViewModel<HomeViewModel>()) {
+fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
 
     val (state, effect, event) = vm.extract()
-
 
 
 }
 
 @Composable
 @Preview
-fun HomeScreenPreview() {
+fun PickScreenPreview() {
     DatePickTheme {
-        HomeScreen(fakeHomeViewModel())
+        PickScreen(fakePickViewModel())
     }
 }
