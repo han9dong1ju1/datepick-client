@@ -16,19 +16,11 @@ object Utils {
 
     const val multiplatformSettings = "com.russhwolf:multiplatform-settings:_"
 
-    const val activityCompose = "androidx.activity:activity-compose:_"
+    const val multiplatformSettingsSerialization = "com.russhwolf:multiplatform-settings-serialization:_"
+
+//    const val multiplatformDataStoreSettings = "com.russhwolf:multiplatform-settings-datastore:_"
 
     const val kotlinxDateTime = "org.jetbrains.kotlinx:kotlinx-datetime:_"
-
-    const val accompanist = "dev.chrisbanes.accompanist:accompanist-insets:_"
-
-    const val constraintLayoutCompose = "androidx.constraintlayout:constraintlayout-compose:_"
-
-    const val navCompose = "androidx.navigation:navigation-compose:_"
-
-    const val pagingCompose = "androidx.paging:paging-compose:_"
-
-    const val composeUiTooling = "androidx.compose.ui:ui-tooling:_"
 
     const val mokoParcel = "dev.icerock.moko:parcelize:_"
 

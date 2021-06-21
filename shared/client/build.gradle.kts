@@ -36,6 +36,8 @@ kotlin {
                 api(Ktor.client.json)
                 api(Ktor.client.serialization)
                 api(Ktor.client.logging)
+                api(Utils.multiplatformSettings)
+                api(Utils.multiplatformSettingsSerialization)
             }
         }
         val commonTest by getting {
