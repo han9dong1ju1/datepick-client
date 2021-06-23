@@ -18,7 +18,9 @@ object Utils {
 
     const val multiplatformSettingsSerialization = "com.russhwolf:multiplatform-settings-serialization:_"
 
-//    const val multiplatformDataStoreSettings = "com.russhwolf:multiplatform-settings-datastore:_"
+    const val multiplatformDataStoreSettings = "com.russhwolf:multiplatform-settings-datastore:_"
+
+    const val multiplatformCoroutines = "com.russhwolf:multiplatform-settings-coroutines:_"
 
     const val kotlinxDateTime = "org.jetbrains.kotlinx:kotlinx-datetime:_"
 

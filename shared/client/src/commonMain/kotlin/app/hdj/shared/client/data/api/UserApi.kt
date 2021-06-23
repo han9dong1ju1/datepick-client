@@ -7,7 +7,7 @@ import io.ktor.client.request.*
 
 class UserApi(val client: HttpClient) {
 
-    suspend fun getUser(userId : Long) = client.get<ApiResponse<User>> {
+    suspend fun getUser(userId : String) = client.get<ApiResponse<User>> {
         parameter("userId", userId)
     }
 

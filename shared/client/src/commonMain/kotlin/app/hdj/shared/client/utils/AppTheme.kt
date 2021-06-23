@@ -1,9 +1,9 @@
 package app.hdj.shared.client.utils
 
-enum class AppTheme {
+enum class AppTheme(val value : Int) {
 
-    LIGHT,
-    DARK,
-    SYSTEM,
+    LIGHT(0),
+    DARK(1),
+    SYSTEM(2),
 
 }
