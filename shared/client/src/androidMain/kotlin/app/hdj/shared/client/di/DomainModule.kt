@@ -33,8 +33,7 @@ class DomainModule {
 
     @Provides
     @Singleton
-    internal fun provideSettingRepository(
-        localDataStore: LocalDataStore
-    ): SettingRepository = DaggerSettingRepositoryImp(localDataStore)
+    internal fun provideSettingRepository(localDataStore: LocalDataStore): SettingRepository =
+        DaggerSettingRepositoryImp(localDataStore)
 
 }

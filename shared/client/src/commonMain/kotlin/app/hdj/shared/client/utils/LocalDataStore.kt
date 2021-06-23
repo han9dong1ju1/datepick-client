@@ -6,9 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalSettingsApi::class)
-abstract class DataStoreDelegate {
-
-    abstract val settings: FlowSettings
+abstract class DataStoreDelegate(private val settings: FlowSettings) {
 
     val appTheme: Flow<AppTheme> = settings.getIntFlow(KEY_APP_THEME, AppTheme.SYSTEM.value)
             .map { saved -> AppTheme.values().first { it.value == saved } }

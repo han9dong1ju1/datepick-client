@@ -18,8 +18,4 @@ internal val Context.dataStore: DataStore<Preferences> by preferencesDataStore(n
 @OptIn(ExperimentalSettingsImplementation::class, ExperimentalSettingsApi::class)
 class LocalDataStore @Inject constructor(
     @ApplicationContext val context: Context
-) : DataStoreDelegate() {
-
-    override val settings: FlowSettings = DataStoreSettings(context.dataStore)
-
-}
+) : DataStoreDelegate(DataStoreSettings(context.dataStore))
