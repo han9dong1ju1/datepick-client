@@ -30,12 +30,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":shared:firebase"))
                 api(KotlinX.coroutines.core)
                 api(KotlinX.serialization.json)
                 api(Ktor.client.core)
                 api(Ktor.client.json)
                 api(Ktor.client.serialization)
                 api(Ktor.client.logging)
+                api(Ktor.client.cio)
                 api(Utils.multiplatformSettings)
                 api(Utils.multiplatformCoroutines)
                 api(Utils.multiplatformSettingsSerialization)
@@ -85,6 +87,7 @@ kotlin {
                 api(Google.accompanist.insets.ui)
                 api(Google.accompanist.pager)
                 api(Google.accompanist.pager.indicators)
+                api(Google.accompanist.systemuicontroller)
 
                 api(Utils.multiplatformDataStoreSettings)
             }

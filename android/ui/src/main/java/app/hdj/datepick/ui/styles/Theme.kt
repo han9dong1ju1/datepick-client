@@ -9,6 +9,7 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import app.hdj.shared.client.domain.entity.AppTheme
 
 /* Typo */
 val typographies = Typography(
@@ -35,13 +36,17 @@ val lightColors = lightColors(
 
 @Composable
 fun DatePickTheme(
-    isDarkMode: Boolean = isSystemInDarkTheme(),
+    appTheme: AppTheme = AppTheme.SYSTEM,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
         typography = typographies,
         shapes = shapes,
-        colors = if (isDarkMode) darkColors else lightColors,
+        colors = when (appTheme) {
+            AppTheme.LIGHT -> lightColors
+            AppTheme.DARK -> darkColors
+            AppTheme.SYSTEM -> if (isSystemInDarkTheme()) darkColors else lightColors
+        },
         content = content
     )
 }

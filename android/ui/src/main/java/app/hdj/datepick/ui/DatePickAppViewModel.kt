@@ -1,18 +1,20 @@
 package app.hdj.datepick.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import app.hdj.datepick.ui.DatePickAppViewModelDelegate.*
-import app.hdj.shared.client.domain.entity.Course
+import app.hdj.shared.client.domain.repo.SettingRepository
+import app.hdj.shared.client.domain.entity.AppTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val courses: List<Course>,
+        val appTheme: AppTheme = AppTheme.SYSTEM
     )
 
     sealed class Effect {
@@ -27,17 +29,23 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 
 @HiltViewModel
 class DatePickAppViewModel @Inject constructor(
-
+    settingRepository: SettingRepository
 ) : ViewModel(), DatePickAppViewModelDelegate {
 
-    override val state: StateFlow<State>
-        get() = TODO("Not yet implemented")
+    override val state: StateFlow<State> = combine(
+        settingRepository.getAppTheme(),
+        flowOf("")
+    ) { appTheme, _ ->
+        State(appTheme = appTheme)
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.Lazily,
+        State()
+    )
 
-    override val effect: Flow<Effect>
-        get() = TODO("Not yet implemented")
+    private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
+    override val effect: Flow<Effect> = effectChannel.receiveAsFlow()
 
-    override fun event(event: Event) {
-        TODO("Not yet implemented")
-    }
+    override fun event(event: Event) = Unit
 
 }

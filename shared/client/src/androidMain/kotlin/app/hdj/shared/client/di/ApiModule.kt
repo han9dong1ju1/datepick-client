@@ -1,8 +1,10 @@
 package app.hdj.shared.client.di
 
 import app.hdj.client.BuildConfig
-import app.hdj.shared.client.data.api.UserApi
-import app.hdj.shared.client.data.createHttpClient
+import app.hdj.shared.client.data.ApiClient
+import app.hdj.shared.client.data.api.*
+import app.hdj.shared.client.data.datastore.AuthDataStore
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,14 +14,24 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class ApiModule {
+interface ApiModule {
 
-    @Provides
-    @Singleton
-    internal fun provideHttpClient(): HttpClient = createHttpClient(BuildConfig.DEBUG)
+    companion object {
 
-    @Provides
-    @Singleton
-    internal fun provideUserApi(client: HttpClient): UserApi = UserApi(client)
+        @Provides
+        @Singleton
+        internal fun provideHttpClient(authDataStore: AuthDataStore): HttpClient =
+            ApiClient.createHttpClient(BuildConfig.DEBUG, authDataStore)
+
+    }
+
+    @get:[Binds]
+    val DaggerUserApi.userApi: UserApi
+
+    @get:[Binds]
+    val DaggerPlaceApi.placeApi: PlaceApi
+
+    @get:[Binds]
+    val DaggerCourseApi.courseApi: CourseApi
 
 }

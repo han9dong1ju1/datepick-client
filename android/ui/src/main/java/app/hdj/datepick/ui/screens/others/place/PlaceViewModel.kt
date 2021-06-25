@@ -52,6 +52,7 @@ class PlaceViewModel @Inject constructor(
 ) : ViewModel(), PlaceViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
+    override val effect = effectChannel.receiveAsFlow()
 
     private val placeId = MutableStateFlow<String?>(null)
 
@@ -66,15 +67,13 @@ class PlaceViewModel @Inject constructor(
         State(place = place)
     }.stateIn(viewModelScope, SharingStarted.Lazily, State())
 
-    override val effect = effectChannel.receiveAsFlow()
-
     override fun event(event: Event) {
         viewModelScope.launch {
             when (event) {
                 Event.ReloadContents -> {
 
                 }
-                is Event.RequestPlace -> placeId.value = event.id
+                is Event.RequestPlace -> placeId.emit(event.id)
                 Event.LikePlace -> {
                     placeId.value?.let {
                         placeRepository.likePlace(it)

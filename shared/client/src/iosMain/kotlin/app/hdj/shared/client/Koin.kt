@@ -1,6 +1,5 @@
 package app.hdj.shared.client
 
-import app.hdj.shared.client.data.DatePickApi
 import app.hdj.shared.client.data.createHttpClient
 import kotlinx.cinterop.ObjCProtocol
 import kotlinx.cinterop.getOriginalKotlinClass
@@ -13,7 +12,6 @@ fun initKoin(isDebugMode: Boolean): KoinApplication = startKoin {
     modules(
         module {
             single { createHttpClient(isDebugMode) }
-            single { DatePickApi(get()) }
         }
     )
 }

@@ -1,6 +1,5 @@
 package app.hdj.shared.client.data.cache
 
-import app.hdj.shared.client.domain.entity.Place
 import app.hdj.shared.client.domain.entity.User
 
 class UserCache : Cache<User> {

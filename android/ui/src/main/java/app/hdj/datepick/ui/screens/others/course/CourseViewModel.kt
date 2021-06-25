@@ -49,7 +49,7 @@ interface CourseViewModelDelegate :
 
 @HiltViewModel
 class CourseViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle
+
 ) : ViewModel(), CourseViewModelDelegate {
 
     init {
@@ -79,7 +79,6 @@ class CourseViewModel @Inject constructor(
 
     private fun refreshContents() {
         viewModelScope.launch {
-            val courseId : Long? = savedStateHandle[""]
 
         }
     }

@@ -11,8 +11,6 @@ fun HomeScreen(vm: HomeViewModelDelegate = hiltViewModel<HomeViewModel>()) {
 
     val (state, effect, event) = vm.extract()
 
-
-
 }
 
 @Composable

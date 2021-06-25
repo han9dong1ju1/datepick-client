@@ -5,7 +5,7 @@ import app.hdj.shared.client.domain.entity.User
 import io.ktor.client.*
 import io.ktor.client.request.*
 
-class UserApi(val client: HttpClient) {
+open class UserApi(val client: HttpClient) {
 
     suspend fun getUser(userId : String) = client.get<ApiResponse<User>> {
         parameter("userId", userId)

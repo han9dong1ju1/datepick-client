@@ -19,7 +19,6 @@ open class PlaceRepositoryImp(
     @OptIn(ExperimentalTime::class)
     override fun getPlace(placeId: String) = flow {
 
-        // Cache 된 것 가져옴
         val cached = placeCache.get(placeId)
 
         val currentTime = Clock.System.now()

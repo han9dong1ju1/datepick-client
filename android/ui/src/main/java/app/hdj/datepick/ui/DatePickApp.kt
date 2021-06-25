@@ -1,9 +1,9 @@
 package app.hdj.datepick.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,6 +17,7 @@ import app.hdj.datepick.ui.screens.others.place.PlaceScreen
 import app.hdj.datepick.ui.screens.others.settings.SettingsScreen
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.currentScreenRoute
+import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.ui.BottomNavigation
 
@@ -24,66 +25,63 @@ import com.google.accompanist.insets.ui.BottomNavigation
 @Composable
 fun DatePickApp() {
 
-    DatePickTheme {
+    val navController = rememberNavController()
 
-        ProvideWindowInsets {
+    val route = navController.currentScreenRoute()
 
-            val navController = rememberNavController()
+    Scaffold(
+        bottomBar = {
 
-            val route = navController.currentScreenRoute()
+            val allowedRoutes = listOf(
+                NavigationGraph.Main.Home.route,
+                NavigationGraph.Main.Profile.route,
+                NavigationGraph.Main.Map.route,
+                NavigationGraph.Main.Pick.route,
+            )
 
-            Scaffold(
-                bottomBar = {
+            val isRouteAllowedForBottomNavigation = allowedRoutes.contains(route)
 
-                    val allowedRoutes = listOf(
-                        NavigationGraph.Main.Home.route,
-                        NavigationGraph.Main.Profile.route,
-                        NavigationGraph.Main.Map.route,
-                        NavigationGraph.Main.Pick.route,
-                    )
-
-                    val isRouteAllowedForBottomNavigation = allowedRoutes.contains(route)
-
-                    AnimatedVisibility(visible = isRouteAllowedForBottomNavigation) {
-                        BottomNavigation {
-
-                        }
-                    }
-                }
+            AnimatedVisibility(
+                visible = isRouteAllowedForBottomNavigation,
+                enter = slideInVertically() + fadeIn(),
+                exit = slideOutVertically() + fadeOut()
             ) {
+                BottomNavigation {
 
-                NavHost(
-                    navController = navController,
-                    startDestination = NavigationGraph.OnBoarding.route
-                ) {
-
-                    onBoardingScreens()
-
-                    mainScreens()
-
-                    composable(NavigationGraph.Place.route, listOf(
-                        navArgument(NavigationGraph.Place.ARGUMENT_ID) {
-                            type = NavType.LongType
-                        }
-                    )) {
-                        PlaceScreen()
-                    }
-
-                    composable(NavigationGraph.Course.route, listOf(
-                        navArgument(NavigationGraph.Course.ARGUMENT_ID) {
-                            type = NavType.LongType
-                        }
-                    )) {
-                        CourseScreen()
-                    }
-
-                    composable(NavigationGraph.Settings.route) {
-                        SettingsScreen()
-                    }
                 }
-
             }
 
+        }
+    ) {
+
+        NavHost(
+            navController = navController,
+            startDestination = NavigationGraph.OnBoarding.route
+        ) {
+
+            onBoardingScreens()
+
+            mainScreens()
+
+            composable(NavigationGraph.Place.route, listOf(
+                navArgument(NavigationGraph.Place.ARGUMENT_ID) {
+                    type = NavType.LongType
+                }
+            )) {
+                PlaceScreen()
+            }
+
+            composable(NavigationGraph.Course.route, listOf(
+                navArgument(NavigationGraph.Course.ARGUMENT_ID) {
+                    type = NavType.LongType
+                }
+            )) {
+                CourseScreen()
+            }
+
+            composable(NavigationGraph.Settings.route) {
+                SettingsScreen()
+            }
         }
 
     }
