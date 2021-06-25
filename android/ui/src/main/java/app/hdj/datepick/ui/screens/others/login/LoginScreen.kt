@@ -1,4 +1,4 @@
-package app.hdj.datepick.ui.screens.onboarding.login
+package app.hdj.datepick.ui.screens.others.login
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview

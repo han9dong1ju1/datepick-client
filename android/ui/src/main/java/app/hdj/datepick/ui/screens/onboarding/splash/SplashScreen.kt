@@ -35,7 +35,7 @@ fun SplashScreen(vm: SplashViewModelDelegate = hiltViewModel<SplashViewModel>())
 
     val context = LocalContext.current as AppCompatActivity
 
-    val isLoading = true
+    val isLoading = false
 
     if (BuildCompat.isAtLeastS()) {
         LaunchedEffect(true) {

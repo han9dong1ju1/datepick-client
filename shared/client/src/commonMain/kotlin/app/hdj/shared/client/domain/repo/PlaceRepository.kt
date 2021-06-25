@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface PlaceRepository {
 
-    fun getPlace(placeId : String) : Flow<StateData<Place>>
+    fun getPlace(placeId: String): Flow<StateData<Place>>
 
-    fun queryPlace() : Flow<StateData<List<Place>>>
+    fun queryPlace(): Flow<StateData<List<Place>>>
 
-    fun likePlace(placeId: String)
+    fun likePlace(placeId: String): Flow<StateData<Place>>
 
 }

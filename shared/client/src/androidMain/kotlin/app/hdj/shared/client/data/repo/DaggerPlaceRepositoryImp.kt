@@ -8,6 +8,6 @@ import javax.inject.Singleton
 
 @Singleton
 class DaggerPlaceRepositoryImp @Inject constructor(
+    placeCache: PlaceCache,
     placeApi: PlaceApi,
-    placeCache: PlaceCache
 ) : PlaceRepositoryImp(placeCache, placeApi)

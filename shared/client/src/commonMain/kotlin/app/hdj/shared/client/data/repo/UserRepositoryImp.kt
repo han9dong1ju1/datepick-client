@@ -7,8 +7,8 @@ import app.hdj.shared.client.domain.repo.UserRepository
 import kotlinx.coroutines.flow.flow
 
 open class UserRepositoryImp(
+    private val userCache: UserCache,
     private val userApi: UserApi,
-    private val userCache: UserCache
 ) : UserRepository {
 
     override fun getUser(userId: String) = flow {

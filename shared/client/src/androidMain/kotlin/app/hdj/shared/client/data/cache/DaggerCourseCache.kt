@@ -4,4 +4,4 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DaggerUserCache @Inject constructor() : UserCache()
+class DaggerCourseCache @Inject constructor() : CourseCache()

@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import app.hdj.datepick.ui.navigation.NavigationGraph
-import app.hdj.datepick.ui.screens.onboarding.login.LoginScreen
+import app.hdj.datepick.ui.screens.others.login.LoginScreen
 import app.hdj.datepick.ui.screens.onboarding.register.RegisterScreen
 import app.hdj.datepick.ui.screens.onboarding.splash.SplashScreen
 

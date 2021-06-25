@@ -1,6 +1,5 @@
 package app.hdj.shared.client.data
 
-import app.hdj.shared.client.data.datastore.AppDataStore
 import app.hdj.shared.client.data.datastore.AuthDataStore
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*

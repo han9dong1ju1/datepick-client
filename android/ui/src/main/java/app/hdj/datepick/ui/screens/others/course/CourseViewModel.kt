@@ -1,12 +1,13 @@
 package app.hdj.datepick.ui.screens.others.course
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.ui.screens.others.course.CourseViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
+import app.hdj.shared.client.domain.StateData
 import app.hdj.shared.client.domain.entity.Course
+import app.hdj.shared.client.domain.repo.CourseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,7 @@ fun fakeCourseViewModel() = object : CourseViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
-    override val state = MutableStateFlow(State(emptyList()))
+    override val state = MutableStateFlow(State())
 
     override val effect = effectChannel.receiveAsFlow()
 
@@ -34,11 +35,11 @@ interface CourseViewModelDelegate :
     ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val courses: List<Course>,
+        val course: StateData<Course> = StateData.Loading(),
     )
 
     sealed class Effect {
-        data class ShowToast(val message: String) : Effect()
+        data class ShowToastMessage(val message: String) : Effect()
     }
 
     sealed class Event {
@@ -49,7 +50,7 @@ interface CourseViewModelDelegate :
 
 @HiltViewModel
 class CourseViewModel @Inject constructor(
-
+    private val courseRepository: CourseRepository
 ) : ViewModel(), CourseViewModelDelegate {
 
     init {
@@ -67,12 +68,10 @@ class CourseViewModel @Inject constructor(
         viewModelScope.launch {
             event.runCatching {
                 when (this) {
-                    Event.ReloadContents -> {
-
-                    }
+                    Event.ReloadContents -> refreshContents()
                 }
             }.onFailure {
-                effectChannel.send(Effect.ShowToast(""))
+                effectChannel.send(Effect.ShowToastMessage(""))
             }
         }
     }

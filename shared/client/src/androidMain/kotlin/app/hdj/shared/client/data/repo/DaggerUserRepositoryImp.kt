@@ -7,5 +7,5 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DaggerUserRepositoryImp @Inject constructor(userApi: UserApi, userCache: UserCache) :
-    UserRepositoryImp(userApi, userCache)
+class DaggerUserRepositoryImp @Inject constructor(userCache: UserCache, userApi: UserApi) :
+    UserRepositoryImp(userCache, userApi)
