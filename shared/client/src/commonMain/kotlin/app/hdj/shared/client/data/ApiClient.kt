@@ -22,6 +22,7 @@ object ApiClient {
             })
         }
 
+
         if (isDebugMode) {
             install(Logging) {
                 logger = Logger.DEFAULT
