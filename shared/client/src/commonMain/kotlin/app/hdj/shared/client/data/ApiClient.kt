@@ -9,8 +9,6 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 
-private const val API_CLIENT_HOST_URL = "https://localhost:8080/"
-
 object ApiClient {
 
     fun createHttpClient(
@@ -32,6 +30,9 @@ object ApiClient {
         }
 
         defaultRequest {
+            url {
+                port = 8080
+            }
             headers {
                 authDataStore.idToken.value?.let {
                     set("Authorization", "Bearer $it")
