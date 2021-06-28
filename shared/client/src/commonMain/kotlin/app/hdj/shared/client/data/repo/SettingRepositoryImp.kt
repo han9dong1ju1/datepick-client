@@ -13,15 +13,13 @@ open class SettingRepositoryImp(private val appDataStore: AppDataStore) : Settin
     override fun getAppTheme() = appDataStore.appTheme
 
     override suspend fun updateAppTheme(appTheme: AppTheme) {
-        TODO("Not yet implemented")
+        appDataStore.updateTheme(appTheme)
     }
 
-    override fun getNotificationSettings(): Flow<NotificationSettings> {
-        TODO("Not yet implemented")
-    }
+    override fun getNotificationSettings() = appDataStore.notificationSettings
 
     override suspend fun updateNotificationSettings(settings: NotificationSettings) {
-        TODO("Not yet implemented")
+        appDataStore.updateNotificationSettings(settings)
     }
 
 }

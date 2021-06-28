@@ -30,9 +30,7 @@ object ApiClient {
         }
 
         defaultRequest {
-            url {
-                port = 8080
-            }
+            host = "mighty-ladybug-32.loca.lt"
             headers {
                 authDataStore.idToken.value?.let {
                     set("Authorization", "Bearer $it")

@@ -4,6 +4,17 @@ plugins {
     kotlin("plugin.serialization") version "1.5.0"
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
+    kotlin("kapt")
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xallow-jvm-ir-dependencies"
+        )
+    }
 }
 
 kotlin {
@@ -26,7 +37,7 @@ kotlin {
         frameworkName = "app/hdj/shared/client/client"
         podfile = project.file("../../iosApp/Podfile")
     }
-    
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -38,10 +49,12 @@ kotlin {
                 api(Ktor.client.serialization)
                 api(Ktor.client.logging)
                 api(Ktor.client.cio)
-                api(Utils.multiplatformSettings)
-                api(Utils.multiplatformCoroutines)
-                api(Utils.multiplatformSettingsSerialization)
                 api(Utils.kotlinxDateTime)
+
+                api(MultiplatformSettings.core)
+                api(MultiplatformSettings.coroutines)
+                api(MultiplatformSettings.serialization)
+                api(MultiplatformSettings.test)
             }
         }
         val commonTest by getting {
@@ -55,6 +68,8 @@ kotlin {
 
                 api(AndroidX.compose.compiler)
                 api(AndroidX.compose.material)
+                api(AndroidX.compose.material.icons.core)
+                api(AndroidX.compose.material.icons.extended)
                 api(AndroidX.compose.foundation)
                 api(AndroidX.compose.runtime)
                 api(AndroidX.compose.ui)
@@ -88,8 +103,10 @@ kotlin {
                 api(Google.accompanist.pager)
                 api(Google.accompanist.pager.indicators)
                 api(Google.accompanist.systemuicontroller)
+                api(Google.android.playServices.location)
 
-                api(Utils.multiplatformDataStoreSettings)
+                api(MultiplatformSettings.datastore)
+
             }
         }
         val androidTest by getting {
@@ -108,10 +125,21 @@ kotlin {
 }
 
 android {
-    compileSdkPreview = Properties.androidCompileSDK
+    compileSdk = Properties.androidCompileSDK
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = Properties.androidMinSDK
-        targetSdkPreview = Properties.androidTargetSDK
+        targetSdk = Properties.androidTargetSDK
     }
+}
+
+fun kapt(path: String) {
+    configurations["kapt"].dependencies.add(project.dependencies.create(path))
+}
+
+dependencies {
+    kapt(AndroidX.paging.runtimeKtx)
+    kapt(AndroidX.navigation.runtimeKtx)
+    kapt(AndroidX.hilt.compiler)
+    kapt(Google.dagger.hilt.compiler)
 }

@@ -8,4 +8,6 @@ interface UserRepository {
 
     fun getUser(userId : String) : Flow<StateData<User>>
 
+    fun getMe() : Flow<StateData<User>>
+
 }

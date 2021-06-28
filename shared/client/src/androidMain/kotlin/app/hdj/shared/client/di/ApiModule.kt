@@ -3,6 +3,7 @@ package app.hdj.shared.client.di
 import app.hdj.client.BuildConfig
 import app.hdj.shared.client.data.ApiClient
 import app.hdj.shared.client.data.api.*
+import app.hdj.shared.client.data.datastore.AppDataStore
 import app.hdj.shared.client.data.datastore.AuthDataStore
 import dagger.Binds
 import dagger.Module
@@ -20,8 +21,8 @@ interface ApiModule {
 
         @Provides
         @Singleton
-        internal fun provideHttpClient(authDataStore: AuthDataStore): HttpClient =
-            ApiClient.createHttpClient(BuildConfig.DEBUG, authDataStore)
+        internal fun provideHttpClient(store: AppDataStore): HttpClient =
+            ApiClient.createHttpClient(BuildConfig.DEBUG, store as AuthDataStore)
 
     }
 

@@ -41,8 +41,8 @@ kotlin {
             dependencies {
                 implementation(KotlinX.coroutines.core)
                 implementation(KotlinX.serialization.core)
-                api(Utils.firebaseAuth)
-                api(Utils.firebaseFirestore)
+                api(Firebase.multiplatform.auth)
+                api(Firebase.multiplatform.firestore)
             }
         }
         val androidMain by getting {
@@ -52,7 +52,7 @@ kotlin {
                 api(Firebase.cloudMessaging)
                 api(Firebase.remoteConfigKtx)
                 api(Firebase.crashlyticsKtx)
-                api(Utils.analyticsKtx)
+                api(Firebase.analyticsKtx)
 
                 api(KotlinX.coroutines.android)
                 api(KotlinX.coroutines.playServices)
@@ -63,10 +63,10 @@ kotlin {
 }
 
 android {
-    compileSdkPreview = Properties.androidCompileSDK
+    compileSdk = Properties.androidCompileSDK
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = Properties.androidMinSDK
-        targetSdkPreview = Properties.androidTargetSDK
+        targetSdk = Properties.androidTargetSDK
     }
 }

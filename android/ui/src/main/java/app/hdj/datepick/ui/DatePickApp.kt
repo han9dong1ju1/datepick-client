@@ -2,23 +2,31 @@ package app.hdj.datepick.ui
 
 import androidx.compose.animation.*
 import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Map
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
+import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
 import app.hdj.datepick.ui.navigation.NavigationGraph
-import app.hdj.datepick.ui.screens.others.course.CourseScreen
+import app.hdj.datepick.ui.providers.LocalMeState
+import app.hdj.datepick.ui.providers.ProvideParentNavController
+import app.hdj.datepick.ui.screens.SplashScreen
 import app.hdj.datepick.ui.screens.main.mainScreens
-import app.hdj.datepick.ui.screens.onboarding.onBoardingScreens
+import app.hdj.datepick.ui.screens.others.course.CourseScreen
 import app.hdj.datepick.ui.screens.others.place.PlaceScreen
 import app.hdj.datepick.ui.screens.others.settings.SettingsScreen
-import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.currentScreenRoute
-import app.hdj.datepick.ui.utils.extract
-import com.google.accompanist.insets.ProvideWindowInsets
+import app.hdj.shared.client.domain.StateData
 import com.google.accompanist.insets.ui.BottomNavigation
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -27,63 +35,82 @@ fun DatePickApp() {
 
     val navController = rememberNavController()
 
-    val route = navController.currentScreenRoute()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    Scaffold(
-        bottomBar = {
+    ProvideParentNavController(navController = navController) {
 
-            val allowedRoutes = listOf(
-                NavigationGraph.Main.Home.route,
-                NavigationGraph.Main.Profile.route,
-                NavigationGraph.Main.Map.route,
-                NavigationGraph.Main.Pick.route,
-            )
+        DatePickScaffold(
+            bottomBar = {
 
-            val isRouteAllowedForBottomNavigation = allowedRoutes.contains(route)
+                val mainNavigationRoutesWithIcon = mapOf(
+                    Icons.Rounded.Home to NavigationGraph.Main.Home.route,
+                    Icons.Rounded.Map to NavigationGraph.Main.Map.route,
+                    Icons.Rounded.Favorite to NavigationGraph.Main.Pick.route,
+                    Icons.Rounded.Person to NavigationGraph.Main.Profile.route,
+                )
 
-            AnimatedVisibility(
-                visible = isRouteAllowedForBottomNavigation,
-                enter = slideInVertically() + fadeIn(),
-                exit = slideOutVertically() + fadeOut()
-            ) {
-                BottomNavigation {
+                val currentRoute = navBackStackEntry?.destination?.route
 
+                val isRouteAllowedForBottomNavigation =
+                    mainNavigationRoutesWithIcon.values.contains(currentRoute)
+
+                AnimatedVisibility(
+                    visible = isRouteAllowedForBottomNavigation,
+                    enter = slideInVertically(initialOffsetY = { it / 2 }) + fadeIn(),
+                    exit = slideOutVertically(targetOffsetY = { it / 2 }) + fadeOut()
+                ) {
+                    NavigationGraphBottomNavigation(
+                        navController,
+                        mainNavigationRoutesWithIcon
+                    )
                 }
+
             }
-
-        }
-    ) {
-
-        NavHost(
-            navController = navController,
-            startDestination = NavigationGraph.OnBoarding.route
         ) {
 
-            onBoardingScreens()
+            NavHost(
+                navController = navController,
+                startDestination = NavigationGraph.Main.route
+            ) {
 
-            mainScreens()
+                mainScreens()
 
-            composable(NavigationGraph.Place.route, listOf(
-                navArgument(NavigationGraph.Place.ARGUMENT_ID) {
-                    type = NavType.LongType
+                composable(NavigationGraph.Place.route, listOf(
+                    navArgument(NavigationGraph.Place.ARGUMENT_ID) {
+                        type = NavType.LongType
+                    }
+                )) {
+                    PlaceScreen()
                 }
-            )) {
-                PlaceScreen()
-            }
 
-            composable(NavigationGraph.Course.route, listOf(
-                navArgument(NavigationGraph.Course.ARGUMENT_ID) {
-                    type = NavType.LongType
+                composable(NavigationGraph.Course.route, listOf(
+                    navArgument(NavigationGraph.Course.ARGUMENT_ID) {
+                        type = NavType.LongType
+                    }
+                )) {
+                    CourseScreen()
                 }
-            )) {
-                CourseScreen()
+
+                composable(NavigationGraph.Settings.route) {
+                    SettingsScreen()
+                }
+
             }
 
-            composable(NavigationGraph.Settings.route) {
-                SettingsScreen()
-            }
         }
 
+    }
+
+    val (splashVisibleState, onSplashVisibleStateChange) = remember { mutableStateOf(true) }
+
+    AnimatedVisibility(
+        visible = splashVisibleState,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        SplashScreen {
+            onSplashVisibleStateChange(false)
+        }
     }
 
 }

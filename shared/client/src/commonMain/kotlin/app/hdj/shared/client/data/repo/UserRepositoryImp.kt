@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 
 open class UserRepositoryImp(
     private val userCache: UserCache,
-    private val userApi: UserApi,
+    private val userApi: UserApi
 ) : UserRepository {
 
     override fun getUser(userId: String) = flow {
@@ -21,6 +21,19 @@ open class UserRepositoryImp(
                 emit(StateData.Success(it.data))
             }.onFailure {
                 emit(StateData.Failed(userCache.get(userId), it))
+            }
+    }
+
+    override fun getMe() = flow {
+        emit(StateData.Loading())
+        userApi
+            .runCatching { getMe() }
+            .onSuccess {
+                val user = it.data
+                userCache.cache(user)
+                emit(StateData.Success(it.data))
+            }.onFailure {
+                emit(StateData.Failed(userCache.getMe(), it))
             }
     }
 

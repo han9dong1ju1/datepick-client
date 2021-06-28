@@ -1,4 +1,4 @@
-package app.hdj.shared.client.utils
+package app.hdj.shared.client.data.api
 
 import app.hdj.shared.client.data.datastore.AuthDataStore
 import dev.gitlive.firebase.Firebase

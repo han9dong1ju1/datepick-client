@@ -17,7 +17,7 @@ fun fakeHomeViewModel() = object : HomeViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
-    override val state = MutableStateFlow(State(emptyList()))
+    override val state = MutableStateFlow(State())
 
     override val effect = effectChannel.receiveAsFlow()
 
@@ -30,7 +30,7 @@ fun fakeHomeViewModel() = object : HomeViewModelDelegate {
 interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val courses: List<Course>,
+        val courses: List<Course> = emptyList(),
     )
 
     sealed class Effect {
@@ -51,8 +51,7 @@ class HomeViewModel @Inject constructor(
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()
 
-    override val state: StateFlow<State>
-        get() = TODO("Not yet implemented")
+    override val state: StateFlow<State> = MutableStateFlow(State())
 
     override fun event(event: Event) {
         viewModelScope.launch {

@@ -2,16 +2,10 @@ package app.hdj.shared.client.di
 
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
-import app.hdj.client.BuildConfig
-import app.hdj.shared.client.data.ApiClient
-import app.hdj.shared.client.data.DaggerAuthenticatorImp
-import app.hdj.shared.client.data.api.DaggerUserApi
-import app.hdj.shared.client.data.api.UserApi
+import app.hdj.shared.client.data.api.DaggerAuthenticatorImp
 import app.hdj.shared.client.data.datastore.AppDataStore
-import app.hdj.shared.client.data.datastore.AuthDataStore
-import app.hdj.shared.client.utils.AndroidAppDataStore
-import app.hdj.shared.client.utils.Authenticator
-import app.hdj.shared.client.utils.AuthenticatorImp
+import app.hdj.shared.client.data.store.AndroidAppDataStore
+import app.hdj.shared.client.data.api.Authenticator
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.coroutines.FlowSettings
@@ -22,7 +16,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.ktor.client.*
 import javax.inject.Singleton
 
 private val Context.dataStore by preferencesDataStore(name = "settings")
@@ -43,8 +36,5 @@ interface DataModule {
 
     @get:[Binds]
     val AndroidAppDataStore.dataStore : AppDataStore
-
-    @get:[Binds]
-    val DaggerAuthenticatorImp.authenticator : Authenticator
 
 }

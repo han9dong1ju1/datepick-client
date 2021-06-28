@@ -18,12 +18,12 @@ dependencies {
 }
 
 android {
-    compileSdkPreview = Properties.androidCompileSDK
+    compileSdk = Properties.androidCompileSDK
 
     defaultConfig {
         applicationId = Properties.androidPackageName
         minSdk = Properties.androidMinSDK
-        targetSdkPreview = Properties.androidTargetSDK
+        targetSdk = Properties.androidTargetSDK
         versionCode = Properties.androidAppVersionCode
         versionName = Properties.androidAppVersionName
     }

@@ -8,6 +8,10 @@ open class UserCache : Cache<User> {
         TODO("Not yet implemented")
     }
 
+    suspend fun getMe() : User? {
+        return null
+    }
+
     override suspend fun cache(data: User) {
 
     }

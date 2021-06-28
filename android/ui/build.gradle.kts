@@ -7,6 +7,16 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xallow-jvm-ir-dependencies"
+        )
+    }
+}
+
 dependencies {
     implementation(project(":shared:client"))
     kapt(AndroidX.paging.runtimeKtx)
@@ -17,11 +27,11 @@ dependencies {
 }
 
 android {
-    compileSdkPreview = Properties.androidCompileSDK
+    compileSdk = Properties.androidCompileSDK
 
     defaultConfig {
         minSdk = Properties.androidMinSDK
-        targetSdkPreview = Properties.androidTargetSDK
+        targetSdk = Properties.androidTargetSDK
     }
 
     buildTypes {

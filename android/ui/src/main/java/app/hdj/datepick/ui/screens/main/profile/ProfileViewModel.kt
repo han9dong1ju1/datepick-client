@@ -2,6 +2,8 @@ package app.hdj.datepick.ui.screens.main.profile
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import app.hdj.datepick.ui.screens.main.home.HomeViewModelDelegate
 import app.hdj.datepick.ui.screens.main.profile.ProfileViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import app.hdj.shared.client.domain.entity.Course
@@ -11,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Composable
@@ -32,7 +35,7 @@ interface ProfileViewModelDelegate :
     ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val courses: List<Course>,
+        val courses: List<Course> = emptyList(),
     )
 
     sealed class Effect {
@@ -50,14 +53,16 @@ class ProfileViewModel @Inject constructor(
 
 ) : ViewModel(), ProfileViewModelDelegate {
 
-    override val state: StateFlow<State>
-        get() = TODO("Not yet implemented")
+    private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
+    override val effect = effectChannel.receiveAsFlow()
 
-    override val effect: Flow<Effect>
-        get() = TODO("Not yet implemented")
+    override val state: StateFlow<State> = MutableStateFlow(State())
 
     override fun event(event: Event) {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+
+        }
     }
+
 
 }

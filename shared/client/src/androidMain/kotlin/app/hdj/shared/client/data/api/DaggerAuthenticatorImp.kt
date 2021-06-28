@@ -1,7 +1,6 @@
-package app.hdj.shared.client.data
+package app.hdj.shared.client.data.api
 
 import app.hdj.shared.client.data.datastore.AppDataStore
-import app.hdj.shared.client.utils.AuthenticatorImp
 import javax.inject.Inject
 import javax.inject.Singleton
 

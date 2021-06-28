@@ -51,7 +51,7 @@ open class PlaceRepositoryImp(
         TODO("Not yet implemented")
     }
 
-    override fun likePlace(placeId: String) {
+    override fun likePlace(placeId: String): Flow<StateData<Place>> {
         TODO("Not yet implemented")
     }
 

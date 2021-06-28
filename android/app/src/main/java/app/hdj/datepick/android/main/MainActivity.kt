@@ -14,8 +14,10 @@ import app.hdj.datepick.ui.DatePickApp
 import app.hdj.datepick.ui.DatePickAppViewModel
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.providers.ProvideAppDataStore
+import app.hdj.datepick.ui.providers.ProvideMeState
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.data.datastore.AppDataStore
+import app.hdj.shared.client.domain.StateData
 import app.hdj.shared.client.domain.entity.AppTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -60,12 +62,17 @@ class MainActivity : AppCompatActivity() {
                 val useDarkIcons = MaterialTheme.colors.isLight
 
                 SideEffect {
-                    systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = useDarkIcons)
+                    systemUiController.setSystemBarsColor(
+                        Color.Transparent,
+                        darkIcons = useDarkIcons
+                    )
                 }
 
                 ProvideWindowInsets {
                     ProvideAppDataStore(dataStore = dataStore) {
-                        DatePickApp()
+                        ProvideMeState(state.me) {
+                            DatePickApp()
+                        }
                     }
                 }
             }

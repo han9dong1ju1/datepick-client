@@ -13,11 +13,13 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Button(
+    modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     text: String,
     onClick: () -> Unit = {},
 ) {
     Button(
+        modifier = modifier,
         onClick = onClick,
         elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp),
     ) {

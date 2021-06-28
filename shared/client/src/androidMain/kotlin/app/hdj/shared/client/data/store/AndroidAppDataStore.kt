@@ -1,4 +1,4 @@
-package app.hdj.shared.client.utils
+package app.hdj.shared.client.data.store
 
 import app.hdj.shared.client.data.datastore.AppDataStore
 import com.russhwolf.settings.ExperimentalSettingsApi
