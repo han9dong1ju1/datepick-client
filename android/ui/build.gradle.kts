@@ -19,6 +19,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
 
 dependencies {
     implementation(project(":shared:client"))
+    implementation(project(":shared:firebase"))
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
     kapt(AndroidX.hilt.compiler)

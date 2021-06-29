@@ -103,7 +103,9 @@ kotlin {
                 api(Google.accompanist.pager)
                 api(Google.accompanist.pager.indicators)
                 api(Google.accompanist.systemuicontroller)
+                api(Google.accompanist.swiperefresh)
                 api(Google.android.playServices.location)
+                api(Google.android.play.coreKtx)
 
                 api(MultiplatformSettings.datastore)
 

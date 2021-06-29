@@ -1,7 +1,6 @@
 package app.hdj.datepick.ui
 
 import androidx.compose.animation.*
-import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
@@ -11,23 +10,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
-import app.hdj.datepick.ui.components.DatePickScaffold
-import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
+import app.hdj.datepick.ui.base.DatePickScaffold
+import app.hdj.datepick.ui.base.NavigationGraphBottomNavigation
+import app.hdj.datepick.ui.components.dialog.appupdate.AppUpdateDialog
 import app.hdj.datepick.ui.navigation.NavigationGraph
-import app.hdj.datepick.ui.providers.LocalMeState
 import app.hdj.datepick.ui.providers.ProvideParentNavController
-import app.hdj.datepick.ui.screens.SplashScreen
-import app.hdj.datepick.ui.screens.main.mainScreens
-import app.hdj.datepick.ui.screens.others.course.CourseScreen
-import app.hdj.datepick.ui.screens.others.place.PlaceScreen
-import app.hdj.datepick.ui.screens.others.settings.SettingsScreen
-import app.hdj.datepick.ui.utils.currentScreenRoute
-import app.hdj.shared.client.domain.StateData
-import com.google.accompanist.insets.ui.BottomNavigation
+import app.hdj.datepick.ui.components.screens.others.splash.SplashScreen
+import app.hdj.datepick.ui.components.screens.main.mainScreens
+import app.hdj.datepick.ui.components.screens.others.course.CourseScreen
+import app.hdj.datepick.ui.components.screens.others.place.PlaceScreen
+import app.hdj.datepick.ui.components.screens.others.settings.SettingsScreen
+import com.google.android.play.core.ktx.AppUpdateResult
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -112,5 +107,7 @@ fun DatePickApp() {
             onSplashVisibleStateChange(false)
         }
     }
+
+    AppUpdateDialog()
 
 }
