@@ -1,4 +1,4 @@
-package app.hdj.shared.client.domain.entity
+package app.hdj.shared.client.domain.entity.settings
 
 import kotlinx.serialization.Serializable
 

@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -19,12 +17,9 @@ import app.hdj.datepick.ui.providers.ProvideAppDataStore
 import app.hdj.datepick.ui.providers.ProvideMeState
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.data.datastore.AppDataStore
-import app.hdj.shared.client.domain.StateData
-import app.hdj.shared.client.domain.entity.AppTheme
-import app.hdj.shared.client.utils.InAppUpdateManager
+import app.hdj.shared.client.domain.entity.settings.AppTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.google.android.play.core.ktx.AppUpdateResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

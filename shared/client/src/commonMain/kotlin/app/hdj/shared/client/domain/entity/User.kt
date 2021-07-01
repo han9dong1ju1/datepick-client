@@ -4,10 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class User(
-    val id: String,
+    override val id: String,
     val name: String? = null,
-    val profileUrl : String? = null,
-)
+    val profileUrl: String? = null,
+) : Id
 
 fun fakeUser() = User("1", "Harry", "...")
 

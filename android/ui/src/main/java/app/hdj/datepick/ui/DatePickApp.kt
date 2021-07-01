@@ -1,20 +1,23 @@
 package app.hdj.datepick.ui
 
 import androidx.compose.animation.*
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.*
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import app.hdj.datepick.ui.base.DatePickScaffold
 import app.hdj.datepick.ui.base.NavigationGraphBottomNavigation
 import app.hdj.datepick.ui.components.dialog.appupdate.AppUpdateDialog
+import app.hdj.datepick.ui.components.dialog.appupdate.AppUpdateViewModel
+import app.hdj.datepick.ui.components.dialog.appupdate.AppUpdateViewModelDelegate
 import app.hdj.datepick.ui.navigation.NavigationGraph
 import app.hdj.datepick.ui.providers.ProvideParentNavController
 import app.hdj.datepick.ui.components.screens.others.splash.SplashScreen
@@ -22,7 +25,8 @@ import app.hdj.datepick.ui.components.screens.main.mainScreens
 import app.hdj.datepick.ui.components.screens.others.course.CourseScreen
 import app.hdj.datepick.ui.components.screens.others.place.PlaceScreen
 import app.hdj.datepick.ui.components.screens.others.settings.SettingsScreen
-import com.google.android.play.core.ktx.AppUpdateResult
+import app.hdj.datepick.ui.utils.extract
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -32,9 +36,12 @@ fun DatePickApp() {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
+    val scaffoldState = rememberScaffoldState()
+
     ProvideParentNavController(navController = navController) {
 
         DatePickScaffold(
+            scaffoldState = scaffoldState,
             bottomBar = {
 
                 val mainNavigationRoutesWithIcon = mapOf(

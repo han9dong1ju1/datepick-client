@@ -1,7 +1,7 @@
 package app.hdj.shared.client.domain.repo
 
-import app.hdj.shared.client.domain.entity.AppTheme
-import app.hdj.shared.client.domain.entity.NotificationSettings
+import app.hdj.shared.client.domain.entity.settings.AppTheme
+import app.hdj.shared.client.domain.entity.settings.NotificationSettings
 import kotlinx.coroutines.flow.Flow
 
 interface SettingRepository {

@@ -4,7 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Place(
-    val id : String,
+    override val id: String,
     val name: String,
+    val photoUrl : String? = null,
     var cacheExpireAt: Long = 0
-)
+) : Id

@@ -5,6 +5,7 @@ plugins {
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
     kotlin("kapt")
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
@@ -15,6 +16,11 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
             "-Xallow-jvm-ir-dependencies"
         )
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "app.hdj.client" // required
+    iosBaseLocalizationRegion = "ko" // optional, default "en"
 }
 
 kotlin {
@@ -55,6 +61,8 @@ kotlin {
                 api(MultiplatformSettings.coroutines)
                 api(MultiplatformSettings.serialization)
                 api(MultiplatformSettings.test)
+
+                api(Utils.mokoResource)
             }
         }
         val commonTest by getting {
@@ -75,6 +83,7 @@ kotlin {
                 api(AndroidX.compose.ui)
                 api(AndroidX.compose.ui.tooling)
                 api(AndroidX.appCompat)
+                api(AndroidX.constraintLayoutCompose)
 
                 api(AndroidX.paging.commonKtx)
                 api(AndroidX.paging.compose)

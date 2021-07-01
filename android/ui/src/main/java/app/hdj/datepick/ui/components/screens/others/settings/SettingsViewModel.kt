@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.ui.components.screens.others.settings.SettingsViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import app.hdj.shared.client.domain.repo.SettingRepository
-import app.hdj.shared.client.domain.entity.AppTheme
-import app.hdj.shared.client.domain.entity.NotificationSettings
+import app.hdj.shared.client.domain.entity.settings.AppTheme
+import app.hdj.shared.client.domain.entity.settings.NotificationSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*

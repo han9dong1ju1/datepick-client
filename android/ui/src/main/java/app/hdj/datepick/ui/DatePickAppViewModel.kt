@@ -7,7 +7,7 @@ import app.hdj.datepick.ui.DatePickAppViewModelDelegate.*
 import app.hdj.shared.client.data.api.Authenticator
 import app.hdj.shared.client.domain.StateData
 import app.hdj.shared.client.domain.repo.SettingRepository
-import app.hdj.shared.client.domain.entity.AppTheme
+import app.hdj.shared.client.domain.entity.settings.AppTheme
 import app.hdj.shared.client.domain.entity.User
 import app.hdj.shared.client.domain.repo.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

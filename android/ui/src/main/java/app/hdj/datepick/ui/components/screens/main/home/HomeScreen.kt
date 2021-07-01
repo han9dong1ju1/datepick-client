@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.base.Button
+import app.hdj.datepick.ui.base.DatePickButton
 import app.hdj.datepick.ui.base.DatePickScaffold
 import app.hdj.datepick.ui.navigation.NavigationGraph
 import app.hdj.datepick.ui.providers.LocalParentNavController
@@ -27,7 +27,7 @@ fun HomeScreen(
     DatePickScaffold(
         modifier = Modifier.fillMaxSize()
     ) {
-        Button(
+        DatePickButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp),

@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import app.hdj.datepick.ui.providers.ProvideLocalSnackBarPresenter
 import com.google.accompanist.insets.ui.LocalScaffoldPadding
 import com.google.accompanist.insets.ui.Scaffold
 
@@ -33,25 +34,27 @@ fun DatePickScaffold(
     contentPadding: PaddingValues = LocalScaffoldPadding.current,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    Scaffold(
-        modifier,
-        scaffoldState,
-        topBar,
-        bottomBar,
-        snackbarHost,
-        floatingActionButton,
-        floatingActionButtonPosition,
-        isFloatingActionButtonDocked,
-        drawerContent,
-        drawerGesturesEnabled,
-        drawerShape,
-        drawerElevation,
-        drawerBackgroundColor,
-        drawerContentColor,
-        drawerScrimColor,
-        backgroundColor,
-        contentColor,
-        contentPadding,
-        content
-    )
+    ProvideLocalSnackBarPresenter(scaffoldState) {
+        Scaffold(
+            modifier,
+            scaffoldState,
+            topBar,
+            bottomBar,
+            snackbarHost,
+            floatingActionButton,
+            floatingActionButtonPosition,
+            isFloatingActionButtonDocked,
+            drawerContent,
+            drawerGesturesEnabled,
+            drawerShape,
+            drawerElevation,
+            drawerBackgroundColor,
+            drawerContentColor,
+            drawerScrimColor,
+            backgroundColor,
+            contentColor,
+            contentPadding,
+            content
+        )
+    }
 }

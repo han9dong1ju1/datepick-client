@@ -10,4 +10,6 @@ interface UserRepository {
 
     fun getMe() : Flow<StateData<User>>
 
+    fun updateFirebaseToken(token : String) : Flow<StateData<String>>
+
 }

@@ -1,7 +1,7 @@
 package app.hdj.shared.client.data.datastore
 
-import app.hdj.shared.client.domain.entity.AppTheme
-import app.hdj.shared.client.domain.entity.NotificationSettings
+import app.hdj.shared.client.domain.entity.settings.AppTheme
+import app.hdj.shared.client.domain.entity.settings.NotificationSettings
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.flow.*

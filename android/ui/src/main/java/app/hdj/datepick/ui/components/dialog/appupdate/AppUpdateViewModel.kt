@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.ui.components.dialog.appupdate.AppUpdateViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
-import app.hdj.shared.client.domain.entity.Course
 import app.hdj.shared.client.utils.InAppUpdateManager
+import com.google.android.play.core.install.InstallState
+import com.google.android.play.core.ktx.AppUpdateResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -13,6 +14,10 @@ import javax.inject.Inject
 
 
 fun fakeAppUpdateViewModel() = object : AppUpdateViewModelDelegate {
+
+    init {
+
+    }
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
@@ -28,7 +33,9 @@ fun fakeAppUpdateViewModel() = object : AppUpdateViewModelDelegate {
 
 interface AppUpdateViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
-    class State
+    data class State(
+        val appUpdateResult: AppUpdateResult? = null
+    )
 
     sealed class Effect {
 
@@ -46,7 +53,7 @@ class AppUpdateViewModel @Inject constructor(
 ) : ViewModel(), AppUpdateViewModelDelegate {
 
     override val state = inAppUpdateManager.appUpdateFlow
-        .map { State() }
+        .map { State(it) }
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,

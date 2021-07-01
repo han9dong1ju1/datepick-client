@@ -2,10 +2,9 @@ package app.hdj.shared.client.data.repo
 
 import app.hdj.shared.client.domain.repo.SettingRepository
 import app.hdj.shared.client.data.datastore.AppDataStore
-import app.hdj.shared.client.domain.entity.AppTheme
-import app.hdj.shared.client.domain.entity.NotificationSettings
+import app.hdj.shared.client.domain.entity.settings.AppTheme
+import app.hdj.shared.client.domain.entity.settings.NotificationSettings
 import com.russhwolf.settings.ExperimentalSettingsApi
-import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalSettingsApi::class)
 open class SettingRepositoryImp(private val appDataStore: AppDataStore) : SettingRepository {
