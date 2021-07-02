@@ -5,6 +5,8 @@ import app.hdj.shared.client.data.AppleAppDataStore
 import app.hdj.shared.client.data.api.Authenticator
 import app.hdj.shared.client.data.api.AuthenticatorImp
 import app.hdj.shared.client.data.datastore.AppDataStore
+import app.hdj.shared.client.domain.entity.AppConfig
+import app.hdj.shared.client.utils.isDebug
 import com.russhwolf.settings.AppleSettings
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.toFlowSettings
@@ -15,12 +17,22 @@ import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.dsl.module
+import platform.Foundation.NSBundle
 import platform.Foundation.NSUserDefaults
+import platform.ReplayKit.RPApplicationInfoBundleIdentifierKey
 
 @OptIn(ExperimentalSettingsApi::class, ExperimentalCoroutinesApi::class)
-private fun dataModule(isDebugMode: Boolean = Platform.isDebugBinary) = module {
+private fun dataModule() = module {
 
-    single { ApiClient.createHttpClient(isDebugMode, get()) }
+    single {
+        val mainBundle = NSBundle.mainBundle()
+        AppConfig(
+            iosBundleId = mainBundle.bundleIdentifier,
+            version = mainBundle.infoDictionary?.get("CFBundleShortVersionString").toString()
+        )
+    }
+
+    single { ApiClient.createHttpClient(isDebug, get()) }
     single<AppDataStore> { AppleAppDataStore(get()) }
 
     single { AppleSettings(NSUserDefaults.new()!!).toFlowSettings() }
@@ -29,7 +41,7 @@ private fun dataModule(isDebugMode: Boolean = Platform.isDebugBinary) = module {
 
 private val domainModule = module {
 
-    single {  }
+    single { }
 
 }
 
@@ -39,9 +51,9 @@ private val utilModule = module {
 
 }
 
-fun initKoin(isDebugMode: Boolean): KoinApplication = startKoin {
+fun initKoin(): KoinApplication = startKoin {
     modules(
-        dataModule(isDebugMode),
+        dataModule(),
         domainModule,
         utilModule,
     )

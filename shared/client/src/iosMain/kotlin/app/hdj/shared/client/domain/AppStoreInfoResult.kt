@@ -3,7 +3,7 @@ package app.hdj.shared.client.domain
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Result(
+data class AppStoreInfoResult(
 //    val advisories: List<Any>,
 //    val appletvScreenshotUrls: List<Any>,
 //    val artistId: Int,

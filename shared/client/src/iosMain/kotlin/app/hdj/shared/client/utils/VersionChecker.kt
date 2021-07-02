@@ -1,6 +1,7 @@
 package app.hdj.shared.client.utils
 
 import app.hdj.shared.client.domain.AppStoreInfo
+import app.hdj.shared.client.domain.entity.AppConfig
 import io.ktor.client.*
 import io.ktor.client.request.*
 import org.koin.core.component.KoinComponent
@@ -9,22 +10,21 @@ import platform.Foundation.NSBundle
 
 class VersionChecker : KoinComponent {
 
+    private val appConfig by inject<AppConfig>()
+
     private val client by inject<HttpClient>()
 
     suspend fun getAppUpdateInfo(): ApplicationUpdateInfo {
-        val mainBundle = NSBundle.mainBundle().infoDictionary ?: return false
-
-        val identifier = mainBundle["CFBundleIdentifier"].toString()
 
         val info = client.get<AppStoreInfo>(URL) {
-            parameter("bundleId", identifier)
+            parameter("bundleId", appConfig.iosBundleId)
         }
 
-        val currentVersion = mainBundle["CFBundleShortVersionString"].toString()
+        val newVersionName = info.results.first().version
 
         return ApplicationUpdateInfo(
-            currentVersion,
-            currentVersion < info.results.first().version
+            newVersionName,
+            appConfig.version < newVersionName
         )
     }
 
