@@ -84,11 +84,11 @@ val shapes = Shapes(
 /* Colors */
 
 val darkColors = darkColors(
+    primary = Color(0xff5cadff),
 )
 
 val lightColors = lightColors(
-    primary = Color(0xffffffff),
-    onPrimary = Color(0xff000000),
+    primary = Color(0xff5cadff),
 )
 
 @Composable

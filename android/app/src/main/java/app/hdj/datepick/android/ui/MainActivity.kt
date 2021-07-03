@@ -62,7 +62,8 @@ class MainActivity : AppCompatActivity() {
                 SideEffect {
                     systemUiController.setSystemBarsColor(
                         Color.Transparent,
-                        darkIcons = useDarkIcons
+                        darkIcons = useDarkIcons,
+                        isNavigationBarContrastEnforced = false
                     )
                 }
 

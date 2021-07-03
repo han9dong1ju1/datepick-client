@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,6 +20,7 @@ fun NavigationGraphBottomNavigation(
 ) {
 
     com.google.accompanist.insets.ui.BottomNavigation(
+        backgroundColor = MaterialTheme.colors.surface,
         modifier = Modifier.fillMaxWidth(),
         contentPadding = rememberInsetsPaddingValues(
             insets = LocalWindowInsets.current.navigationBars,
