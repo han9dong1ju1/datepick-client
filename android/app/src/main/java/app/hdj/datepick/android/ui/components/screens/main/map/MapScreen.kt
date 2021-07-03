@@ -12,7 +12,6 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
     val (state, effect, event) = vm.extract()
 
 
-
 }
 
 @Composable

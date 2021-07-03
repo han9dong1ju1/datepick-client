@@ -105,6 +105,8 @@ kotlin {
 
                 api(AndroidX.hilt.navigationCompose)
 
+                api(JakeWharton.timber)
+
                 api(Google.dagger.hilt.android)
                 api(Google.accompanist.coil)
                 api(Google.accompanist.insets)

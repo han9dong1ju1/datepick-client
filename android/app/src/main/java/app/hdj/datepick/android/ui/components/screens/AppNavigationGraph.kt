@@ -1,11 +1,39 @@
 package app.hdj.datepick.android.ui.components.screens
 
+import androidx.navigation.NavController
+import app.hdj.shared.client.domain.CourseQuery
+import app.hdj.shared.client.domain.PlaceQuery
+import app.hdj.shared.client.domain.entity.Course
+import app.hdj.shared.client.domain.entity.Place
+
 sealed class NestedNavigationGraph(parentRoute: String, nestedRoute: String) :
     AppNavigationGraph(parentRoute) {
     override val route = "$parentRoute/$nestedRoute"
 }
 
-sealed class AppNavigationGraph(open val route: String) {
+sealed class NavigationGraph(open val route: String)
+
+val NavController.showPlace
+    get() = { place: Place ->
+        navigate(AppNavigationGraph.Place.route(place))
+    }
+
+val NavController.showCourse
+    get() = { course: Course ->
+        navigate(AppNavigationGraph.Course.route(course))
+    }
+
+val NavController.showPlaceList
+    get() = { query: PlaceQuery ->
+        navigate(AppNavigationGraph.PlaceList.route(query))
+    }
+
+val NavController.showCourseList
+    get() = { query: CourseQuery ->
+        navigate(AppNavigationGraph.CourseList.route(query))
+    }
+
+sealed class AppNavigationGraph(override val route: String) : NavigationGraph(route) {
 
     /* Main Start */
     sealed class Main(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
@@ -26,15 +54,41 @@ sealed class AppNavigationGraph(open val route: String) {
     /* Main End */
 
     object Place : AppNavigationGraph("place/{placeId}") {
-        const val ARGUMENT_ID = "placeId"
-        fun routeWithId(id: Long) = "place/$id"
+        const val ARGUMENT_PLACE_ID = "placeId"
+        fun route(place: app.hdj.shared.client.domain.entity.Place) = "place/${place.id}"
+    }
+
+    object PlaceList : AppNavigationGraph("place_list?search={search}&sort={sort}") {
+        const val ARGUMENT_SEARCH = "search"
+        const val ARGUMENT_SORT = "sort"
+        fun route(placeQuery: PlaceQuery) =
+            "place_list?$ARGUMENT_SEARCH=${placeQuery.search}&$ARGUMENT_SORT=${placeQuery.sort.value}"
     }
 
     object Course : AppNavigationGraph("course/{courseId}") {
-        const val ARGUMENT_ID = "courseId"
-        fun routeWithId(id: Long) = "course/$id"
+        const val ARGUMENT_COURSE_ID = "courseId"
+        fun route(course: app.hdj.shared.client.domain.entity.Course) = "course/${course.id}"
     }
 
-    object Settings : AppNavigationGraph("settings")
+    object CourseList : AppNavigationGraph("course_list?search={search}&sort={sort}") {
+        const val ARGUMENT_SEARCH = "search"
+        const val ARGUMENT_SORT = "sort"
+        fun route(course: CourseQuery) =
+            "course_list?$ARGUMENT_SEARCH=${course.search}&$ARGUMENT_SORT=${course.sort.value}"
+    }
+
+    sealed class Settings(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
+
+        companion object {
+            const val route = "settings"
+        }
+
+        object List : Settings("licenses")
+
+        object Notifications : Settings("licenses")
+
+        object Licenses : Settings("licenses")
+
+    }
 
 }

@@ -16,11 +16,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.providers.LocalMeState
+import app.hdj.datepick.android.ui.providers.LocalMeState
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.domain.StateData
 import kotlinx.coroutines.delay
+import timber.log.Timber
 
 @Composable
 fun SplashScreen(
@@ -38,9 +39,10 @@ fun SplashScreen(
             .fillMaxSize()
     ) {
 
-        LaunchedEffect(true) {
+        LaunchedEffect(meState) {
+            Timber.d("SplashScreen : $meState")
             if (meState !is StateData.Loading) {
-                delay(2000)
+                delay(1000)
                 onTimeOut()
             }
         }

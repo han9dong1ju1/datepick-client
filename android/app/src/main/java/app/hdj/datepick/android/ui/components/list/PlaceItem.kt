@@ -15,19 +15,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import app.hdj.datepick.ui.preview.FakePlaceProvider
+import app.hdj.datepick.android.ui.preview.FakePlaceProvider
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.*
 import app.hdj.shared.client.domain.entity.Place
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PlaceItem(place: Place, onClick: () -> Unit) {
+fun PlaceItem(place: Place?, onClick: (Place) -> Unit) {
 
     Surface(
         modifier = Modifier,
         color = Color.Transparent,
-        onClick = onClick
+        onClick = { place?.let { onClick(it) } }
     ) {
 
         ConstraintLayout(
@@ -36,7 +36,7 @@ fun PlaceItem(place: Place, onClick: () -> Unit) {
             val (imageRef, titleRef, subtitleRef, pickButtonRef) = createRefs()
 
             Image(
-                painter = rememberUrlImagePainter(place.photoUrl),
+                painter = rememberUrlImagePainter(place?.photoUrl),
                 contentDescription = null,
                 modifier = Modifier
                     .size(140.dp)
@@ -47,24 +47,20 @@ fun PlaceItem(place: Place, onClick: () -> Unit) {
                     ),
             )
 
-            Text(
-                text = place.name,
-                modifier = Modifier
-                    .constrainAs(
-                        titleRef,
-                        t2b(imageRef, margin = 10.dp) + s2s(imageRef)
-                    )
-            )
+            if (place != null) {
 
-            Text(
-                text = place.name,
-                modifier = Modifier
-                    .constrainAs(
-                        subtitleRef,
-                        t2b(titleRef, margin = 4.dp) + s2s(titleRef)
-                    )
-            )
+                Text(
+                    text = place.name,
+                    modifier = Modifier
+                        .constrainAs(
+                            titleRef,
+                            t2b(imageRef, margin = 10.dp) + s2s(imageRef)
+                        )
+                )
 
+            } else {
+
+            }
 
         }
 

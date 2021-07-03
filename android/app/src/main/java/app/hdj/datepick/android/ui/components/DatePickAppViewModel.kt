@@ -41,11 +41,13 @@ class DatePickAppViewModel @Inject constructor(
     userRepository: UserRepository
 ) : ViewModel(), DatePickAppViewModelDelegate {
 
-    private val userState = flow { emit(authenticator.currentUser()) }
-        .flatMapConcat {
-            if (it != null) userRepository.getMe()
-            else flowOf(StateData.Failed())
-        }
+    private val userState = flow {
+        val firebaseUser = authenticator.runCatching { currentUser() }.getOrNull()
+        emit(firebaseUser)
+    }.flatMapConcat {
+        if (it != null) userRepository.getMe()
+        else flowOf(StateData.Failed())
+    }
 
     override val state: StateFlow<State> = combine(
         settingRepository.getAppTheme(),

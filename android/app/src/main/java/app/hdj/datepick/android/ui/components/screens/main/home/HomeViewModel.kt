@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import app.hdj.shared.client.domain.entity.Course
+import app.hdj.shared.client.domain.repo.PlaceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

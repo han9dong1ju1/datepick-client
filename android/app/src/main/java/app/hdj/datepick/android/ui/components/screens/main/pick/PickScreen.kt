@@ -11,7 +11,6 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
 
     val (state, effect, event) = vm.extract()
 
-
 }
 
 @Composable

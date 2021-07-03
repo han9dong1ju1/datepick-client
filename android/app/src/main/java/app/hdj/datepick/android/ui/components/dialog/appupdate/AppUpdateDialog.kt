@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.android.ui.components.dialog.appupdate.AppUpdateViewModelDelegate.*
-import app.hdj.datepick.ui.providers.LocalSnackBarPresenter
+import app.hdj.datepick.android.ui.providers.LocalSnackBarPresenter
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import com.google.android.play.core.ktx.AppUpdateResult

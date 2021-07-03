@@ -12,9 +12,8 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import app.hdj.datepick.android.ui.components.DatePickApp
 import app.hdj.datepick.android.ui.components.DatePickAppViewModel
+import app.hdj.datepick.android.ui.providers.ProvideMeState
 import app.hdj.datepick.ui.styles.DatePickTheme
-import app.hdj.datepick.ui.providers.ProvideAppDataStore
-import app.hdj.datepick.ui.providers.ProvideMeState
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.data.datastore.AppDataStore
 import app.hdj.shared.client.domain.entity.settings.AppTheme
@@ -68,10 +67,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 ProvideWindowInsets {
-                    ProvideAppDataStore(dataStore = dataStore) {
-                        ProvideMeState(state.me) {
-                            DatePickApp()
-                        }
+                    ProvideMeState(state.me) {
+                        DatePickApp()
                     }
                 }
             }

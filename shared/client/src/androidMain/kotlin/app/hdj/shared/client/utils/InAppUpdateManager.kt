@@ -23,7 +23,7 @@ class InAppUpdateManager @Inject constructor(
         get() = appUpdateManager.requestUpdateFlow()
             .onStart {
                 if (appUpdateManager is FakeAppUpdateManager) {
-                    appUpdateManager.setUpdateAvailable(appConfig.appVersionCode + 1)
+                    appUpdateManager.setUpdateAvailable(10_000_000)
                 }
             }
 

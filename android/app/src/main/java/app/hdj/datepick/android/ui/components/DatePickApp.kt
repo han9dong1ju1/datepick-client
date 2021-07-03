@@ -7,19 +7,22 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.*
-import androidx.navigation.NavType
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.*
-import app.hdj.datepick.ui.components.DatePickScaffold
-import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
 import app.hdj.datepick.android.ui.components.dialog.appupdate.AppUpdateDialog
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
-import app.hdj.datepick.ui.providers.ProvideParentNavController
-import app.hdj.datepick.android.ui.components.screens.others.splash.SplashScreen
 import app.hdj.datepick.android.ui.components.screens.main.mainScreens
-import app.hdj.datepick.android.ui.components.screens.others.course.CourseScreen
-import app.hdj.datepick.android.ui.components.screens.others.place.PlaceScreen
-import app.hdj.datepick.android.ui.components.screens.others.settings.SettingsScreen
+import app.hdj.datepick.android.ui.components.screens.others.course.courseScreen
+import app.hdj.datepick.android.ui.components.screens.others.place.placeScreen
+import app.hdj.datepick.android.ui.components.screens.others.place_list.placeListScreen
+import app.hdj.datepick.android.ui.components.screens.others.settings.settingsScreens
+import app.hdj.datepick.android.ui.components.screens.others.splash.SplashScreen
+import app.hdj.datepick.android.ui.providers.ProvideLocalSnackBarPresenter
+import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -31,7 +34,7 @@ fun DatePickApp() {
 
     val scaffoldState = rememberScaffoldState()
 
-    ProvideParentNavController(navController = navController) {
+    ProvideLocalSnackBarPresenter(scaffoldState) {
 
         DatePickScaffold(
             scaffoldState = scaffoldState,
@@ -68,48 +71,37 @@ fun DatePickApp() {
                 startDestination = AppNavigationGraph.Main.route
             ) {
 
-                mainScreens()
+                /* Main Screens */
+                mainScreens(navController)
 
-                composable(
-                    AppNavigationGraph.Place.route, listOf(
-                    navArgument(AppNavigationGraph.Place.ARGUMENT_ID) {
-                        type = NavType.LongType
-                    }
-                )) {
-                    PlaceScreen()
-                }
+                /* Other Screens */
+                placeScreen(navController)
 
-                composable(
-                    AppNavigationGraph.Course.route, listOf(
-                    navArgument(AppNavigationGraph.Course.ARGUMENT_ID) {
-                        type = NavType.LongType
-                    }
-                )) {
-                    CourseScreen()
-                }
+                courseScreen(navController)
 
-                composable(AppNavigationGraph.Settings.route) {
-                    SettingsScreen()
-                }
+                placeListScreen(navController)
+
+                /* Setting Screens */
+                settingsScreens(navController)
 
             }
 
         }
 
-    }
 
-    val (splashVisibleState, onSplashVisibleStateChange) = remember { mutableStateOf(true) }
+        val (splashVisibleState, onSplashVisibleStateChange) = remember { mutableStateOf(true) }
 
-    AnimatedVisibility(
-        visible = splashVisibleState,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
-        SplashScreen {
-            onSplashVisibleStateChange(false)
+        AnimatedVisibility(
+            visible = splashVisibleState,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            SplashScreen {
+                onSplashVisibleStateChange(false)
+            }
         }
+
+        AppUpdateDialog()
+
     }
-
-    AppUpdateDialog()
-
 }

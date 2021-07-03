@@ -8,6 +8,7 @@ import androidx.compose.material.Typography
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -20,7 +21,7 @@ val typographies = Typography(
     defaultFontFamily = FontFamily.Default,
     h1 = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 22.sp
+        fontSize = 24.sp
     ),
     h2 = TextStyle(
         fontWeight = FontWeight.Bold,
@@ -83,11 +84,11 @@ val shapes = Shapes(
 /* Colors */
 
 val darkColors = darkColors(
-
 )
 
 val lightColors = lightColors(
-
+    primary = Color(0xffffffff),
+    onPrimary = Color(0xff000000),
 )
 
 @Composable

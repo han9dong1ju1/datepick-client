@@ -1,4 +1,4 @@
-package app.hdj.datepick.ui.providers
+package app.hdj.datepick.android.ui.providers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -21,10 +21,7 @@ fun ProvideBasicsForPreview(
     content: @Composable () -> Unit
 ) {
 
-    CompositionLocalProvider(
-        LocalAppDataStore provides object : AppDataStore(MockSettings().toFlowSettings()) {},
-        LocalMeState provides meState
-    ) {
+    CompositionLocalProvider(LocalMeState provides meState) {
         ProvideWindowInsets(content = content)
     }
 

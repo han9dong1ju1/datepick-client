@@ -1,4 +1,4 @@
-package app.hdj.datepick.ui.providers
+package app.hdj.datepick.android.ui.providers
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration

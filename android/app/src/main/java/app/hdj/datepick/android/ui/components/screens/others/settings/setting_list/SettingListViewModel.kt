@@ -1,8 +1,8 @@
-package app.hdj.datepick.android.ui.components.screens.others.settings
+package app.hdj.datepick.android.ui.components.screens.others.settings.setting_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.hdj.datepick.android.ui.components.screens.others.settings.SettingsViewModelDelegate.*
+import app.hdj.datepick.android.ui.components.screens.others.settings.setting_list.SettingsViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import app.hdj.shared.client.domain.repo.SettingRepository
 import app.hdj.shared.client.domain.entity.settings.AppTheme
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-fun fakeSettingsViewModel() = object : SettingsViewModelDelegate {
+fun fakeSettingListViewModel() = object : SettingsViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
@@ -49,7 +49,7 @@ interface SettingsViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 }
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+class SettingListViewModel @Inject constructor(
     private val settingRepository: SettingRepository
 ) : ViewModel(), SettingsViewModelDelegate {
 

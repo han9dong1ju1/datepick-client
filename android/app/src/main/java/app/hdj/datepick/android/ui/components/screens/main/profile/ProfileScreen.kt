@@ -13,9 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.preview.FakeUserStateProvider
-import app.hdj.datepick.ui.providers.LocalMeState
-import app.hdj.datepick.ui.providers.ProvideBasicsForPreview
+import app.hdj.datepick.android.ui.preview.FakeUserStateProvider
+import app.hdj.datepick.android.ui.providers.LocalMeState
+import app.hdj.datepick.android.ui.providers.ProvideBasicsForPreview
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.domain.StateData
