@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 
-fun NavGraphBuilder.placeScreen(navController: NavHostController) {
+fun NavGraphBuilder.placeScreen() {
     composable(
         AppNavigationGraph.Place.route, listOf(
             navArgument(AppNavigationGraph.Place.ARGUMENT_PLACE_ID) {

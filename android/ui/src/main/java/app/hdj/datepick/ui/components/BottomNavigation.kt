@@ -1,22 +1,26 @@
 package app.hdj.datepick.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
+import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.currentScreenRoute
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 
+data class BottomNavigationProperty(
+    val icon : ImageVector,
+    val label : String,
+    val navigation : NavigationGraph
+)
+
 @Composable
 fun NavigationGraphBottomNavigation(
     navController: NavController,
-    list: Map<ImageVector, String>
+    list: List<BottomNavigationProperty>
 ) {
 
     com.google.accompanist.insets.ui.BottomNavigation(
@@ -29,11 +33,12 @@ fun NavigationGraphBottomNavigation(
             applyEnd = true,
         )
     ) {
-        list.forEach { (icon, route) ->
+        list.forEach { (icon, label, nav) ->
             BottomNavigationItem(
-                selected = route == navController.currentScreenRoute(),
-                onClick = { navController.navigate(route) },
+                selected = nav.route == navController.currentScreenRoute(),
+                onClick = { navController.navigate(nav.route) },
                 icon = { Icon(icon, null) },
+                label = { Text(text = label) },
                 unselectedContentColor = LocalContentColor.current.copy(alpha = 0.4f)
             )
         }

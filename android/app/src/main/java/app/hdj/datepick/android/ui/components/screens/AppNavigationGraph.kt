@@ -1,17 +1,12 @@
 package app.hdj.datepick.android.ui.components.screens
 
 import androidx.navigation.NavController
+import app.hdj.datepick.ui.utils.NavigationGraph
+import app.hdj.datepick.ui.utils.NestedNavigationGraph
 import app.hdj.shared.client.domain.CourseQuery
 import app.hdj.shared.client.domain.PlaceQuery
 import app.hdj.shared.client.domain.entity.Course
 import app.hdj.shared.client.domain.entity.Place
-
-sealed class NestedNavigationGraph(parentRoute: String, nestedRoute: String) :
-    AppNavigationGraph(parentRoute) {
-    override val route = "$parentRoute/$nestedRoute"
-}
-
-sealed class NavigationGraph(open val route: String)
 
 val NavController.showPlace
     get() = { place: Place ->

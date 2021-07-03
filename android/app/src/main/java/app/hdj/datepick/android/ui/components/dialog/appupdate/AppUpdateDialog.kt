@@ -1,5 +1,8 @@
 package app.hdj.datepick.android.ui.components.dialog.appupdate
 
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarDuration
@@ -17,8 +20,11 @@ import app.hdj.datepick.android.ui.components.dialog.appupdate.AppUpdateViewMode
 import app.hdj.datepick.android.ui.providers.LocalSnackBarPresenter
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
+import app.hdj.datepick.ui.utils.getActivity
 import com.google.android.play.core.ktx.AppUpdateResult
 import kotlinx.coroutines.flow.Flow
+
+private const val RC_UPDATE = 1
 
 @Composable
 fun DialogScope.AppUpdateDialogUi(
@@ -50,7 +56,13 @@ fun DialogScope.AppUpdateDialogUi(
 
         DialogButtonContent(
             okButton = DialogButtonProperties("업데이트 하기") {
-
+                when (val result = state.appUpdateResult) {
+                    is AppUpdateResult.Available -> {
+                        context.getActivity()?.let {
+                            result.startFlexibleUpdate(it, RC_UPDATE)
+                        }
+                    }
+                }
             },
             cancelButton = DialogButtonProperties("취소") {
 

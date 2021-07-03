@@ -8,7 +8,7 @@ import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.others.settings.setting_list.SettingListScreen
 
 
-fun NavGraphBuilder.settingsScreens(navController: NavController) {
+fun NavGraphBuilder.settingsScreens() {
 
     navigation(
         startDestination = AppNavigationGraph.Settings.List.route,

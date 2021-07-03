@@ -9,10 +9,12 @@ import app.hdj.datepick.android.ui.components.screens.main.home.HomeScreen
 import app.hdj.datepick.android.ui.components.screens.main.map.MapScreen
 import app.hdj.datepick.android.ui.components.screens.main.pick.PickScreen
 import app.hdj.datepick.android.ui.components.screens.main.profile.ProfileScreen
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.shared.client.domain.entity.Course
 import app.hdj.shared.client.domain.entity.Place
 
-fun NavGraphBuilder.mainScreens(navController: NavController) {
+fun NavGraphBuilder.mainScreens() {
+
 
     navigation(
         startDestination = AppNavigationGraph.Main.Home.route,
@@ -20,6 +22,7 @@ fun NavGraphBuilder.mainScreens(navController: NavController) {
     ) {
 
         composable(AppNavigationGraph.Main.Home.route) {
+            val navController = LocalAppNavController.current
             HomeScreen(
                 onShowMoreCourses = navController.showCourseList,
                 onShowMorePlaces = navController.showPlaceList,

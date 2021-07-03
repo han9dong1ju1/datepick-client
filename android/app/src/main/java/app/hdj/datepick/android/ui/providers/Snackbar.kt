@@ -42,16 +42,3 @@ class SnackbarPresenter(
 val LocalSnackBarPresenter = compositionLocalOf<SnackbarPresenter> {
     error("Not Provided!")
 }
-
-@Composable
-fun ProvideLocalSnackBarPresenter(scaffoldState: ScaffoldState, content: @Composable () -> Unit) {
-
-    val coroutineScope = rememberCoroutineScope()
-
-    CompositionLocalProvider(
-        LocalSnackBarPresenter provides SnackbarPresenter(coroutineScope, scaffoldState)
-    ) {
-        content()
-    }
-
-}

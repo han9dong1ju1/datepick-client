@@ -21,7 +21,10 @@ fun ProvideBasicsForPreview(
     content: @Composable () -> Unit
 ) {
 
-    CompositionLocalProvider(LocalMeState provides meState) {
+    CompositionLocalProvider(
+        LocalMeState provides meState,
+        LocalAppNavController provides rememberNavController()
+    ) {
         ProvideWindowInsets(content = content)
     }
 
