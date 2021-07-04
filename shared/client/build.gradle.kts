@@ -120,6 +120,8 @@ kotlin {
 
                 api(MultiplatformSettings.datastore)
 
+                api(Utils.composeCollapsingToolbarLayout)
+
             }
         }
         val androidTest by getting {

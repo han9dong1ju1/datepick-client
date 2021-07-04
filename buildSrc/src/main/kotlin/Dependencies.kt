@@ -35,4 +35,6 @@ object Utils {
 
     const val imageCompressor = "id.zelory:compressor:_"
 
+    const val composeCollapsingToolbarLayout = "me.onebone:toolbar-compose:_"
+
 }

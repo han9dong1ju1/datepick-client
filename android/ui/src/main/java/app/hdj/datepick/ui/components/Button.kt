@@ -1,10 +1,13 @@
 package app.hdj.datepick.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -13,8 +16,10 @@ import androidx.compose.ui.unit.dp
 fun DatePickButton(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
+    iconTint: Color? = null,
     text: String,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
+    border: BorderStroke? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
@@ -23,11 +28,17 @@ fun DatePickButton(
         onClick = onClick,
         enabled = enabled,
         colors = colors,
+        border = border,
         elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp),
     ) {
 
         icon?.let {
-            Icon(imageVector = it, contentDescription = text)
+            Icon(
+                modifier = Modifier.size(ButtonDefaults.IconSize),
+                imageVector = it,
+                contentDescription = text,
+                tint = iconTint ?: LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+            )
             Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
         }
 
@@ -44,7 +55,9 @@ fun DatePickCTAButton(
     onClick: () -> Unit = {},
 ) {
     DatePickButton(
-        modifier, icon, text,
+        modifier,
+        icon,
+        text = text,
         colors = ButtonDefaults.buttonColors(),
         enabled = enabled,
         onClick = onClick
@@ -60,9 +73,11 @@ fun DatePickUnAccentButton(
     onClick: () -> Unit = {},
 ) {
     DatePickButton(
-        modifier, icon, text,
+        modifier,
+        icon,
+        text = text,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.onSurface.copy(alpha = 0.08f)
+            backgroundColor = MaterialTheme.colors.onSurface.copy(alpha = 0.06f)
                 .compositeOver(MaterialTheme.colors.surface),
             contentColor = MaterialTheme.colors.onSurface
                 .copy(alpha = 0.8f)

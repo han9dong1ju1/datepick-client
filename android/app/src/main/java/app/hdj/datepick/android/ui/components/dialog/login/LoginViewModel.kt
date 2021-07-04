@@ -18,7 +18,7 @@ fun fakeLoginViewModel() = object : LoginViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
-    override val state = MutableStateFlow(State(emptyList()))
+    override val state = MutableStateFlow(State())
 
     override val effect = effectChannel.receiveAsFlow()
 
@@ -31,8 +31,7 @@ fun fakeLoginViewModel() = object : LoginViewModelDelegate {
 interface LoginViewModelDelegate :
     ViewModelDelegate<State, Effect, Event> {
 
-    data class State(
-        val courses: List<Course>,
+    class State(
     )
 
     sealed class Effect {
@@ -50,14 +49,13 @@ class LoginViewModel @Inject constructor(
 
 ) : ViewModel(), LoginViewModelDelegate {
 
-    override val state: StateFlow<State>
-        get() = TODO("Not yet implemented")
+    override val state: StateFlow<State> = MutableStateFlow(State())
 
-    override val effect: Flow<Effect>
-        get() = TODO("Not yet implemented")
+    private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
+
+    override val effect = effectChannel.receiveAsFlow()
 
     override fun event(event: Event) {
-        TODO("Not yet implemented")
     }
 
 }
