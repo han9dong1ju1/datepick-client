@@ -32,9 +32,11 @@ fun DatePickApp() {
 
     val coroutineScope = rememberCoroutineScope()
 
+    val snackBarPresenter = remember { SnackbarPresenter(coroutineScope, scaffoldState) }
+
     CompositionLocalProvider(
         LocalAppNavController provides navController,
-        LocalSnackBarPresenter provides SnackbarPresenter(coroutineScope, scaffoldState)
+        LocalSnackBarPresenter provides snackBarPresenter
     ) {
 
         DatePickScaffold(
@@ -61,7 +63,6 @@ fun DatePickApp() {
             }
 
         }
-
 
         val (splashVisibleState, onSplashVisibleStateChange) = remember { mutableStateOf(true) }
 

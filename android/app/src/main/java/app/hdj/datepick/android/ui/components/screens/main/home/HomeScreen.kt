@@ -1,10 +1,14 @@
 package app.hdj.datepick.android.ui.components.screens.main.home
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.ui.components.LargeTitle
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.domain.CourseQuery
@@ -23,8 +27,10 @@ fun HomeScreen(
 
     val (state, effect, event) = vm.extract()
 
-    LazyColumn {
-
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        item {
+            LargeTitle(text = "홈")
+        }
     }
 
 }

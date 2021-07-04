@@ -82,6 +82,7 @@ kotlin {
                 api(AndroidX.compose.runtime)
                 api(AndroidX.compose.ui)
                 api(AndroidX.compose.ui.tooling)
+                api(AndroidX.core)
                 api(AndroidX.appCompat)
                 api(AndroidX.constraintLayoutCompose)
 
@@ -117,6 +118,8 @@ kotlin {
                 api(Google.accompanist.swiperefresh)
                 api(Google.android.playServices.location)
                 api(Google.android.play.coreKtx)
+
+                api(Google.android.maps)
 
                 api(MultiplatformSettings.datastore)
 

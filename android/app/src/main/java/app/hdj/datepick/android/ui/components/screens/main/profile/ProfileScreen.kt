@@ -41,9 +41,7 @@ fun ProfileScreen(
     val collapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
     CollapsingToolbarScaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding(),
+        modifier = Modifier.fillMaxSize(),
         state = collapsingToolbarScaffoldState,
         scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
         toolbar = {
@@ -58,12 +56,17 @@ fun ProfileScreen(
                     .pin()
             )
 
-            Text(
-                text = "프로필",
+            DatePickTopAppBar(
                 modifier = Modifier
                     .road(Alignment.CenterStart, Alignment.BottomStart),
-                fontSize = textSize
+                title = {
+                    Text(
+                        text = "프로필",
+                        fontSize = textSize
+                    )
+                }
             )
+
 
         }) {
 

@@ -9,6 +9,7 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SystemUpdate
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +24,7 @@ import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.getActivity
 import com.google.android.play.core.ktx.AppUpdateResult
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 
 private const val RC_UPDATE = 1
 
@@ -59,7 +61,7 @@ fun DialogScope.AppUpdateDialogUi(
                 when (val result = state.appUpdateResult) {
                     is AppUpdateResult.Available -> {
                         context.getActivity()?.let {
-                            result.startFlexibleUpdate(it, RC_UPDATE)
+                            event(Event.RequestUpdate(it, result))
                         }
                     }
                 }
@@ -85,22 +87,27 @@ fun AppUpdateDialog(vm: AppUpdateViewModelDelegate = hiltViewModel<AppUpdateView
         AppUpdateDialogUi(state, effect, event)
     }
 
-    when (val result = state.appUpdateResult) {
-        is AppUpdateResult.Available -> dialogState.isShown = true
-        is AppUpdateResult.InProgress -> {
-            snackbarPresenter.showSnackBar(
-                "앱 업데이트가 다운로드중입니다.",
-                duration = SnackbarDuration.Short
-            )
+    val result = state.appUpdateResult
+
+    LaunchedEffect(key1 = result) {
+        when (result) {
+            is AppUpdateResult.Available -> dialogState.isShown = true
+            is AppUpdateResult.InProgress -> {
+                snackbarPresenter.showSnackBar(
+                    "앱 업데이트가 다운로드중입니다.",
+                    duration = SnackbarDuration.Short
+                )
+            }
+            is AppUpdateResult.Downloaded -> {
+                snackbarPresenter.showSnackBar(
+                    "앱 업데이트가 다운로드 되었습니다.\n다시 시작하면 업데이트가 설치됩니다.",
+                    "다시 시작하기",
+                    SnackbarDuration.Indefinite
+                ) { event(Event.CompleteUpdate(result)) }
+            }
+            else -> Unit
         }
-        is AppUpdateResult.Downloaded -> {
-            snackbarPresenter.showSnackBar(
-                "앱 업데이트가 다운로드 되었습니다.\n다시 시작하면 업데이트가 설치됩니다.",
-                "다시 시작하기",
-                SnackbarDuration.Indefinite
-            ) { result.completeUpdate() }
-        }
-        else -> Unit
+
     }
 
 }

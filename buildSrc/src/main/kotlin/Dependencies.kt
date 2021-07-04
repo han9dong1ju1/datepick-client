@@ -1,3 +1,5 @@
+@file:Suppress("unused", "UnstableApiUsage")
+
 object Koin {
 
     const val core = "io.insert-koin:koin-core:_"
@@ -22,6 +24,8 @@ object Multiplatform {
 }
 
 val Firebase.multiplatform get() = Multiplatform
+
+val Google.Android.maps get() = "com.google.maps.android:maps-ktx:_"
 
 object Utils {
 
