@@ -41,7 +41,8 @@ fun NavGraphBuilder.mainScreens() {
         }
 
         composable(AppNavigationGraph.Main.Profile.route) {
-            ProfileScreen()
+            val navController = LocalAppNavController.current
+            ProfileScreen(onSettingClicked = navController.showSetting)
         }
 
     }

@@ -13,6 +13,11 @@ val NavController.searchPlace : () -> Unit
         navigate(AppNavigationGraph.SearchPlace.route)
     }
 
+val NavController.showSetting : () -> Unit
+    get() = {
+        navigate(AppNavigationGraph.Settings.route)
+    }
+
 val NavController.showPlace
     get() = { place: Place ->
         navigate(AppNavigationGraph.Place.route(place))
