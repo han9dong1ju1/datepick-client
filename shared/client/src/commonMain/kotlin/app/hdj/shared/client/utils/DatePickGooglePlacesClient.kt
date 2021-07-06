@@ -20,7 +20,7 @@ data class PlacesAutocompletePredictionsResponse(
 
     val distanceAsString : String? get() {
         if (distanceMeters == null) return null
-        return if (distanceMeters >= 1000) "${(distanceMeters / 1000f)}km"
+        return if (distanceMeters >= 1000) "${(distanceMeters / 1000f).round(1)}km"
         else "${distanceMeters}m"
     }
 

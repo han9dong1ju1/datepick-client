@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
+import app.hdj.datepick.ui.components.SimpleList
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.domain.StateData
@@ -72,7 +73,7 @@ fun SearchPlaceScreen(vm: SearchPlaceViewModelDelegate = hiltViewModel<SearchPla
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(it)
+                .padding(top = it.calculateTopPadding())
         ) {
             when (val result = state.searchResult) {
                 is StateData.Failed -> {
@@ -99,19 +100,20 @@ fun SearchPlaceScreen(vm: SearchPlaceViewModelDelegate = hiltViewModel<SearchPla
                 }
                 is StateData.Success -> {
                     items(result.data) { item ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                        ) {
-                            Text(item.name, style = MaterialTheme.typography.h6)
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(item.description, style = MaterialTheme.typography.body1)
-
-                            if (item.distanceAsString != null) {
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text("${item.distanceAsString}", style = MaterialTheme.typography.body2)
+                        SimpleList(
+                            title = item.name,
+                            subtitle = item.description,
+                            rightSideUi = {
+                                if (item.distanceAsString != null) {
+                                    Text(
+                                        "${item.distanceAsString}",
+                                        style = MaterialTheme.typography.h4,
+                                        color = MaterialTheme.colors.secondary
+                                    )
+                                }
                             }
+                        ) {
+
                         }
                     }
                 }
