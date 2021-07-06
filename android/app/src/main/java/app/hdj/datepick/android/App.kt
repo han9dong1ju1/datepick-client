@@ -15,7 +15,7 @@ class App : Application() {
             Timber.plant(Timber.DebugTree())
         }
 
-        Places.initialize(applicationContext, BuildConfig.GOOGLE_CLOUD_PLACE_API_KEY)
+        Places.initialize(applicationContext, BuildConfig.GOOGLE_CLOUD_ANDROID_API_KEY)
     }
 
 }
