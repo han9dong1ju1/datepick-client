@@ -1,7 +1,9 @@
 package app.hdj.shared.client.utils
 
 import android.content.Context
+import android.graphics.Typeface
 import android.text.style.CharacterStyle
+import android.text.style.StyleSpan
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
@@ -72,7 +74,7 @@ actual class DatePickGooglePlacesClient @Inject constructor(@ApplicationContext 
             with(autocompletePrediction) {
                 PlacesAutocompletePredictionsResponse(
                     placeId,
-                    getPrimaryText(null).toString(),
+                    getPrimaryText(StyleSpan(Typeface.BOLD)).toString(),
                     getSecondaryText(null).toString(),
                     placeTypes.map { it.name },
                     distanceMeters

@@ -37,10 +37,10 @@ val typographies = Typography(
     ),
     h5 = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 15.sp
+        fontSize = 16.sp
     ),
     h6 = TextStyle(
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 15.sp
     ),
     subtitle1 = TextStyle(
@@ -85,10 +85,12 @@ val shapes = Shapes(
 
 val darkColors = darkColors(
     primary = Color(0xff5cadff),
+    secondary = Color(0xff5cadff),
 )
 
 val lightColors = lightColors(
     primary = Color(0xff5cadff),
+    secondary = Color(0xff5cadff),
 )
 
 @Composable

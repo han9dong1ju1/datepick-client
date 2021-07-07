@@ -8,12 +8,27 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstrainScope
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayoutScope
+import androidx.constraintlayout.compose.Dimension
+
+typealias Constraint = ConstrainScope.() -> Unit
+
+val fillToConstraint : Constraint = {
+    width = Dimension.fillToConstraints
+}
+
+@Composable
+fun ConstraintLayoutScope.fillTo(
+    startTo: ConstrainedLayoutReference? = null,
+    tailTo: ConstrainedLayoutReference? = null,
+    startMargin: Dp = 0.dp,
+    tailMargin: Dp = startMargin,
+): Constraint = s2s(startTo, startMargin) + e2s(tailTo, tailMargin) + fillToConstraint
 
 @Composable
 fun ConstraintLayoutScope.t2t(
     ref: ConstrainedLayoutReference? = null,
     margin: Dp = 0.dp
-): ConstrainScope.() -> Unit = {
+): Constraint = {
     val reference = ref ?: parent
     top.linkTo(reference.top, margin)
 }
@@ -22,7 +37,7 @@ fun ConstraintLayoutScope.t2t(
 fun ConstraintLayoutScope.b2b(
     ref: ConstrainedLayoutReference? = null,
     margin: Dp = 0.dp
-): ConstrainScope.() -> Unit = {
+): Constraint = {
     val reference = ref ?: parent
     bottom.linkTo(reference.bottom, margin)
 }
@@ -31,7 +46,7 @@ fun ConstraintLayoutScope.b2b(
 fun ConstraintLayoutScope.s2s(
     ref: ConstrainedLayoutReference? = null,
     margin: Dp = 0.dp
-): ConstrainScope.() -> Unit = {
+): Constraint = {
     val reference = ref ?: parent
     start.linkTo(reference.start, margin)
 }
@@ -40,7 +55,7 @@ fun ConstraintLayoutScope.s2s(
 fun ConstraintLayoutScope.e2e(
     ref: ConstrainedLayoutReference? = null,
     margin: Dp = 0.dp
-): ConstrainScope.() -> Unit = {
+): Constraint = {
     val reference = ref ?: parent
     end.linkTo(reference.end, margin)
 }
@@ -49,7 +64,7 @@ fun ConstraintLayoutScope.e2e(
 fun ConstraintLayoutScope.match(
     ref: ConstrainedLayoutReference? = null,
     margin: Dp = 0.dp
-): ConstrainScope.() -> Unit = {
+): Constraint = {
     val reference = ref ?: parent
     end.linkTo(reference.end, margin)
     start.linkTo(reference.start, margin)
@@ -59,7 +74,7 @@ fun ConstraintLayoutScope.match(
 fun ConstraintLayoutScope.t2b(
     ref: ConstrainedLayoutReference? = null,
     margin: Dp = 0.dp
-): ConstrainScope.() -> Unit = {
+): Constraint = {
     val reference = ref ?: parent
     top.linkTo(reference.bottom, margin)
 }
@@ -68,7 +83,7 @@ fun ConstraintLayoutScope.t2b(
 fun ConstraintLayoutScope.b2t(
     ref: ConstrainedLayoutReference? = null,
     margin: Dp = 0.dp
-): ConstrainScope.() -> Unit = {
+): Constraint = {
     val reference = ref ?: parent
     bottom.linkTo(reference.top, margin)
 }
@@ -78,7 +93,7 @@ fun ConstraintLayoutScope.b2t(
 fun ConstraintLayoutScope.s2e(
     ref: ConstrainedLayoutReference? = null,
     margin: Dp = 0.dp
-): ConstrainScope.() -> Unit = {
+): Constraint = {
     val reference = ref ?: parent
     start.linkTo(reference.end, margin)
 }
@@ -87,12 +102,12 @@ fun ConstraintLayoutScope.s2e(
 fun ConstraintLayoutScope.e2s(
     ref: ConstrainedLayoutReference? = null,
     margin: Dp = 0.dp
-): ConstrainScope.() -> Unit = {
+): Constraint = {
     val reference = ref ?: parent
     end.linkTo(reference.start, margin)
 }
 
-operator fun (ConstrainScope.() -> Unit).plus(constraint: ConstrainScope.() -> Unit): ConstrainScope.() -> Unit {
+operator fun (Constraint).plus(constraint: Constraint): ConstrainScope.() -> Unit {
     val target = this
     return {
         target()

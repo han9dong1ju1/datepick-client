@@ -2,17 +2,17 @@
 
 package app.hdj.datepick.ui.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import app.hdj.datepick.ui.utils.*
 
 @Composable
@@ -25,50 +25,52 @@ fun SimpleList(
 
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp),
+            .fillMaxWidth(),
         color = Color.Unspecified,
         onClick = onClick
     ) {
-        ConstraintLayout(
-            modifier = Modifier
-                .height(72.dp)
-                .fillMaxWidth()
-        ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
 
-            val (titleRef, subtitleRef, rightSideUiRef) = createRefs()
-
-            Text(
-                text = title, modifier = Modifier
-                    .constrainAs(
-                        titleRef,
-                        t2t() + s2s() + e2s(rightSideUiRef) + {
-                            width = Dimension.fillToConstraints
-                        }),
-                style = MaterialTheme.typography.h5
-            )
-
-            Text(
-                text = subtitle,
+            ConstraintLayout(
                 modifier = Modifier
-                    .constrainAs(
-                        subtitleRef,
-                        t2b(
-                            titleRef,
-                            margin = 4.dp
-                        ) + s2s(titleRef) + e2s(rightSideUiRef) + {
-                            width = Dimension.fillToConstraints
-                        }
-                    ),
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.4f),
-                style = MaterialTheme.typography.body1
-            )
-
-            Box(
-                modifier = Modifier.constrainAs(rightSideUiRef, t2t() + e2e() + b2b())
+                    .fillMaxWidth()
+                    .padding(20.dp)
             ) {
-                rightSideUi()
+
+                val (titleRef, subtitleRef, rightSideUiRef) = createRefs()
+
+                createVerticalChain(titleRef, subtitleRef, chainStyle = ChainStyle.Packed(0.0F))
+
+                Text(
+                    text = title, modifier = Modifier.constrainAs(
+                        titleRef,
+                        t2t() + b2t(titleRef) + fillTo(tailTo = rightSideUiRef) + fillToConstraint
+                    ),
+                    style = MaterialTheme.typography.h5
+                )
+
+                Text(
+                    text = subtitle,
+                    modifier = Modifier.constrainAs(
+                        subtitleRef,
+                        t2b(titleRef, margin = 6.dp) + fillTo(titleRef, rightSideUiRef)
+                    ),
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.4f),
+                    style = MaterialTheme.typography.caption
+                )
+
+                Box(
+                    modifier = Modifier.constrainAs(
+                        rightSideUiRef,
+                        t2t(titleRef) + e2e() + b2b(subtitleRef)
+                    )
+                ) {
+                    rightSideUi()
+                }
+
             }
+
+            Divider(color = MaterialTheme.colors.onSurface.copy(alpha = 0.05f), thickness = 1.dp)
 
         }
     }

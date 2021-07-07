@@ -1,6 +1,7 @@
 package app.hdj.datepick.android.ui.components.screens.others.search_place
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,22 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.components.DatePickScaffold
-import app.hdj.datepick.ui.components.DatePickTopAppBar
-import app.hdj.datepick.ui.components.SimpleList
+import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.domain.StateData
 import com.google.android.gms.maps.model.LatLng
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchPlaceScreen(vm: SearchPlaceViewModelDelegate = hiltViewModel<SearchPlaceViewModel>()) {
 
     val (state, effect, event) = vm.extract()
-
-    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     val (textFieldValue, setTextFieldValue) = remember {
         mutableStateOf(TextFieldValue())
@@ -46,27 +45,8 @@ fun SearchPlaceScreen(vm: SearchPlaceViewModelDelegate = hiltViewModel<SearchPla
         modifier = Modifier.fillMaxSize(),
         topBar = {
             DatePickTopAppBar(
-                title = {
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
-                        value = textFieldValue,
-                        onValueChange = setTextFieldValue,
-                        placeholder = {
-                            Text(text = "검색어를 입력해주세요.")
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color.Unspecified,
-                            unfocusedBorderColor = Color.Unspecified
-                        )
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { backDispatcher?.onBackPressed() }) {
-                        Icon(imageVector = Icons.Rounded.ArrowBack, null)
-                    }
-                }
+                title = { Text(text = "장소 검색하기") },
+                navigationIcon = { TopAppBarBackButton() }
             )
         }
     ) {
@@ -75,6 +55,14 @@ fun SearchPlaceScreen(vm: SearchPlaceViewModelDelegate = hiltViewModel<SearchPla
                 .fillMaxWidth()
                 .padding(top = it.calculateTopPadding())
         ) {
+            stickyHeader {
+                SearchBar(
+                    modifier = Modifier.padding(horizontal = 20.dp),
+                    value = textFieldValue,
+                    onValueChange = setTextFieldValue
+                )
+            }
+
             when (val result = state.searchResult) {
                 is StateData.Failed -> {
                     if (result.cachedData != null) {
@@ -105,11 +93,20 @@ fun SearchPlaceScreen(vm: SearchPlaceViewModelDelegate = hiltViewModel<SearchPla
                             subtitle = item.description,
                             rightSideUi = {
                                 if (item.distanceAsString != null) {
-                                    Text(
-                                        "${item.distanceAsString}",
-                                        style = MaterialTheme.typography.h4,
-                                        color = MaterialTheme.colors.secondary
-                                    )
+                                    Surface(
+                                        shape = MaterialTheme.shapes.small,
+                                        color = MaterialTheme.colors.secondary.copy(0.2f)
+                                    ) {
+                                        Text(
+                                            "${item.distanceAsString}",
+                                            modifier = Modifier.padding(
+                                                horizontal = 10.dp,
+                                                vertical = 2.dp
+                                            ),
+                                            style = MaterialTheme.typography.body1,
+                                            color = MaterialTheme.colors.secondary
+                                        )
+                                    }
                                 }
                             }
                         ) {

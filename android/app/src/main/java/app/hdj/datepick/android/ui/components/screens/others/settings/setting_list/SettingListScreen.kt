@@ -22,6 +22,7 @@ import app.hdj.datepick.android.ui.providers.ProvideBasicsForPreview
 import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.LargeTitle
+import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 
@@ -39,19 +40,16 @@ fun SettingListScreen(
         topBar = {
             DatePickTopAppBar(
                 title = { },
-                navigationIcon = {
-                    IconButton(onClick = { backDispatcher?.onBackPressed() }) {
-                        Icon(imageVector = Icons.Rounded.ArrowBack, null)
-                    }
-                }
+                navigationIcon = { TopAppBarBackButton() }
             )
         }
     ) {
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(it)) {
-            LargeTitle("설정")
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = it.calculateTopPadding())
+        ) {
 
 
         }
