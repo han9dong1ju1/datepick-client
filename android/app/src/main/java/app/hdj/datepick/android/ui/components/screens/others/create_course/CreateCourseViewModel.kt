@@ -5,6 +5,7 @@ import app.hdj.datepick.android.ui.components.screens.others.create_course.Creat
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import app.hdj.shared.client.data.datastore.AppDataStore
 import app.hdj.shared.client.domain.entity.Course
+import app.hdj.shared.client.domain.entity.Place
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +32,7 @@ fun fakeCreateCourseViewModel() = object : CreateCourseViewModelDelegate {
 interface CreateCourseViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     class State(
-
+        val places: List<Place> = emptyList()
     )
 
     sealed class Effect {
@@ -47,6 +48,7 @@ interface CreateCourseViewModelDelegate : ViewModelDelegate<State, Effect, Event
 
 @HiltViewModel
 class CreateCourseViewModel @Inject constructor(
+
 ) : ViewModel(), CreateCourseViewModelDelegate {
 
     override val state: StateFlow<State>
