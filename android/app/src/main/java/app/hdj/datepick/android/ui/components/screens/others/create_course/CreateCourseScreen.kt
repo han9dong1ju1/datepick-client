@@ -16,6 +16,8 @@ import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.components.rememberGoogleMapState
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.ktx.model.markerOptions
 
 @Composable
 fun CreateCourseScreen(
@@ -26,7 +28,13 @@ fun CreateCourseScreen(
     val (state, effect, event) = vm.extract()
 
     val googleMapState = rememberGoogleMapState()
-    
+
+    state.places.forEach {
+        googleMapState.addMarker(markerOptions {
+            position(LatLng(it.lat, it.lng))
+        })
+    }
+
     TitledLazyListScaffold(
         navIcons = { TopAppBarBackButton() },
         title = { Text(text = "") },

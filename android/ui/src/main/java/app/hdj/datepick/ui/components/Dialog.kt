@@ -153,9 +153,10 @@ fun DialogScope.DialogButtonContent(
 
 @Composable
 fun DialogScope.DialogUI(
+    modifier : Modifier = Modifier,
     content: @Composable DialogScope.() -> Unit
 ) {
-    Surface(modifier = Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.large) {
+    Surface(modifier = modifier, shape = MaterialTheme.shapes.large) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

@@ -6,7 +6,15 @@ import kotlinx.serialization.Serializable
 data class Course(
     override val id: String,
     val places: List<PlaceWithMemo>,
-) : Id
+) : Id {
+
+    companion object {
+
+
+
+    }
+
+}
 
 @Serializable
 data class PlaceWithMemo(

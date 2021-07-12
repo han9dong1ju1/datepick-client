@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="settings_title">Settings</string>
     <string name="app_update_available_title">App Update</string>
     <string name="app_update_available_message">App Update Available!\n</string>
 </resources>
