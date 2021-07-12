@@ -8,6 +8,8 @@ plugins {
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
+version = "1.0"
+
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
         jvmTarget = "1.8"
@@ -40,7 +42,7 @@ kotlin {
         summary = "DatePick Multiplatform"
         homepage = "https://github.com/han9dong1ju1/DatePick"
         ios.deploymentTarget = "14.0"
-        frameworkName = "app/hdj/shared/client/client"
+        frameworkName = "client"
         podfile = project.file("../../iosApp/Podfile")
     }
 
@@ -120,6 +122,7 @@ kotlin {
                 api(Google.android.play.coreKtx)
 
                 api(Google.android.maps)
+                api(Google.android.places)
 
                 api(MultiplatformSettings.datastore)
 

@@ -26,6 +26,7 @@ object Multiplatform {
 val Firebase.multiplatform get() = Multiplatform
 
 val Google.Android.maps get() = "com.google.maps.android:maps-ktx:_"
+val Google.Android.places get() = "com.google.maps.android:places-ktx:_"
 
 object Utils {
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="settings_title">설정</string>
     <string name="app_update_available_title">앱 업데이트</string>
     <string name="app_update_available_message">앱 업데이트가 사용가능합니다.\n</string>
 </resources>

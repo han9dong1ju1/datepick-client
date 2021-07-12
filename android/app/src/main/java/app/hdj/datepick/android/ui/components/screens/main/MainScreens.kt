@@ -27,7 +27,8 @@ fun NavGraphBuilder.mainScreens() {
                 onShowMoreCourses = navController.showCourseList,
                 onShowMorePlaces = navController.showPlaceList,
                 onPlaceClicked = navController.showPlace,
-                onCourseClicked = navController.showCourse
+                onCourseClicked = navController.showCourse,
+                onSearchPlaceClicked = navController.searchPlace
             )
         }
 
@@ -40,7 +41,8 @@ fun NavGraphBuilder.mainScreens() {
         }
 
         composable(AppNavigationGraph.Main.Profile.route) {
-            ProfileScreen()
+            val navController = LocalAppNavController.current
+            ProfileScreen(onSettingClicked = navController.showSetting)
         }
 
     }

@@ -8,6 +8,16 @@ import app.hdj.shared.client.domain.PlaceQuery
 import app.hdj.shared.client.domain.entity.Course
 import app.hdj.shared.client.domain.entity.Place
 
+val NavController.searchPlace : () -> Unit
+    get() = {
+        navigate(AppNavigationGraph.SearchPlace.route)
+    }
+
+val NavController.showSetting : () -> Unit
+    get() = {
+        navigate(AppNavigationGraph.Settings.route)
+    }
+
 val NavController.showPlace
     get() = { place: Place ->
         navigate(AppNavigationGraph.Place.route(place))
@@ -47,6 +57,13 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     }
     /* Main End */
+
+    object SearchPlace : AppNavigationGraph("search_place")
+
+    object CreateCourse : AppNavigationGraph("create_course/{courseId}") {
+        const val ARGUMENT_COURSE_ID = "courseId"
+        fun route(course: app.hdj.shared.client.domain.entity.Course) = "create_course/${course.id}"
+    }
 
     object Place : AppNavigationGraph("place/{placeId}") {
         const val ARGUMENT_PLACE_ID = "placeId"

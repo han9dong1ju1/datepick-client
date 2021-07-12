@@ -2,6 +2,7 @@ package app.hdj.datepick.android
 
 import android.app.Application
 import app.hdj.shared.client.utils.isDebug
+import com.google.android.libraries.places.api.Places
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -13,6 +14,8 @@ class App : Application() {
         if (isDebug) {
             Timber.plant(Timber.DebugTree())
         }
+
+        Places.initialize(applicationContext, BuildConfig.GOOGLE_CLOUD_ANDROID_API_KEY)
     }
 
 }

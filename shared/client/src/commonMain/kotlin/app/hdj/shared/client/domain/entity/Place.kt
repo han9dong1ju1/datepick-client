@@ -7,5 +7,7 @@ data class Place(
     override val id: String,
     val name: String,
     val photoUrl : String? = null,
+    val lat : Double,
+    val lng : Double,
     var cacheExpireAt: Long = 0
 ) : Id

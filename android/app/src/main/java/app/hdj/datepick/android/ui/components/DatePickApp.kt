@@ -13,8 +13,10 @@ import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.MainBottomNavigation
 import app.hdj.datepick.android.ui.components.screens.main.mainScreens
 import app.hdj.datepick.android.ui.components.screens.others.course.courseScreen
+import app.hdj.datepick.android.ui.components.screens.others.create_course.createCourseScreen
 import app.hdj.datepick.android.ui.components.screens.others.place.placeScreen
 import app.hdj.datepick.android.ui.components.screens.others.place_list.placeListScreen
+import app.hdj.datepick.android.ui.components.screens.others.search_place.searchPlaceScreen
 import app.hdj.datepick.android.ui.components.screens.others.settings.settingsScreens
 import app.hdj.datepick.android.ui.components.screens.others.splash.SplashScreen
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
@@ -57,9 +59,12 @@ fun DatePickApp() {
                 courseScreen()
                 placeListScreen()
 
+                createCourseScreen()
+
                 /* Setting Screens */
                 settingsScreens()
 
+                searchPlaceScreen()
             }
 
         }
