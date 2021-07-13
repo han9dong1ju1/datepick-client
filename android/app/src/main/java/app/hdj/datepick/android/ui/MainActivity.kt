@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
@@ -17,6 +18,8 @@ import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.data.datastore.AppDataStore
 import app.hdj.shared.client.domain.entity.settings.AppTheme
+import coil.ImageLoader
+import com.google.accompanist.coil.LocalImageLoader
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +53,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setup() {
+        val imageLoader = ImageLoader.Builder(this)
+            .crossfade(true)
+            .build()
+
         setContent {
+
 
             val (state) = appViewModel.extract()
 
@@ -68,8 +76,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 ProvideWindowInsets {
-                    ProvideMeState(state.me) {
-                        DatePickApp()
+                    CompositionLocalProvider(LocalImageLoader provides imageLoader) {
+                        ProvideMeState(state.me) {
+                            DatePickApp()
+                        }
                     }
                 }
             }

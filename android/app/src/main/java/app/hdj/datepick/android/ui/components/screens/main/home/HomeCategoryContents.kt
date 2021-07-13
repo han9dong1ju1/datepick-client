@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -42,13 +43,11 @@ fun LazyListScope.homeCategoryContents(
             }
         }
         is StateData.Success -> {
-            item {
+            items(recommendedPlaces.data) {
                 Column(modifier = Modifier.fillParentMaxWidth()) {
-                    recommendedPlaces.data.forEach {
-                        Header(it.title, "더보기") { }
-                        PlaceListRow(StateData.Success(it.places)) {}
-                        VerticalMargin(40.dp)
-                    }
+                    Header(it.title, "더보기") { }
+                    PlaceListRow(StateData.Success(it.places)) {}
+                    VerticalMargin(40.dp)
                 }
             }
         }

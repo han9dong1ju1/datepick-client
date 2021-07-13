@@ -2,6 +2,7 @@ package app.hdj.datepick.android.ui.components.screens.main.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -10,12 +11,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.list.course.courseRowList
 import app.hdj.datepick.android.ui.components.list.moreButtonHeader
-import app.hdj.datepick.android.ui.components.list.place.RankedPlaceHorizontalPager
+import app.hdj.datepick.android.ui.components.list.place.RankedPlaceItem
 import app.hdj.datepick.ui.components.DatePickScrollableTabRow
 import app.hdj.datepick.ui.components.TitledLazyListScaffold
 import app.hdj.datepick.ui.components.tabIndicatorOffset
 import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.utils.VerticalMargin
 import app.hdj.datepick.ui.utils.extract
+import app.hdj.datepick.ui.utils.statefulItems
 import app.hdj.datepick.ui.utils.verticalMargin
 import app.hdj.shared.client.domain.CourseQuery
 import app.hdj.shared.client.domain.PlaceQuery
@@ -59,11 +62,13 @@ fun HomeScreen(
         courseRowList(stateData = state.popularCourses, onCourseClicked)
         verticalMargin(40.dp)
 
-        moreButtonHeader("인기있는 코스들", "더보기") {}
-        item {
-            RankedPlaceHorizontalPager(
-                modifier = Modifier.fillParentMaxWidth(),
-                state.popularPlaces, onPlaceClicked
+        moreButtonHeader("인기있는 장소들", "더보기") {}
+        statefulItems(state.popularPlaces) { index, item ->
+            if (index != 0) VerticalMargin()
+            RankedPlaceItem(
+                index + 1,
+                item,
+                onPlaceClicked
             )
         }
         verticalMargin(40.dp)

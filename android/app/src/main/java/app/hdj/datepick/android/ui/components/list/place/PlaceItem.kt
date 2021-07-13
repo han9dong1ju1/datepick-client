@@ -1,10 +1,8 @@
 package app.hdj.datepick.android.ui.components.list.place
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,11 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import app.hdj.datepick.ui.components.NetworkImage
 import app.hdj.datepick.ui.utils.*
-import app.hdj.shared.client.domain.StateData
 import app.hdj.shared.client.domain.entity.Place
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
-import com.google.accompanist.pager.*
 
 @Composable
 fun PlaceCardItem(
@@ -31,7 +27,6 @@ fun PlaceCardItem(
         .clip(MaterialTheme.shapes.medium)
         .clickable { onPlaceClicked(place) }
     ) {
-
 
         val loadPainter = rememberUrlImagePainter(
             place.photoUrl,
@@ -120,7 +115,6 @@ fun PlaceItem(
                 )
             }
         )
-
 
         Column(
             modifier = Modifier

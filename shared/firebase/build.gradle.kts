@@ -29,11 +29,8 @@ kotlin {
         frameworkName = "firebase"
         podfile = project.file("../../iosApp/Podfile")
 
-        pod("FirebaseAnalytics")
-        pod("FirebaseStorage")
-        pod("FirebaseMessaging")
-        pod("FirebaseRemoteConfig")
-        pod("FirebaseCrashlytics")
+//        pod("FirebaseAnalytics")
+//        pod("FirebaseCrashlytics")
     }
 
     sourceSets {
@@ -42,7 +39,6 @@ kotlin {
                 implementation(KotlinX.coroutines.core)
                 implementation(KotlinX.serialization.core)
                 api(Firebase.multiplatform.auth)
-                api(Firebase.multiplatform.firestore)
             }
         }
         val androidMain by getting {

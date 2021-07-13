@@ -7,6 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import com.google.accompanist.imageloading.ImageLoadState
 import com.google.accompanist.imageloading.LoadPainter
 
@@ -23,13 +24,13 @@ fun NetworkImage(
             painter = loadPainter,
             modifier = Modifier.fillMaxSize(),
             contentDescription = null,
+            contentScale = ContentScale.Crop
         )
 
         when (loadPainter.loadState) {
-            ImageLoadState.Empty -> {
-            }
             is ImageLoadState.Loading -> onLoading()
             is ImageLoadState.Error -> onFailed()
+            else -> {}
         }
 
     }

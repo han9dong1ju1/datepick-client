@@ -61,8 +61,7 @@ class CourseViewModel @Inject constructor(
 
     override val effect = effectChannel.receiveAsFlow()
 
-    override val state: StateFlow<State>
-        get() = TODO("Not yet implemented")
+    override val state = MutableStateFlow(State())
 
     override fun event(event: Event) {
         viewModelScope.launch {

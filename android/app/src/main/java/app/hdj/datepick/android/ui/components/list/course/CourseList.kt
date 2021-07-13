@@ -20,7 +20,6 @@ fun LazyListScope.courseRowList(
     item {
         LazyRow(modifier = Modifier.fillMaxWidth()) {
             item { Spacer(modifier = Modifier.width(20.dp)) }
-
             statefulItems(
                 stateData,
                 error = {},

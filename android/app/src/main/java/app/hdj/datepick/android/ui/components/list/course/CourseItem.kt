@@ -10,10 +10,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import app.hdj.datepick.ui.components.ShimmerAnimation
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 import app.hdj.shared.client.domain.entity.Course
 import coil.size.Scale
@@ -45,9 +47,11 @@ fun CourseRowItem(course: Course, onCourseClicked: (Course) -> Unit) {
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.3f)))
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.3f))
+                )
 
                 Column(
                     modifier = Modifier
@@ -87,15 +91,13 @@ fun CourseRowItem(course: Course, onCourseClicked: (Course) -> Unit) {
 fun CourseRowLoading() {
 
     Row {
-        Spacer(modifier = Modifier.width(20.dp))
         (0..3).forEach { _ ->
-            Card(
-                elevation = 0.dp,
-                backgroundColor = MaterialTheme.colors.onSurface.copy(alpha = 0.1f)
-                    .compositeOver(MaterialTheme.colors.background),
-                modifier = Modifier.size(COURSE_ITEM_WIDTH, COURSE_ITEM_HEIGHT),
+            Box(
+                modifier = Modifier
+                    .size(COURSE_ITEM_WIDTH, COURSE_ITEM_HEIGHT)
+                    .clip(MaterialTheme.shapes.medium)
             ) {
-
+                ShimmerAnimation()
             }
             Spacer(modifier = Modifier.width(20.dp))
         }

@@ -1,5 +1,6 @@
 package app.hdj.datepick.ui.styles
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -86,11 +87,32 @@ val shapes = Shapes(
 val darkColors = darkColors(
     primary = Color(0xff5cadff),
     secondary = Color(0xff5cadff),
+    primaryVariant = Color(0xff5cadff),
+    secondaryVariant = Color(0xff5cadff),
+    background = Color(0xFF0E0E0E),
+    surface = Color(0xFF0E0E0E),
+    error = Color(0xFFCF6679),
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color.White,
+    onSurface = Color.White,
+    onError = Color.Black,
 )
 
+@SuppressLint("ConflictingOnColor")
 val lightColors = lightColors(
     primary = Color(0xff5cadff),
     secondary = Color(0xff5cadff),
+    primaryVariant = Color(0xff5cadff),
+    secondaryVariant = Color(0xff5cadff),
+    background = Color.White,
+    surface = Color.White,
+    error = Color(0xFFB00020),
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
+    onError = Color.White
 )
 
 @Composable

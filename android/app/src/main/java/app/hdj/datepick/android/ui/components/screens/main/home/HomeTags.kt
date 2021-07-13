@@ -52,8 +52,7 @@ fun HomeTags(tagState: StateData<List<String>>) {
                 }
                 is StateData.Success -> {
                     itemsIndexed(tagState.data) { i, tag ->
-                        if (i == 0) HorizontalMargin()
-
+                        if (i == 0) HorizontalMargin(10.dp)
                         Row(modifier = Modifier.fillParentMaxHeight()) {
                             Card(
                                 modifier = Modifier

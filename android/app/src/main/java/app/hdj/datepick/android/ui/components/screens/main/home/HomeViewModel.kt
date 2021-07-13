@@ -67,7 +67,7 @@ class HomeViewModel @Inject constructor(
 
     private val popularCourses = flow {
         emit(StateData.Loading())
-        delay(1000)
+        delay(5000)
         emit(StateData.Success(fakeCourseList))
     }
 

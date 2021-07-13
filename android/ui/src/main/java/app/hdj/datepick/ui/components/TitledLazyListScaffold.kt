@@ -29,8 +29,6 @@ fun TitledLazyListScaffold(
 
     val visibleIndex = lazyListState.layoutInfo.visibleItemsInfo.firstOrNull()?.index ?: 0
 
-    val coroutineScope = rememberCoroutineScope()
-
     DatePickScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {

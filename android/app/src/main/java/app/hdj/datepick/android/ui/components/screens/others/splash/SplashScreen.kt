@@ -40,7 +40,6 @@ fun SplashScreen(
     ) {
 
         LaunchedEffect(meState) {
-            Timber.d("SplashScreen : $meState")
             if (meState !is StateData.Loading) {
                 delay(1000)
                 onTimeOut()

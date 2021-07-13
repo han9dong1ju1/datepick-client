@@ -65,17 +65,7 @@ val fakePlaceList = listOf(
     fakePlace3(),
     fakePlace4(),
     fakePlace1(),
-    fakePlace2(),
-    fakePlace3(),
-    fakePlace4(),
-    fakePlace1(),
-    fakePlace2(),
-    fakePlace3(),
-    fakePlace4(),
-    fakePlace1(),
-    fakePlace2(),
-    fakePlace3(),
-    fakePlace4(),
+    fakePlace2()
 )
 
 fun fakePlacePagingDataSource() = createPagingSource<Int, Place> {

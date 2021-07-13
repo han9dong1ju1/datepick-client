@@ -14,11 +14,7 @@ Pod::Spec.new do |spec|
 
     spec.ios.deployment_target = '14.0'
 
-    spec.dependency 'FirebaseAnalytics'
-    spec.dependency 'FirebaseCrashlytics'
-    spec.dependency 'FirebaseMessaging'
-    spec.dependency 'FirebaseRemoteConfig'
-    spec.dependency 'FirebaseStorage'
+                
 
     spec.pod_target_xcconfig = {
         'KOTLIN_TARGET[sdk=iphonesimulator*]' => 'ios_x64',
