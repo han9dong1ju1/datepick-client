@@ -8,7 +8,6 @@ import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 
 fun NavGraphBuilder.courseScreen() {
-
     composable(
         AppNavigationGraph.Course.route, listOf(
             navArgument(AppNavigationGraph.Course.ARGUMENT_COURSE_ID) {
@@ -19,5 +18,4 @@ fun NavGraphBuilder.courseScreen() {
             it.arguments?.getString(AppNavigationGraph.Course.ARGUMENT_COURSE_ID)
         CourseScreen(courseId)
     }
-
 }

@@ -19,7 +19,6 @@ Pod::Spec.new do |spec|
     spec.dependency 'FirebaseMessaging'
     spec.dependency 'FirebaseRemoteConfig'
     spec.dependency 'FirebaseStorage'
-    spec.dependency 'GooglePlaces'
 
     spec.pod_target_xcconfig = {
         'KOTLIN_TARGET[sdk=iphonesimulator*]' => 'ios_x64',

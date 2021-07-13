@@ -34,7 +34,6 @@ kotlin {
         pod("FirebaseMessaging")
         pod("FirebaseRemoteConfig")
         pod("FirebaseCrashlytics")
-        pod("GooglePlaces")
     }
 
     sourceSets {

@@ -34,7 +34,6 @@ fun LargeTitle(text: String) {
 
             Text(
                 modifier = Modifier
-                    .width(100.dp)
                     .constrainAs(titleRef, b2b(margin = 20.dp) + s2s(margin = 20.dp)),
                 text = text,
                 style = MaterialTheme.typography.h1, maxLines = 2

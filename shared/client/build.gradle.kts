@@ -122,7 +122,6 @@ kotlin {
                 api(Google.android.play.coreKtx)
 
                 api(Google.android.maps)
-                api(Google.android.places)
 
                 api(MultiplatformSettings.datastore)
 

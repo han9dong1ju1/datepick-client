@@ -13,16 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
-import app.hdj.datepick.android.ui.components.list.PlaceItem
-import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.components.screens.showPlace
 import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.utils.extract
@@ -66,7 +57,9 @@ fun PlaceListScreen(
                 .fillMaxWidth()
                 .padding(it)
         ) {
-            items(list) { place -> PlaceItem(place, onPlaceClicked) }
+
+
+
         }
 
     }

@@ -156,7 +156,7 @@ fun DialogScope.DialogUI(
     modifier : Modifier = Modifier,
     content: @Composable DialogScope.() -> Unit
 ) {
-    Surface(modifier = modifier, shape = MaterialTheme.shapes.large) {
+    Surface(modifier = modifier.width(320.dp), shape = MaterialTheme.shapes.large) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

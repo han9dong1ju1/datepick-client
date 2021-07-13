@@ -37,13 +37,7 @@ fun TitledLazyListScaffold(
             Column(modifier = Modifier.fillMaxWidth()) {
 
                 DatePickTopAppBar(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            coroutineScope.launch {
-                                lazyListState.animateScrollToItem(0)
-                            }
-                        },
+                    modifier = Modifier.fillMaxWidth(),
                     title = {
                         AnimatedVisibility(
                             visible = visibleIndex != 0,
@@ -69,17 +63,23 @@ fun TitledLazyListScaffold(
             }
         }
     ) {
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = it.calculateTopPadding()),
-            state = lazyListState
+                .padding(top = it.calculateTopPadding())
         ) {
-            item {
-                expandedTitle()
+
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                state = lazyListState
+            ) {
+                item {
+                    expandedTitle()
+                }
+
+                listContent()
             }
 
-            listContent()
         }
     }
 
