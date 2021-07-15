@@ -1,5 +1,7 @@
 package app.hdj.datepick.ui.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -17,34 +19,43 @@ import com.google.accompanist.insets.rememberInsetsPaddingValues
 data class BottomNavigationProperty(
     val icon: ImageVector,
     val label: String,
-    val navigation: NavigationGraph
+    val navigation: NavigationGraph,
+    val badgeEnabled: Boolean = false
 )
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NavigationGraphBottomNavigation(
     navController: NavController,
     list: List<BottomNavigationProperty>
 ) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = BottomNavigationDefaults.Elevation
+    Box(
+        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colors.surface)
     ) {
         BottomNavigation(
             backgroundColor = Color.Transparent,
             contentColor = MaterialTheme.colors.onBackground,
             elevation = 0.dp,
-            modifier = Modifier.padding(rememberInsetsPaddingValues(
-                insets = LocalWindowInsets.current.navigationBars,
-                applyStart = true,
-                applyBottom = true,
-                applyEnd = true,
-            ))
+            modifier = Modifier.padding(
+                rememberInsetsPaddingValues(
+                    insets = LocalWindowInsets.current.navigationBars,
+                    applyStart = true,
+                    applyBottom = true,
+                    applyEnd = true,
+                )
+            )
         ) {
-            list.forEach { (icon, label, nav) ->
+            list.forEach { (icon, label, nav, badgeEnabled) ->
                 BottomNavigationItem(
                     selected = nav.route == navController.currentScreenRoute(),
                     onClick = { navController.navigate(nav.route) },
-                    icon = { Icon(icon, null) },
+                    icon = {
+                        if (badgeEnabled) {
+                            BadgeBox { Icon(icon, null) }
+                        } else {
+                            Icon(icon, null)
+                        }
+                    },
                     label = { Text(text = label) },
                     unselectedContentColor = LocalContentColor.current.copy(alpha = 0.4f)
                 )

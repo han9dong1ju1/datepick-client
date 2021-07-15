@@ -1,5 +1,6 @@
 package app.hdj.datepick.ui.utils
 
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -10,11 +11,37 @@ import androidx.paging.compose.items
 import androidx.paging.compose.itemsIndexed
 import app.hdj.shared.client.domain.StateData
 
+fun <T> LazyListScope.statefulItem(
+    state: StateData<T>,
+    error: @Composable LazyItemScope.(Throwable?) -> Unit = {},
+    loading: @Composable LazyItemScope.() -> Unit = {},
+    itemContent: @Composable LazyItemScope.(T) -> Unit,
+) {
+
+    when (state) {
+        is StateData.Failed -> {
+            item {
+                error(state.throwable)
+            }
+        }
+        is StateData.Loading ->
+            item {
+                loading()
+            }
+        is StateData.Success -> {
+            item {
+                itemContent(state.data)
+            }
+        }
+    }
+
+}
+
 fun <T> LazyListScope.statefulItems(
     state: StateData<List<T>>,
-    error: @Composable (Throwable?) -> Unit = {},
-    loading: @Composable () -> Unit = {},
-    itemContent: @Composable (Int, T) -> Unit,
+    error: @Composable LazyItemScope.(Throwable?) -> Unit = {},
+    loading: @Composable LazyItemScope.() -> Unit = {},
+    itemContent: @Composable LazyItemScope.(Int, T) -> Unit,
 ) {
 
     when (state) {
@@ -43,9 +70,9 @@ fun <T> LazyListScope.statefulItems(
 
 fun <T : Any> LazyListScope.pagedItems(
     items: LazyPagingItems<T>,
-    error: @Composable (error : Throwable?, retry : () -> Unit) -> Unit = { _, _ -> },
-    loading: @Composable () -> Unit = {},
-    itemContent: @Composable (Int, T) -> Unit,
+    error: @Composable LazyItemScope.(error : Throwable?, retry : () -> Unit) -> Unit = { _, _ -> },
+    loading: @Composable LazyItemScope.() -> Unit = {},
+    itemContent: @Composable LazyItemScope.(Int, T) -> Unit,
 
 ) {
 

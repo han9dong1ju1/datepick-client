@@ -12,13 +12,19 @@ import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.list.Header
 import app.hdj.datepick.android.ui.components.list.place.PlaceListRow
 import app.hdj.datepick.ui.utils.VerticalMargin
+import app.hdj.datepick.ui.utils.statefulItem
+import app.hdj.datepick.ui.utils.statefulItems
 import app.hdj.datepick.ui.utils.verticalMargin
+import app.hdj.shared.client.domain.PlaceQuery
 import app.hdj.shared.client.domain.StateData
+import app.hdj.shared.client.domain.entity.Place
 import app.hdj.shared.client.domain.entity.RecommendedPlaces
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 fun LazyListScope.homeCategoryContents(
-    recommendedPlaces: StateData<List<RecommendedPlaces>>
+    recommendedPlaces: StateData<List<RecommendedPlaces>>,
+    onShowMorePlacesClicked: (PlaceQuery) -> Unit,
+    onPlaceClicked: (Place) -> Unit
 ) {
 
     verticalMargin()
@@ -45,8 +51,10 @@ fun LazyListScope.homeCategoryContents(
         is StateData.Success -> {
             items(recommendedPlaces.data) {
                 Column(modifier = Modifier.fillParentMaxWidth()) {
-                    Header(it.title, "더보기") { }
-                    PlaceListRow(StateData.Success(it.places)) {}
+                    Header(it.title, "더보기") {
+                        // TODO onMorePlacesClicked
+                    }
+                    PlaceListRow(StateData.Success(it.places), onPlaceClicked)
                     VerticalMargin(40.dp)
                 }
             }

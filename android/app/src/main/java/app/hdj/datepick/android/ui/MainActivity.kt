@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
 
-
             val (state) = appViewModel.extract()
 
             DatePickTheme(state.appTheme) {

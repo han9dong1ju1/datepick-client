@@ -29,10 +29,9 @@ private val LEFT_SPACE = 20.dp + TAG_HEIGHT
 @Composable
 fun HomeTags(tagState: StateData<List<String>>) {
 
-    Box(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colors.background)
             .height(64.dp)
     ) {
 

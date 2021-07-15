@@ -6,6 +6,8 @@ import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModelDel
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import app.hdj.shared.client.domain.StateData
 import app.hdj.shared.client.domain.entity.*
+import app.hdj.shared.client.domain.repo.CourseRepository
+import app.hdj.shared.client.domain.repo.PlaceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -42,6 +44,7 @@ interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
         val popularCourses: StateData<List<Course>> = StateData.Loading(),
         val popularPlaces: StateData<List<Place>> = StateData.Loading(),
         val categories: StateData<List<String>> = StateData.Loading(),
+        val noticeEvents: StateData<List<NoticeEvent>> = StateData.Loading(),
         val recommendedPlacesFlow: Flow<StateData<List<RecommendedPlaces>>> = flow {}
     )
 
@@ -50,7 +53,7 @@ interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
     }
 
     sealed class Event {
-        data class SelectTab(val category: String) : Event()
+        data class SelectCategoryTab(val category: String) : Event()
         object ReloadContents : Event()
     }
 
@@ -59,69 +62,94 @@ interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 @HiltViewModel
 @OptIn(FlowPreview::class)
 class HomeViewModel @Inject constructor(
-
+    courseRepository: CourseRepository,
+    placeRepository: PlaceRepository
 ) : ViewModel(), HomeViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()
 
-    private val popularCourses = flow {
+    private val popularCoursesState = flow {
         emit(StateData.Loading())
         delay(5000)
         emit(StateData.Success(fakeCourseList))
     }
 
-    private val popularPlaces = flow {
+    private val popularPlacesState = flow {
         emit(StateData.Loading())
         delay(2000)
         emit(StateData.Success(fakePlaceList))
     }
 
-    private val categories = flow {
+    private val noticeEventsState = flow {
+        emit(StateData.Loading())
+        delay(2000)
+        emit(StateData.Success(fakeNoticeEvents))
+    }
+
+    private val categoriesState = flow {
         emit(StateData.Loading())
         delay(1000)
         emit(StateData.Success(listOf("인기", "음식", "카페", "공원", "공방", "놀이공원", "영화관", "보드게임")))
-    }
-
-    private val tags = flow {
-        emit(StateData.Loading())
-        delay(200)
-        emit(StateData.Success(listOf("분위기", "사회적거리두기", "가성비", "사람적은", "넓은")))
-    }.onEach {
-        if (it is StateData.Success) it.data.firstOrNull()?.run { selectTab.emit(this) }
-    }
-
-    private val selectTab = MutableSharedFlow<String>()
-
-    private val selectedRecommendedPlaces = selectTab.flatMapConcat {
-        flow {
-            emit(StateData.Loading())
-            delay(200)
-            emit(
-                StateData.Success(
-                    listOf(
-                        RecommendedPlaces("가성비 넘치는 곳 \uD83D\uDCB0", fakePlaceList.shuffled()),
-                        RecommendedPlaces("분위기 좋은 곳 \uD83D\uDECB", fakePlaceList.shuffled()),
-                        RecommendedPlaces("거리두기 잘 하는 곳\uD83D\uDE37", fakePlaceList.shuffled()),
-                        RecommendedPlaces("서비스가 친절한 곳 \uD83D\uDE0A", fakePlaceList.shuffled()),
-                    )
-                )
-            )
+    }.onEach { categories ->
+        if (categories is StateData.Success) {
+            categories.data.firstOrNull()?.let { selectedCategory.emit(it) }
         }
     }
 
+    private val tagsState = flow {
+        emit(StateData.Loading())
+        delay(200)
+        emit(StateData.Success(listOf("분위기", "사회적거리두기", "가성비", "사람적은", "넓은")))
+    }
+
+    private val selectedCategory = MutableStateFlow<String?>(null)
+
+    private val selectedRecommendedPlaces: Flow<StateData<List<RecommendedPlaces>>> =
+        selectedCategory.flatMapConcat { category ->
+            flow {
+                if (category != null) {
+                    delay(200)
+                    emit(
+                        StateData.Success(
+                            listOf(
+                                RecommendedPlaces(
+                                    "가성비 넘치는 곳 \uD83D\uDCB0",
+                                    fakePlaceList.shuffled()
+                                ),
+                                RecommendedPlaces(
+                                    "분위기 좋은 곳 \uD83D\uDECB",
+                                    fakePlaceList.shuffled()
+                                ),
+                                RecommendedPlaces(
+                                    "거리두기 잘 하는 곳\uD83D\uDE37",
+                                    fakePlaceList.shuffled()
+                                ),
+                                RecommendedPlaces(
+                                    "서비스가 친절한 곳 \uD83D\uDE0A",
+                                    fakePlaceList.shuffled()
+                                ),
+                            )
+                        )
+                    )
+                } else emit(StateData.Loading<List<RecommendedPlaces>>())
+            }
+        }
+
     override val state =
         combine(
-            tags,
-            popularCourses,
-            popularPlaces,
-            categories
-        ) { tags, courses, places, categories ->
+            tagsState,
+            popularCoursesState,
+            popularPlacesState,
+            noticeEventsState,
+            categoriesState
+        ) { tags, courses, places, noticeEvents, categories ->
             State(
                 tags = tags,
                 popularCourses = courses,
                 popularPlaces = places,
                 categories = categories,
+                noticeEvents = noticeEvents,
                 recommendedPlacesFlow = selectedRecommendedPlaces
             )
         }.stateIn(
@@ -136,8 +164,8 @@ class HomeViewModel @Inject constructor(
                 Event.ReloadContents -> {
 
                 }
-                is Event.SelectTab -> {
-                    selectTab.emit(event.category)
+                is Event.SelectCategoryTab -> {
+                    selectedCategory.emit(event.category)
                 }
             }
         }

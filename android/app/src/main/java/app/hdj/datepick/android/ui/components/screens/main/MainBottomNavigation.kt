@@ -16,19 +16,12 @@ import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MainBottomNavigation() {
+fun MainBottomNavigation(
+    mainNavigationRoutesWithIcon : List<BottomNavigationProperty>,
+    currentRoute : String?
+) {
 
     val navController = LocalAppNavController.current
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-
-    val mainNavigationRoutesWithIcon = listOf(
-        BottomNavigationProperty(Icons.Rounded.Home, "홈", AppNavigationGraph.Main.Home),
-        BottomNavigationProperty(Icons.Rounded.Map, "지도", AppNavigationGraph.Main.Map),
-        BottomNavigationProperty(Icons.Rounded.Favorite, "PICK", AppNavigationGraph.Main.Pick),
-        BottomNavigationProperty(Icons.Rounded.Person, "프로필", AppNavigationGraph.Main.Profile),
-    )
-
-    val currentRoute = navBackStackEntry?.destination?.route
 
     val isRouteAllowedForBottomNavigation =
         mainNavigationRoutesWithIcon.map { it.navigation.route }.contains(currentRoute)

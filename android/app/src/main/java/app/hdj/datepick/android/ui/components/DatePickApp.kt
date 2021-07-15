@@ -4,14 +4,25 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Map
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import app.hdj.datepick.android.ui.components.dialog.appupdate.AppUpdateDialog
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.MainBottomNavigation
+import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModel
 import app.hdj.datepick.android.ui.components.screens.main.mainScreens
+import app.hdj.datepick.android.ui.components.screens.main.map.MapViewModel
+import app.hdj.datepick.android.ui.components.screens.main.pick.PickViewModel
+import app.hdj.datepick.android.ui.components.screens.main.profile.ProfileViewModel
 import app.hdj.datepick.android.ui.components.screens.others.course.courseScreen
 import app.hdj.datepick.android.ui.components.screens.others.create_course.createCourseScreen
 import app.hdj.datepick.android.ui.components.screens.others.place.placeScreen
@@ -21,6 +32,7 @@ import app.hdj.datepick.android.ui.components.screens.others.splash.SplashScreen
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalSnackBarPresenter
 import app.hdj.datepick.android.ui.providers.SnackbarPresenter
+import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.DatePickScaffold
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -35,6 +47,19 @@ fun DatePickApp() {
 
     val snackBarPresenter = remember { SnackbarPresenter(coroutineScope, scaffoldState) }
 
+    var pickBadgeStatus by remember { mutableStateOf(true) }
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
+
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    val mapViewModel: MapViewModel = hiltViewModel()
+    val pickViewModel: PickViewModel = hiltViewModel()
+    val profileViewModel: ProfileViewModel = hiltViewModel()
+
     CompositionLocalProvider(
         LocalAppNavController provides navController,
         LocalSnackBarPresenter provides snackBarPresenter
@@ -42,7 +67,26 @@ fun DatePickApp() {
 
         DatePickScaffold(
             scaffoldState = scaffoldState,
-            bottomBar = { MainBottomNavigation() }
+            bottomBar = {
+
+                val mainNavigationRoutesWithIcon = listOf(
+                    BottomNavigationProperty(Icons.Rounded.Home, "홈", AppNavigationGraph.Main.Home),
+                    BottomNavigationProperty(Icons.Rounded.Map, "지도", AppNavigationGraph.Main.Map),
+                    BottomNavigationProperty(
+                        Icons.Rounded.Favorite,
+                        "PICK",
+                        AppNavigationGraph.Main.Pick,
+                        pickBadgeStatus
+                    ),
+                    BottomNavigationProperty(
+                        Icons.Rounded.Person,
+                        "프로필",
+                        AppNavigationGraph.Main.Profile
+                    ),
+                )
+
+                MainBottomNavigation(mainNavigationRoutesWithIcon, currentRoute)
+            }
         ) {
 
             NavHost(
@@ -51,7 +95,7 @@ fun DatePickApp() {
             ) {
 
                 /* Main Screens */
-                mainScreens()
+                mainScreens(homeViewModel, mapViewModel, pickViewModel, profileViewModel)
 
                 /* Other Screens */
                 placeScreen()

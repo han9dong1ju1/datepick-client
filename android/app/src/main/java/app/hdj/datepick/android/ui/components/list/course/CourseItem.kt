@@ -1,5 +1,6 @@
 package app.hdj.datepick.android.ui.components.list.course
 
+import android.net.Network
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import app.hdj.datepick.ui.components.NetworkImage
 import app.hdj.datepick.ui.components.ShimmerAnimation
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 import app.hdj.shared.client.domain.entity.Course
@@ -36,15 +38,14 @@ fun CourseRowItem(course: Course, onCourseClicked: (Course) -> Unit) {
 
             Box(modifier = Modifier.fillMaxSize()) {
 
-                Image(
-                    painter = rememberUrlImagePainter(
+                NetworkImage(
+                    loadPainter = rememberUrlImagePainter(
                         course.photoUrl,
                         requestBuilder = {
                             scale(Scale.FILL)
                             transformations(RoundedCornersTransformation(15.dp.value))
                         }),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
                 )
 
                 Box(
