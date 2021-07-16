@@ -11,7 +11,7 @@ data class NoticeEvent(
 
 fun fakeNoticeEvent() = NoticeEvent(
     Random.nextInt().toString(),
-    "https://picsum.photos/${Random.nextInt(300, 400)}/${Random.nextInt(200, 300)}/",
+    "https://picsum.photos/${Random.nextInt(300, 400)}",
     "첫 출시 기념 할인 이벤트!",
     "첫 출시 기념으로 자동 코스 생성 30% 할인을 진행합니다."
 )

@@ -8,12 +8,14 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Google
 import app.hdj.datepick.android.ui.icons.Kakao
 import app.hdj.datepick.ui.components.*
@@ -43,7 +45,7 @@ fun DialogScope.LoginDialogUi() {
                 backgroundColor = MaterialTheme.colors.surface,
                 contentColor = MaterialTheme.colors.onSurface,
             ),
-            icon = Google,
+            icon = DatePickIcons.Login.Google,
             iconTint = Color.Unspecified
         ) {
 
@@ -60,7 +62,7 @@ fun DialogScope.LoginDialogUi() {
                 backgroundColor = Color(0xFFFEE500),
                 contentColor = Color(0xD9000000),
             ),
-            icon = Kakao,
+            icon = DatePickIcons.Login.Kakao,
             iconTint = Color.Unspecified
         ) {
 

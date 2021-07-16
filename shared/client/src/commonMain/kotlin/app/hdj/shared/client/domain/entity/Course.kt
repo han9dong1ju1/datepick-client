@@ -15,21 +15,21 @@ data class Course(
 fun fakeCourse1() = Course(
     Random.nextInt().toString(),
     "종로 필수 코스",
-    "https://picsum.photos/${Random.nextInt(300, 400)}/${Random.nextInt(200, 300)}/",
+    "https://picsum.photos/${Random.nextInt(300, 400)}",
     listOf("분위기", "가성비")
 )
 
 fun fakeCourse2() = Course(
     Random.nextInt().toString(),
     "종로 3가 필수 코스 입니다.",
-    "https://picsum.photos/${Random.nextInt(300, 400)}/${Random.nextInt(200, 300)}/",
+    "https://picsum.photos/${Random.nextInt(300, 400)}",
     listOf("가성비", "가성비")
 )
 
 fun fakeCourse3() = Course(
     Random.nextInt().toString(),
     "300일 기념데이트",
-    "https://picsum.photos/${Random.nextInt(300, 400)}/${Random.nextInt(200, 300)}/",
+    "https://picsum.photos/${Random.nextInt(300, 400)}",
     listOf("분위기", "가성비")
 )
 

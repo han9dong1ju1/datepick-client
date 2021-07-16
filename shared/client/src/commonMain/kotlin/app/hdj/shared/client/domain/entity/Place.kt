@@ -22,7 +22,7 @@ fun fakePlace1() = Place(
     Random.nextInt().toString(),
     "창화당",
     "음식점",
-    "https://picsum.photos/${Random.nextInt(300, 400)}/${Random.nextInt(200, 300)}/",
+    "https://picsum.photos/${Random.nextInt(300, 400)}",
     lat = 0.0,
     lng = 0.0
 )
@@ -31,7 +31,7 @@ fun fakePlace2() = Place(
     Random.nextInt().toString(),
     "쿠우쿠우",
     "음식점",
-    "https://picsum.photos/${Random.nextInt(300, 400)}/${Random.nextInt(200, 300)}/",
+    "https://picsum.photos/${Random.nextInt(300, 400)}",
     lat = 0.0,
     lng = 0.0
 )
@@ -40,7 +40,7 @@ fun fakePlace3() = Place(
     Random.nextInt().toString(),
     "창화당",
     "음식점",
-    "https://picsum.photos/${Random.nextInt(300, 400)}/${Random.nextInt(200, 300)}/",
+    "https://picsum.photos/${Random.nextInt(300, 400)}",
     lat = 0.0,
     lng = 0.0
 )
@@ -49,7 +49,7 @@ fun fakePlace4() = Place(
     Random.nextInt().toString(),
     "쿠우쿠우",
     "음식점",
-    "https://picsum.photos/${Random.nextInt(300, 400)}/${Random.nextInt(200, 300)}/",
+    "https://picsum.photos/${Random.nextInt(300, 400)}",
     lat = 0.0,
     lng = 0.0
 )

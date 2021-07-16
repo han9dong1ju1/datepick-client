@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.android.ui.components.list.CategoryTags
 import app.hdj.datepick.android.ui.components.list.course.courseRowList
 import app.hdj.datepick.android.ui.components.list.moreButtonHeader
 import app.hdj.datepick.android.ui.components.list.notice_event.NoticeEventSmallItem
@@ -39,8 +40,6 @@ fun HomeScreen(
 
     val (state, effect, event) = vm.extract()
 
-    val coroutineScope = rememberCoroutineScope()
-
     val selectedRecommendedPlaces by state.recommendedPlacesFlow.collectAsState(StateData.Loading())
 
     val location = "서울시 종로구"
@@ -55,7 +54,7 @@ fun HomeScreen(
         expandedTitle = { HomeExpandedTitle(location, onLocationChangeClicked) }
     ) {
 
-        stickyHeader { HomeTags(state.tags) }
+        stickyHeader { CategoryTags(state.tags) }
         verticalMargin()
 
         moreButtonHeader("인기있는 코스들", "더보기") {}
@@ -76,14 +75,19 @@ fun HomeScreen(
 
         statefulItem(state.noticeEvents) { noticeEvents ->
 
-            val pagerState = rememberPagerState(pageCount = noticeEvents.size)
+            val pagerState = rememberPagerState(
+                pageCount = noticeEvents.size,
+                infiniteLoop = true
+            )
 
             LaunchedEffect(key1 = noticeEvents) {
                 while (true) {
-                    delay(5000)
-                    if (pagerState.currentPage == pagerState.pageCount - 1) {
-                        pagerState.animateScrollToPage(0)
-                    } else pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    if (!pagerState.isScrollInProgress) {
+                        delay(5000)
+                        if (pagerState.currentPage == pagerState.pageCount - 1) {
+                            pagerState.animateScrollToPage(0)
+                        } else pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
                 }
             }
 

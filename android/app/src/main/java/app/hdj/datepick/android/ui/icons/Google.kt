@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Google: ImageVector
+val DatePickIcons.Login.Google: ImageVector
     get() {
         if (_google != null) return _google!!
 

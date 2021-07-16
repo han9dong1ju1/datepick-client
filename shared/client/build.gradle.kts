@@ -111,7 +111,6 @@ kotlin {
                 api(JakeWharton.timber)
 
                 api(Google.dagger.hilt.android)
-                api(Google.accompanist.coil)
                 api(Google.accompanist.insets)
                 api(Google.accompanist.insets.ui)
                 api(Google.accompanist.pager)
@@ -126,6 +125,7 @@ kotlin {
                 api(MultiplatformSettings.datastore)
 
                 api(Utils.composeCollapsingToolbarLayout)
+                api(Utils.composeCoil)
 
             }
         }

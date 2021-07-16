@@ -41,4 +41,6 @@ object Utils {
 
     const val composeCollapsingToolbarLayout = "me.onebone:toolbar-compose:_"
 
+    const val composeCoil = "io.coil-kt:coil-compose:_"
+
 }

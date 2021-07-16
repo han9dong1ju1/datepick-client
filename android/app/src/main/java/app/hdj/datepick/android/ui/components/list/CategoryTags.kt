@@ -1,10 +1,9 @@
-package app.hdj.datepick.android.ui.components.screens.main.home
+package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -15,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.LinearGradientShader
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.ui.utils.HorizontalMargin
@@ -27,7 +25,7 @@ private val LEFT_SPACE = 20.dp + TAG_HEIGHT
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeTags(tagState: StateData<List<String>>) {
+fun CategoryTags(tagState: StateData<List<String>>) {
 
     Surface(
         modifier = Modifier
