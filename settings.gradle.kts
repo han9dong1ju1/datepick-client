@@ -15,5 +15,4 @@ plugins {
 include(":android:app")
 include(":android:ui")
 
-include(":shared:firebase")
 include(":shared:client")

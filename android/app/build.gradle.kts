@@ -13,7 +13,6 @@ plugins {
 dependencies {
     implementation(project(":android:ui"))
     implementation(project(":shared:client"))
-    implementation(project(":shared:firebase"))
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
     kapt(AndroidX.hilt.compiler)

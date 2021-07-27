@@ -50,7 +50,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":shared:firebase"))
                 api(KotlinX.coroutines.core)
                 api(KotlinX.serialization.json)
                 api(Ktor.client.core)
@@ -66,6 +65,7 @@ kotlin {
                 api(MultiplatformSettings.test)
 
                 api(Utils.mokoResource)
+                api(Firebase.multiplatform.auth)
             }
         }
         val commonTest by getting {
@@ -147,7 +147,7 @@ kotlin {
 
 android {
     compileSdk = Properties.androidCompileSDK
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+//    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = Properties.androidMinSDK
         targetSdk = Properties.androidTargetSDK

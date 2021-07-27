@@ -2,11 +2,8 @@ target 'iosApp' do
   use_frameworks!
   platform :ios, '14.0'
   pod 'Firebase/Analytics'
-  pod 'Firebase/Storage'
-  pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
   pod 'Firebase/RemoteConfig'
   pod 'Firebase/Crashlytics'
   pod 'client', :path => '../shared/client'
-  pod 'firebase', :path => '../shared/firebase'
 end
