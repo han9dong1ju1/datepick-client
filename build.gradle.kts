@@ -13,8 +13,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
-        classpath("com.android.tools.build:gradle:7.0.0-beta05")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
+        classpath("com.android.tools.build:gradle:7.0.0-rc01")
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:1.3.0")
         classpath(Google.playServicesGradlePlugin)
         classpath(Google.dagger.hilt.android.gradlePlugin)

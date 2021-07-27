@@ -1,6 +1,5 @@
 package app.hdj.datepick.android.ui.components.list.notice_event
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -11,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.ui.components.NetworkImage
@@ -25,23 +23,23 @@ private val NOTICE_EVENT_SMALL_ITEM_HEIGHT = 200.dp
 
 private val NOTICE_EVENT_LARGE_ITEM_HEIGHT = 400.dp
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun NoticeEventSmallItem(
     noticeEvent: NoticeEvent,
-    onClick: () -> Unit
+    onClick: (NoticeEvent) -> Unit
 ) {
 
     Card(
-        onClick = onClick,
+        onClick = { onClick(noticeEvent) },
         modifier = Modifier.size(NOTICE_EVENT_SMALL_ITEM_WIDTH, NOTICE_EVENT_SMALL_ITEM_HEIGHT)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
 
             NetworkImage(
-                loadPainter = rememberUrlImagePainter(
+                imagePainter = rememberUrlImagePainter(
                     noticeEvent.photoUrl,
-                    requestBuilder = {
+                    builder = {
                         scale(Scale.FILL)
                         transformations(RoundedCornersTransformation(15.dp.value))
                     }),

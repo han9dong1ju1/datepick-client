@@ -19,7 +19,7 @@ import app.hdj.datepick.ui.utils.extract
 import app.hdj.shared.client.data.datastore.AppDataStore
 import app.hdj.shared.client.domain.entity.settings.AppTheme
 import coil.ImageLoader
-import com.google.accompanist.coil.LocalImageLoader
+import coil.compose.LocalImageLoader
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint

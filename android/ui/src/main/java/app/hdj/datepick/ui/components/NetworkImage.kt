@@ -3,33 +3,32 @@ package app.hdj.datepick.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import com.google.accompanist.imageloading.ImageLoadState
-import com.google.accompanist.imageloading.LoadPainter
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
 
+@ExperimentalCoilApi
 @Composable
 fun NetworkImage(
     modifier: Modifier = Modifier,
-    loadPainter: LoadPainter<Any>,
+    imagePainter: ImagePainter,
     onLoading: @Composable () -> Unit = {},
     onFailed: @Composable () -> Unit = {},
 ) {
     Box(modifier) {
 
         Image(
-            painter = loadPainter,
+            painter = imagePainter,
             modifier = Modifier.fillMaxSize(),
             contentDescription = null,
             contentScale = ContentScale.Crop
         )
 
-        when (loadPainter.loadState) {
-            is ImageLoadState.Loading -> onLoading()
-            is ImageLoadState.Error -> onFailed()
+        when (imagePainter.state) {
+            is ImagePainter.State.Loading -> onLoading()
+            is ImagePainter.State.Error -> onFailed()
             else -> {}
         }
 

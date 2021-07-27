@@ -124,6 +124,7 @@ class ScrollableTabData(
 fun DatePickScrollableTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
+    elevation : Dp = 0.dp,
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
     contentColor: Color = contentColorFor(backgroundColor),
     edgePadding: Dp = TabRowDefaults.ScrollableTabRowPadding,
@@ -140,7 +141,8 @@ fun DatePickScrollableTabRow(
     Surface(
         modifier = modifier,
         color = backgroundColor,
-        contentColor = contentColor
+        contentColor = contentColor,
+        elevation = elevation
     ) {
         val scrollState = rememberScrollState()
         val coroutineScope = rememberCoroutineScope()
@@ -157,7 +159,7 @@ fun DatePickScrollableTabRow(
                 .selectableGroup()
                 .clipToBounds()
         ) { constraints ->
-            val minTabWidth = 40.dp.roundToPx()
+            val minTabWidth = 20.dp.roundToPx()
             val padding = edgePadding.roundToPx()
             val tabConstraints = constraints.copy(minWidth = minTabWidth)
 

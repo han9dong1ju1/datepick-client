@@ -29,8 +29,8 @@ kotlin {
         frameworkName = "firebase"
         podfile = project.file("../../iosApp/Podfile")
 
-//        pod("FirebaseAnalytics")
-//        pod("FirebaseCrashlytics")
+        pod("FirebaseAnalytics")
+        pod("FirebaseCrashlytics")
     }
 
     sourceSets {

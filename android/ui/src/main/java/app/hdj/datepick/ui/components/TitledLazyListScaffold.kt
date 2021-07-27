@@ -5,27 +5,28 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(ExperimentalAnimationApi::class)
+@ExperimentalAnimationApi
 @Composable
 fun TitledLazyListScaffold(
+    lazyListState: LazyListState = rememberLazyListState(),
     title: @Composable () -> Unit,
     expandedTitle: @Composable () -> Unit,
-    enableDivider: Boolean = true,
+    enableDivider: Boolean = false,
     navIcons: (@Composable () -> Unit)? = null,
     topAppBarActions: @Composable RowScope.() -> Unit = {},
     listContent: LazyListScope.() -> Unit
 ) {
-
-    val lazyListState = rememberLazyListState()
 
     val visibleIndex = lazyListState.layoutInfo.visibleItemsInfo.firstOrNull()?.index ?: 0
 

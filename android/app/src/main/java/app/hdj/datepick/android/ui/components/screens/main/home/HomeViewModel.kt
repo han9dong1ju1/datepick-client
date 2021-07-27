@@ -22,7 +22,7 @@ fun fakeHomeViewModel() = object : HomeViewModelDelegate {
 
     override val state = MutableStateFlow(
         State(
-            StateData.Success(listOf("분위기", "사회적거리두기", "가성비", "사람적은", "넓은")),
+            StateData.Success(fakeFilterTagList),
             StateData.Success(fakeCourseList),
             StateData.Success(fakePlaceList),
             StateData.Success(listOf("인기", "음식", "카페", "공원")),
@@ -40,7 +40,7 @@ fun fakeHomeViewModel() = object : HomeViewModelDelegate {
 interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val tags: StateData<List<String>> = StateData.Loading(),
+        val filterTags: StateData<List<FilterTag>> = StateData.Loading(),
         val popularCourses: StateData<List<Course>> = StateData.Loading(),
         val popularPlaces: StateData<List<Place>> = StateData.Loading(),
         val categories: StateData<List<String>> = StateData.Loading(),
@@ -53,6 +53,7 @@ interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
     }
 
     sealed class Event {
+        data class SelectFilter(val category: String) : Event()
         data class SelectCategoryTab(val category: String) : Event()
         object ReloadContents : Event()
     }
@@ -97,10 +98,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private val tagsState = flow {
+    private val filterTagsState = flow {
         emit(StateData.Loading())
         delay(200)
-        emit(StateData.Success(listOf("분위기", "사회적거리두기", "가성비", "사람적은", "넓은")))
+        emit(StateData.Success(fakeFilterTagList))
     }
 
     private val selectedCategory = MutableStateFlow<String?>(null)
@@ -138,14 +139,14 @@ class HomeViewModel @Inject constructor(
 
     override val state =
         combine(
-            tagsState,
+            filterTagsState,
             popularCoursesState,
             popularPlacesState,
             noticeEventsState,
             categoriesState
         ) { tags, courses, places, noticeEvents, categories ->
             State(
-                tags = tags,
+                filterTags = tags,
                 popularCourses = courses,
                 popularPlaces = places,
                 categories = categories,
