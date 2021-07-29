@@ -14,8 +14,9 @@ import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
-import app.hdj.datepick.android.ui.components.dialog.appupdate.AppUpdateDialog
+import app.hdj.datepick.android.ui.components.dialog.appupdate.appUpdateDialog
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.MainBottomNavigation
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModel
@@ -74,9 +75,8 @@ fun DatePickApp() {
                     BottomNavigationProperty(Icons.Rounded.Map, "지도", AppNavigationGraph.Main.Map),
                     BottomNavigationProperty(
                         Icons.Rounded.Favorite,
-                        "PICK",
-                        AppNavigationGraph.Main.Pick,
-                        pickBadgeStatus
+                        "픽",
+                        AppNavigationGraph.Main.Pick
                     ),
                     BottomNavigationProperty(
                         Icons.Rounded.Person,
@@ -106,6 +106,8 @@ fun DatePickApp() {
 
                 /* Setting Screens */
                 settingsScreens()
+
+                appUpdateDialog()
             }
 
         }
@@ -121,8 +123,6 @@ fun DatePickApp() {
                 onSplashVisibleStateChange(false)
             }
         }
-
-        AppUpdateDialog()
 
     }
 }

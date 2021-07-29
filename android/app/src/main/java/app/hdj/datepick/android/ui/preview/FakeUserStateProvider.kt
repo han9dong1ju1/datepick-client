@@ -10,9 +10,6 @@ class FakeUserStateProvider : PreviewParameterProvider<StateData<User>> {
 
     override val values = sequenceOf(
         StateData.Loading(),
-        StateData.Success(fakeUser()),
-        StateData.Success(fakeNoInfoUser()),
-        StateData.Failed(fakeUser(), null),
         StateData.Failed<User>(null, null),
     )
 

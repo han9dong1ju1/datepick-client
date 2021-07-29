@@ -12,12 +12,23 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
 
 val emptyDialogScope = object : DialogScope {
     override fun dismiss() {
 
     }
 }
+
+@Composable
+fun DialogScope(
+    navController: NavController,
+    content : @Composable DialogScope.() -> Unit
+) = object : DialogScope {
+    override fun dismiss() {
+        navController.popBackStack()
+    }
+}.content()
 
 interface DialogScope {
     fun dismiss()
@@ -98,7 +109,7 @@ fun DialogScope.DialogTextContent(
 data class DialogButtonProperties(
     val text: String,
     val isEnabled: Boolean = true,
-    val onClick: () -> Unit
+    val onClick: () -> Unit = {}
 )
 
 @Suppress("unused")

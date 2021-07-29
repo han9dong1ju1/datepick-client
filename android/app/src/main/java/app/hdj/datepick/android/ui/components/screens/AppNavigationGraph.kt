@@ -60,6 +60,8 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     object SearchPlace : AppNavigationGraph("search_place")
 
+    object AppUpdateDialog : AppNavigationGraph("app_update")
+
     object CreateCourse : AppNavigationGraph("create_course/{courseId}") {
         const val ARGUMENT_COURSE_ID = "courseId"
         fun route(course: app.hdj.shared.client.domain.entity.Course) = "create_course/${course.id}"

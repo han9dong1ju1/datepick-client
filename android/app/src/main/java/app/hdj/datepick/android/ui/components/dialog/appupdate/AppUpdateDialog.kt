@@ -1,8 +1,5 @@
 package app.hdj.datepick.android.ui.components.dialog.appupdate
 
-import android.app.Activity
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarDuration
@@ -16,17 +13,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.dialog
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.android.ui.components.dialog.appupdate.AppUpdateViewModelDelegate.*
+import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalSnackBarPresenter
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.getActivity
 import com.google.android.play.core.ktx.AppUpdateResult
 import kotlinx.coroutines.flow.Flow
-import timber.log.Timber
-
-private const val RC_UPDATE = 1
 
 @Composable
 fun DialogScope.AppUpdateDialogUi(
@@ -40,7 +38,6 @@ fun DialogScope.AppUpdateDialogUi(
     DialogUI {
 
         DialogContent {
-
             Icon(
                 modifier = Modifier
                     .size(30.dp)
@@ -48,7 +45,6 @@ fun DialogScope.AppUpdateDialogUi(
                 imageVector = Icons.Rounded.SystemUpdate,
                 contentDescription = null
             )
-
         }
 
         DialogTextContent(
@@ -66,46 +62,49 @@ fun DialogScope.AppUpdateDialogUi(
                     }
                 }
             },
-            cancelButton = DialogButtonProperties("취소") {
-
-            }
+            cancelButton = DialogButtonProperties("취소")
         )
 
     }
 }
 
-@Composable
-fun AppUpdateDialog(vm: AppUpdateViewModelDelegate = hiltViewModel<AppUpdateViewModel>()) {
+fun NavGraphBuilder.appUpdateDialog() {
 
-    val (state, effect, event) = vm.extract()
+    dialog(AppNavigationGraph.AppUpdateDialog.route) {
 
-    val snackbarPresenter = LocalSnackBarPresenter.current
+        val vm: AppUpdateViewModelDelegate = hiltViewModel<AppUpdateViewModel>()
 
-    val dialogState = rememberDialogState(initialState = false)
+        val (state, effect, event) = vm.extract()
 
-    DatePickDialog(dialogState) {
-        AppUpdateDialogUi(state, effect, event)
-    }
+        val snackbarPresenter = LocalSnackBarPresenter.current
+        val navController = LocalAppNavController.current
 
-    val result = state.appUpdateResult
+        val dialogState = rememberDialogState(initialState = false)
 
-    LaunchedEffect(key1 = result) {
-        when (result) {
-            is AppUpdateResult.Available -> dialogState.isShown = true
-            is AppUpdateResult.InProgress -> {
-                snackbarPresenter.showSnackBar(
-                    "앱 업데이트가 다운로드중입니다.",
-                    duration = SnackbarDuration.Short
-                )
+        DialogScope(navController) {
+            AppUpdateDialogUi(state = state, effect = effect, event = event)
+        }
+
+        val result = state.appUpdateResult
+
+        LaunchedEffect(key1 = result) {
+            when (result) {
+                is AppUpdateResult.Available -> dialogState.isShown = true
+                is AppUpdateResult.InProgress -> {
+                    snackbarPresenter.showSnackBar(
+                        "앱 업데이트가 다운로드중입니다.",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+                is AppUpdateResult.Downloaded -> {
+                    snackbarPresenter.showSnackBar(
+                        "앱 업데이트가 다운로드 되었습니다.\n다시 시작하면 업데이트가 설치됩니다.",
+                        "다시 시작하기",
+                        SnackbarDuration.Indefinite
+                    ) { event(Event.CompleteUpdate(result)) }
+                }
+                else -> Unit
             }
-            is AppUpdateResult.Downloaded -> {
-                snackbarPresenter.showSnackBar(
-                    "앱 업데이트가 다운로드 되었습니다.\n다시 시작하면 업데이트가 설치됩니다.",
-                    "다시 시작하기",
-                    SnackbarDuration.Indefinite
-                ) { event(Event.CompleteUpdate(result)) }
-            }
-            else -> Unit
         }
 
     }

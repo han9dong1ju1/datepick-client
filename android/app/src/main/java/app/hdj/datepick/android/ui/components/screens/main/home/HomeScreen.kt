@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.components.TitledLazyListScaffold
@@ -35,27 +36,23 @@ fun HomeScreen(
 
     val (state, effect, event) = vm.extract()
 
-    val lazyListState = rememberLazyListState()
+    LazyColumn(
+        content = {
+            item {
 
-    val scaffoldState = rememberScaffoldState()
+                ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
-    DatePickScaffold(
-        modifier = Modifier.fillMaxSize(),
-        scaffoldState = scaffoldState,
-        topBar = {
 
-        }
-    ) {
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = it.calculateTopPadding())
-        ) {
+                }
+
+            }
+
+
+
 
         }
-
-    }
+    )
 
 }
 
