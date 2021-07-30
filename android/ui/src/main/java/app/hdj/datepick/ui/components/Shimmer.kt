@@ -9,10 +9,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ShimmerAnimation() {
+fun Shimmer(
+    modifier: Modifier = Modifier,
+    color : Color = MaterialTheme.colors.onBackground
+) {
 
     /*
     Create InfiniteTransition
@@ -46,26 +50,16 @@ fun ShimmerAnimation() {
     */
     val brush = Brush.linearGradient(
         colors = listOf(
-            MaterialTheme.colors.onBackground.copy(0.15f),
-            MaterialTheme.colors.onBackground.copy(0.05f),
-            MaterialTheme.colors.onBackground.copy(0.15f)
+            color.copy(0.20f),
+            color.copy(0.10f),
+            color.copy(0.20f)
         ),
         start = Offset(0f, 0f),
         end = Offset(translateAnim, translateAnim)
     )
 
-    ShimmerItem(brush = brush)
-
-}
-
-
-@Composable
-fun ShimmerItem(
-    brush: Brush
-) {
     Spacer(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(brush = brush)
+        modifier = modifier.background(brush = brush)
     )
+
 }

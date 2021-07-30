@@ -31,7 +31,7 @@ fun CreateCourseScreen(
 
     state.places.forEach {
         googleMapState.addMarker(markerOptions {
-            position(LatLng(it.lat, it.lng))
+            position(LatLng(it.latitude, it.longitude))
         })
     }
 

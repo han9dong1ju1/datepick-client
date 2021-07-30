@@ -5,26 +5,11 @@ import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
 @Serializable
-data class Course(
+data class CourseDetail(
     override val id: String,
     @SerialName("name") val name: String,
     @SerialName("is_picked") val isPicked : Boolean,
-    @SerialName("option") val optionAsString : List<String>,
+    @SerialName("option") val option : List<String>,
     @SerialName("photo_url") val photoUrl: String,
     @SerialName("author") val author: Author
-) : Id {
-
-    val option get() = optionAsString.map {
-
-    }
-
-}
-
-enum class CourseOption {
-    LUNCH_ONLY,
-    DINNER_ONLY,
-    NO_DINING,
-
-
-
-}
+) : Id

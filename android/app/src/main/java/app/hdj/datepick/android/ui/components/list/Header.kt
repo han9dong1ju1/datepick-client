@@ -27,7 +27,7 @@ fun Header(
             style = MaterialTheme.typography.h5,
             modifier = Modifier.constrainAs(
                 headerRef,
-                t2t(margin = 20.dp) + b2b(margin = 20.dp) + fillTo(
+                t2t(margin = 20.dp) + b2b(margin = 20.dp) + fillHorizontally(
                     tailTo = if (moreButtonText == null) null else moreButton,
                     startMargin = 20.dp
                 )

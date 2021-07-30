@@ -21,55 +21,55 @@ import app.hdj.shared.client.domain.entity.settings.AppTheme
 val typographies = Typography(
     defaultFontFamily = FontFamily.Default,
     h1 = TextStyle(
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Black,
         fontSize = 24.sp
     ),
     h2 = TextStyle(
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Black,
         fontSize = 20.sp
     ),
     h3 = TextStyle(
-        fontWeight = FontWeight.Bold,
-        fontSize = 17.sp
+        fontWeight = FontWeight.Black,
+        fontSize = 18.sp
     ),
     h4 = TextStyle(
-        fontWeight = FontWeight.Medium,
-        fontSize = 17.sp
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
     ),
     h5 = TextStyle(
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp
     ),
     h6 = TextStyle(
-        fontWeight = FontWeight.Bold,
-        fontSize = 15.sp
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp
     ),
     subtitle1 = TextStyle(
-        fontWeight = FontWeight.Normal,
-        fontSize = 15.sp
-    ),
-    subtitle2 = TextStyle(
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp
     ),
-    body1 = TextStyle(
+    subtitle2 = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
     ),
+    body1 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.sp
+    ),
     body2 = TextStyle(
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp
     ),
     button = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 14.sp
-    ),
-    caption = TextStyle(
-        fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     ),
-    overline = TextStyle(
+    caption = TextStyle(
         fontWeight = FontWeight.Bold,
+        fontSize = 10.sp
+    ),
+    overline = TextStyle(
+        fontWeight = FontWeight.Medium,
         fontSize = 10.sp
     )
 )
@@ -77,8 +77,8 @@ val typographies = Typography(
 /* Shapes */
 
 val shapes = Shapes(
-    small = RoundedCornerShape(10.dp),
-    medium = RoundedCornerShape(15.dp),
+    small = RoundedCornerShape(8.dp),
+    medium = RoundedCornerShape(12.dp),
     large = RoundedCornerShape(20.dp)
 )
 

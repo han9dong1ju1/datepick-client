@@ -36,7 +36,7 @@ fun fakeHomeViewModel() = object : HomeViewModelDelegate {
 interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val featuredCourses : StateData<List<FeaturedCourses>> = StateData.Loading()
+        val featured : StateData<List<Featured>> = StateData.Loading()
     )
 
     sealed class Effect {

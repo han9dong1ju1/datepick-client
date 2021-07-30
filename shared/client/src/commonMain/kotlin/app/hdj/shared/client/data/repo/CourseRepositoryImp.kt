@@ -4,7 +4,7 @@ import app.hdj.shared.client.data.api.CourseApi
 import app.hdj.shared.client.data.cache.CourseCache
 import app.hdj.shared.client.domain.StateData
 import app.hdj.shared.client.domain.entity.Course
-import app.hdj.shared.client.domain.entity.FeaturedCourses
+import app.hdj.shared.client.domain.entity.Featured
 import app.hdj.shared.client.domain.repo.CourseRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -13,7 +13,7 @@ open class CourseRepositoryImp(
     private val courseApi: CourseApi,
 ) : CourseRepository {
 
-    override fun getFeaturedCourses(): Flow<StateData<FeaturedCourses>> {
+    override fun getFeaturedCourses(): Flow<StateData<Featured>> {
         TODO("Not yet implemented")
     }
 

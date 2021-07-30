@@ -19,35 +19,7 @@ open class PlaceRepositoryImp(
 ) : PlaceRepository {
 
     @OptIn(ExperimentalTime::class)
-    override fun getPlace(placeId: String) = flow {
-
-        val cached = placeCache.get(placeId)
-
-        val currentTime = Clock.System.now()
-
-        val isCacheExpired =
-            cached != null && cached.cacheExpireAt >= currentTime.toEpochMilliseconds()
-
-        if (isCacheExpired) {
-            emit(StateData.Success(requireNotNull(cached)))
-        } else {
-            emit(StateData.Loading())
-            placeApi
-                .runCatching { getPlace(placeId) }
-                .onSuccess {
-
-                    val data = it.data
-                    data.cacheExpireAt = (currentTime + Duration.days(3)).toEpochMilliseconds()
-                    placeCache.cache(data)
-
-                    emit(StateData.Success(data))
-                }
-                .onFailure {
-                    emit(StateData.Failed(cached, it))
-                }
-        }
-
-    }
+    override fun getPlace(placeId: String) = TODO()
 
     override fun queryPlace(placeQuery: PlaceQuery): Flow<PlatformPagingData<Place>> =
         createPagingSource<Int, Place> {

@@ -6,6 +6,6 @@ import app.hdj.shared.client.domain.entity.Place
 class FakePlaceProvider : PreviewParameterProvider<Place> {
     override val values: Sequence<Place>
         get() = sequenceOf(
-            Place("", "이름", "", lat = 0.0, lng = 0.0)
+
         )
 }

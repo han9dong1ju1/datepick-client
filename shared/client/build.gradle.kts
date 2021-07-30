@@ -121,6 +121,11 @@ kotlin {
                 api(Google.android.playServices.location)
                 api(Google.android.play.coreKtx)
 
+                api(project.dependencies.platform(Google.firebase.bom))
+                api(Google.firebase.cloudMessagingKtx)
+                api(Google.firebase.analyticsKtx)
+                api(Google.firebase.crashlyticsKtx)
+
                 api(Google.android.maps)
 
                 api(MultiplatformSettings.datastore)

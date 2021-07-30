@@ -44,7 +44,7 @@ fun SimpleList(
                 Text(
                     text = title, modifier = Modifier.constrainAs(
                         titleRef,
-                        t2t() + b2t(titleRef) + fillTo(tailTo = rightSideUiRef) + fillToConstraint
+                        t2t() + b2t(titleRef) + fillHorizontally(tailTo = rightSideUiRef) + fillWidthToConstraint
                     ),
                     style = MaterialTheme.typography.h5
                 )
@@ -53,7 +53,7 @@ fun SimpleList(
                     text = subtitle,
                     modifier = Modifier.constrainAs(
                         subtitleRef,
-                        t2b(titleRef, margin = 6.dp) + fillTo(titleRef, rightSideUiRef)
+                        t2b(titleRef, margin = 6.dp) + fillHorizontally(titleRef, rightSideUiRef)
                     ),
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.4f),
                     style = MaterialTheme.typography.caption

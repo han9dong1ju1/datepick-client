@@ -12,17 +12,43 @@ import androidx.constraintlayout.compose.Dimension
 
 typealias Constraint = ConstrainScope.() -> Unit
 
-val fillToConstraint : Constraint = {
+val fillWidthToConstraint: Constraint = {
     width = Dimension.fillToConstraints
 }
 
+val fillHeightToConstraint: Constraint = {
+    height = Dimension.fillToConstraints
+}
+
 @Composable
-fun ConstraintLayoutScope.fillTo(
+fun ConstraintLayoutScope.fillHorizontally(
     startTo: ConstrainedLayoutReference? = null,
     tailTo: ConstrainedLayoutReference? = null,
     startMargin: Dp = 0.dp,
     tailMargin: Dp = startMargin,
-): Constraint = s2s(startTo, startMargin) + e2s(tailTo, tailMargin) + fillToConstraint
+): Constraint = s2s(startTo, startMargin) + e2s(tailTo, tailMargin) + fillWidthToConstraint
+
+@Composable
+fun ConstraintLayoutScope.fillVertically(
+    topTo: ConstrainedLayoutReference? = null,
+    bottomTo: ConstrainedLayoutReference? = null,
+    topMargin: Dp = 0.dp,
+    bottomMargin: Dp = topMargin,
+): Constraint = b2b(bottomTo, bottomMargin) + t2t(topTo, topMargin) + fillHeightToConstraint
+
+@Composable
+fun ConstraintLayoutScope.fillMatch(
+    topTo: ConstrainedLayoutReference? = null,
+    bottomTo: ConstrainedLayoutReference? = null,
+    topMargin: Dp = 0.dp,
+    bottomMargin: Dp = topMargin,
+    startTo: ConstrainedLayoutReference? = null,
+    tailTo: ConstrainedLayoutReference? = null,
+    startMargin: Dp = 0.dp,
+    tailMargin: Dp = startMargin,
+): Constraint =
+    fillVertically(topTo, bottomTo, topMargin, bottomMargin) +
+            fillHorizontally(startTo, tailTo, startMargin, tailMargin)
 
 @Composable
 fun ConstraintLayoutScope.t2t(
