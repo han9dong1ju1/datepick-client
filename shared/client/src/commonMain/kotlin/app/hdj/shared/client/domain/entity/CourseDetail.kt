@@ -7,9 +7,12 @@ import kotlin.random.Random
 @Serializable
 data class CourseDetail(
     override val id: String,
-    @SerialName("name") val name: String,
-    @SerialName("is_picked") val isPicked : Boolean,
-    @SerialName("option") val option : List<String>,
-    @SerialName("photo_url") val photoUrl: String,
-    @SerialName("author") val author: Author
+    @SerialName("metadata") val metadata: CourseMetadata,
+    @SerialName("placesWithMemo") val placesWithMemo: List<PlaceWithMemo>,
 ) : Id
+
+@Serializable
+data class PlaceWithMemo(
+    val memo : String? = null,
+    val place: Place
+)

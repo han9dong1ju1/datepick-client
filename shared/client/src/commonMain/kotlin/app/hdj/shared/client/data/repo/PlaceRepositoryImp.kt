@@ -5,7 +5,9 @@ import app.hdj.shared.client.data.cache.PlaceCache
 import app.hdj.shared.client.data.paging.*
 import app.hdj.shared.client.domain.PlaceQuery
 import app.hdj.shared.client.domain.StateData
+import app.hdj.shared.client.domain.entity.BlogReview
 import app.hdj.shared.client.domain.entity.Place
+import app.hdj.shared.client.domain.entity.Review
 import app.hdj.shared.client.domain.repo.PlaceRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,6 +19,10 @@ open class PlaceRepositoryImp(
     private val placeCache: PlaceCache,
     private val placeApi: PlaceApi
 ) : PlaceRepository {
+
+    override fun queryReviews(placeId: String): Flow<List<Review>> {
+        TODO("Not yet implemented")
+    }
 
     @OptIn(ExperimentalTime::class)
     override fun getPlace(placeId: String) = TODO()
@@ -36,6 +42,10 @@ open class PlaceRepositoryImp(
 
 
     override fun likePlace(placeId: String): Flow<StateData<Place>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun queryPlaceBlogReviews(placeId: String): Flow<StateData<List<BlogReview>>> {
         TODO("Not yet implemented")
     }
 

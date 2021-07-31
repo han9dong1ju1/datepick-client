@@ -5,7 +5,7 @@ import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.NestedNavigationGraph
 import app.hdj.shared.client.domain.CourseQuery
 import app.hdj.shared.client.domain.PlaceQuery
-import app.hdj.shared.client.domain.entity.Course
+import app.hdj.shared.client.domain.entity.CourseMetadata
 import app.hdj.shared.client.domain.entity.Place
 
 val NavController.searchPlace : () -> Unit
@@ -24,8 +24,8 @@ val NavController.showPlace
     }
 
 val NavController.showCourse
-    get() = { course: Course ->
-        navigate(AppNavigationGraph.Course.route(course))
+    get() = { courseMetadata: CourseMetadata ->
+        navigate(AppNavigationGraph.Course.route(courseMetadata))
     }
 
 val NavController.showPlaceList
@@ -64,7 +64,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     object CreateCourse : AppNavigationGraph("create_course/{courseId}") {
         const val ARGUMENT_COURSE_ID = "courseId"
-        fun route(course: app.hdj.shared.client.domain.entity.Course) = "create_course/${course.id}"
+        fun route(courseMetadata: app.hdj.shared.client.domain.entity.CourseMetadata) = "create_course/${courseMetadata.id}"
     }
 
     object Place : AppNavigationGraph("place/{placeId}") {
@@ -81,7 +81,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     object Course : AppNavigationGraph("course/{courseId}") {
         const val ARGUMENT_COURSE_ID = "courseId"
-        fun route(course: app.hdj.shared.client.domain.entity.Course) = "course/${course.id}"
+        fun route(courseMetadata: app.hdj.shared.client.domain.entity.CourseMetadata) = "course/${courseMetadata.id}"
     }
 
     object CourseList : AppNavigationGraph("course_list?search={search}&sort={sort}") {

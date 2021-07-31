@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.screens.main.pick.PickViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
-import app.hdj.shared.client.domain.entity.Course
+import app.hdj.shared.client.domain.entity.CourseMetadata
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +31,7 @@ fun fakePickViewModel() = object : PickViewModelDelegate {
 interface PickViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val courses: List<Course> = emptyList(),
+        val cours: List<CourseMetadata> = emptyList(),
     )
 
     sealed class Effect {

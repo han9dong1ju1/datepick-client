@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.screens.others.create_course.CreateCourseViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
-import app.hdj.shared.client.data.datastore.AppDataStore
 import app.hdj.shared.client.domain.StateData
-import app.hdj.shared.client.domain.entity.Course
+import app.hdj.shared.client.domain.entity.CourseMetadata
 import app.hdj.shared.client.domain.entity.Place
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -33,7 +32,7 @@ interface CreateCourseViewModelDelegate : ViewModelDelegate<State, Effect, Event
 
     class State(
         val places: List<Place> = emptyList(),
-        val uploadState : StateData<Course>? = null
+        val uploadState : StateData<CourseMetadata>? = null
     )
 
     sealed class Effect {

@@ -56,9 +56,17 @@ class PlaceViewModel @Inject constructor(
 
     private val placeId = MutableStateFlow<String?>(null)
 
-    private val place = placeId.filterNotNull().flatMapConcat { placeRepository.getPlace(it) }
+    private val place = placeId
+        .filterNotNull()
+        .flatMapConcat { placeRepository.getPlace(it) }
 
-    private val rating = placeId.filterNotNull().map { 0.0 }
+    private val rating = placeId
+        .filterNotNull()
+        .map { 0.0 }
+
+    private val blogReviews = placeId
+        .filterNotNull()
+        .flatMapConcat { placeRepository.queryPlaceBlogReviews(it) }
 
     override val state: StateFlow<State> = combine(
         place,
