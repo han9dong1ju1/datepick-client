@@ -1,0 +1,8 @@
+CREATE TABLE placeEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    kakaoId INTEGER NOT NULL,
+    name TEXT NOT NULL
+);
+
+getPlace:
+SELECT * FROM placeEntity WHERE :id == id;
