@@ -1,5 +1,6 @@
 PODS:
-  - client (1.0)
+  - data (1.0)
+  - domain (1.0)
   - Firebase/Analytics (8.4.0):
     - Firebase/Core
   - Firebase/Auth (8.4.0):
@@ -111,13 +112,16 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (2.0.0)
+  - utils (1.0)
 
 DEPENDENCIES:
-  - client (from `../shared/client`)
+  - data (from `../shared/data`)
+  - domain (from `../shared/domain`)
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Crashlytics
   - Firebase/RemoteConfig
+  - utils (from `../shared/utils`)
 
 SPEC REPOS:
   trunk:
@@ -138,11 +142,16 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
-  client:
-    :path: "../shared/client"
+  data:
+    :path: "../shared/data"
+  domain:
+    :path: "../shared/domain"
+  utils:
+    :path: "../shared/utils"
 
 SPEC CHECKSUMS:
-  client: 9bfc47e454c27b4dc91e63e8bcd11affc1f09aa8
+  data: b32d0890c9fe96582507e2743b61af59a6919dc3
+  domain: 7775637db173fb7991a472f215fa08224451aa1a
   Firebase: 54cdc8bc9c9b3de54f43dab86e62f5a76b47034f
   FirebaseABTesting: 4cb61aeeb50f60680af1c01fff781dfaf9293916
   FirebaseAnalytics: 4751d6a49598a2b58da678cc07df696bcd809ab9
@@ -158,7 +167,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  utils: 97a3c04c03770a3f62f814dca986b03a2e1f6ce2
 
-PODFILE CHECKSUM: b354fcccdce8685083da010ccfacd302924c74c6
+PODFILE CHECKSUM: 54847fc8b9a204910576cba263aa659c1073518c
 
 COCOAPODS: 1.10.1

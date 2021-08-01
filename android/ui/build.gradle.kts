@@ -18,7 +18,26 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
 }
 
 dependencies {
-    implementation(project(":shared:client"))
+    implementation(project(":shared:utils"))
+
+    api(AndroidX.compose.compiler)
+    api(AndroidX.compose.material)
+    api(AndroidX.compose.material.icons.core)
+    api(AndroidX.compose.material.icons.extended)
+    api(AndroidX.compose.foundation)
+    api(AndroidX.compose.runtime)
+    api(AndroidX.compose.ui)
+    api(AndroidX.compose.ui.tooling)
+    api(AndroidX.constraintLayoutCompose)
+    api(Utils.composeCollapsingToolbarLayout)
+    api(Utils.composeCoil)
+    api(Google.accompanist.insets)
+    api(Google.accompanist.insets.ui)
+    api(Google.accompanist.pager)
+    api(Google.accompanist.pager.indicators)
+    api(Google.accompanist.systemuicontroller)
+    api(Google.accompanist.swiperefresh)
+
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
     kapt(AndroidX.hilt.compiler)

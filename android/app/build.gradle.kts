@@ -12,12 +12,51 @@ plugins {
 
 dependencies {
     implementation(project(":android:ui"))
-    implementation(project(":shared:client"))
+    implementation(project(":shared:utils"))
+    implementation(project(":shared:domain"))
+    implementation(project(":shared:data"))
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
     kapt(AndroidX.hilt.compiler)
     kapt(Google.dagger.hilt.compiler)
     implementation(Google.dagger.hilt.android)
+
+    implementation(AndroidX.core)
+    implementation(AndroidX.appCompat)
+
+    implementation(AndroidX.paging.commonKtx)
+    implementation(AndroidX.paging.compose)
+
+    implementation(AndroidX.navigation.compose)
+    implementation(AndroidX.navigation.commonKtx)
+    implementation(AndroidX.navigation.uiKtx)
+
+    implementation(AndroidX.activity)
+
+    implementation(AndroidX.security.cryptoKtx)
+
+    implementation(AndroidX.lifecycle.viewModelCompose)
+    implementation(AndroidX.lifecycle.viewModelKtx)
+    implementation(AndroidX.lifecycle.liveDataKtx)
+
+    implementation(AndroidX.dataStore)
+    implementation(AndroidX.dataStore.preferences)
+
+    implementation(AndroidX.hilt.navigationCompose)
+
+    implementation(JakeWharton.timber)
+
+    implementation(Google.dagger.hilt.android)
+    implementation(Google.android.playServices.location)
+    implementation(Google.android.play.coreKtx)
+
+    implementation(project.dependencies.platform(Google.firebase.bom))
+    implementation(Google.firebase.cloudMessagingKtx)
+    implementation(Google.firebase.analyticsKtx)
+    implementation(Google.firebase.crashlyticsKtx)
+
+    implementation(Google.android.maps)
+
 }
 
 android {
