@@ -14,6 +14,7 @@ plugins {
 
 include(":android:app")
 include(":android:ui")
+
 include(":shared:domain")
 include(":shared:data")
 include(":shared:utils")
