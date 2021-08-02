@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.dialog.appupdate.AppUpdateViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
-import app.hdj.shared.client.utils.InAppUpdateManager
 import com.google.android.play.core.ktx.AppUpdateResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -54,16 +53,10 @@ interface AppUpdateViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
 @HiltViewModel
 class AppUpdateViewModel @Inject constructor(
-    private val inAppUpdateManager: InAppUpdateManager
+
 ) : ViewModel(), AppUpdateViewModelDelegate {
 
-    override val state = inAppUpdateManager.appUpdateFlow
-        .map { State(it) }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Lazily,
-            State()
-        )
+    override val state = TODO()
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()
@@ -71,8 +64,8 @@ class AppUpdateViewModel @Inject constructor(
     override fun event(event: Event) {
         viewModelScope.launch {
             when (event) {
-                is Event.RequestUpdate -> inAppUpdateManager.requestUpdate(event.activity, event.result)
-                is Event.CompleteUpdate -> inAppUpdateManager.completeUpdate(event.result)
+                is Event.RequestUpdate -> TODO()
+                is Event.CompleteUpdate -> TODO()
             }
         }
     }

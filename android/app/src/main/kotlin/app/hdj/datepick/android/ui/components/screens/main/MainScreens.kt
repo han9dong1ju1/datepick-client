@@ -29,11 +29,7 @@ fun NavGraphBuilder.mainScreens(
         composable(AppNavigationGraph.Main.Home.route) {
             val navController = LocalAppNavController.current
             HomeScreen(
-                homeViewModel,
-                onShowMoreCoursesClicked = navController.showCourseList,
-                onShowMorePlacesClicked = navController.showPlaceList,
-                onPlaceClicked = navController.showPlace,
-                onCourseClicked = navController.showCourse,
+                homeViewModel
             )
         }
 

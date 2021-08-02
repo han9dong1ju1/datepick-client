@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val DatePickIcons.Login.Kakao: ImageVector
+val DatePickIcons.Kakao: ImageVector
     get() {
         if (_kakao != null) {
             return _kakao!!

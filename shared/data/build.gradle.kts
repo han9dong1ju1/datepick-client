@@ -44,9 +44,7 @@ kotlin {
         summary = "DatePick Multiplatform"
         homepage = "https://github.com/han9dong1ju1/DatePick"
         ios.deploymentTarget = "14.0"
-        framework {
-            baseName = "data"
-        }
+        frameworkName = "data"
         podfile = project.file("../../iosApp/Podfile")
     }
 
@@ -55,8 +53,6 @@ kotlin {
             dependencies {
                 implementation(project(":shared:utils"))
                 implementation(project(":shared:domain"))
-                implementation(KotlinX.coroutines.core)
-                implementation(KotlinX.serialization.json)
                 implementation(Utils.kotlinxDateTime)
                 implementation(Firebase.multiplatform.auth)
                 implementation(Square.sqlDelight.coroutinesExtensions)

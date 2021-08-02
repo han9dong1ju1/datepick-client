@@ -47,13 +47,10 @@ interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 @HiltViewModel
 @OptIn(FlowPreview::class)
 class HomeViewModel @Inject constructor(
-    courseRepository: app.hdj.datepick.domain.repo.CourseRepository
 ) : ViewModel(), HomeViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()
-
-    private val featuredCourses = courseRepository.getFeaturedCourses()
 
     override val state: StateFlow<State>
         get() = TODO("Not yet implemented")

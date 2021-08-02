@@ -29,11 +29,11 @@ fun CreateCourseScreen(
 
     val googleMapState = rememberGoogleMapState()
 
-    state.places.forEach {
-        googleMapState.addMarker(markerOptions {
-            position(LatLng(it.latitude, it.longitude))
-        })
-    }
+//    state.places.forEach {
+//        googleMapState.addMarker(markerOptions {
+//            position(LatLng(it.latitude, it.longitude))
+//        })
+//    }
 
     TitledLazyListScaffold(
         navIcons = { TopAppBarBackButton() },

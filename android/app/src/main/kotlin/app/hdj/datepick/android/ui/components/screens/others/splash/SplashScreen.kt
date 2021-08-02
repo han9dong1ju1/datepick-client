@@ -9,18 +9,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.providers.LocalMeState
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
-import app.hdj.datepick.domain.StateData
-import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
@@ -30,20 +26,18 @@ fun SplashScreen(
 
     val (state) = vm.extract()
 
-    val meState = LocalMeState.current
-
     Box(
         modifier = Modifier
             .background(MaterialTheme.colors.background)
             .fillMaxSize()
     ) {
 
-        LaunchedEffect(meState) {
-            if (meState !is app.hdj.datepick.domain.StateData.Loading) {
-                delay(1000)
-                onTimeOut()
-            }
-        }
+//        LaunchedEffect(meState) {
+//            if (meState !is app.hdj.datepick.domain.StateData.Loading) {
+//                delay(1000)
+//                onTimeOut()
+//            }
+//        }
 
         Image(
             modifier = Modifier

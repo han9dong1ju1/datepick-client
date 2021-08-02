@@ -20,7 +20,6 @@ fun HomeScreen(
         content = {
             item {
                 Box(modifier = Modifier.fillMaxWidth()) {
-                    HomeScreenFeaturedPage(state.featured)
                     HomeScreenTopBar()
                 }
             }

@@ -15,7 +15,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.hdj.datepick.data.model.settings.AppTheme
 
 /* Typo */
 val typographies = Typography(
@@ -117,17 +116,12 @@ val lightColors = lightColors(
 
 @Composable
 fun DatePickTheme(
-    appTheme: app.hdj.datepick.data.model.settings.AppTheme = app.hdj.datepick.data.model.settings.AppTheme.SYSTEM,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
         typography = typographies,
         shapes = shapes,
-        colors = when (appTheme) {
-            app.hdj.datepick.data.model.settings.AppTheme.LIGHT -> lightColors
-            app.hdj.datepick.data.model.settings.AppTheme.DARK -> darkColors
-            app.hdj.datepick.data.model.settings.AppTheme.SYSTEM -> if (isSystemInDarkTheme()) darkColors else lightColors
-        },
+        colors = lightColors,
         content = content
     )
 }

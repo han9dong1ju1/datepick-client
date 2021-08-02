@@ -13,9 +13,6 @@ class PlaceRepositoryImp @Inject constructor(
     val database: DatepickDatabase
 ) : PlaceRepository {
 
-    override fun getPlace(id: String) = database.placeEntityQueries
-        .getPlace(id)
-        .asFlow()
-        .map { it.executeAsOne().map() }
+
 
 }

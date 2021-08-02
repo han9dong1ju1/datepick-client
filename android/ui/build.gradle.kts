@@ -20,6 +20,12 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
 dependencies {
     implementation(project(":shared:utils"))
 
+    api(AndroidX.appCompat)
+    api(AndroidX.activityKtx)
+    api(Google.android.material)
+    api(AndroidX.paging.compose)
+    api(AndroidX.navigation.compose)
+    api(AndroidX.activity.compose)
     api(AndroidX.compose.compiler)
     api(AndroidX.compose.material)
     api(AndroidX.compose.material.icons.core)
@@ -37,6 +43,7 @@ dependencies {
     api(Google.accompanist.pager.indicators)
     api(Google.accompanist.systemuicontroller)
     api(Google.accompanist.swiperefresh)
+    api(Google.android.maps)
 
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)

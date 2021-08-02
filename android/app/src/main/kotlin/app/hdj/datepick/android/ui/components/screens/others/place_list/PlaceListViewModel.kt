@@ -1,20 +1,15 @@
 package app.hdj.datepick.android.ui.components.screens.others.place_list
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.screens.others.place_list.PlaceListViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
-import app.hdj.datepick.data.paging.PlatformPagingData
-import app.hdj.datepick.domain.PlaceQuery
-import app.hdj.datepick.data.model.place.Place
-import app.hdj.datepick.domain.repo.PlaceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 
@@ -34,8 +29,8 @@ fun fakePlaceListViewModel() = object : PlaceListViewModelDelegate {
 
 interface PlaceListViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
-    data class State(
-        val places: Flow<app.hdj.datepick.data.paging.PlatformPagingData<app.hdj.datepick.data.model.place.Place>> = flow {  }
+    class State(
+
     )
 
     sealed class Effect {
@@ -43,8 +38,6 @@ interface PlaceListViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
     }
 
     sealed class Event {
-        data class Query(val query: app.hdj.datepick.domain.PlaceQuery) : Event()
-
         object ReloadContents : Event()
     }
 
@@ -53,18 +46,9 @@ interface PlaceListViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 @HiltViewModel
 @OptIn(FlowPreview::class)
 class PlaceListViewModel @Inject constructor(
-    private val placeRepository: app.hdj.datepick.domain.repo.PlaceRepository
 ) : ViewModel(), PlaceListViewModelDelegate {
 
-    private val placeQuery = MutableStateFlow(app.hdj.datepick.domain.PlaceQuery())
-
-    override val state = placeQuery
-        .map { State(placeRepository.queryPlace(it)) }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Lazily,
-            State()
-        )
+    override val state = TODO()
 
     override val effect: Flow<Effect>
         get() = TODO("Not yet implemented")
@@ -73,16 +57,7 @@ class PlaceListViewModel @Inject constructor(
 
     override fun event(event: Event) {
         when (event) {
-            is Event.Query -> {
-                job?.cancel()
-                job = viewModelScope.launch {
-                    delay(500)
-                    placeQuery.emit(event.query)
-                }
-            }
-            Event.ReloadContents -> {
 
-            }
         }
     }
 

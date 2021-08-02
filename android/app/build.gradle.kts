@@ -25,9 +25,6 @@ dependencies {
     implementation(AndroidX.appCompat)
 
     implementation(AndroidX.paging.commonKtx)
-    implementation(AndroidX.paging.compose)
-
-    implementation(AndroidX.navigation.compose)
     implementation(AndroidX.navigation.commonKtx)
     implementation(AndroidX.navigation.uiKtx)
 
@@ -37,7 +34,6 @@ dependencies {
 
     implementation(AndroidX.lifecycle.viewModelCompose)
     implementation(AndroidX.lifecycle.viewModelKtx)
-    implementation(AndroidX.lifecycle.liveDataKtx)
 
     implementation(AndroidX.dataStore)
     implementation(AndroidX.dataStore.preferences)
@@ -54,8 +50,6 @@ dependencies {
     implementation(Google.firebase.cloudMessagingKtx)
     implementation(Google.firebase.analyticsKtx)
     implementation(Google.firebase.crashlyticsKtx)
-
-    implementation(Google.android.maps)
 
 }
 

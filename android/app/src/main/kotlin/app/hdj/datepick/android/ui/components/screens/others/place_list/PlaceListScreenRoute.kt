@@ -5,9 +5,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.components.screens.showPlace
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.domain.PlaceQuery
 
 fun NavGraphBuilder.placeListScreen() {
 
@@ -23,15 +21,7 @@ fun NavGraphBuilder.placeListScreen() {
     ) {
         val navController = LocalAppNavController.current
 
-        val search =
-            it.arguments?.getString(AppNavigationGraph.PlaceList.ARGUMENT_SEARCH)
-        val sort =
-            it.arguments?.getString(AppNavigationGraph.PlaceList.ARGUMENT_SORT)
-                ?: app.hdj.datepick.domain.PlaceQuery.Sort.RELATIVE.value
-
-        val placeQuery = app.hdj.datepick.domain.PlaceQuery(search, enumValueOf(sort))
-
-        PlaceListScreen(placeQuery, onPlaceClicked = navController.showPlace)
+        PlaceListScreen()
     }
 
 }

@@ -3,10 +3,6 @@ package app.hdj.datepick.android.ui.components.screens
 import androidx.navigation.NavController
 import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.NestedNavigationGraph
-import app.hdj.datepick.domain.CourseQuery
-import app.hdj.datepick.domain.PlaceQuery
-import app.hdj.datepick.data.model.course.CourseMetadata
-import app.hdj.datepick.data.model.place.Place
 
 val NavController.searchPlace : () -> Unit
     get() = {
@@ -16,26 +12,6 @@ val NavController.searchPlace : () -> Unit
 val NavController.showSetting : () -> Unit
     get() = {
         navigate(AppNavigationGraph.Settings.route)
-    }
-
-val NavController.showPlace
-    get() = { place: app.hdj.datepick.data.model.place.Place ->
-        navigate(AppNavigationGraph.Place.route(place))
-    }
-
-val NavController.showCourse
-    get() = { courseMetadata: app.hdj.datepick.data.model.course.CourseMetadata ->
-        navigate(AppNavigationGraph.Course.route(courseMetadata))
-    }
-
-val NavController.showPlaceList
-    get() = { query: app.hdj.datepick.domain.PlaceQuery ->
-        navigate(AppNavigationGraph.PlaceList.route(query))
-    }
-
-val NavController.showCourseList
-    get() = { query: app.hdj.datepick.domain.CourseQuery ->
-        navigate(AppNavigationGraph.CourseList.route(query))
     }
 
 sealed class AppNavigationGraph(override val route: String) : NavigationGraph(route) {
@@ -64,31 +40,31 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     object CreateCourse : AppNavigationGraph("create_course/{courseId}") {
         const val ARGUMENT_COURSE_ID = "courseId"
-        fun route(courseMetadata: app.hdj.datepick.data.model.course.CourseMetadata) = "create_course/${courseMetadata.id}"
+//        fun route(courseMetadata: app.hdj.datepick.data.model.course.CourseMetadata) = "create_course/${courseMetadata.id}"
     }
 
     object Place : AppNavigationGraph("place/{placeId}") {
         const val ARGUMENT_PLACE_ID = "placeId"
-        fun route(place: app.hdj.datepick.data.model.place.Place) = "place/${place.id}"
+//        fun route(place: Place) = "place/${place.id}"
     }
 
     object PlaceList : AppNavigationGraph("place_list?search={search}&sort={sort}") {
         const val ARGUMENT_SEARCH = "search"
         const val ARGUMENT_SORT = "sort"
-        fun route(placeQuery: app.hdj.datepick.domain.PlaceQuery) =
-            "place_list?$ARGUMENT_SEARCH=${placeQuery.search}&$ARGUMENT_SORT=${placeQuery.sort.value}"
+//        fun route(placeQuery: app.hdj.datepick.domain.PlaceQuery) =
+//            "place_list?$ARGUMENT_SEARCH=${placeQuery.search}&$ARGUMENT_SORT=${placeQuery.sort.value}"
     }
 
     object Course : AppNavigationGraph("course/{courseId}") {
         const val ARGUMENT_COURSE_ID = "courseId"
-        fun route(courseMetadata: app.hdj.datepick.data.model.course.CourseMetadata) = "course/${courseMetadata.id}"
+//        fun route(courseMetadata: app.hdj.datepick.data.model.course.CourseMetadata) = "course/${courseMetadata.id}"
     }
 
     object CourseList : AppNavigationGraph("course_list?search={search}&sort={sort}") {
         const val ARGUMENT_SEARCH = "search"
         const val ARGUMENT_SORT = "sort"
-        fun route(course: app.hdj.datepick.domain.CourseQuery) =
-            "course_list?$ARGUMENT_SEARCH=${course.search}&$ARGUMENT_SORT=${course.sort.value}"
+//        fun route(course: app.hdj.datepick.domain.CourseQuery) =
+//            "course_list?$ARGUMENT_SEARCH=${course.search}&$ARGUMENT_SORT=${course.sort.value}"
     }
 
     sealed class Settings(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {

@@ -45,7 +45,7 @@ fun DialogScope.LoginDialogUi() {
                 backgroundColor = MaterialTheme.colors.surface,
                 contentColor = MaterialTheme.colors.onSurface,
             ),
-            icon = DatePickIcons.Login.Google,
+            icon = DatePickIcons.Google,
             iconTint = Color.Unspecified
         ) {
 
@@ -62,7 +62,7 @@ fun DialogScope.LoginDialogUi() {
                 backgroundColor = Color(0xFFFEE500),
                 contentColor = Color(0xD9000000),
             ),
-            icon = DatePickIcons.Login.Kakao,
+            icon = DatePickIcons.Kakao,
             iconTint = Color.Unspecified
         ) {
 

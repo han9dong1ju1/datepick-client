@@ -9,14 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.client.MR
 import app.hdj.datepick.android.ui.providers.ProvideBasicsForPreview
 import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
-import app.hdj.shared.client.utils.string
 
 @Composable
 fun SettingListScreen(
@@ -29,7 +27,7 @@ fun SettingListScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             DatePickTopAppBar(
-                title = { Text(text = MR.strings.settings_title.string()) },
+                title = { Text(text = "") },
                 navigationIcon = { TopAppBarBackButton() }
             )
         }

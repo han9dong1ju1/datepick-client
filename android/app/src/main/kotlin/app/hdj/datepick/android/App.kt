@@ -1,7 +1,6 @@
 package app.hdj.datepick.android
 
 import android.app.Application
-import app.hdj.shared.client.utils.isDebug
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -10,9 +9,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        if (isDebug) {
-            Timber.plant(Timber.DebugTree())
-        }
+        Timber.plant(Timber.DebugTree())
 
     }
 
