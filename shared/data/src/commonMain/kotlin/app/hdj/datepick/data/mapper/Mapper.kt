@@ -1,9 +1,9 @@
 package app.hdj.datepick.data.mapper
 
-interface Mapper<Table, Response> {
+interface Mapper<Table, DomainModel> {
 
-    fun map(table: Table): Response
+    fun map(table: Table): DomainModel
 
-    fun map(response: Response): Table
+    fun map(model: DomainModel): Table
 
 }
