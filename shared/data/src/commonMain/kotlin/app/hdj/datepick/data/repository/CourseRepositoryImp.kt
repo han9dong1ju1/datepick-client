@@ -1,14 +1,10 @@
 package app.hdj.datepick.data.repository
 
 import app.hdj.datepick.CourseTable
-import app.hdj.datepick.UserTable
 import app.hdj.datepick.data.api.CourseApi
 import app.hdj.datepick.data.db.CourseCache
-import app.hdj.datepick.data.entity.CourseResponse
-import app.hdj.datepick.data.entity.UserResponse
 import app.hdj.datepick.data.mapper.CourseMapper
 import app.hdj.datepick.data.mapper.Mapper
-import app.hdj.datepick.data.mapper.UserMapper
 import app.hdj.datepick.domain.StateData
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.repository.CourseRepository
