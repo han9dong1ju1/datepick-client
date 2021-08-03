@@ -3,10 +3,11 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("plugin.serialization")
     id("com.android.library")
     id("kotlin-parcelize")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
@@ -44,6 +45,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Google.dagger.hilt.android)
+                api(JakeWharton.timber)
             }
         }
         val androidTest by getting {

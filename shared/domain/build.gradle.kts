@@ -1,10 +1,11 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("plugin.serialization")
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
@@ -45,8 +46,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":shared:utils"))
-//                implementation(KotlinX.coroutines.core)
-//                implementation(KotlinX.serialization.json)
+                implementation(KotlinX.coroutines.core)
+                implementation(KotlinX.serialization.core)
+                implementation(KotlinX.serialization.json)
                 implementation(Utils.kotlinxDateTime)
                 implementation(Firebase.multiplatform.auth)
             }

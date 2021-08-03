@@ -1,0 +1,22 @@
+CREATE TABLE userTable (
+    id TEXT NOT NULL PRIMARY KEY,
+    firebaseId TEXT NOT NULL,
+    nickname TEXT NOT NULL,
+    profileImageUrl TEXT,
+    cachedAt INTEGER AS Long NOT NULL
+);
+
+getById:
+SELECT * FROM userTable WHERE id = :id;
+
+insert:
+INSERT INTO userTable(
+    id,
+    firebaseId,
+    nickname,
+    profileImageUrl,
+    cachedAt
+) VALUES ?;
+
+deleteById:
+DELETE FROM userTable WHERE id = :id;

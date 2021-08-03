@@ -8,6 +8,7 @@ plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.devtools.ksp")
 }
 
 dependencies {
@@ -17,8 +18,8 @@ dependencies {
     implementation(project(":shared:data"))
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
-    kapt(AndroidX.hilt.compiler)
-    kapt(Google.dagger.hilt.compiler)
+    ksp(AndroidX.hilt.compiler)
+    ksp(Google.dagger.hilt.compiler)
     implementation(Google.dagger.hilt.android)
 
     implementation(AndroidX.core)
@@ -39,8 +40,6 @@ dependencies {
     implementation(AndroidX.dataStore.preferences)
 
     implementation(AndroidX.hilt.navigationCompose)
-
-    implementation(JakeWharton.timber)
 
     implementation(Google.dagger.hilt.android)
     implementation(Google.android.playServices.location)

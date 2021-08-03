@@ -1,10 +1,11 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("plugin.serialization")
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
     id("com.squareup.sqldelight")
 }
 
@@ -14,6 +15,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
         jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + listOf(
+            "-Xopt-in=kotlin.time.ExperimentalTime",
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=kotlin.OptIn",
             "-Xallow-jvm-ir-dependencies"
@@ -53,6 +55,13 @@ kotlin {
             dependencies {
                 implementation(project(":shared:utils"))
                 implementation(project(":shared:domain"))
+                implementation(KotlinX.coroutines.core)
+                implementation(KotlinX.serialization.core)
+                implementation(KotlinX.serialization.json)
+                implementation(Ktor.client.core)
+                implementation(Ktor.client.cio)
+                implementation(Ktor.client.serialization)
+                implementation(Ktor.client.logging)
                 implementation(Utils.kotlinxDateTime)
                 implementation(Firebase.multiplatform.auth)
                 implementation(Square.sqlDelight.coroutinesExtensions)

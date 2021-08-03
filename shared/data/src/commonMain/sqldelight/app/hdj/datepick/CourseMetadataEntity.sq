@@ -1,7 +1,0 @@
-import app.hdj.datepick.CourseDetailEntity;
-
-CREATE TABLE CourseMetadataEntity (
-    id TEXT NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
-    metadata TEXT AS CourseDetailEntity NOT NULL
-);
