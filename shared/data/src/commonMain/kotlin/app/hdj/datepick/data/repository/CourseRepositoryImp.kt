@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.flow
 class CourseRepositoryImp @Inject constructor(
     private val api: CourseApi,
     private val cache: CourseCache
-) : CourseRepository, Mapper<CourseTable, CourseResponse> by CourseMapper {
+) : CourseRepository, Mapper<CourseTable, Course> by CourseMapper {
 
     override fun getById(id: String): Flow<StateData<Course>> = flow {
         emit(StateData.loading())
@@ -31,7 +31,7 @@ class CourseRepositoryImp @Inject constructor(
             .onSuccess { cache.save(CourseMapper.map(it)) }
             .fold(
                 { StateData.success<Course>(it) },
-                { StateData.failed<Course>(it, cache.getById(id)?.let(::map)) }
+                { StateData.failed(it, cache.getById(id)?.let(::map)) }
             )
 
         emit(state)

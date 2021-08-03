@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.flow
 class UserRepositoryImp @Inject constructor(
     private val userApi: UserApi,
     private val userCache: UserCache
-) : UserRepository, Mapper<UserTable, UserResponse> by UserMapper {
+) : UserRepository, Mapper<UserTable, User> by UserMapper {
 
     override fun getMe(): Flow<StateData<User>> = flow {
         emit(loading())
