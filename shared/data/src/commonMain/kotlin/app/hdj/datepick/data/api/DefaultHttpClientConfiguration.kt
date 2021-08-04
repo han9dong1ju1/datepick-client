@@ -1,9 +1,6 @@
 package app.hdj.datepick.data.api
 
-import app.hdj.datepick.utils.FirebaseAuthenticator
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.PlatformLogger
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.*
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.*
@@ -14,7 +11,8 @@ import io.ktor.client.request.*
 
 @Singleton
 class DefaultHttpClientConfiguration @Inject constructor(
-    private val authenticator: FirebaseAuthenticator
+    private val authenticator: FirebaseAuthenticator,
+    private val appInfo: AppInfo
 ) {
 
     fun <T : HttpClientEngineConfig> defaultHttpClientConfiguration(
