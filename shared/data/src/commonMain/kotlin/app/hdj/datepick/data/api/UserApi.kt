@@ -1,6 +1,6 @@
 package app.hdj.datepick.data.api
 
-import app.hdj.datepick.domain.model.User
+import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.*

@@ -1,7 +1,7 @@
 package app.hdj.datepick.domain.repository
 
 import app.hdj.datepick.domain.StateData
-import app.hdj.datepick.domain.model.Course
+import app.hdj.datepick.domain.model.course.Course
 import kotlinx.coroutines.flow.Flow
 
 interface CourseRepository {

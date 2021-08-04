@@ -3,7 +3,7 @@ package app.hdj.datepick.data.repository
 import app.hdj.datepick.data.api.PlaceApi
 import app.hdj.datepick.data.db.PlaceCache
 import app.hdj.datepick.domain.StateData
-import app.hdj.datepick.domain.model.Place
+import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.repository.PlaceRepository
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton

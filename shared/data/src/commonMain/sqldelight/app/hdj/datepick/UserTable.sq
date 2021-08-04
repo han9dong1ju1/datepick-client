@@ -1,10 +1,15 @@
+import java.lang.Boolean;
+
 CREATE TABLE userTable (
     id TEXT NOT NULL PRIMARY KEY,
-    firebaseId TEXT NOT NULL,
     nickname TEXT NOT NULL,
     profileImageUrl TEXT,
+    isMe INTEGER AS Boolean DEFAULT 0,
     cachedAt INTEGER AS Long NOT NULL
 );
+
+getMe:
+SELECT * FROM userTable WHERE isMe = 1;
 
 getById:
 SELECT * FROM userTable WHERE id = :id;
@@ -12,9 +17,9 @@ SELECT * FROM userTable WHERE id = :id;
 insert:
 INSERT INTO userTable(
     id,
-    firebaseId,
     nickname,
     profileImageUrl,
+    isMe,
     cachedAt
 ) VALUES ?;
 
