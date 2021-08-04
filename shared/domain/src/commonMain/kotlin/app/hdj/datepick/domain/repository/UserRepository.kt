@@ -10,4 +10,6 @@ interface UserRepository {
 
     fun updateMe(nickname : String?, profileImageUrl : String?) : Flow<StateData<User>>
 
+    fun unregisterMe() : Flow<StateData<Unit>>
+
 }

@@ -33,4 +33,8 @@ class UserRepositoryImp @Inject constructor(
 
         }
 
+    override fun unregisterMe(): Flow<StateData<Unit>> = flow {
+        emit(loading())
+    }
+
 }
