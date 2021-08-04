@@ -3,11 +3,13 @@ package app.hdj.datepick.data.repository
 import app.hdj.datepick.UserTable
 import app.hdj.datepick.data.api.UserApi
 import app.hdj.datepick.data.db.UserCache
-import app.hdj.datepick.data.entity.UserResponse
 import app.hdj.datepick.data.mapper.Mapper
 import app.hdj.datepick.data.mapper.UserMapper
+import app.hdj.datepick.data.request.UserUpdateRequest
 import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.StateData.Companion.failed
 import app.hdj.datepick.domain.StateData.Companion.loading
+import app.hdj.datepick.domain.StateData.Companion.success
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.repository.UserRepository
 import app.hdj.datepick.utils.Inject
@@ -21,20 +23,38 @@ class UserRepositoryImp @Inject constructor(
     private val userCache: UserCache
 ) : UserRepository, Mapper<UserTable, User> by UserMapper {
 
-    override fun getMe(): Flow<StateData<User>> = flow {
+    override fun getMe() = flow<StateData<User>> {
         emit(loading())
-
+        userApi
+            .runCatching { getMe() }
+            .onFailure { emit(failed(it)) }
+            .onSuccess {
+                val me = it.asMe()
+                userCache.save(me.asTable())
+                emit(success(me))
+            }
     }
 
-    override fun updateMe(nickname: String?, profileImageUrl: String?): Flow<StateData<User>> =
-        flow {
-            emit(loading())
-
-
-        }
-
-    override fun unregisterMe(): Flow<StateData<Unit>> = flow {
+    override fun updateMe(nickname: String?, profileImageUrl: String?) = flow<StateData<User>> {
         emit(loading())
+        userApi
+            .runCatching { updateMe(UserUpdateRequest(nickname, profileImageUrl)) }
+            .onFailure { emit(failed(it)) }
+            .onSuccess {
+                userCache.save(it.asTable())
+                emit(success(it))
+            }
+    }
+
+    override fun unregisterMe() = flow<StateData<Unit>> {
+        emit(loading())
+        userApi
+            .runCatching { unregisterMe() }
+            .onFailure { emit(failed(it)) }
+            .onSuccess {
+                userCache.deleteMe()
+                emit(success(Unit))
+            }
     }
 
 }

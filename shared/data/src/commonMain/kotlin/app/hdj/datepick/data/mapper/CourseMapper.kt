@@ -7,13 +7,12 @@ import kotlinx.datetime.Clock
 
 object CourseMapper : Mapper<CourseTable, Course> {
 
-    override fun map(table: CourseTable) = object : Course {
-        override val id: String = table.id
-        override val name: String = table.name
+    override fun CourseTable.asDomain() = object : Course {
+        override val id: String = this@asDomain.id
+        override val name: String = this@asDomain.name
     }
 
-    override fun map(model: Course): CourseTable = with(model) {
+    override fun Course.asTable(): CourseTable =
         CourseTable(id, name, Clock.System.now().epochSeconds)
-    }
 
 }

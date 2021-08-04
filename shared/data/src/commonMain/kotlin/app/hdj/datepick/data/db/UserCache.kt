@@ -21,4 +21,10 @@ class UserCache @Inject constructor(override val query: UserTableQueries) :
         query.deleteById(id)
     }
 
+    fun deleteMe() = query.deleteMe()
+
+    fun getMe(): UserTable? {
+        return query.getMe().executeAsOneOrNull()
+    }
+
 }

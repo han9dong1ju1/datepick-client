@@ -24,10 +24,10 @@ class CourseRepositoryImp @Inject constructor(
 
         val state = api
             .runCatching { getById(id) }
-            .onSuccess { cache.save(CourseMapper.map(it)) }
+            .onSuccess { cache.save(it.asTable()) }
             .fold(
                 { StateData.success<Course>(it) },
-                { StateData.failed(it, cache.getById(id)?.let(::map)) }
+                { StateData.failed(it, cache.getById(id)?.asDomain()) }
             )
 
         emit(state)

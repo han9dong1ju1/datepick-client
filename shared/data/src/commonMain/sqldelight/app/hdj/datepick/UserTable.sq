@@ -4,7 +4,7 @@ CREATE TABLE userTable (
     id TEXT NOT NULL PRIMARY KEY,
     nickname TEXT NOT NULL,
     profileImageUrl TEXT,
-    isMe INTEGER AS Boolean DEFAULT 0,
+    isMe INTEGER AS Boolean DEFAULT 0 NOT NULL,
     cachedAt INTEGER AS Long NOT NULL
 );
 
@@ -25,3 +25,6 @@ INSERT INTO userTable(
 
 deleteById:
 DELETE FROM userTable WHERE id = :id;
+
+deleteMe:
+DELETE FROM userTable WHERE isMe = 1;
