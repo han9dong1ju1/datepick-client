@@ -14,8 +14,6 @@ import kotlin.time.ExperimentalTime
 class CourseCache @Inject constructor(override val query: CourseTableQueries) :
     Cache<CourseTable, CourseTableQueries> {
 
-    override val cacheTerm = Duration.days(3)
-
     override fun getById(id: String): CourseTable? {
         return query.getById(id).executeAsOneOrNull()
     }

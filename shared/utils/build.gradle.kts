@@ -34,6 +34,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(Firebase.multiplatform.auth)
             }
         }
         val commonTest by getting {

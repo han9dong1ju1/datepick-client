@@ -63,7 +63,6 @@ kotlin {
                 implementation(Ktor.client.serialization)
                 implementation(Ktor.client.logging)
                 implementation(Utils.kotlinxDateTime)
-                implementation(Firebase.multiplatform.auth)
                 implementation(Square.sqlDelight.coroutinesExtensions)
             }
         }
