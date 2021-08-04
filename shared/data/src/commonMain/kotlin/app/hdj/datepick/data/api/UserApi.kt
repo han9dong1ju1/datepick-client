@@ -1,29 +1,26 @@
 package app.hdj.datepick.data.api
 
 import app.hdj.datepick.data.entity.UserResponse
-import app.hdj.datepick.data.request.UserUpdateRequest
-import app.hdj.datepick.domain.model.user.User
+import app.hdj.datepick.data.request.UserProfileRequest
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.*
-import io.ktor.client.request.*
 
 @Singleton
 class UserApi @Inject constructor(override val client: HttpClient) : Api {
 
-    override val basePath: String = "api/v1/users"
+    override val basePath: String = "/api/v1/users"
 
-    suspend fun getMe(): UserResponse = client.get("${basePath}/me")
+    suspend fun getMe() : UserResponse =
+        get("me")
 
-    suspend fun updateMe(userUpdateRequest: UserUpdateRequest): UserResponse =
-        client.delete("${basePath}/me") {
-            body = userUpdateRequest
-        }
+    suspend fun updateMe(userProfileRequest: UserProfileRequest) : UserResponse =
+        delete("me") { body = userProfileRequest }
 
-    suspend fun unregister(): Unit = client.delete("${basePath}/me")
+    suspend fun register(userProfileRequest: UserProfileRequest) : UserResponse =
+        post("me") { body = userProfileRequest }
 
-    suspend fun register(): Unit = client.post("${basePath}/me") {
-
-    }
+    suspend fun unregister(): Unit =
+        delete("me")
 
 }

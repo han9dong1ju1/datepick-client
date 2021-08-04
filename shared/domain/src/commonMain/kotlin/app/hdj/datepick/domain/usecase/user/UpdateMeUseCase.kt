@@ -9,7 +9,13 @@ class UpdateMeUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
 
-    fun updateMe(nickname: String?, profileImageUrl: String?) =
+    fun updateAll(nickname: String, profileImageUrl: String) =
         userRepository.updateMe(nickname, profileImageUrl)
+
+    fun updateNickname(nickname: String) =
+        userRepository.updateMe(nickname, null)
+
+    fun updateProfileImage(profileImageUrl: String) =
+        userRepository.updateMe(null, profileImageUrl)
 
 }

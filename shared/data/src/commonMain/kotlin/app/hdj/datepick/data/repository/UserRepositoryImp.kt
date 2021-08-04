@@ -5,7 +5,7 @@ import app.hdj.datepick.data.api.UserApi
 import app.hdj.datepick.data.db.UserCache
 import app.hdj.datepick.data.mapper.Mapper
 import app.hdj.datepick.data.mapper.UserMapper
-import app.hdj.datepick.data.request.UserUpdateRequest
+import app.hdj.datepick.data.request.UserProfileRequest
 import app.hdj.datepick.domain.StateData
 import app.hdj.datepick.domain.StateData.Companion.failed
 import app.hdj.datepick.domain.StateData.Companion.loading
@@ -33,7 +33,11 @@ class UserRepositoryImp @Inject constructor(
             emit(failed(NotRegisteredException(firebaseRegistered = false)))
         } else {
             userApi
-                .runCatching { getMe() }
+                .runCatching {
+                    val me = getMe()
+                    userCache.save(me.asTable())
+                    me
+                }
                 .onFailure {
                     val throwable =
                         if (it is ResponseException && it.response.status == HttpStatusCode.Unauthorized)
@@ -42,39 +46,43 @@ class UserRepositoryImp @Inject constructor(
 
                     emit(failed(throwable))
                 }
-                .onSuccess {
-                    val me = it.asMe()
-                    userCache.save(me.asTable())
-                    emit(success(me))
-                }
+                .onSuccess { emit(success(it)) }
         }
-    }
-
-    override fun register() = flow<StateData<User>> {
-        emit(loading())
-        userApi
     }
 
     override fun updateMe(nickname: String?, profileImageUrl: String?) = flow<StateData<User>> {
         emit(loading())
         userApi
-            .runCatching { updateMe(UserUpdateRequest(nickname, profileImageUrl)) }
-            .onFailure { emit(failed(it)) }
-            .onSuccess {
-                userCache.save(it.asTable())
-                emit(success(it))
+            .runCatching {
+                val response = updateMe(UserProfileRequest(nickname, profileImageUrl))
+                userCache.save(response.asTable())
+                response
             }
+            .onFailure { emit(failed(it)) }
+            .onSuccess { emit(success(it)) }
     }
 
     override fun unregister() = flow<StateData<Unit>> {
         emit(loading())
         userApi
-            .runCatching { unregister() }
-            .onFailure { emit(failed(it)) }
-            .onSuccess {
+            .runCatching {
+                unregister()
                 userCache.deleteMe()
-                emit(success(Unit))
             }
+            .onFailure { emit(failed(it)) }
+            .onSuccess { emit(success(Unit)) }
+    }
+
+    override fun register(nickname: String?, profileImageUrl: String?) = flow<StateData<User>> {
+        emit(loading())
+        userApi
+            .runCatching {
+                val response = register(UserProfileRequest(nickname, profileImageUrl))
+                userCache.save(response.asTable())
+                response
+            }
+            .onFailure { emit(failed(it)) }
+            .onSuccess { emit(success(it)) }
     }
 
 }

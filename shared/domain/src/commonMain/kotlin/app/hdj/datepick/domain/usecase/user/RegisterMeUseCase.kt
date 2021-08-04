@@ -5,10 +5,12 @@ import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 
 @Singleton
-class UnregisterMeUseCase @Inject constructor(
+class RegisterMeUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
 
-    fun unregister() = userRepository.unregister()
+    fun register(
+        nickname: String, profileImageUrl: String
+    ) = userRepository.register(nickname, profileImageUrl)
 
 }
