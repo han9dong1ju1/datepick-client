@@ -2,7 +2,7 @@
 - [DATEPICK-](https://handongju.atlassian.net/browse/DATEPICK-)
 
 ## 작업한 내용
-- 
+- [ ]
 
 ## 비고
 - 
