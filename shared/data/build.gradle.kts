@@ -72,6 +72,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation(Mokk.common)
+                implementation(Ktor.client.tests)
             }
         }
         val androidMain by getting {

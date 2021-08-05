@@ -11,12 +11,12 @@ import dagger.hilt.components.SingletonComponent
 interface DataStoreModule {
 
     @get:[Binds]
-    val MeDataStoreImp.dataStore : MeDataStore
+    val MeDataStoreImp.meDataStore : MeDataStore
 
     @get:[Binds]
-    val PlaceDataStoreImp.dataStore : PlaceDataStore
+    val PlaceDataStoreImp.placeDataStore : PlaceDataStore
 
     @get:[Binds]
-    val CourseDataStoreImp.dataStore : CourseDataStore
+    val CourseDataStoreImp.courseDataStore : CourseDataStore
 
 }

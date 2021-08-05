@@ -26,10 +26,10 @@ class DbModule {
 
     @Provides
     @Singleton
-    fun providePlaceTableQuery(db : DatepickDatabase) : PlaceTableQueries = db.placeTableQueries
+    fun providePlaceEntityQuery(db : DatepickDatabase) : PlaceEntityQueries = db.placeEntityQueries
 
     @Provides
     @Singleton
-    fun provideCourseTableQuery(db : DatepickDatabase) : CourseTableQueries = db.courseTableQueries
+    fun provideCourseEntityQuery(db : DatepickDatabase) : CourseEntityQueries = db.courseEntityQueries
 
 }

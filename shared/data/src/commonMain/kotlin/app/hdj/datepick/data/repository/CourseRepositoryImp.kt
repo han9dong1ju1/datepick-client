@@ -1,6 +1,6 @@
 package app.hdj.datepick.data.repository
 
-import app.hdj.datepick.CourseTable
+import app.hdj.datepick.CourseEntity
 import app.hdj.datepick.data.api.CourseApi
 import app.hdj.datepick.data.datastore.CourseDataStore
 import app.hdj.datepick.data.mapper.CourseMapper
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flow
 class CourseRepositoryImp @Inject constructor(
     private val api: CourseApi,
     private val cache: CourseDataStore
-) : CourseRepository, Mapper<CourseTable, Course> by CourseMapper {
+) : CourseRepository, Mapper<CourseEntity, Course> by CourseMapper {
 
     override fun getById(id: String): Flow<StateData<Course>> = TODO()
 

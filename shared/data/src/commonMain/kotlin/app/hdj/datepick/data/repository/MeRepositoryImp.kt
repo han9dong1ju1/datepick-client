@@ -25,7 +25,7 @@ class MeRepositoryImp @Inject constructor(
     override fun fetch() = flow<StateData<User>> {
         emitState(onSuccess = meDataStore::save) {
             val response = userApi.getMe()
-            response.data
+            requireNotNull(response.data)
         }
     }
 
@@ -33,7 +33,7 @@ class MeRepositoryImp @Inject constructor(
         emitState(onSuccess = meDataStore::save) {
             val request = UserProfileRequest(nickname, profileImageUrl)
             val response = userApi.updateMe(request)
-            response.data
+            requireNotNull(response.data)
         }
     }
 
@@ -41,7 +41,7 @@ class MeRepositoryImp @Inject constructor(
         emitState(onSuccess = meDataStore::save) {
             val request = UserProfileRequest(nickname, profileImageUrl)
             val response = userApi.register(request)
-            response.data
+            requireNotNull(response.data)
         }
     }
 

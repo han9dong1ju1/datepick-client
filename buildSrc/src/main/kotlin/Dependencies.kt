@@ -27,6 +27,10 @@ val Firebase.multiplatform get() = Multiplatform
 
 val Google.Android.maps get() = "com.google.maps.android:maps-ktx:_"
 
+object Mokk {
+    const val common = "io.mockk:mockk-common:_"
+}
+
 object Utils {
 
     const val kotlinxDateTime = "org.jetbrains.kotlinx:kotlinx-datetime:_"
