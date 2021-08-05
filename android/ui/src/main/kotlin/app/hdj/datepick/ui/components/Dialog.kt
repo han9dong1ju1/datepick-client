@@ -68,7 +68,7 @@ fun DatePickDialog(
     ) {
 
         val onDismiss = {
-            dialogState.isShown = false
+            dialogState.hide()
         }
 
         Dialog(
