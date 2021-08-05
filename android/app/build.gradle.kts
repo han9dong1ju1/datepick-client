@@ -43,6 +43,7 @@ dependencies {
 
     implementation(Google.dagger.hilt.android)
     implementation(Google.android.playServices.location)
+    implementation(Google.android.playServices.auth)
     implementation(Google.android.play.coreKtx)
 
     implementation(project.dependencies.platform(Google.firebase.bom))

@@ -25,7 +25,7 @@ class GetMeUseCase @Inject constructor(
         if (authenticator.idToken == null)
             return flowOf(failed(NotRegisteredException(firebaseRegistered = false)))
 
-        val cached = meRepository.cached()
+        val cached = meRepository.cache()
         return meRepository.fetch().mapFailedState { error ->
             val throwable = error.throwable
             if (throwable is ResponseException &&
@@ -39,9 +39,11 @@ class GetMeUseCase @Inject constructor(
     }
 
     fun fetch(): Flow<StateData<User>> {
-        val cached = meRepository.cached()
+        val cached = meRepository.cache()
         return if (cached != null) flowOf(success(cached))
         else fetchFromRemote()
     }
+
+    fun observable() = meRepository.observableCache()
 
 }

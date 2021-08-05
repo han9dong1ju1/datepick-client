@@ -18,31 +18,37 @@ class MeRepositoryImp @Inject constructor(
     private val meDataStore: MeDataStore
 ) : MeRepository {
 
-    override fun cached(): User? = meDataStore.me
+    override fun cache(): User? = meDataStore.me
+
+    override fun observableCache(): Flow<User?> = meDataStore.observableMe
 
     override fun fetch() = flow<StateData<User>> {
-        emitState {
-            userApi.getMe().apply { meDataStore.save(this) }
+        emitState(onSuccess = meDataStore::save) {
+            val response = userApi.getMe()
+            response.data
         }
     }
 
     override fun update(nickname: String?, profileImageUrl: String?) = flow<StateData<User>> {
-        emitState {
+        emitState(onSuccess = meDataStore::save) {
             val request = UserProfileRequest(nickname, profileImageUrl)
-            userApi.updateMe(request).apply { meDataStore.save(this) }
+            val response = userApi.updateMe(request)
+            response.data
         }
     }
 
-    override fun register() = flow<StateData<User>> {
-        emitState {
-            userApi.register().apply { meDataStore.save(this) }
+    override fun register(nickname: String, profileImageUrl: String?) = flow<StateData<User>> {
+        emitState(onSuccess = meDataStore::save) {
+            val request = UserProfileRequest(nickname, profileImageUrl)
+            val response = userApi.register(request)
+            response.data
         }
     }
 
     override fun unregister() = flow {
         emitState {
             userApi.unregister()
-            meDataStore.delete()
+            meDataStore.clearMe()
         }
     }
 

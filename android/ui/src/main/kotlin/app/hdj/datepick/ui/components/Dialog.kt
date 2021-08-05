@@ -23,7 +23,7 @@ val emptyDialogScope = object : DialogScope {
 @Composable
 fun DialogScope(
     navController: NavController,
-    content : @Composable DialogScope.() -> Unit
+    content: @Composable DialogScope.() -> Unit
 ) = object : DialogScope {
     override fun dismiss() {
         navController.popBackStack()
@@ -37,6 +37,15 @@ interface DialogScope {
 class DialogState(shown: Boolean) {
 
     var isShown by mutableStateOf(shown)
+        private set
+
+    fun show() {
+        isShown = true
+    }
+
+    fun hide() {
+        isShown = false
+    }
 
 }
 
@@ -164,7 +173,7 @@ fun DialogScope.DialogButtonContent(
 
 @Composable
 fun DialogScope.DialogUI(
-    modifier : Modifier = Modifier,
+    modifier: Modifier = Modifier,
     content: @Composable DialogScope.() -> Unit
 ) {
     Surface(modifier = modifier.width(320.dp), shape = MaterialTheme.shapes.large) {

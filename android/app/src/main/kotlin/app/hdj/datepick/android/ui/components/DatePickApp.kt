@@ -17,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import app.hdj.datepick.android.ui.components.dialog.appupdate.appUpdateDialog
+import app.hdj.datepick.android.ui.components.dialog.login.loginDialog
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.MainBottomNavigation
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModel
@@ -108,6 +109,7 @@ fun DatePickApp() {
                 settingsScreens()
 
                 appUpdateDialog()
+                loginDialog()
             }
 
         }

@@ -23,7 +23,7 @@ suspend inline fun <reified T> Api.post(
     suffix: String = "",
     block: HttpRequestBuilder.() -> Unit = {}
 ) = client.post<T> {
-    url { encodedPath = "$basePath/$suffix" }
+    url { encodedPath = "$basePath/$suffix/" }
     block()
 }
 
@@ -31,7 +31,7 @@ suspend inline fun <reified T> Api.delete(
     suffix: String = "",
     block: HttpRequestBuilder.() -> Unit = {}
 ) = client.delete<T> {
-    url { encodedPath = "$basePath/$suffix" }
+    url { encodedPath = "$basePath/$suffix/" }
     block()
 }
 
@@ -39,6 +39,6 @@ suspend inline fun <reified T> Api.patch(
     suffix: String = "",
     block: HttpRequestBuilder.() -> Unit = {}
 ) = client.patch<T> {
-    url { encodedPath = "$basePath/$suffix" }
+    url { encodedPath = "$basePath/$suffix/" }
     block()
 }

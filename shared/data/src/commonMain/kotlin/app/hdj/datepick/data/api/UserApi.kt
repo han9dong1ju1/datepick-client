@@ -11,16 +11,16 @@ class UserApi @Inject constructor(override val client: HttpClient) : Api {
 
     override val basePath: String = "/api/v1/users"
 
-    suspend fun getMe() : UserResponse =
+    suspend fun getMe() : ApiResponse<UserResponse> =
         get("me")
 
-    suspend fun updateMe(userProfileRequest: UserProfileRequest) : UserResponse =
+    suspend fun updateMe(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
         post("me") { body = userProfileRequest }
 
-    suspend fun register() : UserResponse =
-        post("me")
+    suspend fun register(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
+        post("me/register")
 
-    suspend fun unregister(): Unit =
+    suspend fun unregister(): ApiResponse<String> =
         delete("me")
 
 }

@@ -27,13 +27,13 @@ sealed interface StateData<T> {
 
 suspend fun <T> FlowCollector<StateData<T>>.emitState(
     defaultValue: T? = null,
-    onSuccess : () -> Unit = {},
-    onFailed : (Throwable) -> Unit = {},
+    onSuccess : suspend (T) -> Unit = {},
+    onFailed : suspend (Throwable) -> Unit = {},
     executor: suspend () -> T,
 ) {
     emit(loading())
     val state = runCatching { executor() }.fold(
-        { onSuccess(); success(it) },
+        { onSuccess(it); success(it) },
         { onFailed(it); failed(it, defaultValue) }
     )
     emit(state)

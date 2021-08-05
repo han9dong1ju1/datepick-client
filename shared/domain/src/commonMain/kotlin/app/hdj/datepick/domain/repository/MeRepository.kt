@@ -6,12 +6,17 @@ import kotlinx.coroutines.flow.Flow
 
 interface MeRepository {
 
-    fun cached() : User?
+    fun cache(): User?
 
-    fun fetch() : Flow<StateData<User>>
+    fun observableCache(): Flow<User?>
 
-    fun update(nickname : String?, profileImageUrl : String?) : Flow<StateData<User>>
+    fun fetch(): Flow<StateData<User>>
 
-    fun unregister() : Flow<StateData<Unit>>
+    fun update(nickname: String?, profileImageUrl: String?): Flow<StateData<User>>
+
+    fun register(nickname: String, profileImageUrl: String?): Flow<StateData<User>>
+
+    fun unregister(): Flow<StateData<Unit>>
+
 
 }

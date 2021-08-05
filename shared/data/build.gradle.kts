@@ -59,7 +59,6 @@ kotlin {
                 implementation(KotlinX.serialization.core)
                 implementation(KotlinX.serialization.json)
                 implementation(Ktor.client.core)
-                implementation(Ktor.client.cio)
                 implementation(Ktor.client.serialization)
                 implementation(Ktor.client.logging)
                 implementation(MultiplatformSettings.core)
@@ -77,6 +76,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(Ktor.client.okHttp)
                 implementation(Google.dagger.hilt.android)
                 implementation(Square.sqlDelight.drivers.android)
                 implementation(MultiplatformSettings.datastore)
@@ -93,6 +93,7 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(Koin.core)
+                implementation(Ktor.client.darwin)
                 implementation(Square.sqlDelight.drivers.native)
             }
         }
