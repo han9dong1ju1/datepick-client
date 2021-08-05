@@ -18,7 +18,7 @@ class PlaceDataStoreImp(
         TODO("Not yet implemented")
     }
 
-    override fun save(data: PlaceEntity) {
+    override suspend fun save(data: PlaceEntity) {
 
     }
 

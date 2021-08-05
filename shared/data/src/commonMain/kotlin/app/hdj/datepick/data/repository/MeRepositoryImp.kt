@@ -9,6 +9,7 @@ import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.repository.MeRepository
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 @Singleton
@@ -21,17 +22,20 @@ class MeRepositoryImp @Inject constructor(
 
     override fun fetch() = flow<StateData<User>> {
         emitState {
-            val me = userApi.getMe()
-            meDataStore.save(me)
-            me
+            userApi.getMe().apply { meDataStore.save(this) }
         }
     }
 
     override fun update(nickname: String?, profileImageUrl: String?) = flow<StateData<User>> {
         emitState {
-            val me = userApi.updateMe(UserProfileRequest(nickname, profileImageUrl))
-            meDataStore.save(me)
-            me
+            val request = UserProfileRequest(nickname, profileImageUrl)
+            userApi.updateMe(request).apply { meDataStore.save(this) }
+        }
+    }
+
+    override fun register() = flow<StateData<User>> {
+        emitState {
+            userApi.register().apply { meDataStore.save(this) }
         }
     }
 

@@ -19,7 +19,7 @@ class CourseDataStoreImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun save(data: CourseEntity) {
+    override suspend fun save(data: CourseEntity) {
         TODO("Not yet implemented")
     }
 

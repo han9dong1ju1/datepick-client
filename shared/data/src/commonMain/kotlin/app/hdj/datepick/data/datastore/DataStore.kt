@@ -5,6 +5,6 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 interface DataStore<Entity> {
 
-    fun save(data : Entity)
+    suspend fun save(data : Entity)
 
 }
