@@ -62,6 +62,9 @@ kotlin {
                 implementation(Ktor.client.cio)
                 implementation(Ktor.client.serialization)
                 implementation(Ktor.client.logging)
+                implementation(MultiplatformSettings.core)
+                implementation(MultiplatformSettings.coroutines)
+                implementation(MultiplatformSettings.serialization)
                 implementation(Utils.kotlinxDateTime)
                 implementation(Square.sqlDelight.coroutinesExtensions)
             }
@@ -76,6 +79,9 @@ kotlin {
             dependencies {
                 implementation(Google.dagger.hilt.android)
                 implementation(Square.sqlDelight.drivers.android)
+                implementation(MultiplatformSettings.datastore)
+                implementation(AndroidX.dataStore.core)
+                implementation(AndroidX.dataStore.preferences)
             }
         }
         val androidTest by getting {

@@ -2,10 +2,10 @@ package app.hdj.datepick.data.di
 
 import app.hdj.datepick.data.repository.CourseRepositoryImp
 import app.hdj.datepick.data.repository.PlaceRepositoryImp
-import app.hdj.datepick.data.repository.UserRepositoryImp
+import app.hdj.datepick.data.repository.MeRepositoryImp
 import app.hdj.datepick.domain.repository.CourseRepository
 import app.hdj.datepick.domain.repository.PlaceRepository
-import app.hdj.datepick.domain.repository.UserRepository
+import app.hdj.datepick.domain.repository.MeRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,6 +22,6 @@ interface RepositoryModule {
     val CourseRepositoryImp.provideCourseRepository : CourseRepository
 
     @get:[Binds]
-    val UserRepositoryImp.provideUserRepository : UserRepository
+    val MeRepositoryImp.provideMeRepository : MeRepository
 
 }

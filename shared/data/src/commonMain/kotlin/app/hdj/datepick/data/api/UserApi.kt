@@ -17,9 +17,6 @@ class UserApi @Inject constructor(override val client: HttpClient) : Api {
     suspend fun updateMe(userProfileRequest: UserProfileRequest) : UserResponse =
         delete("me") { body = userProfileRequest }
 
-    suspend fun register(userProfileRequest: UserProfileRequest) : UserResponse =
-        post("me") { body = userProfileRequest }
-
     suspend fun unregister(): Unit =
         delete("me")
 

@@ -32,8 +32,4 @@ class DbModule {
     @Singleton
     fun provideCourseTableQuery(db : DatepickDatabase) : CourseTableQueries = db.courseTableQueries
 
-    @Provides
-    @Singleton
-    fun provideUserTableQuery(db : DatepickDatabase) : UserTableQueries = db.userTableQueries
-
 }

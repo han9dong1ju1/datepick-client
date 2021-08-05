@@ -49,6 +49,7 @@ kotlin {
                 implementation(KotlinX.coroutines.core)
                 implementation(KotlinX.serialization.core)
                 implementation(KotlinX.serialization.json)
+                implementation(Ktor.client.core)
                 implementation(Utils.kotlinxDateTime)
                 implementation(Firebase.multiplatform.auth)
             }

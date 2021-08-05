@@ -1,5 +1,11 @@
 package app.hdj.datepick.domain
 
+import app.hdj.datepick.domain.StateData.Companion.failed
+import app.hdj.datepick.domain.StateData.Companion.loading
+import app.hdj.datepick.domain.StateData.Companion.success
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.map
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
@@ -18,6 +24,26 @@ sealed interface StateData<T> {
     }
 
 }
+
+suspend fun <T> FlowCollector<StateData<T>>.emitState(
+    defaultValue: T? = null,
+    onSuccess : () -> Unit = {},
+    onFailed : (Throwable) -> Unit = {},
+    executor: suspend () -> T,
+) {
+    emit(loading())
+    val state = runCatching { executor() }.fold(
+        { onSuccess(); success(it) },
+        { onFailed(it); failed(it, defaultValue) }
+    )
+    emit(state)
+}
+
+fun <T> Flow<StateData<T>>.mapFailedState(mapper: (StateData.Failed<T>) -> StateData.Failed<T>) =
+    map {
+        if (it.isStateFailed()) mapper(it)
+        else it
+    }
 
 @OptIn(ExperimentalContracts::class)
 fun <T> StateData<T>.isStateSucceed(): Boolean {
