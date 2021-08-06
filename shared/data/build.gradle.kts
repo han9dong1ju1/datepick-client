@@ -22,7 +22,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
 }
 
 sqldelight {
-    database("DatepickDatabase") {
+    database("DatePickDatabase") {
         packageName = "app.hdj.datepick"
     }
 }
@@ -88,6 +88,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
+                implementation(Mokk.core)
                 implementation(Testing.junit4)
                 implementation(Testing.junit.api)
                 implementation(Testing.junit.engine)

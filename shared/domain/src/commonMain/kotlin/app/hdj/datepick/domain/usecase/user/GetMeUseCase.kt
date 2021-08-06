@@ -6,7 +6,7 @@ import app.hdj.datepick.domain.StateData.Companion.success
 import app.hdj.datepick.domain.mapFailedState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.repository.MeRepository
-import app.hdj.datepick.utils.FirebaseAuthenticator
+import app.hdj.datepick.utils.Authenticator
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import app.hdj.datepick.utils.exception.NotRegisteredException
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.flowOf
 @Singleton
 class GetMeUseCase @Inject constructor(
     private val meRepository: MeRepository,
-    private val authenticator: FirebaseAuthenticator
+    private val authenticator: Authenticator
 ) {
 
     fun fetchFromRemote(): Flow<StateData<User>> {

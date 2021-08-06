@@ -35,6 +35,7 @@ object Navigation {
 }
 
 object Mokk {
+    const val core = "io.mockk:mockk:_"
     const val common = "io.mockk:mockk-common:_"
 }
 
