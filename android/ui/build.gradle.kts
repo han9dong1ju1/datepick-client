@@ -46,6 +46,8 @@ dependencies {
     api(Google.accompanist.navigation.material)
     api(Google.android.maps)
 
+    api(AndroidX.core.splashscreen)
+
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
     kapt(AndroidX.hilt.compiler)
@@ -54,7 +56,7 @@ dependencies {
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
+    compileSdkPreview = Properties.androidCompileSDK
 
     defaultConfig {
         minSdk = Properties.androidMinSDK

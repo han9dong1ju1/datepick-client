@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
@@ -25,8 +26,17 @@ class MainActivity : AppCompatActivity() {
     private val appViewModel by viewModels<DatePickAppViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashWasDisplayed = savedInstanceState != null
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (!splashWasDisplayed) {
+            installSplashScreen()
+            setup()
+        } else {
+            setup()
+        }
+
 
 //        appViewModel.state.onEach {
 //            AppCompatDelegate.setDefaultNightMode(
@@ -38,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 //            )
 //        }.launchIn(lifecycleScope)
 
-        setup()
     }
 
     private fun setup() {

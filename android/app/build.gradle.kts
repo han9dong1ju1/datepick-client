@@ -22,6 +22,7 @@ dependencies {
     implementation(Google.dagger.hilt.android)
 
     implementation(AndroidX.core)
+
     implementation(AndroidX.appCompat)
 
     implementation(AndroidX.paging.commonKtx)
@@ -53,7 +54,7 @@ dependencies {
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
+    compileSdkPreview = Properties.androidCompileSDK
 
     defaultConfig {
         applicationId = Properties.androidPackageName

@@ -22,6 +22,7 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
 
 
     DatePickGoogleMap(
+        modifier = Modifier.fillMaxSize(),
         googleMapState = googleMapState,
         onMarkerClicked = {
 
