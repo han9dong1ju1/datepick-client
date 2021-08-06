@@ -9,8 +9,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
-import app.hdj.datepick.android.ui.components.DatePickApp
-import app.hdj.datepick.android.ui.components.DatePickAppViewModel
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
 import app.hdj.datepick.ui.styles.DatePickTheme

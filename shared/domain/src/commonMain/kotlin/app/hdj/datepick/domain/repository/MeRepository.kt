@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MeRepository {
 
-    fun cache(): User?
+    suspend fun cache(): User?
 
     fun observableCache(): Flow<User?>
 

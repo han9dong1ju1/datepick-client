@@ -19,16 +19,20 @@ import androidx.navigation.compose.dialog
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Google
+import app.hdj.datepick.android.ui.icons.Kakao
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalToastPresenter
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.bottomSheet
 import dev.gitlive.firebase.auth.AuthCredential
 
+@OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.loginDialog() {
 
-    dialog(AppNavigationGraph.LoginDialog.route) {
+    bottomSheet(AppNavigationGraph.LoginDialog.route) {
 
         val navController = LocalAppNavController.current
         val toastPresenter = LocalToastPresenter.current
@@ -58,7 +62,7 @@ fun DialogScope.LoginDialogUi(
     onGoogleLoginClicked: () -> Unit
 ) {
 
-    DialogUI {
+    BottomSheetDialogUI {
 
         DialogTextContent(title = "로그인", message = "더 많은 기능을 사용하기 위해 로그인해주세요.")
 
@@ -86,22 +90,22 @@ fun DialogScope.LoginDialogUi(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-//        DatePickButton(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(50.dp),
-//            text = "카카오로 시작하기",
-//            colors = ButtonDefaults.buttonColors(
-//                backgroundColor = Color(0xFFFEE500),
-//                contentColor = Color(0xD9000000),
-//            ),
-//            icon = DatePickIcons.Kakao,
-//            iconTint = Color.Unspecified
-//        ) {
-//
-//        }
-//
-//        Spacer(modifier = Modifier.height(10.dp))
+        DatePickButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            text = "카카오로 시작하기",
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color(0xFFFEE500),
+                contentColor = Color(0xD9000000),
+            ),
+            icon = DatePickIcons.Kakao,
+            iconTint = Color.Unspecified
+        ) {
+
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
 
         DatePickUnAccentButton(
             modifier = Modifier

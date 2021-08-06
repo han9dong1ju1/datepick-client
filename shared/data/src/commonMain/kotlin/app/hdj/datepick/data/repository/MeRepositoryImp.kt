@@ -18,7 +18,7 @@ class MeRepositoryImp @Inject constructor(
     private val meDataStore: MeDataStore
 ) : MeRepository {
 
-    override fun cache(): User? = meDataStore.me
+    override suspend fun cache(): User? = meDataStore.cachedMe()
 
     override fun observableCache(): Flow<User?> = meDataStore.observableMe
 

@@ -1,8 +1,8 @@
-package app.hdj.datepick.android.ui.components
+package app.hdj.datepick.android.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.hdj.datepick.android.ui.components.DatePickAppViewModelDelegate.*
+import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.*
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.usecase.user.GetMeUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate

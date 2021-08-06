@@ -8,19 +8,17 @@ import dev.gitlive.firebase.auth.auth
 @Singleton
 class FirebaseAuthenticator @Inject constructor() {
 
-    private val auth = Firebase.auth
-
     private var _idToken : String? = null
     val idToken get() = _idToken
 
     suspend fun getCurrentFirebaseUser() : FirebaseUser? {
-        val user = auth.currentUser
+        val user = Firebase.auth.currentUser
         _idToken = user?.getIdToken(false)
         return user
     }
 
     suspend fun signInGoogle(credential: AuthCredential) {
-        val authResult = auth.signInWithCredential(credential)
+        val authResult = Firebase.auth.signInWithCredential(credential)
         _idToken = authResult.user?.getIdToken(false)
     }
 

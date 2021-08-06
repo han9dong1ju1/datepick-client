@@ -1,11 +1,10 @@
 package app.hdj.datepick.android.ui.components.screens.others.place
 
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
+import com.google.accompanist.navigation.animation.composable
 
 fun NavGraphBuilder.placeScreen() {
     composable(

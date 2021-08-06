@@ -26,6 +26,12 @@ object Multiplatform {
 val Firebase.multiplatform get() = Multiplatform
 
 val Google.Android.maps get() = "com.google.maps.android:maps-ktx:_"
+val Google.Accompanist.navigation get() = Navigation
+
+object Navigation {
+    const val animation = "com.google.accompanist:accompanist-navigation-animation:_"
+    const val material = "com.google.accompanist:accompanist-navigation-material:_"
+}
 
 object Mokk {
     const val common = "io.mockk:mockk-common:_"

@@ -39,7 +39,7 @@ suspend fun <T> FlowCollector<StateData<T>>.emitState(
     emit(state)
 }
 
-fun <T> Flow<StateData<T>>.mapFailedState(mapper: (StateData.Failed<T>) -> StateData.Failed<T>) =
+fun <T> Flow<StateData<T>>.mapFailedState(mapper: suspend (StateData.Failed<T>) -> StateData.Failed<T>) =
     map {
         if (it.isStateFailed()) mapper(it)
         else it

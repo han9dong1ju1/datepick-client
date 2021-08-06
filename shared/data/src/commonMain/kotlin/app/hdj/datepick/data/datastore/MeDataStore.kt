@@ -5,17 +5,22 @@ import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.Settings
+import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.toSuspendSettings
 import com.russhwolf.settings.serialization.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 interface MeDataStore : DataStore<User> {
     val observableMe: Flow<User?>
-    val me: User?
+    suspend fun cachedMe(): User?
     suspend fun clearMe()
 }
 
@@ -36,21 +41,25 @@ data class MeEntity(
 @OptIn(ExperimentalSerializationApi::class, ExperimentalSettingsApi::class)
 @Singleton
 class MeDataStoreImp @Inject constructor(
-    private val settings: Settings
+    private val settings: FlowSettings
 ) : MeDataStore {
 
-    override val observableMe = MutableStateFlow<User?>(null)
+    override val observableMe = settings.getStringOrNullFlow(KEY_ME).map { value ->
+        value?.let { Json.decodeFromString(MeEntity.serializer(), it) }
+    }
 
-    override val me: User? by settings.nullableSerializedValue(MeEntity.serializer(), KEY_ME)
+    override suspend fun cachedMe(): User? {
+        return settings.getStringOrNull(KEY_ME)?.let {
+            Json.decodeFromString(it)
+        }
+    }
 
     override suspend fun save(data: User) {
-        settings.encodeValue(MeEntity.serializer(), KEY_ME, MeEntity.fromUser(data))
-        observableMe.emit(data)
+        settings.putString(KEY_ME, Json.encodeToString(MeEntity.fromUser(data)))
     }
 
     override suspend fun clearMe() {
         settings.remove(KEY_ME)
-        observableMe.emit(null)
     }
 
     companion object {

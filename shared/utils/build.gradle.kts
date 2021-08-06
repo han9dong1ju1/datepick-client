@@ -7,7 +7,6 @@ plugins {
     id("com.android.library")
     id("kotlin-parcelize")
     kotlin("kapt")
-    id("com.google.devtools.ksp")
 }
 
 version = "1.0"

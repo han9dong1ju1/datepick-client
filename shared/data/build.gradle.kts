@@ -5,15 +5,17 @@ plugins {
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
     kotlin("kapt")
-    id("com.google.devtools.ksp")
     id("com.squareup.sqldelight")
 }
 
 version = "1.0"
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=kotlin.time.ExperimentalTime",
             "-Xopt-in=kotlin.RequiresOptIn",
@@ -58,14 +60,14 @@ kotlin {
                 implementation(KotlinX.coroutines.core)
                 implementation(KotlinX.serialization.core)
                 implementation(KotlinX.serialization.json)
-                implementation(Ktor.client.core)
-                implementation(Ktor.client.serialization)
-                implementation(Ktor.client.logging)
-                implementation(MultiplatformSettings.core)
-                implementation(MultiplatformSettings.coroutines)
-                implementation(MultiplatformSettings.serialization)
-                implementation(Utils.kotlinxDateTime)
-                implementation(Square.sqlDelight.coroutinesExtensions)
+                api(Ktor.client.core)
+                api(Ktor.client.serialization)
+                api(Ktor.client.logging)
+                api(Utils.kotlinxDateTime)
+                api(Square.sqlDelight.coroutinesExtensions)
+                api(MultiplatformSettings.core)
+                api(MultiplatformSettings.coroutines)
+                api(MultiplatformSettings.serialization)
             }
         }
         val commonTest by getting {
@@ -78,18 +80,21 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation(Ktor.client.okHttp)
                 implementation(Google.dagger.hilt.android)
-                implementation(Square.sqlDelight.drivers.android)
-                implementation(MultiplatformSettings.datastore)
-                implementation(AndroidX.dataStore.core)
-                implementation(AndroidX.dataStore.preferences)
+                api(Square.sqlDelight.drivers.android)
+                api(Ktor.client.okHttp)
+                api(MultiplatformSettings.datastore)
+                api(AndroidX.dataStore.core)
+                api(AndroidX.dataStore.preferences)
             }
         }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
+                implementation(Testing.junit4)
+                implementation(Testing.junit.api)
+                implementation(Testing.junit.engine)
             }
         }
         val iosMain by getting {

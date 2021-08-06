@@ -5,14 +5,12 @@ plugins {
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
     kotlin("kapt")
-    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=kotlin.OptIn",

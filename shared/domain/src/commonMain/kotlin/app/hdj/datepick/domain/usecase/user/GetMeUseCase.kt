@@ -13,6 +13,8 @@ import app.hdj.datepick.utils.exception.NotRegisteredException
 import io.ktor.client.features.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 @Singleton
@@ -25,8 +27,8 @@ class GetMeUseCase @Inject constructor(
         if (authenticator.idToken == null)
             return flowOf(failed(NotRegisteredException(firebaseRegistered = false)))
 
-        val cached = meRepository.cache()
         return meRepository.fetch().mapFailedState { error ->
+            val cached = meRepository.cache()
             val throwable = error.throwable
             if (throwable is ResponseException &&
                 throwable.response.status == HttpStatusCode.NotFound
@@ -39,9 +41,11 @@ class GetMeUseCase @Inject constructor(
     }
 
     fun fetch(): Flow<StateData<User>> {
-        val cached = meRepository.cache()
-        return if (cached != null) flowOf(success(cached))
-        else fetchFromRemote()
+        return  flow {
+            val cached = meRepository.cache()
+            if (cached != null) emit(success(cached))
+            else emitAll(fetchFromRemote())
+        }
     }
 
     fun observable() = meRepository.observableCache()

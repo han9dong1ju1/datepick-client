@@ -2,6 +2,7 @@ package app.hdj.datepick.android
 
 import android.app.Application
 import app.hdj.datepick.utils.AppInfo
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,6 +15,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
         if (appInfo.debug) {
             Timber.plant(Timber.DebugTree())
         }
