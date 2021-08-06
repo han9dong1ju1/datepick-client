@@ -22,8 +22,8 @@ class MeRepositoryImp @Inject constructor(
 
     override fun observableCache(): Flow<User?> = meDataStore.observableMe
 
-    override fun fetch() = flow<StateData<User>> {
-        emitState(onSuccess = meDataStore::save) {
+    override fun fetch() = flow {
+        emitState(defaultValue = cache(), onSuccess = meDataStore::save) {
             val response = userApi.getMe()
             requireNotNull(response.data)
         }
