@@ -10,10 +10,6 @@ plugins {
 
 version = "1.0"
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
@@ -90,8 +86,8 @@ kotlin {
         }
         val androidTest by getting {
             dependencies {
+                implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.13.2")
                 implementation(Testing.junit4)
                 implementation(Testing.junit.api)
                 implementation(Testing.junit.engine)
@@ -110,10 +106,22 @@ kotlin {
 
 android {
     compileSdkPreview = Properties.androidCompileSDK
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
     defaultConfig {
         minSdk = Properties.androidMinSDK
         targetSdk = Properties.androidTargetSDK
+    }
+
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            java.srcDirs("src/androidMain/kotlin")
+            res.srcDirs("src/androidMain/res")
+        }
+        getByName("test") {
+            java.srcDirs("src/androidTest/kotlin")
+            res.srcDirs("src/androidTest/res")
+        }
     }
 }
 

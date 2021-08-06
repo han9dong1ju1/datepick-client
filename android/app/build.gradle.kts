@@ -80,6 +80,10 @@ android {
 
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
