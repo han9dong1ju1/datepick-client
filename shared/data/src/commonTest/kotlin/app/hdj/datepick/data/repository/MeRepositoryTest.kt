@@ -16,6 +16,7 @@ import kotlinx.coroutines.runBlocking
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class MeRepositoryTest {
 
@@ -44,6 +45,8 @@ class MeRepositoryTest {
             if (it.isStateFailed()) {
                 println("Failed : Cached User Id is ${it.cachedData?.id}")
                 assertEquals(it.cachedData, cacheMe)
+            } else {
+                assertTrue(false)
             }
         }
 
