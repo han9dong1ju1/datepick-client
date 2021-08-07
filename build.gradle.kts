@@ -24,7 +24,6 @@ buildscript {
 }
 
 plugins {
-    id("com.google.devtools.ksp") version "1.5.21-1.0.0-beta06"
     kotlin("plugin.serialization") version "1.5.0"
 }
 
