@@ -2,6 +2,7 @@ package app.hdj.datepick.data.api
 
 import app.hdj.datepick.data.entity.UserResponse
 import app.hdj.datepick.data.request.UserProfileRequest
+import app.hdj.datepick.data.request.UserUnregisterRequest
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.*
@@ -15,12 +16,12 @@ open class UserApi @Inject constructor(override val client: HttpClient) : Api {
         get("me")
 
     suspend fun updateMe(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
-        post("me") { body = userProfileRequest }
+        patch { body = userProfileRequest }
 
     suspend fun register(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
-        post("me/register")
+        post { body = userProfileRequest }
 
-    suspend fun unregister(): ApiResponse<String> =
-        delete("me")
+    suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String> =
+        post("unregister") { body = userUnregisterRequest }
 
 }

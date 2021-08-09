@@ -3,6 +3,7 @@ package app.hdj.datepick.data.repository
 import app.hdj.datepick.data.api.UserApi
 import app.hdj.datepick.data.datastore.MeDataStore
 import app.hdj.datepick.data.request.UserProfileRequest
+import app.hdj.datepick.data.request.UserUnregisterRequest
 import app.hdj.datepick.domain.StateData
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.user.User
@@ -45,9 +46,9 @@ class MeRepositoryImp @Inject constructor(
         }
     }
 
-    override fun unregister() = flow {
+    override fun unregister(type: Int, reason: String?): Flow<StateData<Unit>> = flow {
         emitState {
-            userApi.unregister()
+            userApi.unregister(UserUnregisterRequest(type, reason))
             meDataStore.clearMe()
         }
     }

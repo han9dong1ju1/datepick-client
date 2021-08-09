@@ -16,7 +16,7 @@ interface MeRepository {
 
     fun register(nickname: String, profileImageUrl: String?): Flow<StateData<User>>
 
-    fun unregister(): Flow<StateData<Unit>>
+    fun unregister(type: Int, reason: String?): Flow<StateData<Unit>>
 
 
 }
