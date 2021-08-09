@@ -1,31 +1,68 @@
 package app.hdj.datepick.android.ui.components.dialog.login
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.launch
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.dialog
+import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Google
 import app.hdj.datepick.android.ui.icons.Kakao
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.providers.LocalToastPresenter
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.bottomSheet
+import dev.gitlive.firebase.auth.AuthCredential
+
+@OptIn(ExperimentalMaterialNavigationApi::class)
+fun NavGraphBuilder.loginDialog() {
+
+    bottomSheet(AppNavigationGraph.LoginDialog.route) {
+
+        val navController = LocalAppNavController.current
+        val toastPresenter = LocalToastPresenter.current
+
+        val vm = hiltViewModel<LoginViewModel>()
+        val (state, effect, event) = vm.extract()
+
+        val googleSignInRequest = rememberLauncherForActivityResult(GoogleSignInContract()) {
+            if (it != null)
+                event(LoginViewModelDelegate.Event.RequestSignIn(AuthCredential(it)))
+            else {
+                toastPresenter.short("로그인에 실패했습니다.")
+            }
+        }
+
+        DialogScope(navController) {
+            LoginDialogUi(
+                onGoogleLoginClicked = googleSignInRequest::launch
+            )
+        }
+
+    }
+}
 
 @Composable
-fun DialogScope.LoginDialogUi() {
+fun DialogScope.LoginDialogUi(
+    onGoogleLoginClicked: () -> Unit
+) {
 
-    DialogUI {
+    BottomSheetDialogUI {
 
         DialogTextContent(title = "로그인", message = "더 많은 기능을 사용하기 위해 로그인해주세요.")
 
@@ -48,7 +85,7 @@ fun DialogScope.LoginDialogUi() {
             icon = DatePickIcons.Google,
             iconTint = Color.Unspecified
         ) {
-
+            onGoogleLoginClicked()
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -85,23 +122,11 @@ fun DialogScope.LoginDialogUi() {
 }
 
 @Composable
-fun LoginDialog(
-    dialogState: DialogState,
-    vm: LoginViewModelDelegate = hiltViewModel<LoginViewModel>()
-) {
-
-    val (state, effect, event) = vm.extract()
-
-    DatePickDialog(dialogState) {
-        LoginDialogUi()
-    }
-
-}
-
-@Composable
 @Preview
 fun LoginScreenPreview() {
     DatePickTheme {
-        emptyDialogScope.LoginDialogUi()
+        emptyDialogScope.LoginDialogUi {
+
+        }
     }
 }

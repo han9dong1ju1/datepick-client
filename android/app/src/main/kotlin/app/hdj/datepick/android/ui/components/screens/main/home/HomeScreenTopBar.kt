@@ -9,12 +9,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Logo
+import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.styles.DatePickTheme
 
 @Composable
 fun HomeScreenTopBar() {
 
-    TopAppBar(
+    DatePickTopAppBar(
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
         title = {

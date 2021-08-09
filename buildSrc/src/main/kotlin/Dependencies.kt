@@ -23,9 +23,21 @@ object Multiplatform {
     const val firestore = "dev.gitlive:firebase-firestore:_"
 }
 
+val AndroidX.Core.splashscreen get() = "androidx.core:core-splashscreen:1.0.0-alpha01"
 val Firebase.multiplatform get() = Multiplatform
 
 val Google.Android.maps get() = "com.google.maps.android:maps-ktx:_"
+val Google.Accompanist.navigation get() = Navigation
+
+object Navigation {
+    const val animation = "com.google.accompanist:accompanist-navigation-animation:_"
+    const val material = "com.google.accompanist:accompanist-navigation-material:_"
+}
+
+object Mokk {
+    const val core = "io.mockk:mockk:_"
+    const val common = "io.mockk:mockk-common:_"
+}
 
 object Utils {
 

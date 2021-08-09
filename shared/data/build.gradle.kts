@@ -5,7 +5,6 @@ plugins {
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
     kotlin("kapt")
-    id("com.google.devtools.ksp")
     id("com.squareup.sqldelight")
 }
 
@@ -13,7 +12,6 @@ version = "1.0"
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=kotlin.time.ExperimentalTime",
             "-Xopt-in=kotlin.RequiresOptIn",
@@ -24,7 +22,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
 }
 
 sqldelight {
-    database("DatepickDatabase") {
+    database("DatePickDatabase") {
         packageName = "app.hdj.datepick"
     }
 }
@@ -58,36 +56,48 @@ kotlin {
                 implementation(KotlinX.coroutines.core)
                 implementation(KotlinX.serialization.core)
                 implementation(KotlinX.serialization.json)
-                implementation(Ktor.client.core)
-                implementation(Ktor.client.cio)
-                implementation(Ktor.client.serialization)
-                implementation(Ktor.client.logging)
-                implementation(Utils.kotlinxDateTime)
-                implementation(Firebase.multiplatform.auth)
-                implementation(Square.sqlDelight.coroutinesExtensions)
+                api(Ktor.client.core)
+                api(Ktor.client.serialization)
+                api(Ktor.client.logging)
+                api(Utils.kotlinxDateTime)
+                api(Square.sqlDelight.coroutinesExtensions)
+                api(MultiplatformSettings.core)
+                api(MultiplatformSettings.coroutines)
+                api(MultiplatformSettings.serialization)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation(Mokk.common)
+                implementation(Ktor.client.tests)
             }
         }
         val androidMain by getting {
             dependencies {
                 implementation(Google.dagger.hilt.android)
-                implementation(Square.sqlDelight.drivers.android)
+                api(Square.sqlDelight.drivers.android)
+                api(Ktor.client.okHttp)
+                api(MultiplatformSettings.datastore)
+                api(AndroidX.dataStore.core)
+                api(AndroidX.dataStore.preferences)
             }
         }
         val androidTest by getting {
             dependencies {
+                implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.13.2")
+                implementation(Mokk.core)
+                implementation(Testing.junit4)
+                implementation(Testing.junit.api)
+                implementation(Testing.junit.engine)
             }
         }
         val iosMain by getting {
             dependencies {
                 implementation(Koin.core)
+                implementation(Ktor.client.darwin)
                 implementation(Square.sqlDelight.drivers.native)
             }
         }
@@ -96,11 +106,23 @@ kotlin {
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    compileSdkPreview = Properties.androidCompileSDK
+
     defaultConfig {
         minSdk = Properties.androidMinSDK
         targetSdk = Properties.androidTargetSDK
+    }
+
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            java.srcDirs("src/androidMain/kotlin")
+            res.srcDirs("src/androidMain/res")
+        }
+        getByName("test") {
+            java.srcDirs("src/androidTest/kotlin")
+            res.srcDirs("src/androidTest/res")
+        }
     }
 }
 

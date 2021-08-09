@@ -1,0 +1,17 @@
+import java.lang.Long;
+
+CREATE TABLE placeEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    kakaoId INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    cachedAt INTEGER AS Long NOT NULL
+);
+
+getById:
+SELECT * FROM placeEntity WHERE id = :id;
+
+insert:
+INSERT INTO placeEntity(id, kakaoId, name, cachedAt) VALUES ?;
+
+deleteById:
+DELETE FROM placeEntity WHERE id = :id;

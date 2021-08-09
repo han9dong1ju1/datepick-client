@@ -1,0 +1,16 @@
+import java.lang.Long;
+
+CREATE TABLE courseEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    cachedAt INTEGER AS Long NOT NULL
+);
+
+getById:
+SELECT * FROM courseEntity WHERE id = :id;
+
+insert:
+INSERT INTO courseEntity(id, name, cachedAt) VALUES ?;
+
+deleteById:
+DELETE FROM courseEntity WHERE id = :id;

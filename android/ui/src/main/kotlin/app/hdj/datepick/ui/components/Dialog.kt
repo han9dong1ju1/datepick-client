@@ -2,6 +2,7 @@ package app.hdj.datepick.ui.components
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -23,7 +24,7 @@ val emptyDialogScope = object : DialogScope {
 @Composable
 fun DialogScope(
     navController: NavController,
-    content : @Composable DialogScope.() -> Unit
+    content: @Composable DialogScope.() -> Unit
 ) = object : DialogScope {
     override fun dismiss() {
         navController.popBackStack()
@@ -37,6 +38,15 @@ interface DialogScope {
 class DialogState(shown: Boolean) {
 
     var isShown by mutableStateOf(shown)
+        private set
+
+    fun show() {
+        isShown = true
+    }
+
+    fun hide() {
+        isShown = false
+    }
 
 }
 
@@ -59,7 +69,7 @@ fun DatePickDialog(
     ) {
 
         val onDismiss = {
-            dialogState.isShown = false
+            dialogState.hide()
         }
 
         Dialog(
@@ -91,14 +101,14 @@ fun DialogScope.DialogTextContent(
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = title,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Start,
             style = MaterialTheme.typography.h2
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = message,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Start,
             style = MaterialTheme.typography.body1
         )
     }
@@ -164,7 +174,7 @@ fun DialogScope.DialogButtonContent(
 
 @Composable
 fun DialogScope.DialogUI(
-    modifier : Modifier = Modifier,
+    modifier: Modifier = Modifier,
     content: @Composable DialogScope.() -> Unit
 ) {
     Surface(modifier = modifier.width(320.dp), shape = MaterialTheme.shapes.large) {
@@ -172,6 +182,28 @@ fun DialogScope.DialogUI(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp)
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+fun DialogScope.BottomSheetDialogUI(
+    modifier: Modifier = Modifier,
+    content: @Composable DialogScope.() -> Unit
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large.copy(
+            bottomEnd = CornerSize(0.dp),
+            bottomStart = CornerSize(0.dp)
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(30.dp)
         ) {
             content()
         }

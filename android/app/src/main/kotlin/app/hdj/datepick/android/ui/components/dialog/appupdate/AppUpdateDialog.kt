@@ -89,7 +89,7 @@ fun NavGraphBuilder.appUpdateDialog() {
 
         LaunchedEffect(key1 = result) {
             when (result) {
-                is AppUpdateResult.Available -> dialogState.isShown = true
+                is AppUpdateResult.Available -> dialogState.show()
                 is AppUpdateResult.InProgress -> {
                     snackbarPresenter.showSnackBar(
                         "앱 업데이트가 다운로드중입니다.",

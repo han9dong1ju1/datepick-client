@@ -5,14 +5,12 @@ plugins {
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
     kotlin("kapt")
-    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=kotlin.OptIn",
@@ -49,6 +47,7 @@ kotlin {
                 implementation(KotlinX.coroutines.core)
                 implementation(KotlinX.serialization.core)
                 implementation(KotlinX.serialization.json)
+                implementation(Ktor.client.core)
                 implementation(Utils.kotlinxDateTime)
                 implementation(Firebase.multiplatform.auth)
             }
@@ -80,7 +79,7 @@ kotlin {
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
+    compileSdkPreview = Properties.androidCompileSDK
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = Properties.androidMinSDK

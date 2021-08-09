@@ -8,9 +8,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import app.hdj.datepick.android.ui.components.DatePickApp
-import app.hdj.datepick.android.ui.components.DatePickAppViewModel
+import app.hdj.datepick.android.ui.providers.LocalMe
+import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import coil.ImageLoader
@@ -25,8 +26,17 @@ class MainActivity : AppCompatActivity() {
     private val appViewModel by viewModels<DatePickAppViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashWasDisplayed = savedInstanceState != null
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (!splashWasDisplayed) {
+            installSplashScreen()
+            setup()
+        } else {
+            setup()
+        }
+
 
 //        appViewModel.state.onEach {
 //            AppCompatDelegate.setDefaultNightMode(
@@ -38,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 //            )
 //        }.launchIn(lifecycleScope)
 
-        setup()
     }
 
     private fun setup() {
@@ -50,25 +59,33 @@ class MainActivity : AppCompatActivity() {
 
             val (state) = appViewModel.extract()
 
-            DatePickTheme {
+            CompositionLocalProvider(
+                LocalMe provides state.me,
+                LocalImageLoader provides imageLoader
+            ) {
 
-                val systemUiController = rememberSystemUiController()
-                val useDarkIcons = MaterialTheme.colors.isLight
+                ProvideToastPresenter {
 
-                SideEffect {
-                    systemUiController.setSystemBarsColor(
-                        Color.Transparent,
-                        darkIcons = useDarkIcons,
-                        isNavigationBarContrastEnforced = false
-                    )
-                }
+                    DatePickTheme {
 
-                ProvideWindowInsets {
-                    CompositionLocalProvider(LocalImageLoader provides imageLoader) {
-                        DatePickApp()
+                        val systemUiController = rememberSystemUiController()
+                        val useDarkIcons = MaterialTheme.colors.isLight
+
+                        SideEffect {
+                            systemUiController.setSystemBarsColor(
+                                Color.Transparent,
+                                darkIcons = useDarkIcons,
+                                isNavigationBarContrastEnforced = false
+                            )
+                        }
+
+                        ProvideWindowInsets { DatePickApp() }
                     }
+
                 }
+
             }
+
         }
     }
 

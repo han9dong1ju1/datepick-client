@@ -38,6 +38,8 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     object AppUpdateDialog : AppNavigationGraph("app_update")
 
+    object LoginDialog : AppNavigationGraph("login_dialog")
+
     object CreateCourse : AppNavigationGraph("create_course/{courseId}") {
         const val ARGUMENT_COURSE_ID = "courseId"
 //        fun route(courseMetadata: app.hdj.datepick.data.model.course.CourseMetadata) = "create_course/${courseMetadata.id}"

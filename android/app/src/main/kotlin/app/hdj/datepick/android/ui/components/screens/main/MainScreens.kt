@@ -1,9 +1,15 @@
 package app.hdj.datepick.android.ui.components.screens.main
 
+import android.util.Log
+import androidx.compose.animation.*
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.navigation
-import app.hdj.datepick.android.ui.components.screens.*
+import com.google.accompanist.navigation.animation.composable
+import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeScreen
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModel
 import app.hdj.datepick.android.ui.components.screens.main.map.MapScreen
@@ -12,7 +18,11 @@ import app.hdj.datepick.android.ui.components.screens.main.pick.PickScreen
 import app.hdj.datepick.android.ui.components.screens.main.pick.PickViewModel
 import app.hdj.datepick.android.ui.components.screens.main.profile.ProfileScreen
 import app.hdj.datepick.android.ui.components.screens.main.profile.ProfileViewModel
+import app.hdj.datepick.android.ui.components.screens.showSetting
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import com.google.accompanist.navigation.animation.navigation
+import timber.log.Timber
+import kotlin.math.roundToInt
 
 fun NavGraphBuilder.mainScreens(
     homeViewModel: HomeViewModel,
