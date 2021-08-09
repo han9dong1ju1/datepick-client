@@ -27,6 +27,7 @@ class FeaturedDataStoreImp @Inject constructor(
     }
 
     override suspend fun saveAll(list: List<FeaturedEntity>) {
+        queries.deleteAll()
         list.forEach { save(data = it) }
     }
 
