@@ -12,15 +12,13 @@ class RegisterMeUseCase @Inject constructor(
     private val meRepository: MeRepository
 ) {
 
-    fun execute(param: RegisterMeProfileParameter): Flow<StateData<User>> {
-        val (nickname, profileImageUrl) = param
-        return meRepository.register(nickname, profileImageUrl)
+    fun execute(param: UserProfileRequestParams): Flow<StateData<User>> {
+        val (nickname, profileImageUrl, gender) = param
+
+        if (nickname == null || gender == null)
+            throw IllegalArgumentException("Nickname 과 Gender 는 Null 이 될 수 없습니다.")
+
+        return meRepository.register(nickname, profileImageUrl, gender.value)
     }
 
 }
-
-
-data class RegisterMeProfileParameter(
-    val nickname: String,
-    val profileImageUrl: String? = null
-)

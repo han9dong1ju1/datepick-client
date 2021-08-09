@@ -12,14 +12,9 @@ class UpdateMeUseCase @Inject constructor(
     private val meRepository: MeRepository
 ) {
 
-    fun execute(parameter: UpdateMeProfileParameter): Flow<StateData<User>> {
-        val (nickname, profileImageUrl) = parameter
-        return meRepository.update(nickname, profileImageUrl)
+    fun execute(parameter: UserProfileRequestParams): Flow<StateData<User>> {
+        val (nickname, profileImageUrl, gender) = parameter
+        return meRepository.update(nickname, profileImageUrl, gender?.value)
     }
 
 }
-
-data class UpdateMeProfileParameter(
-    val nickname: String? = null,
-    val profileImageUrl: String? = null
-)

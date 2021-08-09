@@ -26,31 +26,40 @@ class MeRepositoryImp @Inject constructor(
     override fun fetch() = flow {
         emitState(defaultValue = cache(), onSuccess = meDataStore::save) {
             val response = userApi.getMe()
-            requireNotNull(response.data)
+            response.data
         }
     }
 
-    override fun update(nickname: String?, profileImageUrl: String?) = flow<StateData<User>> {
+    override fun update(
+        nickname: String?,
+        profileImageUrl: String?,
+        gender: String?
+    ) = flow<StateData<User>> {
         emitState(onSuccess = meDataStore::save) {
-            val request = UserProfileRequest(nickname, profileImageUrl)
+            val request = UserProfileRequest(nickname, profileImageUrl, gender)
             val response = userApi.updateMe(request)
-            requireNotNull(response.data)
+            response.data
         }
     }
 
-    override fun register(nickname: String, profileImageUrl: String?) = flow<StateData<User>> {
+    override fun register(
+        nickname: String,
+        profileImageUrl: String?,
+        gender: String?
+    ) = flow<StateData<User>> {
         emitState(onSuccess = meDataStore::save) {
-            val request = UserProfileRequest(nickname, profileImageUrl)
+            val request = UserProfileRequest(nickname, profileImageUrl, gender)
             val response = userApi.register(request)
-            requireNotNull(response.data)
+            response.data
         }
     }
 
-    override fun unregister(type: Int, reason: String?): Flow<StateData<Unit>> = flow {
-        emitState {
-            userApi.unregister(UserUnregisterRequest(type, reason))
-            meDataStore.clearMe()
+    override fun unregister(type: Int, reason: String?) =
+        flow {
+            emitState {
+                userApi.unregister(UserUnregisterRequest(type, reason))
+                meDataStore.clearMe()
+            }
         }
-    }
 
 }

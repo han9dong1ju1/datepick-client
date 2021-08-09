@@ -25,14 +25,16 @@ sealed interface StateData<T> {
 
 }
 
-suspend fun <T> FlowCollector<StateData<T>>.emitState(
+suspend fun <T : Any> FlowCollector<StateData<T>>.emitState(
     defaultValue: T? = null,
-    onSuccess : suspend (T) -> Unit = {},
-    onFailed : suspend (Throwable) -> Unit = {},
-    executor: suspend () -> T,
+    onSuccess: suspend (T) -> Unit = {},
+    onFailed: suspend (Throwable) -> Unit = {},
+    executor: suspend () -> T?,
 ) {
     emit(loading())
-    val state = runCatching { executor() }.fold(
+    val state = runCatching {
+        requireNotNull(executor())
+    }.fold(
         { onSuccess(it); success(it) },
         { onFailed(it); failed(it, defaultValue) }
     )

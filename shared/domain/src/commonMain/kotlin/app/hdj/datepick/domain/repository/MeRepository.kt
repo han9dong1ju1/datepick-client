@@ -12,9 +12,9 @@ interface MeRepository {
 
     fun fetch(): Flow<StateData<User>>
 
-    fun update(nickname: String?, profileImageUrl: String?): Flow<StateData<User>>
+    fun update(nickname: String?, profileImageUrl: String?, gender: String?): Flow<StateData<User>>
 
-    fun register(nickname: String, profileImageUrl: String?): Flow<StateData<User>>
+    fun register(nickname: String, profileImageUrl: String?, gender: String?): Flow<StateData<User>>
 
     fun unregister(type: Int, reason: String?): Flow<StateData<Unit>>
 
