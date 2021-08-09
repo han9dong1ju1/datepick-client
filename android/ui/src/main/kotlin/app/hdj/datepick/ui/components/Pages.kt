@@ -11,10 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.ui.utils.VerticalMargin
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import kotlinx.coroutines.delay
 
 @ExperimentalPagerApi
@@ -22,18 +19,11 @@ import kotlinx.coroutines.delay
 fun <T> DatePickPager(
     modifier: Modifier = Modifier,
     list: List<T>,
+    pagerState : PagerState = rememberPagerState(pageCount = list.size),
     itemSpacing: Dp = 0.dp,
     autoScrollEnabled: Boolean = false,
-    indicatorEnabled: Boolean = false,
-    loading: @Composable () -> Unit = {},
-    error: @Composable () -> Unit = {},
     content: @Composable (T) -> Unit
 ) {
-
-    val pagerState = rememberPagerState(
-        pageCount = list.size,
-        infiniteLoop = true
-    )
 
     LaunchedEffect(key1 = autoScrollEnabled) {
         if (autoScrollEnabled) {
@@ -48,30 +38,11 @@ fun <T> DatePickPager(
         }
     }
 
-    Column(modifier = modifier) {
-        HorizontalPager(
-            modifier = Modifier.fillMaxWidth(),
-            state = pagerState,
-            itemSpacing = itemSpacing
-        ) {
-            content(list[it])
-        }
-
-        if (indicatorEnabled) {
-
-            VerticalMargin(20.dp)
-
-            HorizontalPagerIndicator(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                indicatorHeight = 6.dp,
-                indicatorWidth = 6.dp,
-                activeColor = MaterialTheme.colors.secondary,
-                inactiveColor = MaterialTheme.colors.onBackground.copy(0.1f),
-                spacing = 6.dp,
-                pagerState = pagerState
-            )
-
-        }
-
+    HorizontalPager(
+        modifier = modifier.fillMaxWidth(),
+        state = pagerState,
+        itemSpacing = itemSpacing
+    ) {
+        content(list[it])
     }
 }

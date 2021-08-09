@@ -33,6 +33,7 @@ fun HomeScreen(
                         .height(400.dp)
                         .background(Color.Black)
                 ) {
+                    HomeScreenFeaturedPager(emptyList())
                     HomeScreenTopBar()
                 }
             }
