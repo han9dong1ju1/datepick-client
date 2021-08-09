@@ -5,12 +5,10 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
-    id("com.google.devtools.ksp")
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xallow-jvm-ir-dependencies"
@@ -44,17 +42,21 @@ dependencies {
     api(Google.accompanist.pager.indicators)
     api(Google.accompanist.systemuicontroller)
     api(Google.accompanist.swiperefresh)
+    api(Google.accompanist.navigation.animation)
+    api(Google.accompanist.navigation.material)
     api(Google.android.maps)
+
+    api(AndroidX.core.splashscreen)
 
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
-    ksp(AndroidX.hilt.compiler)
-    ksp(Google.dagger.hilt.compiler)
-    ksp(Google.dagger.hilt.android)
+    kapt(AndroidX.hilt.compiler)
+    kapt(Google.dagger.hilt.compiler)
+    kapt(Google.dagger.hilt.android)
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
+    compileSdkPreview = Properties.androidCompileSDK
 
     defaultConfig {
         minSdk = Properties.androidMinSDK

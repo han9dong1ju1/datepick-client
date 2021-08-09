@@ -1,6 +1,6 @@
 import java.lang.Long;
 
-CREATE TABLE placeTable (
+CREATE TABLE placeEntity (
     id TEXT NOT NULL PRIMARY KEY,
     kakaoId INTEGER NOT NULL,
     name TEXT NOT NULL,
@@ -8,10 +8,10 @@ CREATE TABLE placeTable (
 );
 
 getById:
-SELECT * FROM placeTable WHERE id = :id;
+SELECT * FROM placeEntity WHERE id = :id;
 
 insert:
-INSERT INTO placeTable(id, kakaoId, name, cachedAt) VALUES ?;
+INSERT INTO placeEntity(id, kakaoId, name, cachedAt) VALUES ?;
 
 deleteById:
-DELETE FROM placeTable WHERE id = :id;
+DELETE FROM placeEntity WHERE id = :id;

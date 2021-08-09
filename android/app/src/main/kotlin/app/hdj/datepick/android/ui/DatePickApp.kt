@@ -1,9 +1,13 @@
-package app.hdj.datepick.android.ui.components
+package app.hdj.datepick.android.ui
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
@@ -11,12 +15,17 @@ import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.plusAssign
 import app.hdj.datepick.android.ui.components.dialog.appupdate.appUpdateDialog
+import app.hdj.datepick.android.ui.components.dialog.login.loginDialog
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.MainBottomNavigation
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModel
@@ -29,18 +38,30 @@ import app.hdj.datepick.android.ui.components.screens.others.create_course.creat
 import app.hdj.datepick.android.ui.components.screens.others.place.placeScreen
 import app.hdj.datepick.android.ui.components.screens.others.place_list.placeListScreen
 import app.hdj.datepick.android.ui.components.screens.others.settings.settingsScreens
-import app.hdj.datepick.android.ui.components.screens.others.splash.SplashScreen
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalSnackBarPresenter
 import app.hdj.datepick.android.ui.providers.SnackbarPresenter
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.DatePickScaffold
+import com.google.accompanist.navigation.animation.AnimatedComposeNavigator
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlin.math.roundToInt
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 @Composable
 fun DatePickApp() {
 
     val navController = rememberNavController()
+
+    val animatedComposeNavigator = remember { AnimatedComposeNavigator() }
+    val bottomSheetNavigator = rememberBottomSheetNavigator()
+
+    navController.navigatorProvider += bottomSheetNavigator
+    navController.navigatorProvider += animatedComposeNavigator
 
     val scaffoldState = rememberScaffoldState()
 
@@ -54,7 +75,17 @@ fun DatePickApp() {
 
     val currentRoute = navBackStackEntry?.destination?.route
 
-    if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
+    val systemUiController = rememberSystemUiController()
+
+    if (AppNavigationGraph.Main.Home.route == currentRoute) {
+        systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = false)
+    } else {
+        systemUiController.setSystemBarsColor(
+            Color.Transparent,
+            darkIcons = MaterialTheme.colors.isLight
+        )
+        if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
+    }
 
     val homeViewModel: HomeViewModel = hiltViewModel()
     val mapViewModel: MapViewModel = hiltViewModel()
@@ -89,39 +120,58 @@ fun DatePickApp() {
             }
         ) {
 
-            NavHost(
-                navController = navController,
-                startDestination = AppNavigationGraph.Main.route
-            ) {
+            ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
 
-                /* Main Screens */
-                mainScreens(homeViewModel, mapViewModel, pickViewModel, profileViewModel)
+                AnimatedNavHost(
+                    modifier = Modifier.fillMaxSize(),
+                    navController = navController,
+                    startDestination = AppNavigationGraph.Main.route,
+                    enterTransition = { _, _ ->
+                        fadeIn(
+                            animationSpec = tween(
+                                210,
+                                90,
+                                easing = LinearOutSlowInEasing
+                            )
+                        ) + expandIn(
+                            animationSpec = tween(210, 90, easing = LinearOutSlowInEasing),
+                            expandFrom = Alignment.Center,
+                            initialSize = {
+                                val size = it.toSize() * 0.98f
+                                IntSize(size.width.roundToInt(), size.height.roundToInt())
+                            },
+                            clip = false
+                        )
+                    },
+                    exitTransition = { _, _ ->
+                        fadeOut(
+                            animationSpec = tween(
+                                90,
+                                easing = LinearOutSlowInEasing
+                            )
+                        )
+                    }
+                ) {
 
-                /* Other Screens */
-                placeScreen()
-                courseScreen()
-                placeListScreen()
+                    /* Main Screens */
+                    mainScreens(homeViewModel, mapViewModel, pickViewModel, profileViewModel)
 
-                createCourseScreen()
+                    /* Other Screens */
+                    placeScreen()
+                    courseScreen()
+                    placeListScreen()
 
-                /* Setting Screens */
-                settingsScreens()
+                    createCourseScreen()
 
-                appUpdateDialog()
+                    /* Setting Screens */
+                    settingsScreens()
+
+                    appUpdateDialog()
+                    loginDialog()
+                }
+
             }
 
-        }
-
-        val (splashVisibleState, onSplashVisibleStateChange) = remember { mutableStateOf(true) }
-
-        AnimatedVisibility(
-            visible = splashVisibleState,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            SplashScreen {
-                onSplashVisibleStateChange(false)
-            }
         }
 
     }

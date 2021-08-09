@@ -7,7 +7,6 @@ plugins {
     id("com.android.library")
     id("kotlin-parcelize")
     kotlin("kapt")
-    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
@@ -34,6 +33,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(Firebase.multiplatform.auth)
             }
         }
         val commonTest by getting {
@@ -64,7 +64,7 @@ kotlin {
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
+    compileSdkPreview = Properties.androidCompileSDK
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = Properties.androidMinSDK

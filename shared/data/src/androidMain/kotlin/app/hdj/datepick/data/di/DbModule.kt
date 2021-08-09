@@ -18,22 +18,18 @@ class DbModule {
     @Provides
     @Singleton
     fun provideDbDriver(@ApplicationContext context: Context) =
-        AndroidSqliteDriver(DatepickDatabase.Schema, context, name = "datepick-database.db")
+        AndroidSqliteDriver(DatePickDatabase.Schema, context, name = "datepick-database.db")
 
     @Provides
     @Singleton
-    fun provideDb(dbDriver: SqlDriver) = DatepickDatabase(dbDriver)
+    fun provideDb(dbDriver: SqlDriver) = DatePickDatabase(dbDriver)
 
     @Provides
     @Singleton
-    fun providePlaceTableQuery(db : DatepickDatabase) : PlaceTableQueries = db.placeTableQueries
+    fun providePlaceEntityQuery(db : DatePickDatabase) : PlaceEntityQueries = db.placeEntityQueries
 
     @Provides
     @Singleton
-    fun provideCourseTableQuery(db : DatepickDatabase) : CourseTableQueries = db.courseTableQueries
-
-    @Provides
-    @Singleton
-    fun provideUserTableQuery(db : DatepickDatabase) : UserTableQueries = db.userTableQueries
+    fun provideCourseEntityQuery(db : DatePickDatabase) : CourseEntityQueries = db.courseEntityQueries
 
 }

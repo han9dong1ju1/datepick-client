@@ -52,8 +52,7 @@ class HomeViewModel @Inject constructor(
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()
 
-    override val state: StateFlow<State>
-        get() = TODO("Not yet implemented")
+    override val state: StateFlow<State> = MutableStateFlow(State())
 
     override fun event(event: Event) {
         viewModelScope.launch {

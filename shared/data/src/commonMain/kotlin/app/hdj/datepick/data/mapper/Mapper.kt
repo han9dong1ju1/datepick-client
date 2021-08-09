@@ -2,8 +2,8 @@ package app.hdj.datepick.data.mapper
 
 interface Mapper<Table, DomainModel> {
 
-    fun map(table: Table): DomainModel
+    fun Table.asDomain(): DomainModel
 
-    fun map(model: DomainModel): Table
+    fun DomainModel.asTable(): Table
 
 }

@@ -5,10 +5,8 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("com.google.devtools.ksp")
 }
 
 dependencies {
@@ -18,11 +16,12 @@ dependencies {
     implementation(project(":shared:data"))
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
-    ksp(AndroidX.hilt.compiler)
-    ksp(Google.dagger.hilt.compiler)
+    kapt(AndroidX.hilt.compiler)
+    kapt(Google.dagger.hilt.compiler)
     implementation(Google.dagger.hilt.android)
 
     implementation(AndroidX.core)
+
     implementation(AndroidX.appCompat)
 
     implementation(AndroidX.paging.commonKtx)
@@ -43,6 +42,7 @@ dependencies {
 
     implementation(Google.dagger.hilt.android)
     implementation(Google.android.playServices.location)
+    implementation(Google.android.playServices.auth)
     implementation(Google.android.play.coreKtx)
 
     implementation(project.dependencies.platform(Google.firebase.bom))
@@ -53,7 +53,7 @@ dependencies {
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
+    compileSdkPreview = Properties.androidCompileSDK
 
     defaultConfig {
         applicationId = Properties.androidPackageName
@@ -79,9 +79,12 @@ android {
 
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=kotlin.OptIn",

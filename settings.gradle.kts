@@ -9,7 +9,7 @@ pluginManagement {
 rootProject.name = "DatePick"
 
 plugins {
-    id("de.fayard.refreshVersions") version "0.10.1"
+    id("de.fayard.refreshVersions") version "0.11.0"
 }
 
 include(":android:app")

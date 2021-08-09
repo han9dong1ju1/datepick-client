@@ -3,11 +3,12 @@
     package="app.hdj.datepick.android">
 
     <application
-        android:name=".App"
+        android:name="app.hdj.datepick.android.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DatePick">
+        android:label="Datepick"
+        android:theme="@style/Theme.AppTheme">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

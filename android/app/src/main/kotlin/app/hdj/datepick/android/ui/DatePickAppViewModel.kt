@@ -1,19 +1,22 @@
-package app.hdj.datepick.android.ui.components
+package app.hdj.datepick.android.ui
 
 import androidx.lifecycle.ViewModel
-import app.hdj.datepick.android.ui.components.DatePickAppViewModelDelegate.*
+import androidx.lifecycle.viewModelScope
+import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.*
+import app.hdj.datepick.domain.model.user.User
+import app.hdj.datepick.domain.usecase.user.GetMeUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
-    class State()
+    data class State(
+        val me: User? = null
+    )
 
     sealed class Effect {
 
@@ -28,10 +31,16 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 @HiltViewModel
 @OptIn(FlowPreview::class)
 class DatePickAppViewModel @Inject constructor(
-
+    getMeUseCase: GetMeUseCase
 ) : ViewModel(), DatePickAppViewModelDelegate {
 
-    override val state: StateFlow<State> = TODO()
+    private val theme = MutableStateFlow(0)
+    private val me = getMeUseCase.observable()
+
+    override val state: StateFlow<State> =
+        combine(me, theme) { me, theme ->
+            State(me)
+        }.stateIn(viewModelScope, SharingStarted.Lazily, State())
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect: Flow<Effect> = effectChannel.receiveAsFlow()

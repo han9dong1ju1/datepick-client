@@ -1,19 +1,17 @@
 package app.hdj.datepick.data.mapper
 
-import app.hdj.datepick.CourseTable
-import app.hdj.datepick.data.entity.CourseResponse
+import app.hdj.datepick.CourseEntity
 import app.hdj.datepick.domain.model.course.Course
 import kotlinx.datetime.Clock
 
-object CourseMapper : Mapper<CourseTable, Course> {
+object CourseMapper : Mapper<CourseEntity, Course> {
 
-    override fun map(table: CourseTable) = object : Course {
-        override val id: String = table.id
-        override val name: String = table.name
+    override fun CourseEntity.asDomain() = object : Course {
+        override val id: String = this@asDomain.id
+        override val name: String = this@asDomain.name
     }
 
-    override fun map(model: Course): CourseTable = with(model) {
-        CourseTable(id, name, Clock.System.now().epochSeconds)
-    }
+    override fun Course.asTable(): CourseEntity =
+        CourseEntity(id, name, Clock.System.now().epochSeconds)
 
 }

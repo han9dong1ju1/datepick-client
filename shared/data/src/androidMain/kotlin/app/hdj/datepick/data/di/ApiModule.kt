@@ -1,15 +1,13 @@
 package app.hdj.datepick.data.di
 
+import app.hdj.datepick.data.api.DatePickHttpClient
+import app.hdj.datepick.utils.AppInfo
+import app.hdj.datepick.utils.Authenticator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
-import timber.log.Timber
+import io.ktor.client.engine.okhttp.*
 import javax.inject.Singleton
 
 @Module
@@ -18,17 +16,13 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient() = HttpClient(CIO) {
-        install(JsonFeature) {
-            serializer = KotlinxSerializer()
-        }
-        install(Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    Timber.d(message)
-                }
-            }
-        }
-    }
+    fun provideHttpClient(
+        authenticator: Authenticator,
+        appInfo: AppInfo
+    ) = DatePickHttpClient(
+        OkHttp,
+        authenticator,
+        appInfo
+    )
 
 }

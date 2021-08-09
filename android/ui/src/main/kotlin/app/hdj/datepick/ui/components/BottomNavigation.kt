@@ -30,7 +30,9 @@ fun NavigationGraphBottomNavigation(
     list: List<BottomNavigationProperty>
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colors.surface)
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.surface)
     ) {
         BottomNavigation(
             backgroundColor = Color.Transparent,
@@ -51,7 +53,9 @@ fun NavigationGraphBottomNavigation(
                     onClick = { navController.navigate(nav.route) },
                     icon = {
                         if (badgeEnabled) {
-                            BadgeBox { Icon(icon, null) }
+                            BadgedBox(badge = {
+                                Badge()
+                            }) { Icon(icon, null) }
                         } else {
                             Icon(icon, null)
                         }
