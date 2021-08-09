@@ -8,8 +8,8 @@ CREATE TABLE featuredEntity (
     cachedAt INTEGER AS Long NOT NULL
 );
 
-getById:
-SELECT * FROM featuredEntity WHERE id = :id;
+findAll:
+SELECT * FROM featuredEntity;
 
 insert:
 INSERT INTO featuredEntity(id, title, description, photoUrl, cachedAt) VALUES ?;
