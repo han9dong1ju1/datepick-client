@@ -1,6 +1,8 @@
 package app.hdj.datepick.ui.components
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
@@ -8,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.ui.utils.VerticalMargin
@@ -22,17 +25,17 @@ fun <T> DatePickPager(
     pagerState : PagerState = rememberPagerState(pageCount = list.size),
     itemSpacing: Dp = 0.dp,
     autoScrollEnabled: Boolean = false,
-    content: @Composable (T) -> Unit
+    content: @Composable PagerScope.(T, Int) -> Unit
 ) {
 
     LaunchedEffect(key1 = autoScrollEnabled) {
-        if (autoScrollEnabled) {
-            while (true) {
-                delay(5000)
-                if (!pagerState.isScrollInProgress) {
-                    if (pagerState.currentPage == pagerState.pageCount - 1) {
-                        pagerState.animateScrollToPage(0)
-                    } else pagerState.animateScrollToPage(pagerState.currentPage + 1)
+        while (autoScrollEnabled) {
+            delay(5000)
+            if (!pagerState.isScrollInProgress) {
+                if (pagerState.currentPage == pagerState.pageCount - 1) {
+                    pagerState.animateScrollToPage(0)
+                } else {
+                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
                 }
             }
         }
@@ -43,6 +46,6 @@ fun <T> DatePickPager(
         state = pagerState,
         itemSpacing = itemSpacing
     ) {
-        content(list[it])
+        content(list[it], it)
     }
 }

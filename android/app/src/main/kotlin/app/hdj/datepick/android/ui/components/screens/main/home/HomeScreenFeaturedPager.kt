@@ -8,8 +8,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.lerp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -21,7 +24,9 @@ import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 import coil.size.Scale
 import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import kotlin.math.absoluteValue
 
 @Composable
 private fun HomeScreenFeaturedPagerItem(
@@ -33,7 +38,7 @@ private fun HomeScreenFeaturedPagerItem(
 
         Image(
             modifier = Modifier.fillMaxSize(),
-            painter = rememberUrlImagePainter(request = null) {
+            painter = rememberUrlImagePainter(request = featured.photoUrl) {
                 scale(Scale.FILL)
                 placeholder(R.drawable.preview_place_image)
             },
@@ -94,8 +99,8 @@ fun HomeScreenFeaturedPager(list: List<Featured>) {
             pagerState = pagerState,
             autoScrollEnabled = true,
             modifier = Modifier.fillMaxWidth(),
-        ) {
-            HomeScreenFeaturedPagerItem(featured = it)
+        ) { item, page ->
+            HomeScreenFeaturedPagerItem(featured = item)
         }
 
         HorizontalPagerIndicator(
