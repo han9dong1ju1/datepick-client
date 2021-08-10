@@ -2,6 +2,7 @@ package app.hdj.datepick.android.ui.components.screens.main.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -18,8 +19,12 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.R
 import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
+import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.isStateFailed
+import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.DatePickPager
+import app.hdj.datepick.ui.components.Shimmer
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 import coil.size.Scale
@@ -84,9 +89,10 @@ private fun HomeScreenFeaturedPagerItem(
 }
 
 @Composable
-fun HomeScreenFeaturedPager(list: List<Featured>) {
-
-    val pagerState = rememberPagerState(pageCount = list.size, infiniteLoop = true)
+fun HomeScreenFeaturedPager(
+    state: StateData<List<Featured>>,
+    onFeaturedClicked: (Featured) -> Unit
+) {
 
     Box(
         modifier = Modifier
@@ -94,25 +100,43 @@ fun HomeScreenFeaturedPager(list: List<Featured>) {
             .height(400.dp)
     ) {
 
-        DatePickPager(
-            list = list,
-            pagerState = pagerState,
-            autoScrollEnabled = true,
-            modifier = Modifier.fillMaxWidth(),
-        ) { item, page ->
-            HomeScreenFeaturedPagerItem(featured = item)
+        when {
+            state.isStateSucceed() -> {
+                val list = state.data
+                val pagerState = rememberPagerState(pageCount = list.size, infiniteLoop = true)
+
+                DatePickPager(
+                    list = list,
+                    pagerState = pagerState,
+                    autoScrollEnabled = true,
+                    modifier = Modifier.fillMaxWidth(),
+                ) { item, page ->
+                    HomeScreenFeaturedPagerItem(
+                        modifier = Modifier.clickable { onFeaturedClicked(item) },
+                        featured = item
+                    )
+                }
+
+                HorizontalPagerIndicator(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(20.dp),
+                    activeColor = Color.White,
+                    indicatorHeight = 4.dp,
+                    indicatorWidth = 20.dp,
+                    spacing = 8.dp,
+                    pagerState = pagerState
+                )
+
+            }
+            state.isStateFailed() -> {
+
+            }
+            else -> {
+                Shimmer(modifier = Modifier.fillMaxSize())
+            }
         }
 
-        HorizontalPagerIndicator(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(20.dp),
-            activeColor = Color.White,
-            indicatorHeight = 4.dp,
-            indicatorWidth = 20.dp,
-            spacing = 8.dp,
-            pagerState = pagerState
-        )
 
     }
 
@@ -124,6 +148,6 @@ fun HomeScreenFeaturedPagerPreview(
     @PreviewParameter(FakeFeaturedPreviewProvider::class) featuredList: List<Featured>
 ) {
     DatePickTheme {
-        HomeScreenFeaturedPager(featuredList)
+        HomeScreenFeaturedPager(StateData.success(featuredList)) {}
     }
 }

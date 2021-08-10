@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FeaturedDataStore : DataStore<FeaturedEntity> {
 
-    fun findAllCached(): Flow<List<FeaturedEntity>>
+    fun findAllCached(): List<FeaturedEntity>
     suspend fun saveAll(list: List<FeaturedEntity>)
 
 }
@@ -20,7 +20,7 @@ class FeaturedDataStoreImp @Inject constructor(
     private val queries: FeaturedEntityQueries
 ) : FeaturedDataStore {
 
-    override fun findAllCached() = queries.findAll().asFlow().mapToList()
+    override fun findAllCached() = queries.findAll().executeAsList()
 
     override suspend fun save(data: FeaturedEntity) {
         queries.insert(data)
