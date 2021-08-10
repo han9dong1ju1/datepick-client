@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
 import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.*
@@ -33,7 +34,7 @@ fun HomeScreen(
                         .height(400.dp)
                         .background(Color.Black)
                 ) {
-                    HomeScreenFeaturedPager(emptyList())
+                    HomeScreenFeaturedPager(FakeFeaturedPreviewProvider().values.first())
                     HomeScreenTopBar()
                 }
             }

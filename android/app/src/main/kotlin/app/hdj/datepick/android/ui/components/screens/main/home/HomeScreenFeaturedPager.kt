@@ -9,30 +9,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import app.hdj.datepick.android.R
 import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.DatePickPager
 import app.hdj.datepick.ui.styles.DatePickTheme
-import app.hdj.datepick.ui.utils.VerticalMargin
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 import coil.size.Scale
-import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 
 @Composable
-private fun HomeScreenFeaturedPagerItem(featured: Featured) {
+private fun HomeScreenFeaturedPagerItem(
+    modifier: Modifier = Modifier,
+    featured: Featured
+) {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
 
         Image(
             modifier = Modifier.fillMaxSize(),
-            painter = rememberUrlImagePainter(request = featured.photoUrl) {
+            painter = rememberUrlImagePainter(request = null) {
                 scale(Scale.FILL)
+                placeholder(R.drawable.preview_place_image)
             },
+            contentScale = ContentScale.Crop,
             contentDescription = null
         )
 
