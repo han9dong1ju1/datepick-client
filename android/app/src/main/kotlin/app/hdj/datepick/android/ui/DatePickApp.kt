@@ -78,15 +78,15 @@ fun DatePickApp() {
     val currentRoute = navBackStackEntry?.destination?.route
 
     val systemUiController = rememberSystemUiController()
+    val useDarkIcons = MaterialTheme.colors.isLight
 
-    if (AppNavigationGraph.Main.Home.route == currentRoute) {
-        systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = false)
-    } else {
-        systemUiController.setSystemBarsColor(
-            Color.White.copy(alpha = 0.5f),
-            darkIcons = MaterialTheme.colors.isLight
-        )
-        if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
+    SideEffect {
+        if (AppNavigationGraph.Main.Home.route == currentRoute) {
+            systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = false)
+        } else {
+            systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = useDarkIcons)
+            if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
+        }
     }
 
     val homeViewModel = fakeHomeViewModel()
