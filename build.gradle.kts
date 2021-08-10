@@ -15,6 +15,7 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
         classpath("com.android.tools.build:gradle:7.0.0")
+        classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:1.3.0")
         classpath(Google.playServicesGradlePlugin)
         classpath(Google.dagger.hilt.android.gradlePlugin)
         classpath(Square.sqlDelight.gradlePlugin)

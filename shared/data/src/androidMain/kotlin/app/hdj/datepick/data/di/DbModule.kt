@@ -32,4 +32,8 @@ class DbModule {
     @Singleton
     fun provideCourseEntityQuery(db : DatePickDatabase) : CourseEntityQueries = db.courseEntityQueries
 
+    @Provides
+    @Singleton
+    fun provideFeaturedEntityQuery(db : DatePickDatabase) : FeaturedEntityQueries = db.featuredEntityQueries
+
 }

@@ -33,6 +33,9 @@ interface DataStoreModule {
     @get:[Binds]
     val CourseDataStoreImp.courseDataStore: CourseDataStore
 
+    @get:[Binds]
+    val FeaturedDataStoreImp.featuredDataStore: FeaturedDataStore
+
     companion object {
 
         @OptIn(ExperimentalSettingsApi::class, ExperimentalSettingsImplementation::class)

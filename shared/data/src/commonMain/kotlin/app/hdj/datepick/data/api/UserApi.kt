@@ -7,21 +7,28 @@ import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.*
 
+interface UserApi : Api {
+    override val basePath: String get() = "/api/v1/users"
+
+    suspend fun getMe() : ApiResponse<UserResponse>
+    suspend fun updateMe(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse>
+    suspend fun register(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse>
+    suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String>
+}
+
 @Singleton
-open class UserApi @Inject constructor(override val client: HttpClient) : Api {
+open class UserApiImp @Inject constructor(override val client: HttpClient) : UserApi {
 
-    override val basePath: String = "/api/v1/users"
-
-    suspend fun getMe() : ApiResponse<UserResponse> =
+    override suspend fun getMe() : ApiResponse<UserResponse> =
         get("me")
 
-    suspend fun updateMe(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
+    override suspend fun updateMe(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
         patch { body = userProfileRequest }
 
-    suspend fun register(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
+    override suspend fun register(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
         post { body = userProfileRequest }
 
-    suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String> =
+    override suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String> =
         post("unregister") { body = userUnregisterRequest }
 
 }
