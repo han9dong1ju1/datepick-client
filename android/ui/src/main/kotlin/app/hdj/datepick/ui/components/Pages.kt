@@ -28,12 +28,12 @@ fun <T> DatePickPager(
     LaunchedEffect(key1 = autoScrollEnabled) {
         if (autoScrollEnabled) {
             while (true) {
+                delay(5000)
                 if (!pagerState.isScrollInProgress) {
                     if (pagerState.currentPage == pagerState.pageCount - 1) {
                         pagerState.animateScrollToPage(0)
                     } else pagerState.animateScrollToPage(pagerState.currentPage + 1)
                 }
-                delay(5000)
             }
         }
     }
