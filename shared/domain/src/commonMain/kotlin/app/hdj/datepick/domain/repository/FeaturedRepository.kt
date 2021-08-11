@@ -9,6 +9,6 @@ interface FeaturedRepository {
 
     fun getFeatured(): Flow<StateData<List<Featured>>>
 
-    fun getFeaturedDetail(id: Int): Flow<StateData<FeaturedDetail>>
+    fun getFeaturedDetail(id: Long): Flow<StateData<FeaturedDetail>>
 
 }

@@ -34,7 +34,7 @@ class FeaturedRepositoryImp @Inject constructor(
         }
     }
 
-    override fun getFeaturedDetail(id: Int) = flow<StateData<FeaturedDetail>> {
+    override fun getFeaturedDetail(id: Long) = flow<StateData<FeaturedDetail>> {
         emitState {
             api.getFeaturedDetail(id).data
         }

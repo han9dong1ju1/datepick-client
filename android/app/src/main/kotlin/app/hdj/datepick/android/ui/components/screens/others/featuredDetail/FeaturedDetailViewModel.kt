@@ -52,7 +52,7 @@ interface FeaturedDetailViewModelDelegate : ViewModelDelegate<State, Effect, Eve
 
     sealed class Event {
         object Retry : Event()
-        class FetchFeaturedById(val featuredId: Int) : Event()
+        class FetchFeaturedById(val featuredId: Long) : Event()
         class ServePreviousFeaturedData(val featured: Featured) : Event()
     }
 
@@ -65,7 +65,7 @@ class FeaturedDetailViewModel @Inject constructor(
 ) : ViewModel(), FeaturedDetailViewModelDelegate {
 
     private val previousFeaturedData = MutableStateFlow<Featured?>(null)
-    private val featuredId = MutableStateFlow<Int?>(null)
+    private val featuredId = MutableStateFlow<Long?>(null)
 
     private val featuredDetail = featuredId
         .flatMapConcat {

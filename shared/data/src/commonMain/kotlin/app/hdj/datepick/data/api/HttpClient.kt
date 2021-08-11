@@ -59,8 +59,10 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
         accept(ContentType.Application.Json)
         accept(ContentType.Text.Plain)
 
-        host = "odd-bulldog-54.loca.lt"
-//        port = 8080
+        url {
+            protocol = URLProtocol.HTTPS
+            host = "lazy-insect-23.loca.lt"
+        }
     }
 
     block()

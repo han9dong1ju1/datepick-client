@@ -7,13 +7,13 @@ import kotlinx.datetime.Clock
 object FeaturedMapper : Mapper<FeaturedEntity, Featured> {
 
     override fun FeaturedEntity.asDomain() = object : Featured {
-        override val id: Int = this@asDomain.id.toInt()
+        override val id: Long = this@asDomain.id
         override val title: String = this@asDomain.title
         override val description: String = this@asDomain.description
         override val photoUrl: String = this@asDomain.photoUrl
     }
 
     override fun Featured.asTable(): FeaturedEntity =
-        FeaturedEntity(id.toString(), title, description, photoUrl, Clock.System.now().epochSeconds)
+        FeaturedEntity(id, title, description, photoUrl, Clock.System.now().epochSeconds)
 
 }

@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FeaturedResponse(
-    @SerialName("id") override val id : Int,
+    @SerialName("id") override val id : Long,
     @SerialName("title") override val title : String,
     @SerialName("description") override val description : String,
     @SerialName("photoUrl") override val photoUrl : String
