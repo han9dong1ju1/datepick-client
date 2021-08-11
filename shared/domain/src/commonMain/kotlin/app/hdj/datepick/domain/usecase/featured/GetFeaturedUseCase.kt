@@ -9,6 +9,6 @@ class GetFeaturedUseCase @Inject constructor(
     private val featuredRepository: FeaturedRepository
 ) {
 
-    fun execute(id: String) = featuredRepository.getFeaturedDetail(id)
+    fun execute(id: Int) = featuredRepository.getFeaturedDetail(id)
 
 }
