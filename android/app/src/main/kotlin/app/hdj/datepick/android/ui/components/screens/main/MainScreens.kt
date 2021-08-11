@@ -1,34 +1,25 @@
 package app.hdj.datepick.android.ui.components.screens.main
 
-import android.util.Log
-import androidx.compose.animation.*
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavGraphBuilder
-import com.google.accompanist.navigation.animation.composable
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeScreen
-import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModel
+import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModelDelegate
 import app.hdj.datepick.android.ui.components.screens.main.map.MapScreen
-import app.hdj.datepick.android.ui.components.screens.main.map.MapViewModel
+import app.hdj.datepick.android.ui.components.screens.main.map.MapViewModelDelegate
 import app.hdj.datepick.android.ui.components.screens.main.pick.PickScreen
-import app.hdj.datepick.android.ui.components.screens.main.pick.PickViewModel
+import app.hdj.datepick.android.ui.components.screens.main.pick.PickViewModelDelegate
 import app.hdj.datepick.android.ui.components.screens.main.profile.ProfileScreen
-import app.hdj.datepick.android.ui.components.screens.main.profile.ProfileViewModel
+import app.hdj.datepick.android.ui.components.screens.main.profile.ProfileViewModelDelegate
 import app.hdj.datepick.android.ui.components.screens.showSetting
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
-import timber.log.Timber
-import kotlin.math.roundToInt
 
 fun NavGraphBuilder.mainScreens(
-    homeViewModel: HomeViewModel,
-    mapViewModel: MapViewModel,
-    pickViewModel: PickViewModel,
-    profileViewModel: ProfileViewModel
+    homeViewModel: HomeViewModelDelegate,
+    mapViewModel: MapViewModelDelegate,
+    pickViewModel: PickViewModelDelegate,
+    profileViewModel: ProfileViewModelDelegate
 ) {
 
     navigation(

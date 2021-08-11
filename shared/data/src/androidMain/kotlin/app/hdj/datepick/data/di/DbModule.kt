@@ -17,7 +17,7 @@ class DbModule {
 
     @Provides
     @Singleton
-    fun provideDbDriver(@ApplicationContext context: Context) =
+    fun provideDbDriver(@ApplicationContext context: Context) : SqlDriver =
         AndroidSqliteDriver(DatePickDatabase.Schema, context, name = "datepick-database.db")
 
     @Provides

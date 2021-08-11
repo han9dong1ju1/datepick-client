@@ -29,6 +29,7 @@ import app.hdj.datepick.android.ui.components.dialog.login.loginDialog
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.MainBottomNavigation
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModel
+import app.hdj.datepick.android.ui.components.screens.main.home.fakeHomeViewModel
 import app.hdj.datepick.android.ui.components.screens.main.mainScreens
 import app.hdj.datepick.android.ui.components.screens.main.map.MapViewModel
 import app.hdj.datepick.android.ui.components.screens.main.pick.PickViewModel
@@ -40,6 +41,7 @@ import app.hdj.datepick.android.ui.components.screens.others.place_list.placeLis
 import app.hdj.datepick.android.ui.components.screens.others.settings.settingsScreens
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalSnackBarPresenter
+import app.hdj.datepick.android.ui.providers.LocalSystemUiController
 import app.hdj.datepick.android.ui.providers.SnackbarPresenter
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.DatePickScaffold
@@ -76,23 +78,24 @@ fun DatePickApp() {
     val currentRoute = navBackStackEntry?.destination?.route
 
     val systemUiController = rememberSystemUiController()
+    val useDarkIcons = MaterialTheme.colors.isLight
 
-    if (AppNavigationGraph.Main.Home.route == currentRoute) {
-        systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = false)
-    } else {
-        systemUiController.setSystemBarsColor(
-            Color.Transparent,
-            darkIcons = MaterialTheme.colors.isLight
-        )
-        if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
+    SideEffect {
+        if (AppNavigationGraph.Main.Home.route == currentRoute) {
+            systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = false)
+        } else {
+            systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = useDarkIcons)
+            if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
+        }
     }
 
-    val homeViewModel: HomeViewModel = hiltViewModel()
-    val mapViewModel: MapViewModel = hiltViewModel()
-    val pickViewModel: PickViewModel = hiltViewModel()
-    val profileViewModel: ProfileViewModel = hiltViewModel()
+    val homeViewModel = fakeHomeViewModel()
+    val mapViewModel = hiltViewModel<MapViewModel>()
+    val pickViewModel = hiltViewModel<PickViewModel>()
+    val profileViewModel = hiltViewModel<ProfileViewModel>()
 
     CompositionLocalProvider(
+        LocalSystemUiController provides systemUiController,
         LocalAppNavController provides navController,
         LocalSnackBarPresenter provides snackBarPresenter
     ) {

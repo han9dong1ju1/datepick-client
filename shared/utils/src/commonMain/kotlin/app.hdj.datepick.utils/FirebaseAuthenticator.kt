@@ -9,6 +9,7 @@ interface Authenticator {
     val idToken: String?
     suspend fun getCurrentFirebaseUser(): FirebaseUser?
     suspend fun signInGoogle(credential: AuthCredential)
+    suspend fun signInCustomToken(customToken : String)
 }
 
 @Singleton
@@ -25,6 +26,11 @@ class FirebaseAuthenticator @Inject constructor() : Authenticator {
 
     override suspend fun signInGoogle(credential: AuthCredential) {
         val authResult = Firebase.auth.signInWithCredential(credential)
+        _idToken = authResult.user?.getIdToken(false)
+    }
+
+    override suspend fun signInCustomToken(customToken: String) {
+        val authResult = Firebase.auth.signInWithCustomToken(customToken)
         _idToken = authResult.user?.getIdToken(false)
     }
 
