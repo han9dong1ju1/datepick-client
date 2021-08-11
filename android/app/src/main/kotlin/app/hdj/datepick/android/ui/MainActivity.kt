@@ -10,6 +10,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import app.hdj.datepick.android.ui.StatusBarMode.*
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
 import app.hdj.datepick.ui.styles.DatePickTheme
@@ -57,31 +58,32 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
 
-            val (state) = appViewModel.extract()
+            val (state, _, event) = appViewModel.extract()
 
             CompositionLocalProvider(
+                LocalDatePickAppViewModel provides appViewModel,
                 LocalMe provides state.me,
                 LocalImageLoader provides imageLoader
             ) {
 
+                val systemUiController = rememberSystemUiController()
+                val statusBarMode = state.statusBarMode
+                val useDarkIcons = MaterialTheme.colors.isLight
+                val statusBarScrim = MaterialTheme.colors.background.copy(0.5f)
+
+                SideEffect {
+                    when (statusBarMode) {
+                        STATUS_BAR_FORCE_WHITE ->
+                            systemUiController.setStatusBarColor(Color.Transparent, false)
+                        STATUS_BAR_SYSTEM ->
+                            systemUiController.setStatusBarColor(statusBarScrim, useDarkIcons)
+                    }
+                }
+
                 ProvideToastPresenter {
-
                     DatePickTheme {
-
-                        val systemUiController = rememberSystemUiController()
-                        val useDarkIcons = MaterialTheme.colors.isLight
-
-                        SideEffect {
-                            systemUiController.setSystemBarsColor(
-                                Color.Transparent,
-                                darkIcons = useDarkIcons,
-                                isNavigationBarContrastEnforced = false
-                            )
-                        }
-
                         ProvideWindowInsets { DatePickApp() }
                     }
-
                 }
 
             }

@@ -16,17 +16,19 @@ import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
 
 @Composable
-fun TopAppBarBackButton() {
+fun TopAppBarBackButton(
+    contentColor: Color = MaterialTheme.colors.onSurface
+) {
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     IconButton(onClick = { backDispatcher?.onBackPressed() }) {
-        Icon(imageVector = Icons.Rounded.ArrowBack, null)
+        Icon(imageVector = Icons.Rounded.ArrowBack, null, tint = contentColor)
     }
 }
 
 @Composable
 fun DatePickTopAppBar(
-    title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    title: @Composable () -> Unit = {},
     contentPadding: PaddingValues = rememberInsetsPaddingValues(
         insets = LocalWindowInsets.current.statusBars,
         applyStart = true,

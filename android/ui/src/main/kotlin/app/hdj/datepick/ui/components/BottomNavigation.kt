@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.currentScreenRoute
 import com.google.accompanist.insets.LocalWindowInsets
@@ -34,6 +35,7 @@ fun NavigationGraphBottomNavigation(
             .fillMaxWidth()
             .background(MaterialTheme.colors.surface)
     ) {
+        Divider(color = MaterialTheme.colors.onSurface.copy(alpha = 0.03f))
         BottomNavigation(
             backgroundColor = Color.Transparent,
             contentColor = MaterialTheme.colors.onBackground,
@@ -61,7 +63,7 @@ fun NavigationGraphBottomNavigation(
                         }
                     },
                     label = { Text(text = label) },
-                    unselectedContentColor = LocalContentColor.current.copy(alpha = 0.4f)
+                    unselectedContentColor = LocalContentColor.current.copy(alpha = 0.2f)
                 )
             }
         }

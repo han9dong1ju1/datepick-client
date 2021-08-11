@@ -21,55 +21,81 @@ val typographies = Typography(
     defaultFontFamily = FontFamily.Default,
     h1 = TextStyle(
         fontWeight = FontWeight.Black,
-        fontSize = 24.sp
+        fontSize = 24.sp,
+        lineHeight = 36.sp,
+        letterSpacing = 1.sp,
     ),
     h2 = TextStyle(
         fontWeight = FontWeight.Black,
-        fontSize = 20.sp
+        fontSize = 20.sp,
+        lineHeight = 30.sp,
+        letterSpacing = 1.sp,
     ),
     h3 = TextStyle(
         fontWeight = FontWeight.Black,
-        fontSize = 18.sp
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 1.sp,
     ),
     h4 = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 18.sp
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 1.sp,
     ),
     h5 = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 16.sp
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 1.sp,
     ),
     h6 = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 1.sp,
     ),
     subtitle1 = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 14.sp
+        fontSize = 14.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 1.sp,
     ),
     subtitle2 = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp
+        fontSize = 14.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 1.sp,
     ),
     body1 = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 12.sp
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 1.sp,
     ),
     body2 = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 12.sp
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 1.sp,
     ),
     button = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 12.sp
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 1.sp,
     ),
     caption = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 10.sp
+        fontSize = 10.sp,
+        lineHeight = 14.sp,
+        letterSpacing = 1.sp,
     ),
     overline = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 10.sp
+        fontSize = 10.sp,
+        lineHeight = 14.sp,
+        letterSpacing = 1.sp,
     )
 )
 
@@ -84,10 +110,10 @@ val shapes = Shapes(
 /* Colors */
 
 val darkColors = darkColors(
-    primary = Color(0xff5cadff),
-    secondary = Color(0xff5cadff),
-    primaryVariant = Color(0xff5cadff),
-    secondaryVariant = Color(0xff5cadff),
+    primary = Color(0xFF465060),
+    secondary = Color(0xFFef6d9a),
+    primaryVariant = Color(0xFF465060),
+    secondaryVariant = Color(0xFFef6d9a),
     background = Color(0xFF131313),
     surface = Color(0xFF131313),
     error = Color(0xFFCF6679),
@@ -100,11 +126,11 @@ val darkColors = darkColors(
 
 @SuppressLint("ConflictingOnColor")
 val lightColors = lightColors(
-    primary = Color(0xff5cadff),
-    secondary = Color(0xff5cadff),
-    primaryVariant = Color(0xff5cadff),
-    secondaryVariant = Color(0xff5cadff),
-    background = Color.White,
+    primary = Color(0xFF465060),
+    secondary = Color(0xFFef6d9a),
+    primaryVariant = Color(0xFF465060),
+    secondaryVariant = Color(0xFFef6d9a),
+    background = Color(0xFFf8f8f8),
     surface = Color.White,
     error = Color(0xFFB00020),
     onPrimary = Color.White,

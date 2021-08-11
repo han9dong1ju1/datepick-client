@@ -6,8 +6,8 @@
         android:name="app.hdj.datepick.android.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:supportsRtl="true"
         android:label="Datepick"
+        android:supportsRtl="true"
         android:theme="@style/Theme.AppTheme">
 
         <meta-data
@@ -23,6 +23,14 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="datepick" />
             </intent-filter>
         </activity>
         <service
