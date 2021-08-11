@@ -11,6 +11,7 @@ import timber.log.Timber
 
 const val DEEPLINK_URL = "datepick://"
 const val EXTERNAL_DEEPLINK_URL = "https://deeplink.datepick.app"
+const val FIREBASE_DYNAMIC_LINK_DOMAIN_URL = "https://datepick.page.link"
 
 private const val IosBundleId = "app.hdj.datepick.ios"
 
@@ -30,7 +31,7 @@ suspend fun createDynamicLink(
 ): Uri? {
     return Firebase.dynamicLinks.shortLinkAsync {
         link = Uri.parse("$EXTERNAL_DEEPLINK_URL/$deeplinkSuffix")
-        domainUriPrefix = "https://datepick.page.link"
+        domainUriPrefix = FIREBASE_DYNAMIC_LINK_DOMAIN_URL
         androidParameters {
             minimumVersion = 2021_1_00_00
         }
