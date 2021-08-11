@@ -21,7 +21,7 @@ class FeaturedRepositoryImp @Inject constructor(
     private val dataStore: FeaturedDataStore
 ) : FeaturedRepository, Mapper<FeaturedEntity, Featured> by FeaturedMapper {
 
-    override fun getFeatured() = flow {
+    override fun   getFeatured() = flow {
         // 이전 캐시를 먼저 방출해서 보여줍니다.
         val cache = dataStore.findAllCached().mapDomain()
         if (cache.isNotEmpty()) emit(StateData.success(cache))
@@ -34,7 +34,7 @@ class FeaturedRepositoryImp @Inject constructor(
         }
     }
 
-    override fun getFeaturedDetail(id: String) = flow<StateData<FeaturedDetail>> {
+    override fun getFeaturedDetail(id: Int) = flow<StateData<FeaturedDetail>> {
         emitState {
             api.getFeaturedDetail(id).data
         }

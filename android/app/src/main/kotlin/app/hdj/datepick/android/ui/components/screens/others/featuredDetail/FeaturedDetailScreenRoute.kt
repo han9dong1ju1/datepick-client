@@ -15,7 +15,7 @@ import com.google.accompanist.navigation.animation.composable
 
 @Parcelize
 data class FeaturedNavigationArgument(
-    override val id: String,
+    override val id: Int,
     override val title: String,
     override val description: String,
     override val photoUrl: String
@@ -27,13 +27,13 @@ fun NavGraphBuilder.featuredDetailScreen() {
         deepLinks = listOf(datePickNavDeepLink(AppNavigationGraph.FeaturedDetail.route)),
         arguments = listOf(
             navArgument(AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED_ID) {
-                type = NavType.StringType
+                type = NavType.IntType
             }
         )
     ) {
         val navController = LocalAppNavController.current
 
-        val id = it.arguments?.getString(AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED_ID)
+        val id = it.arguments?.getInt(AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED_ID)
 
         val featured = navController
             .getArgument<FeaturedNavigationArgument>(AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED)

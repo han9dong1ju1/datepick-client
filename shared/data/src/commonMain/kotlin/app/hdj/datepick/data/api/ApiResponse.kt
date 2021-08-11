@@ -1,10 +1,11 @@
 package app.hdj.datepick.data.api
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiResponse<T>(
-    val message : String,
-    val code : Int,
-    val data : T?
+    @SerialName("message") val message : String?,
+    @SerialName("code") val code : Int,
+    @SerialName("data") val data : T?
 )

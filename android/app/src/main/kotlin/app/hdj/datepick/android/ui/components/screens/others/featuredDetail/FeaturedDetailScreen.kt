@@ -42,7 +42,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun FeaturedDetailScreen(
-    id: String? = null,
+    id: Int? = null,
     prevFeatured: Featured? = null,
     vm: FeaturedDetailViewModelDelegate = hiltViewModel<FeaturedDetailViewModel>()
 ) {

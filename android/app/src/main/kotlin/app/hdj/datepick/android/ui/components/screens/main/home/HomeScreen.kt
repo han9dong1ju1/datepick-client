@@ -36,6 +36,8 @@ fun HomeScreen(
     val navController = LocalAppNavController.current
     val appViewModel = LocalDatePickAppViewModel.current
 
+    // datepick://featured/4329482374
+
     remember(lazyListState.firstVisibleItemIndex) {
         val mode = if (lazyListState.firstVisibleItemIndex != 0) {
             ChangeStatusBarMode(StatusBarMode.STATUS_BAR_SYSTEM)

@@ -27,6 +27,7 @@ import app.hdj.datepick.android.ui.components.dialog.appupdate.appUpdateDialog
 import app.hdj.datepick.android.ui.components.dialog.login.loginDialog
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.MainBottomNavigation
+import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModel
 import app.hdj.datepick.android.ui.components.screens.main.home.fakeHomeViewModel
 import app.hdj.datepick.android.ui.components.screens.main.mainScreens
 import app.hdj.datepick.android.ui.components.screens.main.map.MapViewModel
@@ -75,7 +76,7 @@ fun DatePickApp() {
 
     val appViewModel = LocalDatePickAppViewModel.current
 
-    val homeViewModel = fakeHomeViewModel()
+    val homeViewModel = hiltViewModel<HomeViewModel>()
     val mapViewModel = hiltViewModel<MapViewModel>()
     val pickViewModel = hiltViewModel<PickViewModel>()
     val profileViewModel = hiltViewModel<ProfileViewModel>()

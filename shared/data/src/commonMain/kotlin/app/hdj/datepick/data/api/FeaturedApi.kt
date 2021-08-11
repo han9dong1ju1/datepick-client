@@ -10,7 +10,7 @@ interface FeaturedApi : Api {
     override val basePath: String get() = "/api/v1/featured"
 
     suspend fun getFeatured() : ApiResponse<List<FeaturedResponse>>
-    suspend fun getFeaturedDetail(id: String) : ApiResponse<FeaturedDetailResponse>
+    suspend fun getFeaturedDetail(id: Int) : ApiResponse<FeaturedDetailResponse>
 }
 
 @Singleton
@@ -18,8 +18,9 @@ class FeaturedApiImp @Inject constructor(
     override val client: HttpClient
 ) : FeaturedApi {
 
+//    override suspend fun getFeatured() = get<ApiResponse<List<FeaturedResponse>>>()
     override suspend fun getFeatured() = get<ApiResponse<List<FeaturedResponse>>>()
 
-    override suspend fun getFeaturedDetail(id: String) = get<ApiResponse<FeaturedDetailResponse>>("$id/")
+    override suspend fun getFeaturedDetail(id: Int) = get<ApiResponse<FeaturedDetailResponse>>("$id/")
 
 }
