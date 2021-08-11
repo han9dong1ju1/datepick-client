@@ -61,7 +61,7 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
 
         url {
             protocol = URLProtocol.HTTPS
-            host = "lazy-insect-23.loca.lt"
+            host = "odd-crab-0.loca.lt"
         }
     }
 

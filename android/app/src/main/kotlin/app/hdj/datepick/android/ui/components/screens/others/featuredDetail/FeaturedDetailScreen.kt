@@ -1,5 +1,6 @@
 package app.hdj.datepick.android.ui.components.screens.others.featuredDetail
 
+import android.content.Intent
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -16,18 +17,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStatusBarMode
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.StatusBarMode
+import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
+import app.hdj.datepick.android.utils.createDynamicLink
 import app.hdj.datepick.domain.StateData
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.featured.Featured
@@ -37,7 +41,7 @@ import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.*
 import coil.size.Scale
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -52,6 +56,7 @@ fun FeaturedDetailScreen(
     val lazyListState = rememberLazyListState()
 
     val appViewModel = LocalDatePickAppViewModel.current
+    val context = LocalContext.current
 
     val isHeaderScrolled = lazyListState.isFirstItemScrolled(200.dp - 56.dp)
 
@@ -71,6 +76,7 @@ fun FeaturedDetailScreen(
 
     }
 
+    val coroutineScope = rememberCoroutineScope()
 
     DatePickScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -110,11 +116,25 @@ fun FeaturedDetailScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = {
-
-                    }) {
-                        Icon(Icons.Rounded.Share, null, tint = actionIconColor.value)
-                    }
+                    val featured = state.featured
+                    if (featured.isStateSucceed())
+                        IconButton(onClick = {
+                            coroutineScope.launch {
+                                val link = createDynamicLink(
+                                    AppNavigationGraph.FeaturedDetail.route(featured = featured.data),
+                                    featured.data.title,
+                                    featured.data.description,
+                                    featured.data.photoUrl,
+                                )
+                                context.startActivity(Intent().apply {
+                                    action = Intent.ACTION_SEND
+                                    putExtra(Intent.EXTRA_TEXT, link.toString())
+                                    type = "text/plain"
+                                })
+                            }
+                        }) {
+                            Icon(Icons.Rounded.Share, null, tint = actionIconColor.value)
+                        }
                 },
                 elevation = elevation.value,
                 backgroundColor = toolbarColor.value,

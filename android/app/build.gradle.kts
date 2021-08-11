@@ -21,6 +21,7 @@ dependencies {
     kapt(AndroidX.hilt.compiler)
     kapt(Google.dagger.hilt.compiler)
     implementation(Google.dagger.hilt.android)
+    implementation(KotlinX.coroutines.playServices)
 
     implementation(AndroidX.core)
 
@@ -47,10 +48,11 @@ dependencies {
     implementation(Google.android.playServices.auth)
     implementation(Google.android.play.coreKtx)
 
-    implementation(project.dependencies.platform(Google.firebase.bom))
+    implementation(platform(Google.firebase.bom))
     implementation(Google.firebase.cloudMessagingKtx)
     implementation(Google.firebase.analyticsKtx)
     implementation(Google.firebase.crashlyticsKtx)
+    implementation(Google.firebase.dynamicLinksKtx)
 
 }
 

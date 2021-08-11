@@ -33,6 +33,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="datepick" />
+                <data android:scheme="https" android:host="deeplink.datepick.app" />
             </intent-filter>
         </activity>
         <service

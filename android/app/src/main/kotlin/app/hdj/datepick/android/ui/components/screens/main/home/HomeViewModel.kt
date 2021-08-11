@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModelDelegate.*
 import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
 import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.map
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
@@ -59,7 +60,7 @@ class HomeViewModel @Inject constructor(
         getFeaturedListUseCase.execute(),
         flowOf(true)
     ) { featured, _ ->
-        State(featured)
+        State(featured.map { FakeFeaturedPreviewProvider().values.first() + it })
     }.stateIn(
         viewModelScope,
         SharingStarted.Lazily,
