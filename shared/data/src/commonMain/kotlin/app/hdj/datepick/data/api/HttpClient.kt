@@ -32,7 +32,13 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
     }
 
     install(JsonFeature) {
-        serializer = KotlinxSerializer()
+        serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+            ignoreUnknownKeys = true
+            allowSpecialFloatingPointValues = true
+            useArrayPolymorphism = true
+            prettyPrint = true
+            allowStructuredMapKeys = true
+        })
     }
 
     install(Logging) {
@@ -42,28 +48,6 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
             }
         }
         level = LogLevel.ALL
-    }
-
-    HttpResponseValidator {
-
-        validateResponse {
-            val response = it.receive<ApiResponse<Unit?>>()
-            if (response.code > 300) throw ClientRequestException(it, response.message.orEmpty())
-        }
-
-        handleResponseException { exception ->
-            val clientException =
-                exception as? ClientRequestException ?: return@handleResponseException
-
-            val response = clientException.response
-
-            if (!response.status.isSuccess()) {
-                throw ApiResponseException(
-                    response.status.value,
-                    clientException.message
-                )
-            }
-        }
     }
 
     defaultRequest {
