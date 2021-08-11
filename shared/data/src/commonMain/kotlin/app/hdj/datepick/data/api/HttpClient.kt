@@ -32,10 +32,7 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
     }
 
     install(JsonFeature) {
-        serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
-            prettyPrint = true
-            isLenient = true
-        })
+        serializer = KotlinxSerializer()
     }
 
     install(Logging) {
@@ -51,7 +48,7 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
 
         validateResponse {
             val response = it.receive<ApiResponse<Unit?>>()
-            if (response.code > 300) throw ClientRequestException(it, response.message)
+            if (response.code > 300) throw ClientRequestException(it, response.message.orEmpty())
         }
 
         handleResponseException { exception ->
@@ -78,8 +75,8 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
         accept(ContentType.Application.Json)
         accept(ContentType.Text.Plain)
 
-        host = "localhost"
-        port = 8080
+        host = "odd-bulldog-54.loca.lt"
+//        port = 8080
     }
 
     block()

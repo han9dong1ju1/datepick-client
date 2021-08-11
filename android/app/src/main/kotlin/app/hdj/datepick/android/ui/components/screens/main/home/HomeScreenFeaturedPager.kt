@@ -71,7 +71,7 @@ private fun HomeScreenFeaturedPagerItem(
                 style = MaterialTheme.typography.h1
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             Text(
                 modifier = Modifier.fillMaxWidth(),
