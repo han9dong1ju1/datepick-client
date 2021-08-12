@@ -3,18 +3,26 @@ package app.hdj.datepick.android.ui.components.screens.main.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStatusBarMode
+import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
+import app.hdj.datepick.android.ui.StatusBarMode
+import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.components.screens.others.featuredDetail.FeaturedNavigationArgument
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.ui.styles.DatePickTheme
-import app.hdj.datepick.ui.utils.*
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.statusBarsPadding
+import app.hdj.datepick.ui.utils.extract
+import app.hdj.datepick.ui.utils.putArguments
+import timber.log.Timber
 
 @Composable
 fun HomeScreen(
@@ -23,8 +31,26 @@ fun HomeScreen(
 
     val (state, effect, event) = vm.extract()
 
+    val lazyListState = rememberLazyListState()
+
+    val navController = LocalAppNavController.current
+    val appViewModel = LocalDatePickAppViewModel.current
+
+    // datepick://featured/4329482374
+
+    remember(lazyListState.firstVisibleItemIndex) {
+        val mode = if (lazyListState.firstVisibleItemIndex != 0) {
+            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_SYSTEM)
+        } else {
+            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_FORCE_WHITE)
+        }
+        appViewModel.event(mode)
+        mode
+    }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
+        state = lazyListState,
         content = {
             item {
                 Box(
@@ -33,8 +59,30 @@ fun HomeScreen(
                         .height(400.dp)
                         .background(Color.Black)
                 ) {
+                    HomeScreenFeaturedPager(state.featured) {
+                        navController.putArguments(
+                            AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED to with(it) {
+                                FeaturedNavigationArgument(
+                                    id,
+                                    title,
+                                    description,
+                                    photoUrl
+                                )
+                            }
+                        )
+                        navController.navigate(AppNavigationGraph.FeaturedDetail.route(it))
+
+                    }
                     HomeScreenTopBar()
                 }
+            }
+
+            items((0..100).toList()) {
+                Text(
+                    text = "$it", modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp)
+                )
             }
         }
     )

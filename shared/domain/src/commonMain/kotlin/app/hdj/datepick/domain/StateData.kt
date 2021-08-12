@@ -25,6 +25,14 @@ sealed interface StateData<T> {
 
 }
 
+fun <T, R> StateData<T>.map(mapper : (T) -> R) : StateData<R> {
+    return when (this) {
+        is StateData.Failed -> StateData.Failed(throwable, cachedData?.let { mapper(it) })
+        is StateData.Loading -> StateData.Loading()
+        is StateData.Success -> StateData.Success(mapper(data))
+    }
+}
+
 suspend fun <T : Any> FlowCollector<StateData<T>>.emitState(
     defaultValue: T? = null,
     onSuccess: suspend (T) -> Unit = {},

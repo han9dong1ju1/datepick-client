@@ -1,6 +1,7 @@
 package app.hdj.datepick.android.ui.components.screens
 
 import androidx.navigation.NavController
+import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.NestedNavigationGraph
 
@@ -33,6 +34,12 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     }
     /* Main End */
+
+    object FeaturedDetail : AppNavigationGraph("featured/{featuredId}") {
+        const val ARGUMENT_FEATURED_ID = "featuredId"
+        const val ARGUMENT_FEATURED = "featured"
+        fun route(featured: Featured) = "featured/${featured.id}"
+    }
 
     object SearchPlace : AppNavigationGraph("search_place")
 

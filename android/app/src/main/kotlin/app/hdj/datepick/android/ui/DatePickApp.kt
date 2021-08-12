@@ -7,7 +7,6 @@ import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
@@ -17,30 +16,30 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.plusAssign
+import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStatusBarMode
 import app.hdj.datepick.android.ui.components.dialog.appupdate.appUpdateDialog
 import app.hdj.datepick.android.ui.components.dialog.login.loginDialog
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.main.MainBottomNavigation
 import app.hdj.datepick.android.ui.components.screens.main.home.HomeViewModel
+import app.hdj.datepick.android.ui.components.screens.main.home.fakeHomeViewModel
 import app.hdj.datepick.android.ui.components.screens.main.mainScreens
 import app.hdj.datepick.android.ui.components.screens.main.map.MapViewModel
 import app.hdj.datepick.android.ui.components.screens.main.pick.PickViewModel
 import app.hdj.datepick.android.ui.components.screens.main.profile.ProfileViewModel
 import app.hdj.datepick.android.ui.components.screens.others.course.courseScreen
 import app.hdj.datepick.android.ui.components.screens.others.create_course.createCourseScreen
+import app.hdj.datepick.android.ui.components.screens.others.featuredDetail.featuredDetailScreen
 import app.hdj.datepick.android.ui.components.screens.others.place.placeScreen
 import app.hdj.datepick.android.ui.components.screens.others.place_list.placeListScreen
 import app.hdj.datepick.android.ui.components.screens.others.settings.settingsScreens
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.android.ui.providers.LocalSnackBarPresenter
-import app.hdj.datepick.android.ui.providers.SnackbarPresenter
+import app.hdj.datepick.android.ui.providers.*
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.DatePickScaffold
 import com.google.accompanist.navigation.animation.AnimatedComposeNavigator
@@ -75,22 +74,12 @@ fun DatePickApp() {
 
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val systemUiController = rememberSystemUiController()
+    val appViewModel = LocalDatePickAppViewModel.current
 
-    if (AppNavigationGraph.Main.Home.route == currentRoute) {
-        systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = false)
-    } else {
-        systemUiController.setSystemBarsColor(
-            Color.Transparent,
-            darkIcons = MaterialTheme.colors.isLight
-        )
-        if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
-    }
-
-    val homeViewModel: HomeViewModel = hiltViewModel()
-    val mapViewModel: MapViewModel = hiltViewModel()
-    val pickViewModel: PickViewModel = hiltViewModel()
-    val profileViewModel: ProfileViewModel = hiltViewModel()
+    val homeViewModel = hiltViewModel<HomeViewModel>()
+    val mapViewModel = hiltViewModel<MapViewModel>()
+    val pickViewModel = hiltViewModel<PickViewModel>()
+    val profileViewModel = hiltViewModel<ProfileViewModel>()
 
     CompositionLocalProvider(
         LocalAppNavController provides navController,
@@ -166,6 +155,8 @@ fun DatePickApp() {
                     /* Setting Screens */
                     settingsScreens()
 
+                    featuredDetailScreen()
+
                     appUpdateDialog()
                     loginDialog()
                 }
@@ -175,4 +166,17 @@ fun DatePickApp() {
         }
 
     }
+
+    if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
+
+    remember(currentRoute) {
+        val mode = if (AppNavigationGraph.Main.Home.route != currentRoute) {
+            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_SYSTEM)
+        } else {
+            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_FORCE_WHITE)
+        }
+        appViewModel.event(mode)
+        mode
+    }
+
 }
