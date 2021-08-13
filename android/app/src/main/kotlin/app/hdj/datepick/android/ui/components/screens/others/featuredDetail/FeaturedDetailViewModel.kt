@@ -3,8 +3,10 @@ package app.hdj.datepick.android.ui.components.screens.others.featuredDetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.components.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.*
 import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
+import app.hdj.datepick.android.utils.createDynamicLink
 import app.hdj.datepick.domain.StateData
 import app.hdj.datepick.domain.StateData.Companion.loading
 import app.hdj.datepick.domain.StateData.Companion.success
@@ -43,7 +45,8 @@ interface FeaturedDetailViewModelDelegate : ViewModelDelegate<State, Effect, Eve
     data class State(
         val featured: StateData<Featured> = loading(),
         val content: StateData<String> = loading(),
-        val courses: StateData<List<Course>> = loading()
+        val courses: StateData<List<Course>> = loading(),
+        val shareUrl: StateData<String>? = null
     )
 
     sealed class Effect {
@@ -54,6 +57,7 @@ interface FeaturedDetailViewModelDelegate : ViewModelDelegate<State, Effect, Eve
         object Retry : Event()
         class FetchFeaturedById(val featuredId: Long) : Event()
         class ServePreviousFeaturedData(val featured: Featured) : Event()
+        object CreateShareUrl : Event()
     }
 
 }
@@ -67,6 +71,8 @@ class FeaturedDetailViewModel @Inject constructor(
     private val previousFeaturedData = MutableStateFlow<Featured?>(null)
     private val featuredId = MutableStateFlow<Long?>(null)
 
+    private val shareUrl = MutableStateFlow<StateData<String>?>(null)
+
     private val featuredDetail = featuredId
         .flatMapConcat {
             if (it != null) getFeaturedUseCase.execute(it)
@@ -75,8 +81,9 @@ class FeaturedDetailViewModel @Inject constructor(
 
     override val state = combine(
         previousFeaturedData,
-        featuredDetail
-    ) { previousFeaturedData, featuredDetail ->
+        featuredDetail,
+        shareUrl
+    ) { previousFeaturedData, featuredDetail, shareUrl ->
 
         val fetchedFeatured = featuredDetail.map { it.meta }
 
@@ -87,7 +94,8 @@ class FeaturedDetailViewModel @Inject constructor(
             else if (previousFeaturedData != null) success(previousFeaturedData)
             else loading(),
             featuredDetail.map { it.content },
-            featuredDetail.map { it.courses }
+            featuredDetail.map { it.courses },
+            shareUrl
         )
     }.stateIn(
         viewModelScope,
@@ -112,6 +120,25 @@ class FeaturedDetailViewModel @Inject constructor(
                 Event.Retry -> {
                     featuredId.emit(featuredId.value)
                 }
+                Event.CreateShareUrl -> {
+
+                    val featured = state.value.featured as StateData.Success
+
+                    shareUrl.emit(loading())
+
+                    val url = createDynamicLink(
+                        AppNavigationGraph.FeaturedDetail.route(featured = featured.data),
+                        featured.data.title,
+                        featured.data.description,
+                        featured.data.photoUrl,
+                        1000,
+                        "1000"
+                    ).toString()
+
+                    shareUrl.emit(success(url))
+
+                }
+
             }
         }
     }

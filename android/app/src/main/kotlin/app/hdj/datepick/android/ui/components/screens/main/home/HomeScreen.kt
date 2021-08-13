@@ -9,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,7 +21,6 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.putArguments
-import timber.log.Timber
 
 @Composable
 fun HomeScreen(
@@ -35,8 +33,6 @@ fun HomeScreen(
 
     val navController = LocalAppNavController.current
     val appViewModel = LocalDatePickAppViewModel.current
-
-    // datepick://featured/4329482374
 
     remember(lazyListState.firstVisibleItemIndex) {
         val mode = if (lazyListState.firstVisibleItemIndex != 0) {
@@ -59,7 +55,7 @@ fun HomeScreen(
                         .height(400.dp)
                         .background(Color.Black)
                 ) {
-                    HomeScreenFeaturedPager(state.featured) {
+                    HomeScreenFeaturedHeader(state.featured) {
                         navController.putArguments(
                             AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED to with(it) {
                                 FeaturedNavigationArgument(

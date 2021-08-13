@@ -8,7 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @Composable
-fun ProvideBasicsForPreview(
+fun Preview(
     content: @Composable () -> Unit
 ) {
 
