@@ -106,7 +106,7 @@ kotlin {
 }
 
 android {
-    compileSdkPreview = Properties.androidCompileSDK
+    compileSdk = Properties.androidCompileSDK
 
     defaultConfig {
         minSdk = Properties.androidMinSDK

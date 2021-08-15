@@ -59,7 +59,7 @@ dependencies {
 }
 
 android {
-    compileSdkPreview = AppProperties.androidCompileSDK
+    compileSdk = AppProperties.androidCompileSDK
 
     defaultConfig {
         applicationId = AppProperties.androidPackageName
