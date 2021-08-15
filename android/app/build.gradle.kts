@@ -1,4 +1,6 @@
 import de.fayard.refreshVersions.core.versionFor
+import java.util.Properties
+import Properties as AppProperties
 
 plugins {
     id("com.android.application")
@@ -57,14 +59,14 @@ dependencies {
 }
 
 android {
-    compileSdkPreview = Properties.androidCompileSDK
+    compileSdkPreview = AppProperties.androidCompileSDK
 
     defaultConfig {
-        applicationId = Properties.androidPackageName
-        minSdk = Properties.androidMinSDK
-        targetSdk = Properties.androidTargetSDK
-        versionCode = Properties.androidAppVersionCode
-        versionName = Properties.androidAppVersionName
+        applicationId = AppProperties.androidPackageName
+        minSdk = AppProperties.androidMinSDK
+        targetSdk = AppProperties.androidTargetSDK
+        versionCode = AppProperties.androidAppVersionCode
+        versionName = AppProperties.androidAppVersionName
     }
 
     buildTypes {
@@ -77,18 +79,19 @@ android {
         getByName("debug") {
             keyAlias = "debug"
             keyPassword = "android"
-            storeFile = File("${project.rootDir.absolutePath}/keystore/debug.keystore")
+            storeFile = file("${project.rootDir.absolutePath}/keystore/debug.keystore")
             storePassword = "android"
         }
-//        create("release") {
-//            val keystoreProperties = java.util.Properties().apply {
-//                load(file("../keystore/keystore").inputStream())
-//            }
-//            keyAlias = keystoreProperties.getProperty("keyAlias")
-//            keyPassword = keystoreProperties.getProperty("keyPassword")
-//            storeFile = file(keystoreProperties.getProperty("storeFile"))
-//            storePassword = keystoreProperties.getProperty("storePassword")
-//        }
+
+        create("release") {
+            val keystoreProperties = Properties().apply {
+                load(file("${project.rootDir.absolutePath}/keystore/keystore").inputStream())
+            }
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+            storeFile = file(keystoreProperties.getProperty("storeFile"))
+            storePassword = keystoreProperties.getProperty("storePassword")
+        }
     }
 
     buildFeatures {

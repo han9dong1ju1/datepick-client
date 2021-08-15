@@ -1,7 +1,6 @@
 package app.hdj.datepick.android.ui.components.screens.main.map
 
-import android.view.LayoutInflater
-import android.view.ViewTreeObserver
+import android.view.View
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.LinearProgressIndicator
@@ -11,18 +10,22 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.components.*
+import app.hdj.datepick.ui.components.DatePickPager
+import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.googlemap.*
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.pager.rememberPagerState
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.JointType
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.RoundCap
 import com.google.maps.android.ktx.model.markerOptions
 import kotlinx.coroutines.delay
 import kotlin.random.Random
@@ -54,8 +57,8 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
             LatLng(37.0 + latRand(), 126.0 + lngRand())
         }.shuffled().map { latLng ->
             markerOptions {
-
                 position(latLng)
+                title("Example")
             }
         }
 

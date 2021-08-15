@@ -27,6 +27,7 @@ val AndroidX.Core.splashscreen get() = "androidx.core:core-splashscreen:1.0.0-al
 val Firebase.multiplatform get() = Multiplatform
 
 val Google.Android.maps get() = "com.google.maps.android:maps-ktx:_"
+val Google.Android.mapsUtils get() = "com.google.maps.android:maps-utils-ktx:_"
 val Google.Accompanist.navigation get() = Navigation
 
 object Navigation {

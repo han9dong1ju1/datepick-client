@@ -24,8 +24,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.*
+import com.google.maps.android.collections.MarkerManager
 import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.model.cameraPosition
 
@@ -218,6 +220,18 @@ fun GoogleMap(
         factory = { mapView },
         modifier = modifier
     ) { view ->
-        view.getMapAsync {}
+        view.getMapAsync {
+            val markerManager = MarkerManager(it)
+            val collection = markerManager.newCollection()
+            collection.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+                override fun getInfoWindow(p0: Marker): View? {
+                    return null
+                }
+
+                override fun getInfoContents(p0: Marker): View? {
+                    return null
+                }
+            })
+        }
     }
 }
