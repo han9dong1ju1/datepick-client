@@ -8,7 +8,8 @@ platform :android do
         firebase_app_distribution(
             service_credentials_file: "firebase_credentials.json",
             app: ENV['FAD_ANDROID_APP_ID'],
-            release_notes_file: "FirebaseAppDistributionConfig/release_notes.txt"
+            release_notes_file: "FirebaseAppDistributionConfig/release_notes.txt",
+            groups: "all"
         )
     end
 
