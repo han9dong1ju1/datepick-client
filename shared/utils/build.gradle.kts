@@ -34,6 +34,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(Firebase.multiplatform.auth)
+                api(Utils.kotlinxDateTime)
             }
         }
         val commonTest by getting {

@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface PlaceRepository {
 
-    fun getById(id : String) : Flow<StateData<Place>>
+    fun getById(id : Long) : Flow<StateData<Place>>
 
 }

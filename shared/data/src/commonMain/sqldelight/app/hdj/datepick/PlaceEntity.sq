@@ -1,8 +1,8 @@
 import java.lang.Long;
 
 CREATE TABLE placeEntity (
-    id TEXT NOT NULL PRIMARY KEY,
-    kakaoId INTEGER NOT NULL,
+    id INTEGER AS Long NOT NULL PRIMARY KEY,
+    kakaoId INTEGER AS Long NOT NULL,
     name TEXT NOT NULL,
     cachedAt INTEGER AS Long NOT NULL
 );
