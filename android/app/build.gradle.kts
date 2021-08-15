@@ -69,8 +69,26 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
+    }
+
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = "debug"
+            keyPassword = "android"
+            storeFile = File("${project.rootDir.absolutePath}/keystore/debug.keystore")
+            storePassword = "android"
+        }
+//        create("release") {
+//            val keystoreProperties = java.util.Properties().apply {
+//                load(file("../keystore/keystore").inputStream())
+//            }
+//            keyAlias = keystoreProperties.getProperty("keyAlias")
+//            keyPassword = keystoreProperties.getProperty("keyPassword")
+//            storeFile = file(keystoreProperties.getProperty("storeFile"))
+//            storePassword = keystoreProperties.getProperty("storePassword")
+//        }
     }
 
     buildFeatures {

@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "4723840473-r75jkuakuvb602tavrtkhqott6u5ljkb.apps.googleusercontent.com",
+          "client_id": "4723840473-dbjt7rh7pq9r60grakv5o89cavlppj0v.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "app.hdj.datepick.android",
-            "certificate_hash": "749305839dd5b1d1e4c4b50aa04b7b1645b0fe6d"
+            "certificate_hash": "a02eb8024561c4ba978f74eca590726161e72fa7"
           }
         },
         {

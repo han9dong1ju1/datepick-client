@@ -1,20 +1,23 @@
 package app.hdj.datepick.android.ui.components.screens.main.map
 
+import android.view.LayoutInflater
+import android.view.ViewTreeObserver
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.components.*
+import app.hdj.datepick.ui.components.googlemap.*
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.navigationBarsHeight
@@ -29,13 +32,14 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
 
     val (state, effect, event) = vm.extract()
 
+    val context = LocalContext.current
 
     val pages = (0..10).toList()
     val pagerState = rememberPagerState(pageCount = pages.size)
 
-    val cameraPosition = rememberGoogleMapCameraPosition()
-    val polylineOptionsState = rememberGoogleMapPolylineOptions()
-    val markerOptionsState = rememberGoogleMapMarkers()
+    val cameraPosition = rememberCameraUpdateState()
+    val polylineOptionsState = rememberPolylineOptionsState()
+    val markerOptionsState = rememberMarkerOptionsState()
 
     val polylineColors = MaterialTheme.colors.primary
 
@@ -50,18 +54,17 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
             LatLng(37.0 + latRand(), 126.0 + lngRand())
         }.shuffled().map { latLng ->
             markerOptions {
-                icon(null)
+
                 position(latLng)
-                title("Example")
             }
         }
 
-        cameraPosition.animateCamera(markers.map { it.position }, 100.dp)
+        cameraPosition.animate(markers.map { it.position }, 100.dp)
 
         markerOptionsState.clear()
         markerOptionsState.addMarkerOptions(markers)
 
-        polylineOptionsState.setPolylineOptions {
+        polylineOptionsState.polylineOptions {
             addAll(markers.map { it.position })
             startCap(RoundCap())
             endCap(RoundCap())

@@ -92,21 +92,21 @@ fun HomeScreenFeaturedHeader(
 
     AnimatedContent(targetState = state) {
 
-        when {
-            state.isStateSucceed() -> {
-                HomeScreenFeaturedPager(state.data, onFeaturedClicked)
-            }
-            state.isStateFailed() -> {
-                val cachedList = state.cachedData
-                if (cachedList != null) HomeScreenFeaturedPager(cachedList, onFeaturedClicked)
-                else {
-
-                }
-            }
-            else -> {
-
-            }
-        }
+//        when {
+//            state.isStateSucceed() -> {
+//                HomeScreenFeaturedPager(state.data, onFeaturedClicked)
+//            }
+//            state.isStateFailed() -> {
+//                val cachedList = state.cachedData
+//                if (cachedList != null) HomeScreenFeaturedPager(cachedList, onFeaturedClicked)
+//                else {
+//
+//                }
+//            }
+//            else -> {
+//
+//            }
+//        }
 
 
     }

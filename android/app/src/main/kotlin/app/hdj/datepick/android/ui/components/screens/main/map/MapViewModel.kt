@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.screens.main.map.MapViewModelDelegate.*
 import app.hdj.datepick.domain.StateData
 import app.hdj.datepick.domain.StateData.Companion.loading
-import app.hdj.datepick.domain.isStateFailed
 import app.hdj.datepick.domain.isStateLoading
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
