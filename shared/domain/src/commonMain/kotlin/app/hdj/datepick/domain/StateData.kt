@@ -70,3 +70,11 @@ fun <T> StateData<T>.isStateFailed(): Boolean {
     }
     return this@isStateFailed is StateData.Failed
 }
+
+@OptIn(ExperimentalContracts::class)
+fun <T> StateData<T>.isStateLoading(): Boolean {
+    contract {
+        returns(true) implies (this@isStateLoading is StateData.Loading)
+    }
+    return this@isStateLoading is StateData.Loading
+}

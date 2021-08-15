@@ -1,34 +1,28 @@
 package app.hdj.datepick.android.ui.components.screens.main.profile
 
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.animation.*
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph.LoginDialog
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
-import app.hdj.datepick.android.ui.providers.ProvideBasicsForPreview
+import app.hdj.datepick.android.ui.providers.Preview
+import app.hdj.datepick.android.ui.providers.preview.FakeUserPreviewProvider
+import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
-import com.google.accompanist.insets.statusBarsPadding
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -42,27 +36,64 @@ fun ProfileScreen(
     val navController = LocalAppNavController.current
     val me = LocalMe.current
 
-    DatePickScaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        DatePickTopAppBar(title = { Text("프로필") })
-    }) {
-        Column(modifier = Modifier.padding(top = it.calculateTopPadding())) {
+    DatePickScaffold(
+        Modifier.fillMaxSize(),
+        topBar = {
 
-            DatePickButton(text = "로그인") {
-                navController.navigate(AppNavigationGraph.LoginDialog.route)
+            Column(Modifier.fillMaxWidth()) {
+                DatePickTopAppBar()
+                Surface(modifier = Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(20.dp)) {
+                        if (me != null) {
+
+                            Image(
+                                modifier = Modifier.size(80.dp),
+                                painter = rememberUrlImagePainter(request = me.profileImageUrl),
+                                contentDescription = ""
+                            )
+
+                            Spacer(Modifier.height(20.dp))
+
+                            LargeTitle(me.nickname)
+
+                        } else {
+
+                            LargeTitleAndSubtitle("로그인하기", "로그인하여 더 많은 기능을 사용해보세요.")
+
+                            Spacer(Modifier.height(20.dp))
+
+                            DatePickCTAButton(text = "로그인") {
+                                navController.navigate(LoginDialog.route)
+                            }
+
+                        }
+                    }
+                }
             }
 
+
         }
+    ) {
+
+        LazyColumn(Modifier.fillMaxSize()) {
+
+        }
+
     }
+
 
 }
 
 @Composable
-@Preview
+@Preview(showSystemUi = true, showBackground = true)
 fun ProfileScreenPreview(
+    @PreviewParameter(FakeUserPreviewProvider::class) user: User?
 ) {
-    DatePickTheme {
-        ProvideBasicsForPreview {
-            ProfileScreen(fakeProfileViewModel())
+    Preview {
+        CompositionLocalProvider(LocalMe provides user) {
+            DatePickTheme {
+                ProfileScreen(fakeProfileViewModel())
+            }
         }
     }
 }

@@ -19,8 +19,5 @@ fun rememberUrlImagePainter(
     request,
     imageLoader,
     onExecute,
-    {
-        builder()
-        crossfade(true)
-    }
+    builder
 )

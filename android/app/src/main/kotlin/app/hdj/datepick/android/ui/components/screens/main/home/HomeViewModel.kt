@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
         getFeaturedListUseCase.execute(),
         flowOf(true)
     ) { featured, _ ->
-        State(featured.map { FakeFeaturedPreviewProvider().values.first() + it })
+        State(featured)
     }.stateIn(
         viewModelScope,
         SharingStarted.Lazily,

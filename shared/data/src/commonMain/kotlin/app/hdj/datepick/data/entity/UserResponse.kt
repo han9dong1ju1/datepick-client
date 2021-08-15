@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserResponse(
-    override val id: String,
+    override val id: Long,
     override val nickname: String,
     override val profileImageUrl: String?
 ) : User {

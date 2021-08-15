@@ -27,17 +27,19 @@ suspend fun createDynamicLink(
     deeplinkSuffix: String,
     linkTitle: String,
     linkContent: String,
-    linkPhotoUrl: String
+    linkPhotoUrl: String,
+    androidMinimumVersion : Int,
+    iOSMinimumVersion : String,
 ): Uri? {
     return Firebase.dynamicLinks.shortLinkAsync {
         link = Uri.parse("$EXTERNAL_DEEPLINK_URL/$deeplinkSuffix")
         domainUriPrefix = FIREBASE_DYNAMIC_LINK_DOMAIN_URL
         androidParameters {
-            minimumVersion = 2021_1_00_00
+            minimumVersion = androidMinimumVersion
         }
         iosParameters(IosBundleId) {
             appStoreId = ""
-            minimumVersion = "2021.1.00.00"
+            minimumVersion = iOSMinimumVersion
         }
         socialMetaTagParameters {
             title = linkTitle

@@ -26,7 +26,7 @@ interface MeDataStore : DataStore<User> {
 
 @Serializable
 data class MeEntity(
-    override val id: String,
+    override val id: Long,
     override val nickname: String,
     override val isMe: Boolean,
     override val profileImageUrl: String?

@@ -16,6 +16,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -67,16 +68,25 @@ fun FeaturedDetailScreen(
     }
 
     SideEffect {
-
         if (prevFeatured != null) {
             vm.event(FeaturedDetailViewModelDelegate.Event.ServePreviousFeaturedData(prevFeatured))
         } else if (id != null) {
             vm.event(FeaturedDetailViewModelDelegate.Event.FetchFeaturedById(id))
         }
-
     }
 
-    val coroutineScope = rememberCoroutineScope()
+    val shareUrl = state.shareUrl
+
+    LaunchedEffect(shareUrl) {
+        if (shareUrl == null) return@LaunchedEffect
+        if (shareUrl is StateData.Success) {
+            context.startActivity(Intent.createChooser(Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, shareUrl.data)
+                type = "text/plain"
+            }, "공유"))
+        }
+    }
 
     DatePickScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -117,24 +127,27 @@ fun FeaturedDetailScreen(
                 },
                 actions = {
                     val featured = state.featured
-                    if (featured.isStateSucceed())
-                        IconButton(onClick = {
-                            coroutineScope.launch {
-                                val link = createDynamicLink(
-                                    AppNavigationGraph.FeaturedDetail.route(featured = featured.data),
-                                    featured.data.title,
-                                    featured.data.description,
-                                    featured.data.photoUrl,
-                                )
-                                context.startActivity(Intent().apply {
-                                    action = Intent.ACTION_SEND
-                                    putExtra(Intent.EXTRA_TEXT, link.toString())
-                                    type = "text/plain"
-                                })
+                    if (featured.isStateSucceed()) {
+                        val isLinkGenerating = shareUrl != null && shareUrl is StateData.Loading
+                        IconButton(
+                            onClick = {
+                                if (!isLinkGenerating) {
+                                    event(FeaturedDetailViewModelDelegate.Event.CreateShareUrl)
+                                }
                             }
-                        }) {
-                            Icon(Icons.Rounded.Share, null, tint = actionIconColor.value)
+                        ) {
+                            if (isLinkGenerating) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(20.dp),
+                                    strokeWidth = 2.dp,
+                                    color = Color.White
+                                )
+                            } else {
+                                Icon(Icons.Rounded.Share, null, tint = actionIconColor.value)
+                            }
                         }
+
+                    }
                 },
                 elevation = elevation.value,
                 backgroundColor = toolbarColor.value,

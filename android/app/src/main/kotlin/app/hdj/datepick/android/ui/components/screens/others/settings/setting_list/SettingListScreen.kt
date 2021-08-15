@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.providers.ProvideBasicsForPreview
+import app.hdj.datepick.android.ui.providers.Preview
 import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
@@ -51,7 +51,7 @@ fun SettingListScreen(
 @Preview
 fun SettingsScreenPreview() {
     DatePickTheme {
-        ProvideBasicsForPreview {
+        Preview {
             SettingListScreen(fakeSettingListViewModel())
         }
     }
