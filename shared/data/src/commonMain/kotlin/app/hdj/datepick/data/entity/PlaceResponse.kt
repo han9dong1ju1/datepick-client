@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaceResponse(
-    override val id : String,
-    override val name : String
+    override val id : Long,
+    override val kakaoId: Long,
+    override val name : String,
 ) : Place

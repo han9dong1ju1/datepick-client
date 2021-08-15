@@ -1,5 +1,6 @@
 import de.fayard.refreshVersions.core.versionFor
 import java.util.Properties
+import java.io.ByteArrayOutputStream
 import Properties as AppProperties
 
 plugins {
@@ -58,6 +59,17 @@ dependencies {
 
 }
 
+val gitDescribe: String by lazy {
+    val stdout = ByteArrayOutputStream()
+    rootProject.exec {
+        executable("/bin/sh")
+        args("-c", "git rev-parse --short HEAD")
+        standardOutput = stdout
+    }
+    val commit = stdout.toString().trim()
+    commit
+}
+
 android {
     compileSdk = AppProperties.androidCompileSDK
 
@@ -70,6 +82,10 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            versionNameSuffix = "-$gitDescribe-DEBUG"
+        }
+
         getByName("release") {
             isMinifyEnabled = true
         }
