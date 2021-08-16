@@ -1,31 +1,16 @@
 package app.hdj.datepick.ui.components.googlemap
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewTreeObserver
-import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.google.android.gms.maps.CameraUpdate
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.collections.MarkerManager
 import com.google.maps.android.ktx.awaitMap
@@ -166,19 +151,41 @@ private fun rememberMapViewWithLifecycle(): MapView {
     return mapView
 }
 
+@Stable
+class MapUiSettingsState {
+
+    private var _uiSettings: (UiSettings.() -> Unit)? by mutableStateOf(null)
+    val uiSettings get() = _uiSettings
+
+    fun uiSettings(optionsActions: UiSettings.() -> Unit) {
+        _uiSettings = optionsActions
+    }
+
+}
+
+@Composable
+fun rememberMapUiSettings(): MapUiSettingsState = remember {
+    MapUiSettingsState().apply {
+        uiSettings {
+            setAllGesturesEnabled(true)
+        }
+    }
+}
+
 @Composable
 fun GoogleMap(
     modifier: Modifier = Modifier,
-    cameraPositionState: CameraUpdateState = rememberCameraUpdateState(),
-    markers: MarkerOptionsState = rememberMarkerOptionsState(),
-    polyline: PolylineOptionsState = rememberPolylineOptionsState()
+    uiSettingsState: MapUiSettingsState = rememberMapUiSettings(),
+    cameraUpdateState: CameraUpdateState = rememberCameraUpdateState(),
+    markerOptionsState: MarkerOptionsState = rememberMarkerOptionsState(),
+    polylineOptionsState: PolylineOptionsState = rememberPolylineOptionsState()
 ) {
 
     val mapView = rememberMapViewWithLifecycle()
 
-    LaunchedEffect(cameraPositionState.cameraUpdateRequest) {
+    LaunchedEffect(cameraUpdateState.cameraUpdateRequest) {
         val googleMap = mapView.awaitMap()
-        cameraPositionState.cameraUpdateRequest?.let {
+        cameraUpdateState.cameraUpdateRequest?.let {
             when (it) {
                 is CameraUpdateRequest.MultipleTargets -> {
                     val update = CameraUpdateFactory.newLatLngBounds(
@@ -205,15 +212,15 @@ fun GoogleMap(
     }
 
     LaunchedEffect(
-        markers.markerOptions,
-        polyline.polylineOptions
+        markerOptionsState.markerOptions,
+        polylineOptionsState.polylineOptions
     ) {
         val googleMap = mapView.awaitMap()
         googleMap.clear()
-        markers.markerOptions.forEach {
+        markerOptionsState.markerOptions.forEach {
             googleMap.addMarker(it)?.showInfoWindow()
         }
-        polyline.polylineOptions?.let { googleMap.addPolyline(it) }
+        polylineOptionsState.polylineOptions?.let { googleMap.addPolyline(it) }
     }
 
     AndroidView(
@@ -221,6 +228,7 @@ fun GoogleMap(
         modifier = modifier
     ) { view ->
         view.getMapAsync {
+            uiSettingsState.uiSettings?.invoke(it.uiSettings)
             val markerManager = MarkerManager(it)
             val collection = markerManager.newCollection()
             collection.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {

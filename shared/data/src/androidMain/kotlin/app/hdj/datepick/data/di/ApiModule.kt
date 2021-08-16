@@ -21,6 +21,9 @@ interface ApiModule {
     @get:[Binds]
     val FeaturedApiImp.featuredApi : FeaturedApi
 
+    @get:[Binds]
+    val PlaceApiImp.placeApi : PlaceApi
+
     companion object {
 
         @Provides

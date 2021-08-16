@@ -53,49 +53,49 @@ val typographies = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 20.sp,
-        letterSpacing = 1.sp,
+        letterSpacing = 0.7.sp,
     ),
     subtitle1 = TextStyle(
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp,
         lineHeight = 18.sp,
-        letterSpacing = 1.sp,
+        letterSpacing = 0.7.sp,
     ),
     subtitle2 = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 18.sp,
-        letterSpacing = 1.sp,
+        letterSpacing = 0.7.sp,
     ),
     body1 = TextStyle(
         fontWeight = FontWeight.Bold,
         fontSize = 12.sp,
         lineHeight = 16.sp,
-        letterSpacing = 1.sp,
+        letterSpacing = 0.7.sp,
     ),
     body2 = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
         lineHeight = 16.sp,
-        letterSpacing = 1.sp,
+        letterSpacing = 0.7.sp,
     ),
     button = TextStyle(
         fontWeight = FontWeight.Bold,
         fontSize = 12.sp,
         lineHeight = 16.sp,
-        letterSpacing = 1.sp,
+        letterSpacing = 0.7.sp,
     ),
     caption = TextStyle(
         fontWeight = FontWeight.Bold,
         fontSize = 10.sp,
         lineHeight = 14.sp,
-        letterSpacing = 1.sp,
+        letterSpacing = 0.7.sp,
     ),
     overline = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = 10.sp,
         lineHeight = 14.sp,
-        letterSpacing = 1.sp,
+        letterSpacing = 0.7.sp,
     )
 )
 

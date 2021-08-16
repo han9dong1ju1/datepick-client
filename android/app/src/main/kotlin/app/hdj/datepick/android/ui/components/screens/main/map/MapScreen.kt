@@ -1,6 +1,5 @@
 package app.hdj.datepick.android.ui.components.screens.main.map
 
-import android.view.View
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.LinearProgressIndicator
@@ -22,7 +21,6 @@ import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.pager.rememberPagerState
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.JointType
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.RoundCap
@@ -87,9 +85,9 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
         Box(modifier = Modifier.fillMaxSize()) {
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
-                markers = markerOptionsState,
-                polyline = polylineOptionsState,
-                cameraPositionState = cameraPosition
+                markerOptionsState = markerOptionsState,
+                polylineOptionsState = polylineOptionsState,
+                cameraUpdateState = cameraPosition
             )
 
             Column(

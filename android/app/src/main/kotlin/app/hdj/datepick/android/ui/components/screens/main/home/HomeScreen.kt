@@ -1,6 +1,7 @@
 package app.hdj.datepick.android.ui.components.screens.main.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,8 +17,12 @@ import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStat
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.StatusBarMode
 import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph.Place.ARGUMENT_PLACE
+import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph.Place.route
 import app.hdj.datepick.android.ui.components.screens.others.featuredDetail.FeaturedNavigationArgument
+import app.hdj.datepick.android.ui.components.screens.others.place.PlaceArgument
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.putArguments
@@ -73,10 +78,33 @@ fun HomeScreen(
                 }
             }
 
-            items((0..100).toList()) {
+            items((0..10).toList()) {
                 Text(
                     text = "$it", modifier = Modifier
                         .fillMaxWidth()
+                        .clickable {
+                            val place = FakePlacePreviewProvider().values
+                                .first()
+                                .first()
+                            navController.putArguments(
+                                ARGUMENT_PLACE to with(
+                                    place
+                                ) {
+                                    PlaceArgument(
+                                        id,
+                                        kakaoId,
+                                        name,
+                                        address,
+                                        latitude,
+                                        longitude,
+                                        rating,
+                                        isPicked,
+                                        photos
+                                    )
+                                }
+                            )
+                            navController.navigate(route(place))
+                        }
                         .padding(20.dp)
                 )
             }

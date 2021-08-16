@@ -36,10 +36,13 @@ fun LargeTitle(text: String) {
 }
 
 @Composable
-fun LargeTitleAndSubtitle(title: String, subtitle : String) {
+fun LargeTitleAndSubtitle(
+    title: String,
+    subtitle: String,
+    modifier: Modifier = Modifier,
+) {
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
 
         val (titleRef, subtitleRef) = createRefs()

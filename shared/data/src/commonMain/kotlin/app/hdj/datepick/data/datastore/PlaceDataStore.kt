@@ -2,20 +2,23 @@ package app.hdj.datepick.data.datastore
 
 import app.hdj.datepick.PlaceEntity
 import app.hdj.datepick.PlaceEntityQueries
+import app.hdj.datepick.utils.Inject
+import app.hdj.datepick.utils.Singleton
 import kotlin.time.ExperimentalTime
 
 interface PlaceDataStore : DataStore<PlaceEntity> {
 
     fun getById(id: Long): PlaceEntity?
 
-    suspend fun saveAll(places : List<PlaceEntity>)
+    suspend fun saveAll(places: List<PlaceEntity>)
 
     fun delete(id: Long)
 
 }
 
 @OptIn(ExperimentalTime::class)
-class PlaceDataStoreImp(
+@Singleton
+class PlaceDataStoreImp @Inject constructor(
     private val queries: PlaceEntityQueries
 ) : PlaceDataStore {
 
