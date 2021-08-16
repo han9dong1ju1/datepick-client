@@ -5,6 +5,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp")
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
@@ -51,9 +52,9 @@ dependencies {
 
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
-    kapt(AndroidX.hilt.compiler)
-    kapt(Google.dagger.hilt.compiler)
-    kapt(Google.dagger.hilt.android)
+    ksp(AndroidX.hilt.compiler)
+    ksp(Google.dagger.hilt.compiler)
+    implementation(Google.dagger.hilt.android)
 }
 
 android {

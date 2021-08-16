@@ -6,6 +6,7 @@ plugins {
     kotlin("native.cocoapods")
     kotlin("kapt")
     id("com.squareup.sqldelight")
+    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
@@ -133,6 +134,6 @@ fun kapt(path: String) {
 dependencies {
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
-    kapt(AndroidX.hilt.compiler)
-    kapt(Google.dagger.hilt.compiler)
+    ksp(AndroidX.hilt.compiler)
+    ksp(Google.dagger.hilt.compiler)
 }

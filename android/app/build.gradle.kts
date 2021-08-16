@@ -7,6 +7,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
@@ -21,8 +22,8 @@ dependencies {
     implementation(project(":shared:data"))
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
-    kapt(AndroidX.hilt.compiler)
-    kapt(Google.dagger.hilt.compiler)
+    ksp(AndroidX.hilt.compiler)
+    ksp(Google.dagger.hilt.compiler)
     implementation(Google.dagger.hilt.android)
     implementation(KotlinX.coroutines.playServices)
 
