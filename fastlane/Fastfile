@@ -34,7 +34,7 @@ platform :android do
                fields: [
                    {
                        title: "항상 감사하십시오",
-                       value: "https://appdistribution.firebase.google.com",
+                       value: "https://appdistribution.firebase.dev/i/ffdfa1174a751ffe",
                    },
                    {
                        title: "Version",
