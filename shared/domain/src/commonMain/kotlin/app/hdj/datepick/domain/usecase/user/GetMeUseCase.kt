@@ -1,8 +1,8 @@
 package app.hdj.datepick.domain.usecase.user
 
-import app.hdj.datepick.domain.StateData
-import app.hdj.datepick.domain.StateData.Companion.failed
-import app.hdj.datepick.domain.StateData.Companion.success
+import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.LoadState.Companion.failed
+import app.hdj.datepick.domain.LoadState.Companion.success
 import app.hdj.datepick.domain.mapFailedState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.repository.MeRepository
@@ -23,7 +23,7 @@ class GetMeUseCase @Inject constructor(
     private val authenticator: Authenticator
 ) {
 
-    fun fetchFromRemote(): Flow<StateData<User>> {
+    fun fetchFromRemote(): Flow<LoadState<User>> {
         if (authenticator.idToken == null)
             return flowOf(failed(NotRegisteredException(firebaseRegistered = false)))
 
@@ -40,7 +40,7 @@ class GetMeUseCase @Inject constructor(
         }
     }
 
-    fun fetch(): Flow<StateData<User>> {
+    fun fetch(): Flow<LoadState<User>> {
         return  flow {
             val cached = meRepository.cache()
             if (cached != null) emit(success(cached))

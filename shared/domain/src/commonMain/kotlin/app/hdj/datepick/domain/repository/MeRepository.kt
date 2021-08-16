@@ -1,6 +1,6 @@
 package app.hdj.datepick.domain.repository
 
-import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.user.User
 import kotlinx.coroutines.flow.Flow
 
@@ -10,13 +10,13 @@ interface MeRepository {
 
     fun observableCache(): Flow<User?>
 
-    fun fetch(): Flow<StateData<User>>
+    fun fetch(): Flow<LoadState<User>>
 
-    fun update(nickname: String?, profileImageUrl: String?, gender: String?): Flow<StateData<User>>
+    fun update(nickname: String?, profileImageUrl: String?, gender: String?): Flow<LoadState<User>>
 
-    fun register(nickname: String, profileImageUrl: String?, gender: String?): Flow<StateData<User>>
+    fun register(nickname: String, profileImageUrl: String?, gender: String?): Flow<LoadState<User>>
 
-    fun unregister(type: Int, reason: String?): Flow<StateData<Unit>>
+    fun unregister(type: Int, reason: String?): Flow<LoadState<Unit>>
 
 
 }

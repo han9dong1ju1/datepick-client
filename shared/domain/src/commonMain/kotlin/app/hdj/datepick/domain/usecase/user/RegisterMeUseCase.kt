@@ -1,6 +1,6 @@
 package app.hdj.datepick.domain.usecase.user
 
-import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.repository.MeRepository
 import app.hdj.datepick.utils.Inject
@@ -12,7 +12,7 @@ class RegisterMeUseCase @Inject constructor(
     private val meRepository: MeRepository
 ) {
 
-    fun execute(param: UserProfileRequestParams): Flow<StateData<User>> {
+    fun execute(param: UserProfileRequestParams): Flow<LoadState<User>> {
         val (nickname, profileImageUrl, gender) = param
 
         if (nickname == null || gender == null)

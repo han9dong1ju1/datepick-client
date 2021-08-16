@@ -9,9 +9,9 @@ class UnregisterMeUseCase @Inject constructor(
     private val meRepository: MeRepository
 ) {
 
-    fun execute(data: Data) = meRepository.unregister(data.type, data.reason)
+    fun execute(param: Param) = meRepository.unregister(param.type, param.reason)
 
-    data class Data(
+    data class Param(
         val type: Int,
         val reason: String?
     )
