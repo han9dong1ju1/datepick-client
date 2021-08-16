@@ -2,7 +2,6 @@
 
 package app.hdj.datepick.data.repository
 
-import app.hdj.datepick.domain.StateData
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.isStateFailed
 import app.hdj.datepick.domain.model.user.User

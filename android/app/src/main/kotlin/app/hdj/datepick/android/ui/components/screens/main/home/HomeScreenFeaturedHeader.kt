@@ -15,14 +15,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import app.hdj.datepick.android.R
 import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
-import app.hdj.datepick.domain.StateData
-import app.hdj.datepick.domain.isStateFailed
-import app.hdj.datepick.domain.isStateSucceed
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.DatePickPager
-import app.hdj.datepick.ui.components.Shimmer
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 import coil.size.Scale
@@ -85,7 +81,7 @@ private fun HomeScreenFeaturedPagerItem(
 
 @Composable
 fun HomeScreenFeaturedHeader(
-    state: StateData<List<Featured>>,
+    state: LoadState<List<Featured>>,
     onFeaturedClicked: (Featured) -> Unit
 ) {
 
@@ -155,6 +151,6 @@ fun HomeScreenFeaturedPagerPreview(
     @PreviewParameter(FakeFeaturedPreviewProvider::class) featuredList: List<Featured>
 ) {
     DatePickTheme {
-        HomeScreenFeaturedHeader(StateData.success(featuredList)) {}
+        HomeScreenFeaturedHeader(LoadState.success(featuredList)) {}
     }
 }

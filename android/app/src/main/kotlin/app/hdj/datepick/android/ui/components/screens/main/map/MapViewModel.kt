@@ -3,8 +3,8 @@ package app.hdj.datepick.android.ui.components.screens.main.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.screens.main.map.MapViewModelDelegate.*
-import app.hdj.datepick.domain.StateData
-import app.hdj.datepick.domain.StateData.Companion.loading
+import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.LoadState.Companion.loading
 import app.hdj.datepick.domain.isStateLoading
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,7 +34,7 @@ fun fakeMapViewModel() = object : MapViewModelDelegate {
 interface MapViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val mapPathState : StateData<List<String>> = loading()
+        val mapPathState : LoadState<List<String>> = loading()
     ) {
         val showProgressBar get() =
             mapPathState.isStateLoading()

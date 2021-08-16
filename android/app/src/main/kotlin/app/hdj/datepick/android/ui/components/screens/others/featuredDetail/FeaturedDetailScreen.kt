@@ -18,7 +18,6 @@ import androidx.compose.material.icons.rounded.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -31,9 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStatusBarMode
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.StatusBarMode
-import app.hdj.datepick.android.ui.components.screens.AppNavigationGraph
-import app.hdj.datepick.android.utils.createDynamicLink
-import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.DatePickScaffold
@@ -42,7 +39,6 @@ import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.*
 import coil.size.Scale
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -79,7 +75,7 @@ fun FeaturedDetailScreen(
 
     LaunchedEffect(shareUrl) {
         if (shareUrl == null) return@LaunchedEffect
-        if (shareUrl is StateData.Success) {
+        if (shareUrl is LoadState.Success) {
             context.startActivity(Intent.createChooser(Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, shareUrl.data)
@@ -128,7 +124,7 @@ fun FeaturedDetailScreen(
                 actions = {
                     val featured = state.featured
                     if (featured.isStateSucceed()) {
-                        val isLinkGenerating = shareUrl != null && shareUrl is StateData.Loading
+                        val isLinkGenerating = shareUrl != null && shareUrl is LoadState.Loading
                         IconButton(
                             onClick = {
                                 if (!isLinkGenerating) {
@@ -162,13 +158,13 @@ fun FeaturedDetailScreen(
             content = {
 
                 when (val featured = state.featured) {
-                    is StateData.Failed -> {
+                    is LoadState.Failed -> {
 
                     }
-                    is StateData.Loading -> {
+                    is LoadState.Loading -> {
 
                     }
-                    is StateData.Success -> featuredDetailTopHeader(featured.data)
+                    is LoadState.Success -> featuredDetailTopHeader(featured.data)
                 }
 
                 item {

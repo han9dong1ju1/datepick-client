@@ -5,13 +5,12 @@ import app.hdj.datepick.data.api.PlaceApi
 import app.hdj.datepick.data.datastore.PlaceDataStore
 import app.hdj.datepick.data.mapper.Mapper
 import app.hdj.datepick.data.mapper.PlaceMapper
-import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.repository.PlaceRepository
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
-import app.hdj.datepick.utils.date.isPassedDay
 import kotlinx.coroutines.flow.flow
 import kotlin.time.ExperimentalTime
 
@@ -34,7 +33,7 @@ class PlaceRepositoryImp @Inject constructor(
         }
     }
 
-    override fun search(query: String, sort: String) = flow<StateData<List<Place>>> {
+    override fun search(query: String, sort: String) = flow<LoadState<List<Place>>> {
         emitState {
             val places = requireNotNull(api.search(query, sort).data)
             datastore.saveAll(places = places.mapTable())

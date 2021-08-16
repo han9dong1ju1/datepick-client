@@ -6,14 +6,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.components.LargeTitleAndSubtitle
 
 @Composable
 fun PlaceScreenHeader(
-    placeState : StateData<Place>
+    placeState : LoadState<Place>
 ) {
     Column(Modifier.fillMaxWidth()) {
 

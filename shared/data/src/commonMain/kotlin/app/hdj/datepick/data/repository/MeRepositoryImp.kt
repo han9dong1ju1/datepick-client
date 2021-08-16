@@ -4,7 +4,7 @@ import app.hdj.datepick.data.api.UserApi
 import app.hdj.datepick.data.datastore.MeDataStore
 import app.hdj.datepick.data.request.UserProfileRequest
 import app.hdj.datepick.data.request.UserUnregisterRequest
-import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.repository.MeRepository
@@ -34,7 +34,7 @@ class MeRepositoryImp @Inject constructor(
         nickname: String?,
         profileImageUrl: String?,
         gender: String?
-    ) = flow<StateData<User>> {
+    ) = flow<LoadState<User>> {
         emitState(onSuccess = meDataStore::save) {
             val request = UserProfileRequest(nickname, profileImageUrl, gender)
             val response = userApi.updateMe(request)
@@ -46,7 +46,7 @@ class MeRepositoryImp @Inject constructor(
         nickname: String,
         profileImageUrl: String?,
         gender: String?
-    ) = flow<StateData<User>> {
+    ) = flow<LoadState<User>> {
         emitState(onSuccess = meDataStore::save) {
             val request = UserProfileRequest(nickname, profileImageUrl, gender)
             val response = userApi.register(request)

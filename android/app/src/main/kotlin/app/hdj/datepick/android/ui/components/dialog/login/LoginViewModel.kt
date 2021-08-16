@@ -4,11 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.dialog.login.LoginViewModelDelegate.*
-import app.hdj.datepick.domain.StateData
-import app.hdj.datepick.domain.StateData.Companion.loading
+import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.LoadState.Companion.loading
 import app.hdj.datepick.domain.usecase.user.AuthenticateMeUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
-import com.google.firebase.auth.GoogleAuthCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.gitlive.firebase.auth.AuthCredential
 import kotlinx.coroutines.FlowPreview
@@ -36,7 +35,7 @@ interface LoginViewModelDelegate :
     ViewModelDelegate<State, Effect, Event> {
 
     class State(
-        val loginState: StateData<Unit> = loading()
+        val loginState: LoadState<Unit> = loading()
     )
 
     sealed class Effect {

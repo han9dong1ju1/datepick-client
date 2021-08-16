@@ -7,7 +7,7 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.components.googlemap.GoogleMap
@@ -18,9 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.model.markerOptions
 
 @Composable
-fun PlaceMapCard(
-    placeState: StateData<Place>
-) {
+fun PlaceMapCard(placeState: LoadState<Place>) {
 
     val uiSettingsState = rememberMapUiSettings()
     val cameraUpdateState = rememberCameraUpdateState()
@@ -55,7 +53,6 @@ fun PlaceMapCard(
                     }
                 )
             )
-
 
             GoogleMap(
                 modifier = Modifier

@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.components.screens.others.place.PlaceViewModelDelegate.*
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
-import app.hdj.datepick.domain.StateData
+import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.isStateFailed
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.usecase.place.GetPlaceByIdUseCase
@@ -22,7 +23,7 @@ fun fakePlaceViewModel() = object : PlaceViewModelDelegate {
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
     override val state = MutableStateFlow(
-        State(StateData.success(FakePlacePreviewProvider().values.first().first()))
+        State(LoadState.success(FakePlacePreviewProvider().values.first().first()))
     )
 
     override val effect = effectChannel.receiveAsFlow()
@@ -34,7 +35,7 @@ fun fakePlaceViewModel() = object : PlaceViewModelDelegate {
 interface PlaceViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val place: StateData<Place> = StateData.loading()
+        val place: LoadState<Place> = LoadState.loading()
     )
 
     sealed class Effect {
@@ -59,10 +60,10 @@ class PlaceViewModel @Inject constructor(
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()
 
-    private val place = MutableStateFlow<StateData<Place>>(StateData.loading())
+    private val place = MutableStateFlow<LoadState<Place>>(LoadState.loading())
 
     private val placeId =
-        place.filter { it.isStateSucceed() }.map { (it as StateData.Success).data.id }
+        place.filter { it.isStateSucceed() }.map { (it as LoadState.Success).data.id }
 
     private val blogReviews = placeId.map { }
 
@@ -90,7 +91,7 @@ class PlaceViewModel @Inject constructor(
                     getPlaceById.execute(id = event.id).collect(place::emit)
                 }
                 is Event.ShowPassedPlace -> {
-                    place.emit(StateData.success(event.place))
+                    place.emit(LoadState.success(event.place))
                 }
             }
         }
