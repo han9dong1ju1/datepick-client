@@ -68,6 +68,6 @@ jobs:
           FAD_CREDENTIAL: ${{ secrets.FAD_CREDENTIAL }}
 
       - name: Distribute app with 🔥 App Distribution 🚀
-        run: bundle exec fastlane distribute
+        run: bundle exec fastlane distributeDebug
         env:
           FAD_ANDROID_APP_ID: ${{ secrets.FAD_ANDROID_APP_ID }}

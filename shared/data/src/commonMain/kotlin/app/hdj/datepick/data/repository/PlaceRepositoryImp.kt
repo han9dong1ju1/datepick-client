@@ -11,6 +11,7 @@ import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.repository.PlaceRepository
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.date.isPassedDay
 import kotlinx.coroutines.flow.flow
 import kotlin.time.ExperimentalTime
 

@@ -3,14 +3,65 @@ default_platform(:android)
 platform :android do
 
     desc "Lane for distributing app using Firebase App Distributions"
-    lane :distribute do
+    lane :distributeDebug do
         gradle(task: "clean assembleDebug")
+
+        version_name = get_version_name(
+              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/BuildConfig.java",
+              ext_constant_name:"VERSION_NAME"
+        ).delete_suffix(";")
+
+        version_code = get_version_name(
+              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/BuildConfig.java",
+              ext_constant_name:"VERSION_CODE"
+        ).delete_suffix(";")
+
         firebase_app_distribution(
             service_credentials_file: "firebase_credentials.json",
             app: ENV['FAD_ANDROID_APP_ID'],
             release_notes_file: "FirebaseAppDistributionConfig/release_notes.txt",
             groups: "all"
         )
+
+        slack(
+           message: ":launch-youngmin2: 우효~~~~~ 앱 배포다제~~~~ :launch-youngmin2:",
+           success: true,
+           slack_url: "https://hooks.slack.com/services/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",
+           default_payloads: [:git_branch, :last_git_commit_message],
+           attachment_properties: {
+               fields: [
+                   {
+                       title: "항상 감사하십시오",
+                       value: "https://appdistribution.firebase.google.com",
+                   },
+                   {
+                       title: "Version",
+                       value: "#{version_name}(#{version_code})"
+                   }
+               ]
+           }
+        )
+    end
+
+    error do |lane, exception, options|
+        slack(
+               message: ":angry-youngmin2: 우효~~~~~ 앱 배포 실패다제~~~~ :angry-youngmin2:",
+               success: false,
+               slack_url: "https://hooks.slack.com/services/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",
+               default_payloads: [:git_branch, :last_git_commit_message],
+               attachment_properties: {
+                   fields: [
+                       {
+                           title: "반성하십시오 고치세요",
+                           value: exception
+                       },
+                       {
+                           title: "Version",
+                           value: "#{version_name}(#{version_code})"
+                       }
+                   ]
+               }
+           )
     end
 
 end
