@@ -8,6 +8,8 @@ interface PlaceDataStore : DataStore<PlaceEntity> {
 
     fun getById(id: Long): PlaceEntity?
 
+    suspend fun saveAll(places : List<PlaceEntity>)
+
     fun delete(id: Long)
 
 }
@@ -23,6 +25,10 @@ class PlaceDataStoreImp(
 
     override suspend fun save(data: PlaceEntity) {
         queries.insert(data)
+    }
+
+    override suspend fun saveAll(places: List<PlaceEntity>) {
+        places.forEach { save(it) }
     }
 
     override fun delete(id: Long) {

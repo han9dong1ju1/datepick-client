@@ -5,6 +5,7 @@ import app.hdj.datepick.data.api.PlaceApi
 import app.hdj.datepick.data.datastore.PlaceDataStore
 import app.hdj.datepick.data.mapper.Mapper
 import app.hdj.datepick.data.mapper.PlaceMapper
+import app.hdj.datepick.domain.StateData
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.repository.PlaceRepository
@@ -30,6 +31,14 @@ class PlaceRepositoryImp @Inject constructor(
                 datastore.save(requireNotNull(place).asTable())
                 place
             }
+        }
+    }
+
+    override fun search(query: String, sort: String) = flow<StateData<List<Place>>> {
+        emitState {
+            val places = requireNotNull(api.search(query, sort).data)
+            datastore.saveAll(places = places.mapTable())
+            places
         }
     }
 
