@@ -21,9 +21,7 @@ import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.pager.rememberPagerState
-import com.google.android.gms.maps.model.JointType
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.RoundCap
+import com.google.android.gms.maps.model.*
 import com.google.maps.android.ktx.model.markerOptions
 import kotlinx.coroutines.delay
 import kotlin.random.Random
@@ -55,6 +53,7 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
             LatLng(37.0 + latRand(), 126.0 + lngRand())
         }.shuffled().map { latLng ->
             markerOptions {
+                icon(polylineColors.getMarkerIcon())
                 position(latLng)
                 title("Example")
             }
@@ -69,10 +68,9 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
             addAll(markers.map { it.position })
             startCap(RoundCap())
             endCap(RoundCap())
-            width(10.dp.value)
+            width(15.dp.value)
             visible(true)
-            zIndex(30f)
-//            pattern(listOf(Do, Gap(10.dp.value)))
+            pattern(listOf(Dot(), Gap(15.dp.value)))
             jointType(JointType.ROUND)
             color(polylineColors.toArgb())
         }

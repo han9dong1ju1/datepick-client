@@ -1,8 +1,10 @@
 package app.hdj.datepick.ui.components.googlemap
 
+import android.graphics.Color
 import android.view.View
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
@@ -15,6 +17,12 @@ import com.google.android.gms.maps.model.*
 import com.google.maps.android.collections.MarkerManager
 import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.model.cameraPosition
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+
+import com.google.android.gms.maps.model.BitmapDescriptor
+
+
+
 
 private val SEOUL_LAT_LNG = LatLng(
     37.5665,
@@ -79,7 +87,7 @@ fun rememberCameraUpdateState(
     initialZoom: Float = 10f
 ): CameraUpdateState = remember {
     CameraUpdateState().apply {
-        animate(initialTarget, initialZoom)
+        move(initialTarget, initialZoom)
     }
 }
 
@@ -242,4 +250,10 @@ fun GoogleMap(
             })
         }
     }
+}
+
+fun androidx.compose.ui.graphics.Color.getMarkerIcon(): BitmapDescriptor? {
+    val hsv = FloatArray(3)
+    Color.colorToHSV(toArgb(), hsv)
+    return BitmapDescriptorFactory.defaultMarker(hsv[0])
 }
