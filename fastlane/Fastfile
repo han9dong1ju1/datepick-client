@@ -23,7 +23,7 @@ platform :android do
             groups: "all"
         )
 
-        changelogs = File.read("metadata/android/ko-KR/changelogs/changelogs.txt")
+        changelogs = File.read("metadata/android/ko-KR/changelogs/debug-changelogs.txt")
 
         slack(
            message: ":launch-youngmin2: 우효~~~~~ 앱 배포다제~~~~ :launch-youngmin2:",
