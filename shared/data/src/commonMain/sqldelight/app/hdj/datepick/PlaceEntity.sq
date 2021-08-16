@@ -1,9 +1,18 @@
+import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Long;
+import kotlin.collections.List;
 
 CREATE TABLE placeEntity (
     id INTEGER AS Long NOT NULL PRIMARY KEY,
     kakaoId INTEGER AS Long NOT NULL,
     name TEXT NOT NULL,
+    address TEXT NOT NULL,
+    isPicked INTEGER AS Boolean NOT NULL,
+    latitude REAL AS Double NOT NULL,
+    longitude REAL AS Double NOT NULL,
+    rating REAL AS Double NOT NULL DEFAULT 0.0,
+    photos TEXT AS List<String> NOT NULL DEFAULT "",
     cachedAt INTEGER AS Long NOT NULL
 );
 
@@ -11,7 +20,7 @@ getById:
 SELECT * FROM placeEntity WHERE id = :id;
 
 insert:
-INSERT INTO placeEntity(id, kakaoId, name, cachedAt) VALUES ?;
+INSERT INTO placeEntity(id, kakaoId, name, address, isPicked, latitude, longitude, rating, photos, cachedAt) VALUES ?;
 
 deleteById:
 DELETE FROM placeEntity WHERE id = :id;

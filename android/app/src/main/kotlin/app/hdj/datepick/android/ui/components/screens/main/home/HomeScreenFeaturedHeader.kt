@@ -41,7 +41,6 @@ private fun HomeScreenFeaturedPagerItem(
             modifier = Modifier.fillMaxSize(),
             painter = rememberUrlImagePainter(request = featured.photoUrl) {
                 scale(Scale.FILL)
-                placeholder(R.drawable.preview_place_image)
             },
             contentScale = ContentScale.Crop,
             contentDescription = null
