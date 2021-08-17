@@ -52,8 +52,8 @@ dependencies {
 
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
-    ksp(AndroidX.hilt.compiler)
-    ksp(Google.dagger.hilt.compiler)
+    kapt(AndroidX.hilt.compiler)
+    kapt(Google.dagger.hilt.compiler)
     implementation(Google.dagger.hilt.android)
 }
 

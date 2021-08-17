@@ -21,6 +21,8 @@ import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Place.ARGUMENT_PLA
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Place.route
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
+import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedNavigationArgument
+import app.hdj.datepick.android.ui.screens.others.place.PlaceArgument
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.putArguments

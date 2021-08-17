@@ -50,8 +50,8 @@ kotlin {
                 api(JakeWharton.timber)
                 kapt(AndroidX.paging.runtimeKtx)
                 kapt(AndroidX.navigation.runtimeKtx)
-                ksp(AndroidX.hilt.compiler)
-                ksp(Google.dagger.hilt.compiler)
+                kapt(AndroidX.hilt.compiler)
+                kapt(Google.dagger.hilt.compiler)
             }
         }
         val androidTest by getting {
