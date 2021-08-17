@@ -61,6 +61,10 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                kapt(AndroidX.paging.runtimeKtx)
+                kapt(AndroidX.navigation.runtimeKtx)
+                ksp(AndroidX.hilt.compiler)
+                ksp(Google.dagger.hilt.compiler)
                 implementation(Google.dagger.hilt.android)
             }
         }
@@ -92,9 +96,6 @@ fun kapt(path: String) {
     configurations["kapt"].dependencies.add(project.dependencies.create(path))
 }
 
-dependencies {
-    kapt(AndroidX.paging.runtimeKtx)
-    kapt(AndroidX.navigation.runtimeKtx)
-    ksp(AndroidX.hilt.compiler)
-    ksp(Google.dagger.hilt.compiler)
+fun ksp(path: String) {
+    configurations["ksp"].dependencies.add(project.dependencies.create(path))
 }
