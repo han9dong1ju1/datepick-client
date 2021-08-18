@@ -58,9 +58,7 @@ class CourseViewModel @Inject constructor(
     override fun event(event: Event) {
         viewModelScope.launch {
             runCatching {
-                when (event) {
 
-                }
             }.onFailure {
                 effectChannel.send(Effect.ShowToastMessage(""))
             }

@@ -66,8 +66,6 @@ fun DatePickApp() {
 
     val snackBarPresenter = remember { SnackbarPresenter(coroutineScope, scaffoldState) }
 
-    var pickBadgeStatus by remember { mutableStateOf(true) }
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val currentRoute = navBackStackEntry?.destination?.route
@@ -164,8 +162,6 @@ fun DatePickApp() {
         }
 
     }
-
-    if (AppNavigationGraph.Main.Pick.route == currentRoute) pickBadgeStatus = false
 
     remember(currentRoute) {
         val mode = if (AppNavigationGraph.Main.Home.route != currentRoute) {

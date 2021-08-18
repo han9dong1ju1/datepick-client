@@ -135,7 +135,6 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
             "-Xopt-in=com.google.accompanist.pager.ExperimentalPagerApi",
             "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
             "-Xopt-in=coil.annotation.ExperimentalCoilApi",
-            "-Xallow-jvm-ir-dependencies"
         )
     }
 }

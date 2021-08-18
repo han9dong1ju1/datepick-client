@@ -17,7 +17,6 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
             "-Xopt-in=kotlin.time.ExperimentalTime",
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=kotlin.OptIn",
-            "-Xallow-jvm-ir-dependencies"
         )
     }
 }

@@ -15,7 +15,6 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=kotlin.OptIn",
-            "-Xallow-jvm-ir-dependencies"
         )
     }
 }

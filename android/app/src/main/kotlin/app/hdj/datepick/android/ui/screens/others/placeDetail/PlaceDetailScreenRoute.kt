@@ -2,12 +2,10 @@ package app.hdj.datepick.android.ui.screens.others.placeDetail
 
 import android.os.Parcelable
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
-import androidx.navigation.compose.navArgument
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE_ID
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.argument
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.deeplink
 import app.hdj.datepick.domain.model.place.Place

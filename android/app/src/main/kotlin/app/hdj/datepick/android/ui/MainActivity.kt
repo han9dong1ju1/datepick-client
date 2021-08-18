@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
 
-            val (state, _, event) = appViewModel.extract()
+            val (state, _) = appViewModel.extract()
 
             CompositionLocalProvider(
                 LocalDatePickAppViewModel provides appViewModel,

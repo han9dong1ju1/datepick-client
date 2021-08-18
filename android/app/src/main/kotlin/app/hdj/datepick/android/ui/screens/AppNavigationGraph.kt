@@ -52,6 +52,8 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         const val ARGUMENT_FEATURED_ID = "featuredId"
         const val ARGUMENT_FEATURED = "featured"
 
+        fun route(featured: Featured) = "featured/${featured.id}"
+
         fun argument() = listOf(
             navArgument(ARGUMENT_FEATURED_ID) {
                 type = NavType.LongType
