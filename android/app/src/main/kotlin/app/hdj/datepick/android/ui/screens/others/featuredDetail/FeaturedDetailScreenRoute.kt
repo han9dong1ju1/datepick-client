@@ -8,6 +8,8 @@ import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED_ID
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.argument
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.deeplink
 import app.hdj.datepick.android.utils.datePickNavDeepLink
 import app.hdj.datepick.android.utils.externalDatePickNavDeepLink
 import app.hdj.datepick.domain.model.featured.Featured
@@ -21,19 +23,18 @@ data class FeaturedNavigationArgument(
     override val title: String,
     override val description: String,
     override val photoUrl: String
-) : Featured, Parcelable
+) : Featured, Parcelable {
+    companion object {
+        fun fromFeatured(featured: Featured) = with(featured) {
+            FeaturedNavigationArgument(id, title, description, photoUrl)
+        }
+    }
+}
 
 fun NavGraphBuilder.featuredDetailScreen() {
     composable(FeaturedDetail.route,
-        deepLinks = listOf(
-            datePickNavDeepLink(FeaturedDetail.route),
-            externalDatePickNavDeepLink(FeaturedDetail.route)
-        ),
-        arguments = listOf(
-            navArgument(ARGUMENT_FEATURED_ID) {
-                type = NavType.LongType
-            }
-        )
+        deepLinks = deeplink(),
+        arguments = argument()
     ) {
         val navController = LocalAppNavController.current
 

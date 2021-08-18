@@ -12,7 +12,7 @@ abstract class NestedNavigationGraph(parentRoute: String, nestedRoute: String) :
     override val route = "$parentRoute/$nestedRoute"
 }
 
-abstract class NavigationGraph(open val route: String)
+open class NavigationGraph(open val route: String)
 
 @Composable
 fun NavController.currentScreenRoute(): String? {

@@ -17,12 +17,13 @@ import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStat
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.StatusBarMode
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Place.ARGUMENT_PLACE
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Place.route
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
+import app.hdj.datepick.android.ui.screens.openFeatured
+import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedNavigationArgument
-import app.hdj.datepick.android.ui.screens.others.place.PlaceArgument
+import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceNavigationArgument
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.putArguments
@@ -60,54 +61,24 @@ fun HomeScreen(
                         .height(400.dp)
                         .background(Color.Black)
                 ) {
-                    HomeScreenFeaturedHeader(state.featured) {
-                        navController.putArguments(
-                            AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED to with(it) {
-                                FeaturedNavigationArgument(
-                                    id,
-                                    title,
-                                    description,
-                                    photoUrl
-                                )
-                            }
-                        )
-                        navController.navigate(AppNavigationGraph.FeaturedDetail.route(it))
-
-                    }
+                    HomeScreenFeaturedHeader(state.featured, navController::openFeatured)
                     HomeScreenTopBar()
                 }
             }
+
+            val place = FakePlacePreviewProvider().values
+                .first()
+                .first()
 
             items((0..10).toList()) {
                 Text(
                     text = "$it", modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            val place = FakePlacePreviewProvider().values
-                                .first()
-                                .first()
-                            navController.putArguments(
-                                ARGUMENT_PLACE to with(
-                                    place
-                                ) {
-                                    PlaceArgument(
-                                        id,
-                                        kakaoId,
-                                        name,
-                                        address,
-                                        latitude,
-                                        longitude,
-                                        rating,
-                                        isPicked,
-                                        photos
-                                    )
-                                }
-                            )
-                            navController.navigate(route(place))
-                        }
+                        .clickable { navController.openPlace(place) }
                         .padding(20.dp)
                 )
             }
+
         }
     )
 

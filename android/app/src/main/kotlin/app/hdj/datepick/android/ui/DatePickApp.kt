@@ -33,9 +33,9 @@ import app.hdj.datepick.android.ui.screens.main.map.MapViewModel
 import app.hdj.datepick.android.ui.screens.main.pick.PickViewModel
 import app.hdj.datepick.android.ui.screens.main.profile.ProfileViewModel
 import app.hdj.datepick.android.ui.screens.others.course.courseScreen
-import app.hdj.datepick.android.ui.screens.others.create_course.createCourseScreen
+import app.hdj.datepick.android.ui.screens.others.createCourse.createCourseScreen
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.featuredDetailScreen
-import app.hdj.datepick.android.ui.screens.others.place.placeScreen
+import app.hdj.datepick.android.ui.screens.others.placeDetail.placeDetailScreen
 import app.hdj.datepick.android.ui.screens.others.place_list.placeListScreen
 import app.hdj.datepick.android.ui.screens.others.settings.settingsScreens
 import app.hdj.datepick.android.ui.providers.*
@@ -144,7 +144,7 @@ fun DatePickApp() {
                     mainScreens(homeViewModel, mapViewModel, pickViewModel, profileViewModel)
 
                     /* Other Screens */
-                    placeScreen()
+                    placeDetailScreen()
                     courseScreen()
                     placeListScreen()
 

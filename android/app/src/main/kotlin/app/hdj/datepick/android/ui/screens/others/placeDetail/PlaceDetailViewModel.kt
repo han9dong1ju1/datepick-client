@@ -1,8 +1,8 @@
-package app.hdj.datepick.android.ui.screens.others.place
+package app.hdj.datepick.android.ui.screens.others.placeDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.hdj.datepick.android.ui.screens.others.place.PlaceViewModelDelegate.*
+import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceDetailViewModelDelegate.*
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-fun fakePlaceViewModel() = object : PlaceViewModelDelegate {
+fun fakePlaceDetailViewModel() = object : PlaceDetailViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
@@ -31,7 +31,7 @@ fun fakePlaceViewModel() = object : PlaceViewModelDelegate {
 
 }
 
-interface PlaceViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
+interface PlaceDetailViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
         val place: LoadState<Place> = LoadState.loading()
@@ -52,9 +52,9 @@ interface PlaceViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
 @HiltViewModel
 @OptIn(FlowPreview::class)
-class PlaceViewModel @Inject constructor(
+class PlaceDetailViewModel @Inject constructor(
     private val getPlaceById: GetPlaceByIdUseCase
-) : ViewModel(), PlaceViewModelDelegate {
+) : ViewModel(), PlaceDetailViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()

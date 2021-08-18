@@ -1,8 +1,8 @@
-package app.hdj.datepick.android.ui.screens.others.create_course
+package app.hdj.datepick.android.ui.screens.others.createCourse
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.hdj.datepick.android.ui.screens.others.create_course.CreateCourseViewModelDelegate.*
+import app.hdj.datepick.android.ui.screens.others.createCourse.CreateCourseViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

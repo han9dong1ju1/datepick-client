@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.screens.others.place
+package app.hdj.datepick.android.ui.screens.others.placeDetail
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,22 +23,22 @@ import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.isFirstItemScrolled
 
 @Composable
-fun PlaceScreen(
+fun PlaceDetailScreen(
     placeId: Long? = null,
     place: Place? = null,
-    vm: PlaceViewModelDelegate = hiltViewModel<PlaceViewModel>(),
+    vm: PlaceDetailViewModelDelegate = hiltViewModel<PlaceDetailViewModel>(),
 ) {
 
-    val (state, effect, event) = fakePlaceViewModel().extract()
+    val (state, effect, event) = fakePlaceDetailViewModel().extract()
 
     val lazyListState = rememberLazyListState()
 
     val isHeaderScrolled = lazyListState.isFirstItemScrolled(limit = 200.dp - 56.dp)
 
     if (place != null) {
-        event(PlaceViewModelDelegate.Event.ShowPassedPlace(place))
+        event(PlaceDetailViewModelDelegate.Event.ShowPassedPlace(place))
     } else {
-        placeId?.let { event(PlaceViewModelDelegate.Event.RequestPlace(it)) }
+        placeId?.let { event(PlaceDetailViewModelDelegate.Event.RequestPlace(it)) }
     }
 
 
@@ -67,13 +67,13 @@ fun PlaceScreen(
 
             item {
                 Surface(modifier = Modifier.fillMaxWidth()) {
-                    PlaceScreenHeader(placeState = placeState)
+                    PlaceDetailScreenHeader(placeState = placeState)
                 }
             }
 
             item {
                 Surface(modifier = Modifier.fillMaxWidth()) {
-                    PlaceMapCard(placeState = placeState)
+                    PlaceDetailMapCard(placeState = placeState)
                 }
             }
 
@@ -87,6 +87,6 @@ fun PlaceScreen(
 @Preview
 fun PlaceScreenPreview() {
     DatePickTheme {
-        PlaceScreen(vm = fakePlaceViewModel())
+        PlaceDetailScreen(vm = fakePlaceDetailViewModel())
     }
 }

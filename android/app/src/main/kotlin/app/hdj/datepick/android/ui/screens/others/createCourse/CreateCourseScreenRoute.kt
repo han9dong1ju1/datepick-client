@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.screens.others.create_course
+package app.hdj.datepick.android.ui.screens.others.createCourse
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType

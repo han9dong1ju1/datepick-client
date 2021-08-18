@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.screens.others.place
+package app.hdj.datepick.android.ui.screens.others.placeDetail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +12,7 @@ import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.components.LargeTitleAndSubtitle
 
 @Composable
-fun PlaceScreenHeader(
+fun PlaceDetailScreenHeader(
     placeState : LoadState<Place>
 ) {
     Column(Modifier.fillMaxWidth()) {

@@ -10,7 +10,6 @@ import app.hdj.datepick.android.ui.screens.main.pick.PickScreen
 import app.hdj.datepick.android.ui.screens.main.pick.PickViewModelDelegate
 import app.hdj.datepick.android.ui.screens.main.profile.ProfileScreen
 import app.hdj.datepick.android.ui.screens.main.profile.ProfileViewModelDelegate
-import app.hdj.datepick.android.ui.screens.showSetting
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
@@ -50,7 +49,7 @@ fun NavGraphBuilder.mainScreens(
             val navController = LocalAppNavController.current
             ProfileScreen(
                 profileViewModel,
-                onSettingClicked = navController.showSetting
+                onSettingClicked = {}
             )
         }
 

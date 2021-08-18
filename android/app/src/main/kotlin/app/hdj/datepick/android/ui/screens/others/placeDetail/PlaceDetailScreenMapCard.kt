@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.screens.others.place
+package app.hdj.datepick.android.ui.screens.others.placeDetail
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.model.markerOptions
 
 @Composable
-fun PlaceMapCard(placeState: LoadState<Place>) {
+fun PlaceDetailMapCard(placeState: LoadState<Place>) {
 
     val uiSettingsState = rememberMapUiSettings()
     val cameraUpdateState = rememberCameraUpdateState()
