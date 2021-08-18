@@ -3,6 +3,7 @@ package app.hdj.datepick.android.ui.screens.others.featuredDetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.graphWithArgument
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.*
 import app.hdj.datepick.android.utils.createDynamicLink
 import app.hdj.datepick.domain.LoadState
@@ -124,7 +125,7 @@ class FeaturedDetailViewModel @Inject constructor(
                     shareUrl.emit(loading())
 
                     val url = createDynamicLink(
-                        AppNavigationGraph.FeaturedDetail.route(featured = featured.data),
+                        graphWithArgument(featured = featured.data).route,
                         featured.data.title,
                         featured.data.description,
                         featured.data.photoUrl,

@@ -12,6 +12,6 @@ class CourseApi @Inject constructor(override val client: HttpClient) : Api {
 
     override val basePath: String get() = "/course"
 
-    suspend fun getById(id : String) = client.get<CourseResponse>("")
+    suspend fun getById(id : String) = client.get<CourseResponse>("/$id")
 
 }

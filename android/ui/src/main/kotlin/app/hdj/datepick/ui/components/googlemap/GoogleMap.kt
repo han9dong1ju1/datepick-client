@@ -20,8 +20,7 @@ import com.google.maps.android.ktx.model.cameraPosition
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 import com.google.android.gms.maps.model.BitmapDescriptor
-
-
+import timber.log.Timber
 
 
 private val SEOUL_LAT_LNG = LatLng(
@@ -172,11 +171,13 @@ class MapUiSettingsState {
 }
 
 @Composable
-fun rememberMapUiSettings(): MapUiSettingsState = remember {
+fun rememberMapUiSettings(
+    optionsActions: UiSettings.() -> Unit = {
+        setAllGesturesEnabled(true)
+    }
+): MapUiSettingsState = remember {
     MapUiSettingsState().apply {
-        uiSettings {
-            setAllGesturesEnabled(true)
-        }
+        uiSettings(optionsActions)
     }
 }
 

@@ -38,7 +38,7 @@ interface PlaceDetailViewModelDelegate : ViewModelDelegate<State, Effect, Event>
     )
 
     sealed class Effect {
-        class ShowToastMessage(val message: String) : Effect()
+        class ErrorOccurred(val message: String) : Effect()
     }
 
     sealed class Event {

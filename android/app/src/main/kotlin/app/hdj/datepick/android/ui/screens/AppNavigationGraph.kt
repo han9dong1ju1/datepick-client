@@ -1,12 +1,9 @@
 package app.hdj.datepick.android.ui.screens
 
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.navArgument
-import androidx.navigation.navDeepLink
-import androidx.navigation.navOptions
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedNavigationArgument
 import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceNavigationArgument
 import app.hdj.datepick.android.utils.datePickNavDeepLink
@@ -18,17 +15,17 @@ import app.hdj.datepick.ui.utils.NestedNavigationGraph
 import app.hdj.datepick.ui.utils.putArguments
 
 fun NavController.navigateRoute(navigationGraph: NavigationGraph) {
+    val argument = navigationGraph.argument
+    if (argument != null) putArguments(argument)
     navigate(navigationGraph.route)
 }
 
 fun NavController.openFeatured(featured: Featured) {
-    putArguments(ARGUMENT_FEATURED to FeaturedNavigationArgument.fromFeatured(featured))
-    navigateRoute(AppNavigationGraph.FeaturedDetail)
+    navigateRoute(AppNavigationGraph.FeaturedDetail.graphWithArgument(featured))
 }
 
 fun NavController.openPlace(place: Place) {
-    putArguments(ARGUMENT_PLACE to PlaceNavigationArgument.fromPlace(place))
-    navigateRoute(AppNavigationGraph.PlaceDetail)
+    navigateRoute(AppNavigationGraph.PlaceDetail.graphWithArgument(place))
 }
 
 sealed class AppNavigationGraph(override val route: String) : NavigationGraph(route) {
@@ -52,12 +49,14 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         const val ARGUMENT_FEATURED_ID = "featuredId"
         const val ARGUMENT_FEATURED = "featured"
 
-        fun route(featured: Featured) = "featured/${featured.id}"
+        fun graphWithArgument(featured: Featured) =
+            NavigationGraph(
+                "featured/${featured.id}",
+                bundleOf(ARGUMENT_FEATURED to FeaturedNavigationArgument.fromFeatured(featured))
+            )
 
         fun argument() = listOf(
-            navArgument(ARGUMENT_FEATURED_ID) {
-                type = NavType.LongType
-            }
+            navArgument(ARGUMENT_FEATURED_ID) { type = NavType.LongType }
         )
 
         fun deeplink() = listOf(
@@ -81,10 +80,13 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         const val ARGUMENT_PLACE_ID = "placeId"
         const val ARGUMENT_PLACE = "place"
 
+        fun graphWithArgument(place: Place) = NavigationGraph(
+            "place/${place.id}",
+            bundleOf(ARGUMENT_PLACE to PlaceNavigationArgument.fromPlace(place))
+        )
+
         fun argument() = listOf(
-            navArgument(ARGUMENT_PLACE_ID) {
-                type = NavType.LongType
-            }
+            navArgument(ARGUMENT_PLACE_ID) { type = NavType.LongType }
         )
 
         fun deeplink() = listOf(

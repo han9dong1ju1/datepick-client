@@ -1,5 +1,6 @@
 package app.hdj.datepick.ui.utils
 
+import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.runtime.Composable
 import androidx.core.os.bundleOf
@@ -12,7 +13,7 @@ abstract class NestedNavigationGraph(parentRoute: String, nestedRoute: String) :
     override val route = "$parentRoute/$nestedRoute"
 }
 
-open class NavigationGraph(open val route: String)
+open class NavigationGraph(open val route: String, open val argument : Bundle? = null)
 
 @Composable
 fun NavController.currentScreenRoute(): String? {
@@ -24,6 +25,6 @@ fun <T> NavController.getArgument(name: String): T? {
     return previousBackStackEntry?.arguments?.getParcelable(name) as? T
 }
 
-fun NavController.putArguments(vararg pairs: Pair<String, Parcelable?>) {
-    currentBackStackEntry?.arguments = bundleOf(*pairs)
+fun NavController.putArguments(bundle: Bundle) {
+    currentBackStackEntry?.arguments = bundle
 }
