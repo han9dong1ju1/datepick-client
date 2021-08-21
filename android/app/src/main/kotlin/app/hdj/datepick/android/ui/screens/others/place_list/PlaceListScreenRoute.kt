@@ -6,19 +6,12 @@ import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceList
+import app.hdj.datepick.android.ui.screens.appNavigationComposable
 
 fun NavGraphBuilder.placeListScreen() {
 
-    composable(
-        AppNavigationGraph.PlaceList.route, listOf(
-            navArgument(AppNavigationGraph.PlaceList.ARGUMENT_SEARCH) {
-                type = NavType.StringType
-            },
-            navArgument(AppNavigationGraph.PlaceList.ARGUMENT_SORT) {
-                type = NavType.StringType
-            },
-        )
-    ) {
+    appNavigationComposable(PlaceList) {
         val navController = LocalAppNavController.current
 
         PlaceListScreen()

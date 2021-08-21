@@ -5,15 +5,11 @@ import androidx.navigation.NavType
 import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.screens.appNavigationComposable
 
 fun NavGraphBuilder.createCourseScreen() {
 
-    composable(
-        AppNavigationGraph.CreateCourse.route, listOf(
-            navArgument(AppNavigationGraph.CreateCourse.ARGUMENT_COURSE_ID) {
-                type = NavType.StringType
-            }
-        )) {
+    appNavigationComposable(AppNavigationGraph.CreateCourse) {
         CreateCourseScreen(
             it.arguments?.getString(AppNavigationGraph.CreateCourse.ARGUMENT_COURSE_ID)
         )

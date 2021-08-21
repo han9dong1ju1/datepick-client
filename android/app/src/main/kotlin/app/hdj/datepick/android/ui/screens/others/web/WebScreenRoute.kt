@@ -2,13 +2,10 @@ package app.hdj.datepick.android.ui.screens.others.web
 
 import androidx.navigation.NavGraphBuilder
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import com.google.accompanist.navigation.animation.composable
+import app.hdj.datepick.android.ui.screens.appNavigationComposable
 
 fun NavGraphBuilder.webScreen() {
-    composable(
-        AppNavigationGraph.Web.route,
-        AppNavigationGraph.Web.argument(),
-    ) {
+    appNavigationComposable(AppNavigationGraph.Web) {
         val url = it.arguments?.getString(AppNavigationGraph.Web.ARGUMENT_URL)
         WebScreen(url = requireNotNull(url))
     }

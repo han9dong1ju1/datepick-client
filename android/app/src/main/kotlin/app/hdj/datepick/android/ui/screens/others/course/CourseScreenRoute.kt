@@ -5,14 +5,10 @@ import androidx.navigation.NavType
 import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.screens.appNavigationComposable
 
 fun NavGraphBuilder.courseScreen() {
-    composable(
-        AppNavigationGraph.Course.route, listOf(
-            navArgument(AppNavigationGraph.Course.ARGUMENT_COURSE_ID) {
-                type = NavType.StringType
-            }
-        )) {
+    appNavigationComposable(AppNavigationGraph.Course) {
         val courseId =
             it.arguments?.getString(AppNavigationGraph.Course.ARGUMENT_COURSE_ID)
         CourseScreen(courseId)

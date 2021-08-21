@@ -1,8 +1,11 @@
 package app.hdj.datepick.android.ui.screens
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.runtime.Composable
 import androidx.core.os.bundleOf
-import androidx.navigation.NavController
-import androidx.navigation.NavType
+import androidx.navigation.*
+import androidx.navigation.compose.NamedNavArgument
 import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedNavigationArgument
 import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceNavigationArgument
@@ -13,6 +16,7 @@ import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.NestedNavigationGraph
 import app.hdj.datepick.ui.utils.putArguments
+import com.google.accompanist.navigation.animation.composable
 
 fun NavController.navigateRoute(navigationGraph: NavigationGraph) {
     val argument = navigationGraph.argument
@@ -28,9 +32,31 @@ fun NavController.openPlace(place: Place) {
     navigateRoute(AppNavigationGraph.PlaceDetail.graphWithArgument(place))
 }
 
-fun NavController.openWebUrl(url : String) {
+fun NavController.openWebUrl(url: String) {
     navigateRoute(AppNavigationGraph.Web.graphWithArgument(url))
 }
+
+fun <Graph : NavigationGraph> NavGraphBuilder.appNavigationComposable(
+    graph: Graph,
+    enterTransition: (
+        (initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition?
+    )? = null,
+    exitTransition: (
+        (initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition?
+    )? = null,
+    popEnterTransition: (
+        (initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition?
+    )? = enterTransition,
+    popExitTransition: (
+        (initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition?
+    )? = exitTransition,
+    content: @Composable (NavBackStackEntry) -> Unit
+) = composable(
+    graph.route,
+    graph.arguments,
+    graph.deeplinks,
+    enterTransition, exitTransition, popEnterTransition, popExitTransition, content
+)
 
 sealed class AppNavigationGraph(override val route: String) : NavigationGraph(route) {
 
@@ -59,11 +85,11 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
                 bundleOf(ARGUMENT_FEATURED to FeaturedNavigationArgument.fromFeatured(featured))
             )
 
-        fun argument() = listOf(
+        override val arguments: List<NamedNavArgument> = listOf(
             navArgument(ARGUMENT_FEATURED_ID) { type = NavType.LongType }
         )
 
-        fun deeplink() = listOf(
+        override val deeplinks: List<NavDeepLink> = listOf(
             datePickNavDeepLink(route),
             externalDatePickNavDeepLink(route)
         )
@@ -89,11 +115,11 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
             bundleOf(ARGUMENT_PLACE to PlaceNavigationArgument.fromPlace(place))
         )
 
-        fun argument() = listOf(
+        override val arguments: List<NamedNavArgument> = listOf(
             navArgument(ARGUMENT_PLACE_ID) { type = NavType.LongType }
         )
 
-        fun deeplink() = listOf(
+        override val deeplinks: List<NavDeepLink> = listOf(
             datePickNavDeepLink(route),
             externalDatePickNavDeepLink(route)
         )
@@ -132,8 +158,14 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
             bundleOf(ARGUMENT_URL to url)
         )
 
-        fun argument() = listOf(
+        override val arguments: List<NamedNavArgument> = listOf(
             navArgument(ARGUMENT_URL) { type = NavType.StringType }
         )
+
+        override val deeplinks: List<NavDeepLink> = listOf(
+            datePickNavDeepLink(route),
+            externalDatePickNavDeepLink(route)
+        )
+
     }
 }

@@ -5,7 +5,9 @@ import android.os.Parcelable
 import androidx.compose.runtime.Composable
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLink
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NamedNavArgument
 import java.io.Serializable
 
 abstract class NestedNavigationGraph(parentRoute: String, nestedRoute: String) :
@@ -13,7 +15,12 @@ abstract class NestedNavigationGraph(parentRoute: String, nestedRoute: String) :
     override val route = "$parentRoute/$nestedRoute"
 }
 
-open class NavigationGraph(open val route: String, open val argument : Bundle? = null)
+open class NavigationGraph(open val route: String, open val argument : Bundle? = null) {
+
+    open val arguments : List<NamedNavArgument> = emptyList()
+    open val deeplinks : List<NavDeepLink> = emptyList()
+
+}
 
 @Composable
 fun NavController.currentScreenRoute(): String? {

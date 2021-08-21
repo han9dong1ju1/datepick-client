@@ -11,7 +11,9 @@ import app.hdj.datepick.android.ui.screens.main.pick.PickViewModelDelegate
 import app.hdj.datepick.android.ui.screens.main.profile.ProfileScreen
 import app.hdj.datepick.android.ui.screens.main.profile.ProfileViewModelDelegate
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import com.google.accompanist.navigation.animation.composable
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Main.*
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Main.Map
+import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import com.google.accompanist.navigation.animation.navigation
 
 fun NavGraphBuilder.mainScreens(
@@ -22,30 +24,30 @@ fun NavGraphBuilder.mainScreens(
 ) {
 
     navigation(
-        startDestination = AppNavigationGraph.Main.Home.route,
+        startDestination = Home.route,
         route = AppNavigationGraph.Main.route
     ) {
 
-        composable(AppNavigationGraph.Main.Home.route) {
+        appNavigationComposable(Home) {
             val navController = LocalAppNavController.current
             HomeScreen(
                 homeViewModel
             )
         }
 
-        composable(AppNavigationGraph.Main.Map.route) {
+        appNavigationComposable(Map) {
             MapScreen(
                 mapViewModel
             )
         }
 
-        composable(AppNavigationGraph.Main.Pick.route) {
+        appNavigationComposable(Pick) {
             PickScreen(
                 pickViewModel
             )
         }
 
-        composable(AppNavigationGraph.Main.Profile.route) {
+        appNavigationComposable(Profile) {
             val navController = LocalAppNavController.current
             ProfileScreen(
                 profileViewModel,

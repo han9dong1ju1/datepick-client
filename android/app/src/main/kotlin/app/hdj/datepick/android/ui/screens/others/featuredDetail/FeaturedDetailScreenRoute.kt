@@ -2,20 +2,15 @@ package app.hdj.datepick.android.ui.screens.others.featuredDetail
 
 import android.os.Parcelable
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
-import androidx.navigation.compose.navArgument
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.ARGUMENT_FEATURED_ID
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.argument
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.deeplink
-import app.hdj.datepick.android.utils.datePickNavDeepLink
-import app.hdj.datepick.android.utils.externalDatePickNavDeepLink
+import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.utils.getArgument
-import kotlinx.parcelize.Parcelize
 import com.google.accompanist.navigation.animation.composable
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class FeaturedNavigationArgument(
@@ -32,10 +27,7 @@ data class FeaturedNavigationArgument(
 }
 
 fun NavGraphBuilder.featuredDetailScreen() {
-    composable(FeaturedDetail.route,
-        deepLinks = deeplink(),
-        arguments = argument()
-    ) {
+    appNavigationComposable(FeaturedDetail) {
         val navController = LocalAppNavController.current
 
         val id = it.arguments?.getLong(ARGUMENT_FEATURED_ID)

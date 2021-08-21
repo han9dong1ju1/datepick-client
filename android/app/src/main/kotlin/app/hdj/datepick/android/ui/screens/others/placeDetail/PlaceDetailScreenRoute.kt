@@ -4,13 +4,12 @@ import android.os.Parcelable
 import androidx.navigation.NavGraphBuilder
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE_ID
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.argument
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.deeplink
+import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.utils.getArgument
-import com.google.accompanist.navigation.animation.composable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -35,10 +34,7 @@ data class PlaceNavigationArgument(
 }
 
 fun NavGraphBuilder.placeDetailScreen() {
-    composable(AppNavigationGraph.PlaceDetail.route,
-        arguments = argument(),
-        deepLinks = deeplink()
-    ) {
+    appNavigationComposable(PlaceDetail) {
         val navController = LocalAppNavController.current
 
         val place = navController.getArgument<PlaceNavigationArgument>(ARGUMENT_PLACE)
