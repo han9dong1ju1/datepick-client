@@ -1,17 +1,26 @@
 package app.hdj.datepick.android.ui.screens.others.placeDetail
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Map
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.screens.openPlace
+import app.hdj.datepick.android.ui.screens.openWebUrl
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.place.Place
+import app.hdj.datepick.ui.components.DatePickButton
 import app.hdj.datepick.ui.components.googlemap.GoogleMap
 import app.hdj.datepick.ui.components.googlemap.rememberCameraUpdateState
 import app.hdj.datepick.ui.components.googlemap.rememberMapUiSettings
@@ -23,8 +32,14 @@ import com.google.maps.android.ktx.model.markerOptions
 @Composable
 fun PlaceDetailMapCard(placeState: LoadState<Place>) {
 
+    val context = LocalContext.current
+    val navController = LocalAppNavController.current
+
     val uiSettingsState = rememberMapUiSettings {
         setAllGesturesEnabled(false)
+        isCompassEnabled = false
+        isMapToolbarEnabled = false
+        isMyLocationButtonEnabled = false
     }
 
     val cameraUpdateState = rememberCameraUpdateState()
@@ -42,7 +57,6 @@ fun PlaceDetailMapCard(placeState: LoadState<Place>) {
                 listOf(
                     markerOptions {
                         position(placeLatLng)
-                        title(placeState.data.name)
                     }
                 )
             )
@@ -52,21 +66,37 @@ fun PlaceDetailMapCard(placeState: LoadState<Place>) {
     Surface(
         shape = shapes.medium,
         elevation = 0.dp,
-        onClick = {
-
-        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
             .height(200.dp)
     ) {
-        GoogleMap(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-            uiSettingsState = uiSettingsState,
-            cameraUpdateState = cameraUpdateState,
-            markerOptionsState = markerOptionsState,
-        )
+
+        Box(modifier = Modifier.fillMaxSize()) {
+
+            GoogleMap(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                uiSettingsState = uiSettingsState,
+                cameraUpdateState = cameraUpdateState,
+                markerOptionsState = markerOptionsState,
+            )
+
+            DatePickButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(20.dp),
+                icon = Icons.Rounded.Map,
+                text = "카카오맵으로 보기"
+            ) {
+                if (placeState.isStateSucceed()) {
+                    val url = "https://place.map.kakao.com/${placeState.data.kakaoId}"
+                    navController.openWebUrl(url)
+                }
+            }
+
+        }
+
     }
 }

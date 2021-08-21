@@ -148,7 +148,7 @@ fun FeaturedDetailScreen(
                 elevation = elevation.value,
                 backgroundColor = toolbarColor.value,
                 navigationIcon = {
-                    TopAppBarBackButton(actionIconColor.value)
+                    TopAppBarBackButton(contentColor = actionIconColor.value)
                 }
             )
         }) {

@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,7 +39,7 @@ fun PlaceBlogReviewListItem() {
 
             Image(
                 modifier = Modifier
-                    .size(56.dp)
+                    .size(60.dp)
                     .clip(MaterialTheme.shapes.small)
                     .constrainAs(
                         imageRef,
@@ -53,7 +54,7 @@ fun PlaceBlogReviewListItem() {
             Text(
                 modifier = Modifier.constrainAs(
                     titleRef,
-                    s2e(imageRef, 20.dp) + e2e() + fillWidthToConstraint + b2t(contentRef, 4.dp)
+                    s2e(imageRef, 20.dp) + e2e() + fillWidthToConstraint + b2t(contentRef, 10.dp)
                 ),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -63,11 +64,13 @@ fun PlaceBlogReviewListItem() {
             Text(
                 modifier = Modifier.constrainAs(
                     contentRef,
-                    s2e(imageRef, 20.dp) + e2e() + fillWidthToConstraint + t2b(titleRef, 4.dp)
+                    s2e(imageRef, 20.dp) + e2e() + fillWidthToConstraint + t2b(titleRef, 10.dp)
                 ),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                text = content, style = MaterialTheme.typography.body2
+                text = content, style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.onSurface.copy(0.5f)
+                    .compositeOver(MaterialTheme.colors.surface)
             )
 
         }

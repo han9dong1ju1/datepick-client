@@ -28,6 +28,10 @@ fun NavController.openPlace(place: Place) {
     navigateRoute(AppNavigationGraph.PlaceDetail.graphWithArgument(place))
 }
 
+fun NavController.openWebUrl(url : String) {
+    navigateRoute(AppNavigationGraph.Web.graphWithArgument(url))
+}
+
 sealed class AppNavigationGraph(override val route: String) : NavigationGraph(route) {
 
     /* Main Start */
@@ -120,4 +124,16 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         object Notifications : Settings("licenses")
     }
 
+    object Web : AppNavigationGraph("web?url={url}") {
+        const val ARGUMENT_URL = "url"
+
+        fun graphWithArgument(url: String) = NavigationGraph(
+            "web?url=$url",
+            bundleOf(ARGUMENT_URL to url)
+        )
+
+        fun argument() = listOf(
+            navArgument(ARGUMENT_URL) { type = NavType.StringType }
+        )
+    }
 }

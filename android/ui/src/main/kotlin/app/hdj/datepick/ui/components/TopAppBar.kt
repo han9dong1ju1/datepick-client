@@ -9,6 +9,7 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.LocalWindowInsets
@@ -17,11 +18,12 @@ import com.google.accompanist.insets.ui.TopAppBar
 
 @Composable
 fun TopAppBarBackButton(
+    icon : ImageVector = Icons.Rounded.ArrowBack,
     contentColor: Color = MaterialTheme.colors.onSurface
 ) {
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     IconButton(onClick = { backDispatcher?.onBackPressed() }) {
-        Icon(imageVector = Icons.Rounded.ArrowBack, null, tint = contentColor)
+        Icon(imageVector = icon, null, tint = contentColor)
     }
 }
 

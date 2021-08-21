@@ -39,6 +39,7 @@ import app.hdj.datepick.android.ui.screens.others.placeDetail.placeDetailScreen
 import app.hdj.datepick.android.ui.screens.others.place_list.placeListScreen
 import app.hdj.datepick.android.ui.screens.others.settings.settingsScreens
 import app.hdj.datepick.android.ui.providers.*
+import app.hdj.datepick.android.ui.screens.web.webScreen
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.DatePickScaffold
 import com.google.accompanist.navigation.animation.AnimatedComposeNavigator
@@ -155,6 +156,9 @@ fun DatePickApp() {
 
                     appUpdateDialog()
                     loginDialog()
+
+                    webScreen()
+
                 }
 
             }

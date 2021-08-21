@@ -238,17 +238,6 @@ fun GoogleMap(
     ) { view ->
         view.getMapAsync {
             uiSettingsState.uiSettings?.invoke(it.uiSettings)
-            val markerManager = MarkerManager(it)
-            val collection = markerManager.newCollection()
-            collection.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-                override fun getInfoWindow(p0: Marker): View? {
-                    return null
-                }
-
-                override fun getInfoContents(p0: Marker): View? {
-                    return null
-                }
-            })
         }
     }
 }
