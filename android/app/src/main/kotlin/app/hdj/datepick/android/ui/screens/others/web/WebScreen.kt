@@ -1,7 +1,10 @@
-package app.hdj.datepick.android.ui.screens.web
+package app.hdj.datepick.android.ui.screens.others.web
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.animation.AnimatedVisibility
@@ -24,7 +27,8 @@ import app.hdj.datepick.ui.components.TopAppBarBackButton
 @Composable
 fun WebScreen(url: String) {
 
-    var webTitle by remember { mutableStateOf<String?>("로딩중...") }
+    var webTitle by remember { mutableStateOf("") }
+    var webUrl by remember { mutableStateOf(url) }
     var progress by remember { mutableStateOf(0) }
 
     DatePickScaffold(
@@ -37,12 +41,12 @@ fun WebScreen(url: String) {
                 title = {
                     Column(modifier = Modifier.fillMaxWidth()) {
                         Text(
-                            text = webTitle ?: "에러가 발생했습니다.",
+                            text = webTitle,
                             style = MaterialTheme.typography.subtitle1
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = url, style = MaterialTheme.typography.caption,
+                            text = webUrl, style = MaterialTheme.typography.caption,
                             color = MaterialTheme.colors.onSurface.copy(0.3f)
                                 .compositeOver(MaterialTheme.colors.surface)
                         )
@@ -67,22 +71,38 @@ fun WebScreen(url: String) {
                 )
             }
 
-            AndroidView(factory = ::WebView) { view ->
-                view.webChromeClient = object : WebChromeClient() {
+            AndroidView(factory = ::WebView) { webView ->
+                webView.webChromeClient = object : WebChromeClient() {
                     override fun onProgressChanged(view: WebView?, newProgress: Int) {
                         super.onProgressChanged(view, newProgress)
                         progress = newProgress
                     }
                 }
-                view.webViewClient = object : WebViewClient() {
+                webView.webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
-                        webTitle = view?.title
+                        webTitle = view?.title.orEmpty()
+                        webUrl = view?.url.orEmpty()
+                    }
+
+                    override fun shouldOverrideUrlLoading(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): Boolean {
+                        val requestedUrl = request?.url.toString()
+                        if (!requestedUrl.startsWith("http")) {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(requestedUrl)).apply {
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
+                            webView.context.startActivity(intent)
+                            return true
+                        }
+                        return super.shouldOverrideUrlLoading(view, request)
                     }
                 }
-                view.settings.javaScriptEnabled = true
-                view.settings.domStorageEnabled = true
-                view.loadUrl(url)
+                webView.settings.javaScriptEnabled = true
+                webView.settings.domStorageEnabled = true
+                webView.loadUrl(url)
             }
         }
 

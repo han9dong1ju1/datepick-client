@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.screens.web
+package app.hdj.datepick.android.ui.screens.others.web
 
 import androidx.navigation.NavGraphBuilder
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
