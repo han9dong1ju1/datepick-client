@@ -3,6 +3,7 @@ package app.hdj.datepick.domain
 import app.hdj.datepick.domain.LoadState.Companion.failed
 import app.hdj.datepick.domain.LoadState.Companion.loading
 import app.hdj.datepick.domain.LoadState.Companion.success
+import app.hdj.datepick.utils.PlatformLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.map
@@ -13,7 +14,11 @@ sealed interface LoadState<T> {
 
     data class Success<T>(val data: T) : LoadState<T>
     class Loading<T> : LoadState<T>
-    class Failed<T>(val throwable: Throwable, val cachedData: T? = null) : LoadState<T>
+    class Failed<T>(val throwable: Throwable, val cachedData: T? = null) : LoadState<T> {
+        init {
+            PlatformLogger.e(throwable)
+        }
+    }
 
     companion object {
 
@@ -25,7 +30,7 @@ sealed interface LoadState<T> {
 
 }
 
-fun <T, R> LoadState<T>.map(mapper : (T) -> R) : LoadState<R> {
+fun <T, R> LoadState<T>.map(mapper: (T) -> R): LoadState<R> {
     return when (this) {
         is LoadState.Failed -> LoadState.Failed(throwable, cachedData?.let { mapper(it) })
         is LoadState.Loading -> LoadState.Loading()
@@ -47,6 +52,26 @@ suspend fun <T : Any> FlowCollector<LoadState<T>>.emitState(
         { onFailed(it); failed(it, defaultValue) }
     )
     emit(state)
+}
+
+fun <T> LoadState<T>.fold(
+    onSucceed: (T) -> Unit = {},
+    onFailed: (T?, Throwable) -> Unit = { _, _ -> },
+    onLoading: () -> Unit = {},
+) {
+    when {
+        isStateSucceed() -> onSucceed(data)
+        isStateFailed() -> onFailed(cachedData, throwable)
+        else -> onLoading()
+    }
+}
+
+fun <T, R> LoadState<T>.getOrNull(block: (T) -> R) : R? {
+    return if (isStateSucceed()) block(data) else null
+}
+
+fun <T> LoadState<T>.onSucceed(block: (T) -> Unit) {
+    if (isStateSucceed()) block(data)
 }
 
 fun <T> Flow<LoadState<T>>.mapFailedState(mapper: suspend (LoadState.Failed<T>) -> LoadState.Failed<T>) =
