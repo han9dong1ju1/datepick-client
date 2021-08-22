@@ -1,6 +1,7 @@
 package app.hdj.datepick.android.ui.screens.main.home
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.material.MaterialTheme
@@ -32,9 +33,14 @@ fun HomeScreenTopBar(
         animationSpec = tween(450)
     )
 
+    val elevation by animateDpAsState(
+        targetValue = if (collapsed) 4.dp else 0.dp,
+        animationSpec = tween(450)
+    )
+
     DatePickTopAppBar(
         backgroundColor = background,
-        elevation = 0.dp,
+        elevation = elevation,
         title = {
             Image(
                 imageVector = DatePickIcons.Logo, contentDescription = null,

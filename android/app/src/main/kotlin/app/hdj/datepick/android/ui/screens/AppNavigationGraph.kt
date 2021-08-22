@@ -1,5 +1,7 @@
 package app.hdj.datepick.android.ui.screens
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
@@ -39,18 +41,18 @@ fun NavController.openWebUrl(url: String) {
 fun <Graph : NavigationGraph> NavGraphBuilder.appNavigationComposable(
     graph: Graph,
     enterTransition: (
-        (initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition?
+    AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition?
     )? = null,
     exitTransition: (
-        (initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition?
+    AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition?
     )? = null,
     popEnterTransition: (
-        (initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition?
+    AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition?
     )? = enterTransition,
     popExitTransition: (
-        (initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition?
+    AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition?
     )? = exitTransition,
-    content: @Composable (NavBackStackEntry) -> Unit
+    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
 ) = composable(
     graph.route,
     graph.arguments,

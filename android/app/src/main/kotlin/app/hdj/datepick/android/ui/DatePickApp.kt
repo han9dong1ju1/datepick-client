@@ -1,11 +1,8 @@
 package app.hdj.datepick.android.ui
 
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandIn
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
@@ -123,14 +120,9 @@ fun DatePickApp() {
                                 90,
                                 easing = LinearOutSlowInEasing
                             )
-                        ) + expandIn(
+                        ) + scaleIn(
                             animationSpec = tween(210, 90, easing = LinearOutSlowInEasing),
-                            expandFrom = Alignment.Center,
-                            initialSize = {
-                                val size = it.toSize() * 0.98f
-                                IntSize(size.width.roundToInt(), size.height.roundToInt())
-                            },
-                            clip = false
+                            initialScale = 0.92f
                         )
                     },
                     exitTransition = { _, _ ->

@@ -22,17 +22,16 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import app.hdj.datepick.android.ui.providers.Preview
 import app.hdj.datepick.android.ui.providers.preview.FakePlaceBlogReviewPreviewProvider
-import app.hdj.datepick.android.utils.UrlPreviewDownloader
+import app.hdj.datepick.android.utils.NaverBlogUrlPreviewDownloader
 import app.hdj.datepick.domain.model.place.BlogReview
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.*
-import coil.request.CachePolicy
 import coil.size.Scale
 
 @Composable
 fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogReview) -> Unit) {
 
-    val urlFetcher = remember { UrlPreviewDownloader.fetchImageUrl(blogReview.url) }
+    val urlFetcher = remember { NaverBlogUrlPreviewDownloader.fetchImageUrl(blogReview.url) }
 
     val imageUrl by urlFetcher.collectAsState(null)
 

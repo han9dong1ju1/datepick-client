@@ -18,6 +18,7 @@ dependencies {
     api(AndroidX.navigation.compose)
     api(AndroidX.activity.compose)
     api(AndroidX.compose.compiler)
+    api(AndroidX.compose.animation)
     api(AndroidX.compose.material)
     api(AndroidX.compose.material.icons.core)
     api(AndroidX.compose.material.icons.extended)
