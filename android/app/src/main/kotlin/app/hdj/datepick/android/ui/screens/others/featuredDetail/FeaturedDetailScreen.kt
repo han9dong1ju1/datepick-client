@@ -223,7 +223,7 @@ fun FeaturedDetailScreen(
                                     .background(MaterialTheme.colors.onSurface.copy(0.2f))
                             )
 
-                            if (it != 3) HorizontalMargin(20.dp)
+                            if (it != 3) Spacer(Modifier.width(20.dp))
 
                         }
                     }

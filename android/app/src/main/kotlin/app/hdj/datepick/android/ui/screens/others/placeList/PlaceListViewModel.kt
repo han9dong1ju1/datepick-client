@@ -1,7 +1,10 @@
-package app.hdj.datepick.android.ui.screens.others.place_list
+package app.hdj.datepick.android.ui.screens.others.placeList
 
 import androidx.lifecycle.ViewModel
-import app.hdj.datepick.android.ui.screens.others.place_list.PlaceListViewModelDelegate.*
+import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
+import app.hdj.datepick.android.ui.screens.others.placeList.PlaceListViewModelDelegate.*
+import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -17,7 +20,9 @@ fun fakePlaceListViewModel() = object : PlaceListViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
-    override val state = MutableStateFlow(State())
+    override val state = MutableStateFlow(
+        State(LoadState.success(FakePlacePreviewProvider().values.first()))
+    )
 
     override val effect = effectChannel.receiveAsFlow()
 
@@ -29,8 +34,8 @@ fun fakePlaceListViewModel() = object : PlaceListViewModelDelegate {
 
 interface PlaceListViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
-    class State(
-
+    data class State(
+        val results: LoadState<List<Place>> = LoadState.loading()
     )
 
     sealed class Effect {
@@ -38,6 +43,7 @@ interface PlaceListViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
     }
 
     sealed class Event {
+        data class Search(val query: String) : Event()
         object ReloadContents : Event()
     }
 
@@ -53,7 +59,7 @@ class PlaceListViewModel @Inject constructor(
     override val effect: Flow<Effect>
         get() = TODO("Not yet implemented")
 
-    private var job : Job? = null
+    private var job: Job? = null
 
     override fun event(event: Event) {
         when (event) {

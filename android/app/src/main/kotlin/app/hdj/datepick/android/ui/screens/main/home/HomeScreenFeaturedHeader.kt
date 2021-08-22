@@ -17,6 +17,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
 import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.isStateFailed
+import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.DatePickPager
 import app.hdj.datepick.ui.styles.DatePickTheme
@@ -87,21 +89,21 @@ fun HomeScreenFeaturedHeader(
 
     AnimatedContent(targetState = state) {
 
-//        when {
-//            state.isStateSucceed() -> {
-//                HomeScreenFeaturedPager(state.data, onFeaturedClicked)
-//            }
-//            state.isStateFailed() -> {
-//                val cachedList = state.cachedData
-//                if (cachedList != null) HomeScreenFeaturedPager(cachedList, onFeaturedClicked)
-//                else {
-//
-//                }
-//            }
-//            else -> {
-//
-//            }
-//        }
+        when {
+            state.isStateSucceed() -> {
+                HomeScreenFeaturedPager(state.data, onFeaturedClicked)
+            }
+            state.isStateFailed() -> {
+                val cachedList = state.cachedData
+                if (cachedList != null) HomeScreenFeaturedPager(cachedList, onFeaturedClicked)
+                else {
+
+                }
+            }
+            else -> {
+
+            }
+        }
 
 
     }

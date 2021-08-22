@@ -10,8 +10,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import app.hdj.datepick.android.ui.StatusBarMode.STATUS_BAR_FORCE_WHITE
-import app.hdj.datepick.android.ui.StatusBarMode.STATUS_BAR_SYSTEM
+import app.hdj.datepick.android.ui.StatusBarMode.*
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
 import app.hdj.datepick.ui.styles.DatePickTheme
@@ -70,7 +69,8 @@ class MainActivity : AppCompatActivity() {
                 val systemUiController = rememberSystemUiController()
                 val statusBarMode = state.statusBarMode
                 val useDarkIcons = MaterialTheme.colors.isLight
-                val statusBarScrim = MaterialTheme.colors.background.copy(0.5f)
+                val statusBarScrim = MaterialTheme.colors.background
+                val statusBarScrimWithTransparency = MaterialTheme.colors.background.copy(0.0f)
 
                 SideEffect {
                     when (statusBarMode) {
@@ -78,6 +78,11 @@ class MainActivity : AppCompatActivity() {
                             systemUiController.setStatusBarColor(Color.Transparent, false)
                         STATUS_BAR_SYSTEM ->
                             systemUiController.setStatusBarColor(statusBarScrim, useDarkIcons)
+                        STATUS_BAR_SYSTEM_WITH_TRANSPARENCY ->
+                            systemUiController.setStatusBarColor(
+                                statusBarScrimWithTransparency,
+                                useDarkIcons
+                            )
                     }
                 }
 

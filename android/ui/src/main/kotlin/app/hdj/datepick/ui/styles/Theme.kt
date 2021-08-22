@@ -107,39 +107,6 @@ val shapes = Shapes(
     large = RoundedCornerShape(20.dp)
 )
 
-/* Colors */
-
-val darkColors = darkColors(
-    primary = Color(0xFF465060),
-    secondary = Color(0xFFef6d9a),
-    primaryVariant = Color(0xFF465060),
-    secondaryVariant = Color(0xFFef6d9a),
-    background = Color(0xFF131313),
-    surface = Color(0xFF131313),
-    error = Color(0xFFCF6679),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = Color.White,
-    onSurface = Color.White,
-    onError = Color.Black,
-)
-
-@SuppressLint("ConflictingOnColor")
-val lightColors = lightColors(
-    primary = Color(0xFF465060),
-    secondary = Color(0xFFef6d9a),
-    primaryVariant = Color(0xFF465060),
-    secondaryVariant = Color(0xFFef6d9a),
-    background = Color(0xFFf8f8f8),
-    surface = Color.White,
-    error = Color(0xFFB00020),
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    onError = Color.White
-)
-
 @Composable
 fun DatePickTheme(
     content: @Composable () -> Unit

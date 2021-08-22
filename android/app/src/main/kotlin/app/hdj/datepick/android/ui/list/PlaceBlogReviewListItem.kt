@@ -1,7 +1,6 @@
 package app.hdj.datepick.android.ui.list
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -9,25 +8,35 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import app.hdj.datepick.android.ui.providers.Preview
+import app.hdj.datepick.android.ui.providers.preview.FakePlaceBlogReviewPreviewProvider
+import app.hdj.datepick.android.utils.UrlPreviewDownloader
+import app.hdj.datepick.domain.model.place.BlogReview
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.*
+import coil.request.CachePolicy
+import coil.size.Scale
 
 @Composable
-fun PlaceBlogReviewListItem() {
+fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogReview) -> Unit) {
 
-    val title = "주차가능한 삼청동 맛집 삼청동 수제비 다녀왔어요!"
-    val imageUrl = "https://picsum.photos/200"
-    val content = "삼청동 맛집 삼청동 수제비 메뉴판은 이렇게 간단하구여! 아무래도 메인 메뉴인 수제비가 가장 맛있겠져?!!?…"
+    val urlFetcher = remember { UrlPreviewDownloader.fetchImageUrl(blogReview.url) }
 
-    Surface(onClick = { /*TODO*/ }) {
+    val imageUrl by urlFetcher.collectAsState(null)
+
+    Surface(onClick = { onBlogReviewClicked(blogReview) }) {
 
         ConstraintLayout(
             modifier = Modifier
@@ -45,8 +54,9 @@ fun PlaceBlogReviewListItem() {
                         imageRef,
                         t2t() + b2b() + s2s()
                     ),
+                contentScale = ContentScale.Crop,
                 painter = rememberUrlImagePainter(request = imageUrl) {
-
+                    scale(Scale.FIT)
                 },
                 contentDescription = null
             )
@@ -54,21 +64,21 @@ fun PlaceBlogReviewListItem() {
             Text(
                 modifier = Modifier.constrainAs(
                     titleRef,
-                    s2e(imageRef, 20.dp) + e2e() + fillWidthToConstraint + b2t(contentRef, 10.dp)
+                    s2e(imageRef, 20.dp) + e2e() + fillWidthToConstraint + b2t(contentRef, 2.dp)
                 ),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                text = title, style = MaterialTheme.typography.subtitle1
+                text = blogReview.title, style = MaterialTheme.typography.subtitle1
             )
 
             Text(
                 modifier = Modifier.constrainAs(
                     contentRef,
-                    s2e(imageRef, 20.dp) + e2e() + fillWidthToConstraint + t2b(titleRef, 10.dp)
+                    s2e(imageRef, 20.dp) + e2e() + fillWidthToConstraint + t2b(titleRef, 2.dp)
                 ),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                text = content, style = MaterialTheme.typography.body1,
+                text = blogReview.content, style = MaterialTheme.typography.body1,
                 color = MaterialTheme.colors.onSurface.copy(0.5f)
                     .compositeOver(MaterialTheme.colors.surface)
             )
@@ -81,10 +91,12 @@ fun PlaceBlogReviewListItem() {
 
 @Composable
 @Preview(showBackground = true)
-fun PlaceBlogReviewListItemPreview() {
+fun PlaceBlogReviewListItemPreview(
+    @PreviewParameter(FakePlaceBlogReviewPreviewProvider::class) blogReviews: List<BlogReview>
+) {
     Preview {
         DatePickTheme {
-            PlaceBlogReviewListItem()
+            PlaceBlogReviewListItem(blogReviews.first()) {}
         }
     }
 }

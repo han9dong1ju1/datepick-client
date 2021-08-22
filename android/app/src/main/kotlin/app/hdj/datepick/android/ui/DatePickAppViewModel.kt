@@ -21,7 +21,8 @@ val LocalDatePickAppViewModel = compositionLocalOf<DatePickAppViewModelDelegate>
 
 enum class StatusBarMode {
     STATUS_BAR_FORCE_WHITE,
-    STATUS_BAR_SYSTEM
+    STATUS_BAR_SYSTEM,
+    STATUS_BAR_SYSTEM_WITH_TRANSPARENCY,
 }
 
 interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event> {

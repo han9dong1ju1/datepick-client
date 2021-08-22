@@ -2,10 +2,12 @@ package app.hdj.datepick.android.ui.screens.others.placeDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hdj.datepick.android.ui.providers.preview.FakePlaceBlogReviewPreviewProvider
 import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceDetailViewModelDelegate.*
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
+import app.hdj.datepick.domain.model.place.BlogReview
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.usecase.place.GetPlaceByIdUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
@@ -22,7 +24,11 @@ fun fakePlaceDetailViewModel() = object : PlaceDetailViewModelDelegate {
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
     override val state = MutableStateFlow(
-        State(LoadState.success(FakePlacePreviewProvider().values.first().first()))
+        State(
+            LoadState.success(FakePlacePreviewProvider().values.first().first()),
+            LoadState.success(FakePlacePreviewProvider().values.first()),
+            LoadState.success(FakePlaceBlogReviewPreviewProvider().values.first()),
+        )
     )
 
     override val effect = effectChannel.receiveAsFlow()
@@ -34,7 +40,9 @@ fun fakePlaceDetailViewModel() = object : PlaceDetailViewModelDelegate {
 interface PlaceDetailViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val place: LoadState<Place> = LoadState.loading()
+        val place: LoadState<Place> = LoadState.loading(),
+        val similarPlaces: LoadState<List<Place>> = LoadState.loading(),
+        val blogReviews: LoadState<List<BlogReview>> = LoadState.loading(),
     )
 
     sealed class Effect {

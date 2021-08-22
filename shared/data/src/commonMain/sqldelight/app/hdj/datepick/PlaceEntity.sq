@@ -8,6 +8,8 @@ CREATE TABLE placeEntity (
     kakaoId INTEGER AS Long NOT NULL,
     name TEXT NOT NULL,
     address TEXT NOT NULL,
+    type TEXT NOT NULL,
+    subtype TEXT NOT NULL,
     isPicked INTEGER AS Boolean NOT NULL,
     latitude REAL AS Double NOT NULL,
     longitude REAL AS Double NOT NULL,
@@ -20,7 +22,7 @@ getById:
 SELECT * FROM placeEntity WHERE id = :id;
 
 insert:
-INSERT INTO placeEntity(id, kakaoId, name, address, isPicked, latitude, longitude, rating, photos, cachedAt) VALUES ?;
+INSERT INTO placeEntity(id, kakaoId, name, type, subtype, address, isPicked, latitude, longitude, rating, photos, cachedAt) VALUES ?;
 
 deleteById:
 DELETE FROM placeEntity WHERE id = :id;

@@ -6,23 +6,34 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStatusBarMode
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.StatusBarMode
+import app.hdj.datepick.android.ui.list.PlaceListItem
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.android.ui.screens.openFeatured
 import app.hdj.datepick.android.ui.screens.openPlace
+import app.hdj.datepick.android.utils.onSucceedComposable
+import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.Header
 import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.onSurface50
 import app.hdj.datepick.ui.utils.extract
+import app.hdj.datepick.ui.utils.isFirstItemScrolled
+import app.hdj.datepick.ui.utils.verticalMargin
+import com.google.accompanist.insets.statusBarsPadding
+
+private val TOP_FEATURED_PAGER_HEIGHT = 400.dp
 
 @Composable
 fun HomeScreen(
@@ -36,9 +47,11 @@ fun HomeScreen(
     val navController = LocalAppNavController.current
     val appViewModel = LocalDatePickAppViewModel.current
 
-    remember(lazyListState.firstVisibleItemIndex) {
-        val mode = if (lazyListState.firstVisibleItemIndex != 0) {
-            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_SYSTEM)
+    val isHeaderCollapsed = lazyListState.isFirstItemScrolled(limit = TOP_FEATURED_PAGER_HEIGHT / 2)
+
+    remember(isHeaderCollapsed) {
+        val mode = if (isHeaderCollapsed) {
+            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_SYSTEM_WITH_TRANSPARENCY)
         } else {
             ChangeStatusBarMode(StatusBarMode.STATUS_BAR_FORCE_WHITE)
         }
@@ -46,37 +59,56 @@ fun HomeScreen(
         mode
     }
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        state = lazyListState,
-        content = {
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(400.dp)
-                        .background(Color.Black)
-                ) {
-                    HomeScreenFeaturedHeader(state.featured, navController::openFeatured)
-                    HomeScreenTopBar()
+    DatePickScaffold(topBar = {
+        HomeScreenTopBar(isHeaderCollapsed)
+    }) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            state = lazyListState,
+            content = {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TOP_FEATURED_PAGER_HEIGHT)
+                            .background(MaterialTheme.colors.onSurface50)
+                    ) {
+                        HomeScreenFeaturedHeader(state.featured, navController::openFeatured)
+                    }
                 }
+
+                verticalMargin(10.dp)
+
+                item {
+                    Header(title = "이 장소들은 어때요?")
+                    Column(Modifier.fillMaxWidth()) {
+                        state.featuredPlaces.onSucceedComposable { list ->
+                            list.forEach {
+                                PlaceListItem(place = it, onPlaceClicked = navController::openPlace)
+                            }
+                        }
+                    }
+                }
+
+                verticalMargin(10.dp)
+
+                val place = FakePlacePreviewProvider().values
+                    .first()
+                    .first()
+
+                items((0..10).toList()) {
+                    Text(
+                        text = "$it", modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { navController.openPlace(place) }
+                            .padding(20.dp)
+                    )
+                }
+
             }
+        )
 
-            val place = FakePlacePreviewProvider().values
-                .first()
-                .first()
-
-            items((0..10).toList()) {
-                Text(
-                    text = "$it", modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { navController.openPlace(place) }
-                        .padding(20.dp)
-                )
-            }
-
-        }
-    )
+    }
 
 }
 

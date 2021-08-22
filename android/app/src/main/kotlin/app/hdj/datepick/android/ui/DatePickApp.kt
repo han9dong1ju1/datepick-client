@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.plusAssign
@@ -27,18 +26,18 @@ import app.hdj.datepick.android.ui.dialog.appupdate.appUpdateDialog
 import app.hdj.datepick.android.ui.dialog.login.loginDialog
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.main.MainBottomNavigation
-import app.hdj.datepick.android.ui.screens.main.home.HomeViewModel
 import app.hdj.datepick.android.ui.screens.main.mainScreens
-import app.hdj.datepick.android.ui.screens.main.map.MapViewModel
-import app.hdj.datepick.android.ui.screens.main.pick.PickViewModel
-import app.hdj.datepick.android.ui.screens.main.profile.ProfileViewModel
 import app.hdj.datepick.android.ui.screens.others.course.courseScreen
 import app.hdj.datepick.android.ui.screens.others.createCourse.createCourseScreen
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.featuredDetailScreen
 import app.hdj.datepick.android.ui.screens.others.placeDetail.placeDetailScreen
-import app.hdj.datepick.android.ui.screens.others.place_list.placeListScreen
+import app.hdj.datepick.android.ui.screens.others.placeList.placeListScreen
 import app.hdj.datepick.android.ui.screens.others.settings.settingsScreens
 import app.hdj.datepick.android.ui.providers.*
+import app.hdj.datepick.android.ui.screens.main.home.fakeHomeViewModel
+import app.hdj.datepick.android.ui.screens.main.map.fakeMapViewModel
+import app.hdj.datepick.android.ui.screens.main.pick.fakePickViewModel
+import app.hdj.datepick.android.ui.screens.main.profile.fakeProfileViewModel
 import app.hdj.datepick.android.ui.screens.others.web.webScreen
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.DatePickScaffold
@@ -73,10 +72,15 @@ fun DatePickApp() {
 
     val appViewModel = LocalDatePickAppViewModel.current
 
-    val homeViewModel = hiltViewModel<HomeViewModel>()
-    val mapViewModel = hiltViewModel<MapViewModel>()
-    val pickViewModel = hiltViewModel<PickViewModel>()
-    val profileViewModel = hiltViewModel<ProfileViewModel>()
+//    val homeViewModel = hiltViewModel<HomeViewModel>()
+//    val mapViewModel = hiltViewModel<MapViewModel>()
+//    val pickViewModel = hiltViewModel<PickViewModel>()
+//    val profileViewModel = hiltViewModel<ProfileViewModel>()
+
+    val homeViewModel = fakeHomeViewModel()
+    val mapViewModel = fakeMapViewModel()
+    val pickViewModel = fakePickViewModel()
+    val profileViewModel = fakeProfileViewModel()
 
     CompositionLocalProvider(
         LocalAppNavController provides navController,

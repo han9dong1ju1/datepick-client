@@ -7,6 +7,10 @@ import kotlinx.datetime.Clock
 object PlaceMapper : Mapper<PlaceEntity, Place> {
 
     override fun PlaceEntity.asDomain() = object : Place {
+        override val category: Place.Category = object : Place.Category {
+            override val type: String = this@asDomain.type
+            override val subtype: String = this@asDomain.subtype
+        }
         override val id: Long = this@asDomain.id
         override val kakaoId: Long = this@asDomain.kakaoId
         override val name: String = this@asDomain.name
@@ -19,6 +23,19 @@ object PlaceMapper : Mapper<PlaceEntity, Place> {
     }
 
     override fun Place.asTable(): PlaceEntity =
-        PlaceEntity(id, kakaoId, name, address, isPicked, latitude, longitude, rating, photos, Clock.System.now().epochSeconds)
+        PlaceEntity(
+            id,
+            kakaoId,
+            name,
+            address,
+            category.type,
+            category.subtype,
+            isPicked,
+            latitude,
+            longitude,
+            rating,
+            photos,
+            Clock.System.now().epochSeconds
+        )
 
 }

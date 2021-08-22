@@ -32,7 +32,6 @@ import com.google.maps.android.ktx.model.markerOptions
 @Composable
 fun PlaceDetailMapCard(placeState: LoadState<Place>) {
 
-    val context = LocalContext.current
     val navController = LocalAppNavController.current
 
     val uiSettingsState = rememberMapUiSettings {
@@ -56,6 +55,7 @@ fun PlaceDetailMapCard(placeState: LoadState<Place>) {
             markerOptionsState.addMarkerOptions(
                 listOf(
                     markerOptions {
+                        title(placeState.data.name)
                         position(placeLatLng)
                     }
                 )
@@ -68,7 +68,7 @@ fun PlaceDetailMapCard(placeState: LoadState<Place>) {
         elevation = 0.dp,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp)
+            .padding(horizontal = 20.dp)
             .height(200.dp)
     ) {
 

@@ -9,20 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@Composable
-fun VerticalMargin(dp : Dp = 20.dp) {
+fun LazyListScope.verticalMargin(dp : Dp = 20.dp) = item {
     Spacer(modifier = Modifier.height(dp))
 }
 
-@Composable
-fun HorizontalMargin(dp : Dp = 20.dp) {
-    Spacer(modifier = Modifier.width(dp))
-}
-
-fun LazyListScope.verticalMargin(dp : Dp = 20.dp) = item {
-    VerticalMargin(dp)
-}
-
 fun LazyListScope.horizontalMargin(dp : Dp = 20.dp) = item {
-    HorizontalMargin(dp)
+    Spacer(modifier = Modifier.width(dp))
 }

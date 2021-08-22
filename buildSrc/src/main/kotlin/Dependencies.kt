@@ -56,4 +56,6 @@ object Utils {
 
     const val composeCoil = "io.coil-kt:coil-compose:_"
 
+    const val jsoup = "org.jsoup:jsoup:_"
+
 }

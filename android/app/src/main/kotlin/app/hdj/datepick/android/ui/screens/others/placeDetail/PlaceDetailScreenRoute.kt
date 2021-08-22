@@ -13,21 +13,37 @@ import app.hdj.datepick.ui.utils.getArgument
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+data class PlaceCategoryNavigationArgument(
+    override val type: String,
+    override val subtype: String
+) : Place.Category, Parcelable
+
+@Parcelize
 data class PlaceNavigationArgument(
     override val id: Long,
     override val kakaoId: Long,
     override val name: String,
+    override val category: PlaceCategoryNavigationArgument,
     override val address: String,
     override val latitude: Double,
     override val longitude: Double,
     override val rating: Double,
     override val isPicked: Boolean,
-    override val photos: List<String>
+    override val photos: List<String>,
 ) : Place, Parcelable {
     companion object {
         fun fromPlace(place: Place) = with(place) {
             PlaceNavigationArgument(
-                id, kakaoId, name, address, latitude, longitude, rating, isPicked, photos
+                id,
+                kakaoId,
+                name,
+                PlaceCategoryNavigationArgument(category.type, category.subtype),
+                address,
+                latitude,
+                longitude,
+                rating,
+                isPicked,
+                photos
             )
         }
     }
@@ -42,6 +58,6 @@ fun NavGraphBuilder.placeDetailScreen() {
         val placeId =
             it.arguments?.getLong(ARGUMENT_PLACE_ID)
 
-        PlaceDetailScreen(placeId, place)
+        PlaceDetailScreen(placeId, place, fakePlaceDetailViewModel())
     }
 }

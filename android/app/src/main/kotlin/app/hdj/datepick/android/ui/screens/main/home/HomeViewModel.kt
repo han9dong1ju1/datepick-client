@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.screens.main.home.HomeViewModelDelegate.*
 import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
+import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.featured.Featured
+import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +21,10 @@ fun fakeHomeViewModel() = object : HomeViewModelDelegate {
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
     override val state = MutableStateFlow(
-        State(LoadState.success(FakeFeaturedPreviewProvider().values.first()))
+        State(
+            LoadState.success(FakeFeaturedPreviewProvider().values.first()),
+            LoadState.success(FakePlacePreviewProvider().values.first()),
+        )
     )
 
     override val effect = effectChannel.receiveAsFlow()
@@ -33,7 +38,8 @@ fun fakeHomeViewModel() = object : HomeViewModelDelegate {
 interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val featured: LoadState<List<Featured>> = LoadState.loading()
+        val featured: LoadState<List<Featured>> = LoadState.loading(),
+        val featuredPlaces: LoadState<List<Place>> = LoadState.loading(),
     )
 
     sealed class Effect {

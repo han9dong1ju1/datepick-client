@@ -20,7 +20,7 @@ fun PlaceDetailScreenHeader(
         if (placeState.isStateSucceed()) {
 
             LargeTitleAndSubtitle(
-                modifier = Modifier.padding(20.dp),
+                modifier = Modifier.padding(horizontal = 20.dp),
                 title = placeState.data.name,
                 subtitle = placeState.data.address
             )

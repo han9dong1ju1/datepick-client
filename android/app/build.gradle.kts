@@ -58,6 +58,7 @@ dependencies {
     implementation(Google.firebase.crashlyticsKtx)
     implementation(Google.firebase.dynamicLinksKtx)
 
+    implementation(Utils.jsoup)
 }
 
 val gitDescribe: String by lazy {

@@ -226,9 +226,7 @@ fun GoogleMap(
     ) {
         val googleMap = mapView.awaitMap()
         googleMap.clear()
-        markerOptionsState.markerOptions.forEach {
-            googleMap.addMarker(it)?.showInfoWindow()
-        }
+        markerOptionsState.markerOptions.forEach { googleMap.addMarker(it) }
         polylineOptionsState.polylineOptions?.let { googleMap.addPolyline(it) }
     }
 

@@ -5,9 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaceResponse(
-    override val id : Long,
+    override val id: Long,
     override val kakaoId: Long,
-    override val name : String,
+    override val name: String,
+    override val category: PlaceCategoryResponse,
     override val address: String,
     override val latitude: Double,
     override val longitude: Double,
@@ -15,3 +16,9 @@ data class PlaceResponse(
     override val isPicked: Boolean,
     override val photos: List<String>,
 ) : Place
+
+@Serializable
+data class PlaceCategoryResponse(
+    override val type: String,
+    override val subtype: String
+) : Place.Category
