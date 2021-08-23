@@ -19,6 +19,7 @@ data class PlaceResponse(
 
 @Serializable
 data class PlaceCategoryResponse(
+    override val category: String,
     override val type: String,
     override val subtype: String
 ) : Place.Category

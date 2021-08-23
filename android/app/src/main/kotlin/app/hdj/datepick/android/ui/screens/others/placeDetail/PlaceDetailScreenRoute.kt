@@ -14,6 +14,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PlaceCategoryNavigationArgument(
+    override val category: String,
     override val type: String,
     override val subtype: String
 ) : Place.Category, Parcelable
@@ -37,7 +38,7 @@ data class PlaceNavigationArgument(
                 id,
                 kakaoId,
                 name,
-                PlaceCategoryNavigationArgument(category.type, category.subtype),
+                PlaceCategoryNavigationArgument(category.category, category.type, category.subtype),
                 address,
                 latitude,
                 longitude,

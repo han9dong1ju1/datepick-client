@@ -13,9 +13,10 @@ interface Place {
     val photos : List<String>
 
     interface Category {
+        val category : String
         val type : String
         val subtype : String
 
-        val typeAsString get() = """$type ㆍ $subtype"""
+        val typeAsString get() = """$category ㆍ $type ㆍ $subtype"""
     }
 }

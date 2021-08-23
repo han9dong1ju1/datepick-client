@@ -1,8 +1,6 @@
 package app.hdj.datepick.android.ui
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
@@ -11,10 +9,7 @@ import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.toSize
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.plusAssign
@@ -36,6 +31,8 @@ import app.hdj.datepick.android.ui.screens.main.map.fakeMapViewModel
 import app.hdj.datepick.android.ui.screens.main.pick.fakePickViewModel
 import app.hdj.datepick.android.ui.screens.main.profile.fakeProfileViewModel
 import app.hdj.datepick.android.ui.screens.others.web.webScreen
+import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
+import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.DatePickScaffold
 import com.google.accompanist.navigation.animation.AnimatedComposeNavigator
@@ -43,7 +40,6 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 @Composable
@@ -113,26 +109,8 @@ fun DatePickApp() {
                     modifier = Modifier.fillMaxSize(),
                     navController = navController,
                     startDestination = AppNavigationGraph.Main.route,
-                    enterTransition = { _, _ ->
-                        fadeIn(
-                            animationSpec = tween(
-                                210,
-                                90,
-                                easing = LinearOutSlowInEasing
-                            )
-                        ) + scaleIn(
-                            animationSpec = tween(210, 90, easing = LinearOutSlowInEasing),
-                            initialScale = 0.92f
-                        )
-                    },
-                    exitTransition = { _, _ ->
-                        fadeOut(
-                            animationSpec = tween(
-                                90,
-                                easing = LinearOutSlowInEasing
-                            )
-                        )
-                    }
+                    enterTransition = { _, _ -> materialTransitionZaxisIn },
+                    exitTransition = { _, _ -> materialTransitionZaxisOut }
                 ) {
 
                     /* Main Screens */

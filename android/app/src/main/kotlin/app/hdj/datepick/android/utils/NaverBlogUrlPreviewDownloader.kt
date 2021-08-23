@@ -1,16 +1,12 @@
 package app.hdj.datepick.android.utils
 
-import android.webkit.URLUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import org.jsoup.Jsoup
-import org.jsoup.select.Elements
 import timber.log.Timber
-import java.net.URI
-import java.net.URISyntaxException
 
 object NaverBlogUrlPreviewDownloader {
 

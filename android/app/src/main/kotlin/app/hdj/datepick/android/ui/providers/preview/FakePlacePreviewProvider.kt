@@ -11,8 +11,9 @@ class FakePlacePreviewProvider : PreviewParameterProvider<List<Place>> {
                 object : Place {
                     override val id: Long = Random.nextLong()
                     override val category: Place.Category = object : Place.Category {
-                        override val type: String = "음식점"
-                        override val subtype: String = "한식ㆍ수제비"
+                        override val category: String = "음식점"
+                        override val type: String = "한식"
+                        override val subtype: String = "수제비"
                     }
                     override val kakaoId: Long = 13559837
                     override val name: String = "삼청동수제비"

@@ -1,7 +1,9 @@
 package app.hdj.datepick.android.ui.screens.main.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import app.hdj.datepick.domain.isStateSucceed
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -47,7 +49,7 @@ fun HomeScreen(
     val navController = LocalAppNavController.current
     val appViewModel = LocalDatePickAppViewModel.current
 
-    val isHeaderCollapsed = lazyListState.isFirstItemScrolled(limit = TOP_FEATURED_PAGER_HEIGHT / 2)
+    val isHeaderCollapsed = lazyListState.isFirstItemScrolled(limit = TOP_FEATURED_PAGER_HEIGHT / 3)
 
     remember(isHeaderCollapsed) {
         val mode = if (isHeaderCollapsed) {
@@ -60,7 +62,9 @@ fun HomeScreen(
     }
 
     DatePickScaffold(topBar = {
-        HomeScreenTopBar(isHeaderCollapsed)
+        HomeScreenTopBar(isHeaderCollapsed) {
+
+        }
     }) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -84,7 +88,10 @@ fun HomeScreen(
                     Column(Modifier.fillMaxWidth()) {
                         state.featuredPlaces.onSucceedComposable { list ->
                             list.forEach {
-                                PlaceListItem(place = it, onPlaceClicked = navController::openPlace)
+                                PlaceListItem(
+                                    place = it,
+                                    onPlaceClicked = navController::openPlace
+                                )
                             }
                         }
                     }

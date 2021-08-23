@@ -23,9 +23,9 @@ val Colors.onSurface10
 
 /* Colors */
 val darkColors = darkColors(
-    primary = Color(0xFF465060),
+    primary = Color(0xFF23B396),
     secondary = Color(0xFFef6d9a),
-    primaryVariant = Color(0xFF465060),
+    primaryVariant = Color(0xFF23B396),
     secondaryVariant = Color(0xFFef6d9a),
     background = Color(0xFF131313),
     surface = Color(0xFF131313),
@@ -39,9 +39,9 @@ val darkColors = darkColors(
 
 @SuppressLint("ConflictingOnColor")
 val lightColors = lightColors(
-    primary = Color(0xFF465060),
+    primary = Color(0xFF23B396),
     secondary = Color(0xFFef6d9a),
-    primaryVariant = Color(0xFF465060),
+    primaryVariant = Color(0xFF23B396),
     secondaryVariant = Color(0xFFef6d9a),
     background = Color(0xFFf8f8f8),
     surface = Color.White,

@@ -8,6 +8,7 @@ object PlaceMapper : Mapper<PlaceEntity, Place> {
 
     override fun PlaceEntity.asDomain() = object : Place {
         override val category: Place.Category = object : Place.Category {
+            override val category: String = this@asDomain.category
             override val type: String = this@asDomain.type
             override val subtype: String = this@asDomain.subtype
         }
@@ -28,6 +29,7 @@ object PlaceMapper : Mapper<PlaceEntity, Place> {
             kakaoId,
             name,
             address,
+            category.category,
             category.type,
             category.subtype,
             isPicked,
