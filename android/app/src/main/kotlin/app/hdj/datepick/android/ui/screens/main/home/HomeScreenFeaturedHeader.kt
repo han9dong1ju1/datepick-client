@@ -144,7 +144,7 @@ private fun HomeScreenFeaturedPager(
         DatePickPager(
             list = list,
             pagerState = pagerState,
-            autoScrollDelay = 1000,
+            autoScrollDelay = 4000,
             modifier = Modifier.fillMaxWidth(),
         ) { item, page ->
             HomeScreenFeaturedPagerItem(
