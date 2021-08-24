@@ -1,13 +1,15 @@
 package app.hdj.datepick.ui.components
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.yield
+import timber.log.Timber
 
 @ExperimentalPagerApi
 @Composable
@@ -16,19 +18,21 @@ fun <T> DatePickPager(
     list: List<T>,
     pagerState: PagerState = rememberPagerState(pageCount = list.size),
     itemSpacing: Dp = 0.dp,
-    autoScrollEnabled: Boolean = false,
+    autoScrollDelay: Long = 0,
     content: @Composable PagerScope.(T, Int) -> Unit
 ) {
+    val isAutoScrollEnabled = remember(autoScrollDelay) { autoScrollDelay != 0L }
 
-    LaunchedEffect(key1 = pagerState.isScrollInProgress) {
-        if (!pagerState.isScrollInProgress) {
-            while (autoScrollEnabled) {
-                delay(5000)
-                if (pagerState.currentPage == pagerState.pageCount - 1) {
-                    pagerState.animateScrollToPage(0)
-                } else {
-                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                }
+    if (isAutoScrollEnabled) {
+        LaunchedEffect(Unit) {
+            while (true) {
+                yield()
+                delay(autoScrollDelay)
+
+                pagerState.animateScrollToPage(
+                    page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+                    animationSpec = tween(500)
+                )
             }
         }
     }

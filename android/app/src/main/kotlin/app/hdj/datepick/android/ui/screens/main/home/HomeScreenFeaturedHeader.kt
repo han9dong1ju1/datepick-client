@@ -1,6 +1,7 @@
 package app.hdj.datepick.android.ui.screens.main.home
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +21,7 @@ import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateFailed
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.featured.Featured
+import app.hdj.datepick.ui.animation.*
 import app.hdj.datepick.ui.components.DatePickPager
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
@@ -34,15 +36,6 @@ private fun HomeScreenFeaturedPagerItem(
 ) {
 
     Box(modifier = modifier.fillMaxSize()) {
-
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = rememberUrlImagePainter(request = featured.photoUrl) {
-                scale(Scale.FILL)
-            },
-            contentScale = ContentScale.Crop,
-            contentDescription = null
-        )
 
         Box(
             modifier = Modifier
@@ -115,17 +108,43 @@ private fun HomeScreenFeaturedPager(
     list: List<Featured>,
     onFeaturedClicked: (Featured) -> Unit
 ) {
-    val pagerState = rememberPagerState(pageCount = list.size, infiniteLoop = true)
+
+    val pagerState = rememberPagerState(
+        pageCount = list.size,
+        infiniteLoop = true
+    )
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
     ) {
+
+        AnimatedContent(
+            targetState = pagerState.currentPage,
+            transitionSpec = {
+                val movingToRight = initialState < targetState
+                materialTransitionXaxisIn(movingToRight) with
+                        materialTransitionXaxisOut(movingToRight)
+            }
+        ) {
+
+            Image(
+                modifier = Modifier
+                    .fillMaxSize(),
+                painter = rememberUrlImagePainter(request = list[it].photoUrl) {
+                    scale(Scale.FILL)
+                },
+                contentScale = ContentScale.Crop,
+                contentDescription = null
+            )
+
+        }
+
         DatePickPager(
             list = list,
             pagerState = pagerState,
-            autoScrollEnabled = true,
+            autoScrollDelay = 1000,
             modifier = Modifier.fillMaxWidth(),
         ) { item, page ->
             HomeScreenFeaturedPagerItem(
