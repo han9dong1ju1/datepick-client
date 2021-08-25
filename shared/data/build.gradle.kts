@@ -120,10 +120,10 @@ android {
     }
 }
 
-fun kapt(path: String) {
+fun kapt(path: Any) {
     configurations["kapt"].dependencies.add(project.dependencies.create(path))
 }
 
-fun ksp(path: String) {
+fun ksp(path: Any) {
     configurations["ksp"].dependencies.add(project.dependencies.create(path))
 }

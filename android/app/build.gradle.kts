@@ -28,6 +28,7 @@ dependencies {
     implementation(KotlinX.coroutines.playServices)
 
     implementation(AndroidX.core)
+    implementation(AndroidX.core.splashscreen)
 
     implementation(AndroidX.appCompat)
 

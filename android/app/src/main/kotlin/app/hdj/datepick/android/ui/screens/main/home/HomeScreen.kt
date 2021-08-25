@@ -1,15 +1,12 @@
 package app.hdj.datepick.android.ui.screens.main.home
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import app.hdj.datepick.domain.isStateSucceed
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -33,7 +30,6 @@ import app.hdj.datepick.ui.styles.onSurface50
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.isFirstItemScrolled
 import app.hdj.datepick.ui.utils.verticalMargin
-import com.google.accompanist.insets.statusBarsPadding
 
 private val TOP_FEATURED_PAGER_HEIGHT = 400.dp
 

@@ -23,7 +23,6 @@ object Multiplatform {
     const val firestore = "dev.gitlive:firebase-firestore:_"
 }
 
-val AndroidX.Core.splashscreen get() = "androidx.core:core-splashscreen:1.0.0-alpha01"
 val Firebase.multiplatform get() = Multiplatform
 
 val Google.Android.maps get() = "com.google.maps.android:maps-ktx:_"
@@ -53,8 +52,6 @@ object Utils {
     const val imageCompressor = "id.zelory:compressor:_"
 
     const val composeCollapsingToolbarLayout = "me.onebone:toolbar-compose:_"
-
-    const val composeCoil = "io.coil-kt:coil-compose:_"
 
     const val jsoup = "org.jsoup:jsoup:_"
 

@@ -1,4 +1,5 @@
 @file:SuppressLint("AndroidGradlePluginVersion")
+
 import android.annotation.SuppressLint
 
 allprojects {
@@ -53,5 +54,8 @@ allprojects {
 }
 
 tasks.register("clean", Delete::class) {
+    rootProject.subprojects {
+        delete(buildDir)
+    }
     delete(rootProject.buildDir)
 }
