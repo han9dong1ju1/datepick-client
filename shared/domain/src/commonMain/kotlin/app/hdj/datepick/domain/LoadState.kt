@@ -54,16 +54,14 @@ suspend fun <T : Any> FlowCollector<LoadState<T>>.emitState(
     emit(state)
 }
 
-fun <T> LoadState<T>.fold(
-    onSucceed: (T) -> Unit = {},
-    onFailed: (T?, Throwable) -> Unit = { _, _ -> },
-    onLoading: () -> Unit = {},
-) {
-    when {
-        isStateSucceed() -> onSucceed(data)
-        isStateFailed() -> onFailed(cachedData, throwable)
-        else -> onLoading()
-    }
+fun <T, R> LoadState<T>.fold(
+    onSucceed: (T) -> R,
+    onFailed: (T?, Throwable) -> R? = { _, _ -> null },
+    onLoading: () -> R? = { null },
+) = when {
+    isStateSucceed() -> onSucceed(data)
+    isStateFailed() -> onFailed(cachedData, throwable)
+    else -> onLoading()
 }
 
 fun <T, R> LoadState<T>.getOrNull(block: (T) -> R) : R? {

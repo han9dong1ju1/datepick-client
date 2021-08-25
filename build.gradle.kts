@@ -20,14 +20,14 @@ buildscript {
         classpath(Google.playServicesGradlePlugin)
         classpath(Google.dagger.hilt.android.gradlePlugin)
         classpath(Square.sqlDelight.gradlePlugin)
-        classpath(Firebase.`no-BoM`.crashlyticsGradlePlugin)
+        classpath(Firebase.crashlyticsGradlePlugin)
         classpath(Utils.mokoResourcePlugins)
     }
 }
 
 plugins {
-    kotlin("multiplatform") version "1.5.20" apply false
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("multiplatform") version "1.5.21" apply false
+    kotlin("plugin.serialization") version "1.5.21"
     id("com.google.devtools.ksp") version "1.5.21-1.0.0-beta07"
 }
 

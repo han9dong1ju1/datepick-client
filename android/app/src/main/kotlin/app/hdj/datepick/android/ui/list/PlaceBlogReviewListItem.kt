@@ -8,9 +8,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.compositeOver
@@ -22,7 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import app.hdj.datepick.android.ui.providers.Preview
 import app.hdj.datepick.android.ui.providers.preview.FakePlaceBlogReviewPreviewProvider
-import app.hdj.datepick.android.utils.NaverBlogUrlPreviewDownloader
+import app.hdj.datepick.android.utils.loadNaverBlogUrlPreviewImage
+import app.hdj.datepick.domain.fold
 import app.hdj.datepick.domain.model.place.BlogReview
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.*
@@ -31,9 +32,7 @@ import coil.size.Scale
 @Composable
 fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogReview) -> Unit) {
 
-    val urlFetcher = remember { NaverBlogUrlPreviewDownloader.fetchImageUrl(blogReview.url) }
-
-    val imageUrl by urlFetcher.collectAsState(null)
+    val imageUrl by loadNaverBlogUrlPreviewImage(blogReview.url)
 
     Surface(onClick = { onBlogReviewClicked(blogReview) }) {
 
@@ -54,7 +53,11 @@ fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogRe
                         t2t() + b2b() + s2s()
                     ),
                 contentScale = ContentScale.Crop,
-                painter = rememberUrlImagePainter(request = imageUrl) {
+                painter = rememberUrlImagePainter(
+                    request = imageUrl.fold(
+                        { it },
+                        onFailed = { _, _ -> null })
+                ) {
                     scale(Scale.FIT)
                 },
                 contentDescription = null
