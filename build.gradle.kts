@@ -2,11 +2,6 @@
 
 import android.annotation.SuppressLint
 
-allprojects {
-    group = "app.hdj"
-    version = "1.0.0-SNAPSHOT"
-}
-
 buildscript {
     repositories {
         gradlePluginPortal()
@@ -30,6 +25,10 @@ plugins {
 }
 
 allprojects {
+
+    group = "app.hdj"
+    version = "1.0.0-SNAPSHOT"
+
     repositories {
         google()
         mavenCentral()

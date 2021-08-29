@@ -1,12 +1,11 @@
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
     kotlin("plugin.serialization")
-    id("kotlin-parcelize")
     kotlin("native.cocoapods")
+    id("com.android.library")
+    id("kotlin-parcelize")
     kotlin("kapt")
     id("com.squareup.sqldelight")
-    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
