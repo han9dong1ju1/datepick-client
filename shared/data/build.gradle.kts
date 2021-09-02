@@ -64,13 +64,11 @@ kotlin {
             api(MultiplatformSettings.coroutines)
             api(MultiplatformSettings.serialization)
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-                implementation(Mokk.common)
-                implementation(Ktor.client.tests)
-            }
+        sourceSets["commonTest"].dependencies {
+            implementation(kotlin("test-common"))
+            implementation(kotlin("test-annotations-common"))
+            implementation(Mokk.common)
+            implementation(Ktor.client.tests)
         }
         sourceSets["androidMain"].dependencies {
             implementation(Google.dagger.hilt.android)
