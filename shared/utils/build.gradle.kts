@@ -7,10 +7,20 @@ plugins {
     id("com.android.library")
     id("kotlin-parcelize")
     kotlin("kapt")
-    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
+
+android {
+    configurations {
+        create("androidTestApi")
+        create("androidTestDebugApi")
+        create("androidTestReleaseApi")
+        create("testApi")
+        create("testDebugApi")
+        create("testReleaseApi")
+    }
+}
 
 kotlin {
     android()
@@ -32,40 +42,30 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(Firebase.multiplatform.auth)
-                api(Utils.kotlinxDateTime)
-            }
+        sourceSets["commonMain"].dependencies {
+            api(Firebase.multiplatform.auth)
+            api(Utils.kotlinxDateTime)
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-            }
+        sourceSets["commonTest"].dependencies {
+            implementation(kotlin("test-common"))
+            implementation(kotlin("test-annotations-common"))
         }
-        val androidMain by getting {
-            dependencies {
-                implementation(Google.dagger.hilt.android)
-                api(JakeWharton.timber)
-                kapt(AndroidX.paging.runtimeKtx)
-                kapt(AndroidX.navigation.runtimeKtx)
-                kapt(AndroidX.hilt.compiler)
-                kapt(Google.dagger.hilt.compiler)
-            }
+        sourceSets["androidMain"].dependencies {
+            implementation(Google.dagger.hilt.android)
+            api(JakeWharton.timber)
+            kapt(AndroidX.paging.runtimeKtx)
+            kapt(AndroidX.navigation.runtimeKtx)
+            kapt(AndroidX.hilt.compiler)
+            kapt(Google.dagger.hilt.compiler)
         }
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation(Testing.junit4)
-            }
+        sourceSets["androidTest"].dependencies {
+            implementation(kotlin("test-junit"))
+            implementation(Testing.junit4)
         }
-        val iosMain by getting {
-            dependencies {
-                implementation(Koin.core)
-            }
+        sourceSets["iosMain"].dependencies {
+            implementation(Koin.core)
         }
-        val iosTest by getting
+        sourceSets["iosTest"].dependencies { }
     }
 }
 

@@ -1,11 +1,13 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     kotlin("native.cocoapods")
-    id("com.android.library")
-    id("kotlin-parcelize")
     kotlin("kapt")
+    id("com.android.library")
     id("com.squareup.sqldelight")
+    id("kotlin-parcelize")
 }
 
 version = "1.0"
@@ -16,7 +18,7 @@ sqldelight {
     }
 }
 
-kotlin {
+android {
     configurations {
         create("androidTestApi")
         create("androidTestDebugApi")
@@ -25,9 +27,20 @@ kotlin {
         create("testDebugApi")
         create("testReleaseApi")
     }
+}
+
+
+kotlin {
 
     android()
-    iosX64("ios")
+
+    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
+        System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
+//        System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
+        else -> ::iosX64
+    }
+
+    iosTarget("ios") {}
 
     cocoapods {
         summary = "DatePick Multiplatform"
@@ -38,22 +51,18 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(project(":shared:utils"))
-                implementation(project(":shared:domain"))
-                implementation(KotlinX.coroutines.core)
-                implementation(KotlinX.serialization.core)
-                implementation(KotlinX.serialization.json)
-                api(Ktor.client.core)
-                api(Ktor.client.serialization)
-                api(Ktor.client.logging)
-                api(Utils.kotlinxDateTime)
-                api(Square.sqlDelight.coroutinesExtensions)
-                api(MultiplatformSettings.core)
-                api(MultiplatformSettings.coroutines)
-                api(MultiplatformSettings.serialization)
-            }
+        sourceSets["commonMain"].dependencies {
+            implementation(project(":shared:utils"))
+            implementation(project(":shared:domain"))
+            implementation(KotlinX.coroutines.core)
+            implementation(KotlinX.serialization.json)
+            api(Ktor.client.core)
+            api(Ktor.client.serialization)
+            api(Ktor.client.logging)
+            api(Square.sqlDelight.coroutinesExtensions)
+            api(MultiplatformSettings.core)
+            api(MultiplatformSettings.coroutines)
+            api(MultiplatformSettings.serialization)
         }
         val commonTest by getting {
             dependencies {
@@ -63,38 +72,34 @@ kotlin {
                 implementation(Ktor.client.tests)
             }
         }
-        val androidMain by getting {
-            dependencies {
-                implementation(Google.dagger.hilt.android)
-                api(Square.sqlDelight.drivers.android)
-                api(Ktor.client.okHttp)
-                api(MultiplatformSettings.datastore)
-                api(AndroidX.dataStore.core)
-                api(AndroidX.dataStore.preferences)
-                kapt(AndroidX.paging.runtimeKtx)
-                kapt(AndroidX.navigation.runtimeKtx)
-                kapt(AndroidX.hilt.compiler)
-                kapt(Google.dagger.hilt.compiler)
-            }
+        sourceSets["androidMain"].dependencies {
+            implementation(Google.dagger.hilt.android)
+            implementation(Square.sqlDelight.drivers.android)
+            implementation(Ktor.client.okHttp)
+            implementation(MultiplatformSettings.datastore)
+            implementation(AndroidX.dataStore.core)
+            implementation(AndroidX.dataStore.preferences)
+            kapt(AndroidX.paging.runtimeKtx)
+            kapt(AndroidX.navigation.runtimeKtx)
+            kapt(AndroidX.hilt.compiler)
+            kapt(Google.dagger.hilt.compiler)
         }
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
-                implementation(Mokk.core)
-                implementation(Testing.junit4)
-                implementation(Testing.junit.api)
-                implementation(Testing.junit.engine)
-            }
+        sourceSets["androidTest"].dependencies {
+            implementation(kotlin("test"))
+            implementation(kotlin("test-junit"))
+            implementation(Mokk.core)
+            implementation(Testing.junit4)
+            implementation(Testing.junit.api)
+            implementation(Testing.junit.engine)
         }
-        val iosMain by getting {
-            dependencies {
-                implementation(Koin.core)
-                implementation(Ktor.client.darwin)
-                implementation(Square.sqlDelight.drivers.native)
-            }
+        sourceSets["iosMain"].dependencies {
+            implementation(Koin.core)
+            implementation(Ktor.client.darwin)
+            implementation(Square.sqlDelight.drivers.native)
         }
-        val iosTest by getting
+        sourceSets["iosTest"].dependencies {
+
+        }
     }
 }
 

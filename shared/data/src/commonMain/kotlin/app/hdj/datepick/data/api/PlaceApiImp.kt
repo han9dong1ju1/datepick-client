@@ -1,7 +1,6 @@
 package app.hdj.datepick.data.api
 
 import app.hdj.datepick.data.entity.PlaceResponse
-import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.*

@@ -1,7 +1,3 @@
-@file:SuppressLint("AndroidGradlePluginVersion")
-
-import android.annotation.SuppressLint
-
 buildscript {
     repositories {
         gradlePluginPortal()
@@ -20,14 +16,7 @@ buildscript {
     }
 }
 
-plugins {
-    id("com.google.devtools.ksp") version "1.5.21-1.0.0-beta07"
-}
-
 allprojects {
-
-    group = "app.hdj"
-    version = "1.0.0-SNAPSHOT"
 
     repositories {
         google()
@@ -37,6 +26,7 @@ allprojects {
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
         kotlinOptions {
+            jvmTarget = "11"
             freeCompilerArgs = freeCompilerArgs + listOf(
                 "-Xopt-in=kotlin.RequiresOptIn",
                 "-Xopt-in=kotlin.OptIn",
