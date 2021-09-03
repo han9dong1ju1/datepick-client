@@ -11,6 +11,7 @@ import app.hdj.datepick.domain.repository.CourseRepository
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 @Singleton
 class CourseRepositoryImp @Inject constructor(

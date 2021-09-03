@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import app.hdj.datepick.android.ui.providers.Preview
 import app.hdj.datepick.android.ui.providers.preview.FakePlaceBlogReviewPreviewProvider
 import app.hdj.datepick.android.utils.loadNaverBlogUrlPreviewImage
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.fold
 import app.hdj.datepick.domain.model.place.BlogReview
 import app.hdj.datepick.ui.styles.DatePickTheme
@@ -54,9 +55,7 @@ fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogRe
                     ),
                 contentScale = ContentScale.Crop,
                 painter = rememberUrlImagePainter(
-                    request = imageUrl.fold(
-                        { it },
-                        onFailed = { _, _ -> null })
+                    request = imageUrl.fold(onSucceed = { it })
                 ) {
                     scale(Scale.FIT)
                 },

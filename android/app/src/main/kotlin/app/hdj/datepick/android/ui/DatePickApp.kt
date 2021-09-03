@@ -37,6 +37,7 @@ import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.DatePickScaffold
 import com.google.accompanist.navigation.animation.AnimatedComposeNavigator
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
@@ -45,13 +46,11 @@ import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 @Composable
 fun DatePickApp() {
 
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
 
-    val animatedComposeNavigator = remember { AnimatedComposeNavigator() }
     val bottomSheetNavigator = rememberBottomSheetNavigator()
 
     navController.navigatorProvider += bottomSheetNavigator
-    navController.navigatorProvider += animatedComposeNavigator
 
     val scaffoldState = rememberScaffoldState()
 

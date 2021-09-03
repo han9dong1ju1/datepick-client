@@ -24,9 +24,11 @@ class MeRepositoryImp @Inject constructor(
     override fun observableCache(): Flow<User?> = meDataStore.observableMe
 
     override fun fetch() = flow {
-        emitState(defaultValue = cache(), onSuccess = meDataStore::save) {
+        emitState(cache()) {
             val response = userApi.getMe()
             response.data
+        }.onSuccess {
+            meDataStore.save(it)
         }
     }
 
@@ -35,10 +37,12 @@ class MeRepositoryImp @Inject constructor(
         profileImageUrl: String?,
         gender: String?
     ) = flow<LoadState<User>> {
-        emitState(onSuccess = meDataStore::save) {
+        emitState {
             val request = UserProfileRequest(nickname, profileImageUrl, gender)
             val response = userApi.updateMe(request)
             response.data
+        }.onSuccess {
+            meDataStore.save(it)
         }
     }
 
@@ -47,10 +51,12 @@ class MeRepositoryImp @Inject constructor(
         profileImageUrl: String?,
         gender: String?
     ) = flow<LoadState<User>> {
-        emitState(onSuccess = meDataStore::save) {
+        emitState {
             val request = UserProfileRequest(nickname, profileImageUrl, gender)
             val response = userApi.register(request)
             response.data
+        }.onSuccess {
+            meDataStore.save(it)
         }
     }
 

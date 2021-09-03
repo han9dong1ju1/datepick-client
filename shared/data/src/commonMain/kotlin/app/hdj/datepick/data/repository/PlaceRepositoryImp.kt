@@ -26,11 +26,9 @@ class PlaceRepositoryImp @Inject constructor(
         emitState {
             val cached = datastore.getById(id)
             if (cached != null && cached.cachedAt isPassedDay 30) cached.asDomain()
-            else {
-                val place = api.getById(id).data
-                datastore.save(requireNotNull(place).asTable())
-                place
-            }
+            else api.getById(id).data
+        }.onSuccess {
+            datastore.save(it.asTable())
         }
     }
 

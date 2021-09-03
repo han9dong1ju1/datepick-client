@@ -40,18 +40,16 @@ fun <T, R> LoadState<T>.map(mapper: (T) -> R): LoadState<R> {
 
 suspend fun <T : Any> FlowCollector<LoadState<T>>.emitState(
     defaultValue: T? = null,
-    onSuccess: suspend (T) -> Unit = {},
-    onFailed: suspend (Throwable) -> Unit = {},
     executor: suspend () -> T?,
-) {
+): Result<T> {
     emit(loading())
-    val state = runCatching {
+    return runCatching {
         requireNotNull(executor())
-    }.fold(
-        { onSuccess(it); success(it) },
-        { onFailed(it); failed(it, defaultValue) }
-    )
-    emit(state)
+    }.onSuccess {
+        emit(success(it))
+    }.onFailure {
+        emit(failed(it, defaultValue))
+    }
 }
 
 fun <T, R> LoadState<T>.fold(
@@ -64,7 +62,7 @@ fun <T, R> LoadState<T>.fold(
     else -> onLoading()
 }
 
-fun <T, R> LoadState<T>.getOrNull(block: (T) -> R) : R? {
+fun <T, R> LoadState<T>.getOrNull(block: (T) -> R): R? {
     return if (isStateSucceed()) block(data) else null
 }
 
