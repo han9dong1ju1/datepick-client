@@ -37,12 +37,6 @@ private fun HomeScreenFeaturedPagerItem(
 
     Box(modifier = modifier.fillMaxSize()) {
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(0.4f))
-        )
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -140,6 +134,12 @@ private fun HomeScreenFeaturedPager(
             )
 
         }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(0.4f))
+        )
 
         DatePickPager(
             list = list,

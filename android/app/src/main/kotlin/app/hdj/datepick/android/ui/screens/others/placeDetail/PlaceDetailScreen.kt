@@ -86,22 +86,24 @@ fun PlaceDetailScreen(
                 elevation = elevationAnimate,
                 navigationIcon = { TopAppBarBackButton() },
                 actions = {
-                    if (placeState.isStateSucceed()) {
+                    placeState.foldComposable(
+                        onSucceed = {
 
-                        IconButton(onClick = {
+                            IconButton(onClick = {
 
-                        }) {
-                            Icon(
-                                imageVector = Icons.Rounded.AddLocationAlt,
-                                contentDescription = null
-                            )
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Rounded.AddLocationAlt,
+                                    contentDescription = null
+                                )
+                            }
+
+                            LikeIconButton(it.isPicked) {
+
+                            }
+
                         }
-
-                        LikeIconButton(placeState.data.isPicked) {
-
-                        }
-
-                    }
+                    )
                 },
                 title = {
                     AnimatedVisibility(
