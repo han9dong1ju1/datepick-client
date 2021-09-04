@@ -40,8 +40,6 @@ fun ProfileScreen(
     val navController = LocalAppNavController.current
     val me = LocalMe.current
 
-    var selectedTabPosition by remember { mutableStateOf(0) }
-
     DatePickScaffold(
         Modifier.fillMaxSize(),
         topBar = {
@@ -83,36 +81,6 @@ fun ProfileScreen(
                         }
                     }
                 }
-            }
-
-            stickyHeader {
-
-                DatePickScrollableTabRow(
-                    selectedTabIndex = selectedTabPosition,
-                    edgePadding = 4.dp,
-                    indicator = {}
-                ) {
-
-                    Tab(selected = selectedTabPosition == 0,
-                        unselectedContentColor = LocalContentColor.current.copy(alpha = 0.4f),
-                        onClick = {
-                            selectedTabPosition = 0
-                        },
-                        text = {
-                            Text(text = "리뷰 다이어리", style = MaterialTheme.typography.h5)
-                        })
-
-                    Tab(selected = selectedTabPosition == 1,
-                        unselectedContentColor = LocalContentColor.current.copy(alpha = 0.4f),
-                        onClick = {
-                        selectedTabPosition = 1
-                    },
-                        text = {
-                            Text(text = "내 코스", style = MaterialTheme.typography.h5)
-                        })
-
-                }
-
             }
 
 
