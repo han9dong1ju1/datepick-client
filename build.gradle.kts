@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30")
         classpath("com.android.tools.build:gradle:7.1.0-alpha10")
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0")
         classpath(Google.playServicesGradlePlugin)
@@ -14,6 +14,10 @@ buildscript {
         classpath(Firebase.crashlyticsGradlePlugin)
         classpath(Utils.mokoResourcePlugins)
     }
+}
+
+plugins {
+    id("com.google.devtools.ksp") version "1.5.30-1.0.0-beta09"
 }
 
 allprojects {

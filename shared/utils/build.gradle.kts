@@ -7,6 +7,7 @@ plugins {
     id("com.android.library")
     id("kotlin-parcelize")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
@@ -25,11 +26,11 @@ android {
 kotlin {
     android()
 
-    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-            ::iosArm64
-        else
-            ::iosX64
+    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
+        System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
+        System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
+        else -> ::iosX64
+    }
 
     iosTarget("ios") {}
 
@@ -37,7 +38,9 @@ kotlin {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
         ios.deploymentTarget = "14.0"
-        frameworkName = "utils"
+        framework {
+            baseName = "utils"
+        }
         podfile = project.file("../../iosApp/Podfile")
     }
 
@@ -76,12 +79,4 @@ android {
         minSdk = Properties.androidMinSDK
         targetSdk = Properties.androidTargetSDK
     }
-}
-
-fun kapt(path: Any) {
-    configurations["kapt"].dependencies.add(project.dependencies.create(path))
-}
-
-fun ksp(path: Any) {
-    configurations["ksp"].dependencies.add(project.dependencies.create(path))
 }

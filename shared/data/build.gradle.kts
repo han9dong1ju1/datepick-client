@@ -8,6 +8,7 @@ plugins {
     id("com.android.library")
     id("com.squareup.sqldelight")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
@@ -36,7 +37,7 @@ kotlin {
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
         System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
-//        System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
+        System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
         else -> ::iosX64
     }
 
@@ -46,7 +47,9 @@ kotlin {
         summary = "DatePick Multiplatform"
         homepage = "https://github.com/han9dong1ju1/DatePick"
         ios.deploymentTarget = "14.0"
-        frameworkName = "data"
+        framework {
+            baseName = "data"
+        }
         podfile = project.file("../../iosApp/Podfile")
     }
 
@@ -120,12 +123,4 @@ android {
             res.srcDirs("src/androidTest/res")
         }
     }
-}
-
-fun kapt(path: Any) {
-    configurations["kapt"].dependencies.add(project.dependencies.create(path))
-}
-
-fun ksp(path: Any) {
-    configurations["ksp"].dependencies.add(project.dependencies.create(path))
 }

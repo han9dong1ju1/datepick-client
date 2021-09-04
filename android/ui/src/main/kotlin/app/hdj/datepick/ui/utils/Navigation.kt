@@ -33,5 +33,6 @@ fun <T> NavController.getArgument(name: String): T? {
 }
 
 fun NavController.putArguments(bundle: Bundle) {
-    currentBackStackEntry?.arguments = bundle
+    currentBackStackEntry?.arguments?.clear()
+    currentBackStackEntry?.arguments?.putAll(bundle)
 }

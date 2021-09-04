@@ -5,9 +5,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -36,12 +40,22 @@ fun ProfileScreen(
     val navController = LocalAppNavController.current
     val me = LocalMe.current
 
+    var selectedTabPosition by remember { mutableStateOf(0) }
+
     DatePickScaffold(
         Modifier.fillMaxSize(),
         topBar = {
+            DatePickTopAppBar()
+        }
+    ) {
 
-            Column(Modifier.fillMaxWidth()) {
-                DatePickTopAppBar()
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .padding(top = it.calculateTopPadding())
+        ) {
+
+            item {
                 Surface(modifier = Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(20.dp)) {
                         if (me != null) {
@@ -71,11 +85,36 @@ fun ProfileScreen(
                 }
             }
 
+            stickyHeader {
 
-        }
-    ) {
+                DatePickScrollableTabRow(
+                    selectedTabIndex = selectedTabPosition,
+                    edgePadding = 4.dp,
+                    indicator = {}
+                ) {
 
-        LazyColumn(Modifier.fillMaxSize()) {
+                    Tab(selected = selectedTabPosition == 0,
+                        unselectedContentColor = LocalContentColor.current.copy(alpha = 0.4f),
+                        onClick = {
+                            selectedTabPosition = 0
+                        },
+                        text = {
+                            Text(text = "리뷰 다이어리", style = MaterialTheme.typography.h5)
+                        })
+
+                    Tab(selected = selectedTabPosition == 1,
+                        unselectedContentColor = LocalContentColor.current.copy(alpha = 0.4f),
+                        onClick = {
+                        selectedTabPosition = 1
+                    },
+                        text = {
+                            Text(text = "내 코스", style = MaterialTheme.typography.h5)
+                        })
+
+                }
+
+            }
+
 
         }
 

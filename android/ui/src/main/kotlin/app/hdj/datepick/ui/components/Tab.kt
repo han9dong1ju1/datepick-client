@@ -5,11 +5,9 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.*
@@ -125,12 +123,14 @@ fun DatePickScrollableTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
     elevation : Dp = 0.dp,
-    backgroundColor: Color = MaterialTheme.colors.primarySurface,
+    backgroundColor: Color = MaterialTheme.colors.surface,
     contentColor: Color = contentColorFor(backgroundColor),
-    edgePadding: Dp = TabRowDefaults.ScrollableTabRowPadding,
+    edgePadding: Dp = 20.dp,
     indicator: @Composable (tabPositions: List<TabPosition>) -> Unit = @Composable { tabPositions ->
-        TabRowDefaults.Indicator(
+        Box(
             Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
+                .height(2.dp)
+                .background(color = LocalContentColor.current)
         )
     },
     divider: @Composable () -> Unit = @Composable {
@@ -245,7 +245,7 @@ fun Modifier.pagerDatePickTabIndicatorOffset(
 
     val currentTab = tabPositions[pagerState.currentPage]
     val targetPage = pagerState.targetPage
-    val targetTab = targetPage?.let { tabPositions.getOrNull(it) }
+    val targetTab = targetPage.let { tabPositions.getOrNull(it) }
 
     if (targetTab != null) {
         // The distance between the target and current page. If the pager is animating over many

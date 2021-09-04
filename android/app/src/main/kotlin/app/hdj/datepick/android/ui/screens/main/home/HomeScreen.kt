@@ -7,10 +7,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -57,11 +59,22 @@ fun HomeScreen(
         mode
     }
 
-    DatePickScaffold(topBar = {
-        HomeScreenTopBar(isHeaderCollapsed) {
+    DatePickScaffold(
+        topBar = {
+            HomeScreenTopBar(isHeaderCollapsed) {
 
+            }
+        },
+        bottomBar = {
+            Surface(modifier = Modifier
+                .height(56.dp)
+                .graphicsLayer {
+
+                }) {
+
+            }
         }
-    }) {
+    ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = lazyListState,

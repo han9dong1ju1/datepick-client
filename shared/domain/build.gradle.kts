@@ -5,6 +5,7 @@ plugins {
     id("kotlin-parcelize")
     kotlin("native.cocoapods")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 version = "1.0"
@@ -23,13 +24,23 @@ android {
 kotlin {
 
     android()
-    iosX64("ios")
+
+    val iosTarget: (String, org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget.() -> Unit) -> org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget = when {
+        System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
+        System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
+        else -> ::iosX64
+    }
+
+    iosTarget("ios") {}
+
 
     cocoapods {
         summary = "DatePick Multiplatform"
         homepage = "https://github.com/han9dong1ju1/DatePick"
         ios.deploymentTarget = "14.0"
-        frameworkName = "domain"
+        framework {
+            baseName = "domain"
+        }
         podfile = project.file("../../iosApp/Podfile")
     }
 
@@ -73,12 +84,4 @@ android {
         minSdk = Properties.androidMinSDK
         targetSdk = Properties.androidTargetSDK
     }
-}
-
-fun kapt(path: Any) {
-    configurations["kapt"].dependencies.add(project.dependencies.create(path))
-}
-
-fun ksp(path: Any) {
-    configurations["ksp"].dependencies.add(project.dependencies.create(path))
 }
