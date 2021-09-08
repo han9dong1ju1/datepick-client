@@ -1,9 +1,9 @@
-package app.hdj.datepick.android.ui.screens.main.profile
+package app.hdj.datepick.android.ui.screens.main.menu
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.hdj.datepick.android.ui.screens.main.profile.ProfileViewModelDelegate.*
+import app.hdj.datepick.android.ui.screens.main.menu.MenuViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Composable
-fun fakeProfileViewModel() = object : ProfileViewModelDelegate {
+fun fakeMenuViewModel() = object : MenuViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
@@ -28,7 +28,7 @@ fun fakeProfileViewModel() = object : ProfileViewModelDelegate {
 
 }
 
-interface ProfileViewModelDelegate :
+interface MenuViewModelDelegate :
     ViewModelDelegate<State, Effect, Event> {
 
     class State()
@@ -44,9 +44,9 @@ interface ProfileViewModelDelegate :
 }
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
+class MenuViewModel @Inject constructor(
 
-) : ViewModel(), ProfileViewModelDelegate {
+) : ViewModel(), MenuViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()

@@ -8,8 +8,8 @@ import app.hdj.datepick.android.ui.screens.main.map.MapScreen
 import app.hdj.datepick.android.ui.screens.main.map.MapViewModelDelegate
 import app.hdj.datepick.android.ui.screens.main.pick.PickScreen
 import app.hdj.datepick.android.ui.screens.main.pick.PickViewModelDelegate
-import app.hdj.datepick.android.ui.screens.main.profile.ProfileScreen
-import app.hdj.datepick.android.ui.screens.main.profile.ProfileViewModelDelegate
+import app.hdj.datepick.android.ui.screens.main.menu.MenuScreen
+import app.hdj.datepick.android.ui.screens.main.menu.MenuViewModelDelegate
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Main.*
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Main.Map
@@ -20,7 +20,7 @@ fun NavGraphBuilder.mainScreens(
     homeViewModel: HomeViewModelDelegate,
     mapViewModel: MapViewModelDelegate,
     pickViewModel: PickViewModelDelegate,
-    profileViewModel: ProfileViewModelDelegate
+    menuViewModel: MenuViewModelDelegate
 ) {
 
     navigation(
@@ -48,10 +48,8 @@ fun NavGraphBuilder.mainScreens(
         }
 
         appNavigationComposable(Profile) {
-            val navController = LocalAppNavController.current
-            ProfileScreen(
-                profileViewModel,
-                onSettingClicked = {}
+            MenuScreen(
+                menuViewModel
             )
         }
 

@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.screens.main.profile
+package app.hdj.datepick.android.ui.screens.main.menu
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -8,10 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -30,9 +26,8 @@ import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun ProfileScreen(
-    vm: ProfileViewModelDelegate = hiltViewModel<ProfileViewModel>(),
-    onSettingClicked: () -> Unit = {}
+fun MenuScreen(
+    vm: MenuViewModelDelegate = hiltViewModel<MenuViewModel>()
 ) {
 
     val (state, effect, event) = vm.extract()
@@ -99,7 +94,7 @@ fun ProfileScreenPreview(
     Preview {
         CompositionLocalProvider(LocalMe provides user) {
             DatePickTheme {
-                ProfileScreen(fakeProfileViewModel())
+                MenuScreen(fakeMenuViewModel())
             }
         }
     }

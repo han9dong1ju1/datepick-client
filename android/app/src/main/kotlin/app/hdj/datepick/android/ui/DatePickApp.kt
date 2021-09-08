@@ -11,7 +11,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.plusAssign
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStatusBarMode
 import app.hdj.datepick.android.ui.dialog.appupdate.appUpdateDialog
@@ -29,13 +28,12 @@ import app.hdj.datepick.android.ui.providers.*
 import app.hdj.datepick.android.ui.screens.main.home.fakeHomeViewModel
 import app.hdj.datepick.android.ui.screens.main.map.fakeMapViewModel
 import app.hdj.datepick.android.ui.screens.main.pick.fakePickViewModel
-import app.hdj.datepick.android.ui.screens.main.profile.fakeProfileViewModel
+import app.hdj.datepick.android.ui.screens.main.menu.fakeMenuViewModel
 import app.hdj.datepick.android.ui.screens.others.web.webScreen
 import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
 import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.DatePickScaffold
-import com.google.accompanist.navigation.animation.AnimatedComposeNavigator
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
@@ -72,7 +70,7 @@ fun DatePickApp() {
     val homeViewModel = fakeHomeViewModel()
     val mapViewModel = fakeMapViewModel()
     val pickViewModel = fakePickViewModel()
-    val profileViewModel = fakeProfileViewModel()
+    val profileViewModel = fakeMenuViewModel()
 
     CompositionLocalProvider(
         LocalAppNavController provides navController,
