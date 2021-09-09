@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30")
-        classpath("com.android.tools.build:gradle:7.1.0-alpha10")
+        classpath("com.android.tools.build:gradle:7.1.0-alpha11")
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0")
         classpath(Google.playServicesGradlePlugin)
         classpath(Google.dagger.hilt.android.gradlePlugin)
