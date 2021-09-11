@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.dialog.login.LoginViewModelDelegate.*
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.LoadState.Companion.loading
+import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.usecase.user.AuthenticateMeUseCase
 import app.hdj.datepick.domain.usecase.user.GetMeUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
@@ -36,7 +37,7 @@ interface LoginViewModelDelegate :
     ViewModelDelegate<State, Effect, Event> {
 
     class State(
-        val loginState: LoadState<Unit> = loading()
+        val loginState: LoadState<User> = loading()
     )
 
     sealed class Effect {
