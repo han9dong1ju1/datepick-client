@@ -7,6 +7,7 @@ import app.hdj.datepick.android.ui.dialog.login.LoginViewModelDelegate.*
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.LoadState.Companion.loading
 import app.hdj.datepick.domain.usecase.user.AuthenticateMeUseCase
+import app.hdj.datepick.domain.usecase.user.GetMeUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.gitlive.firebase.auth.AuthCredential
@@ -51,7 +52,8 @@ interface LoginViewModelDelegate :
 @HiltViewModel
 @OptIn(FlowPreview::class)
 class LoginViewModel @Inject constructor(
-    private val authenticateMeUseCase: AuthenticateMeUseCase
+    private val authenticateMeUseCase: AuthenticateMeUseCase,
+    private val getMeUseCase: GetMeUseCase,
 ) : ViewModel(), LoginViewModelDelegate {
 
     private val authenticateTrigger = MutableStateFlow<AuthCredential?>(null)

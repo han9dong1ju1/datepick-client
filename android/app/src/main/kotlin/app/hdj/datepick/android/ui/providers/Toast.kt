@@ -12,15 +12,7 @@ interface ToastPresenter {
 }
 
 val LocalToastPresenter = compositionLocalOf<ToastPresenter> {
-    object : ToastPresenter {
-        override fun short(message: String) {
-
-        }
-
-        override fun long(message: String) {
-
-        }
-    }
+    error("Not Provided!")
 }
 
 @Composable
@@ -34,7 +26,5 @@ fun ProvideToastPresenter(content: @Composable () -> Unit) {
         override fun long(message: String) {
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
-    }) {
-        content()
-    }
+    }, content = content)
 }

@@ -10,22 +10,30 @@ import io.ktor.client.*
 interface UserApi : Api {
     override val basePath: String get() = "/api/v1/users"
 
-    suspend fun getMe() : ApiResponse<UserResponse>
-    suspend fun updateMe(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse>
-    suspend fun register(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse>
+    suspend fun getMe(): ApiResponse<UserResponse>
+    suspend fun signIn(): ApiResponse<UserResponse>
+    suspend fun signOut(): ApiResponse<String>
+    suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse>
+    suspend fun register(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse>
     suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String>
 }
 
 @Singleton
 open class UserApiImp @Inject constructor(override val client: HttpClient) : UserApi {
 
-    override suspend fun getMe() : ApiResponse<UserResponse> =
+    override suspend fun getMe(): ApiResponse<UserResponse> =
         get("me")
 
-    override suspend fun updateMe(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
+    override suspend fun signIn(): ApiResponse<UserResponse> =
+        get("sign-in")
+
+    override suspend fun signOut(): ApiResponse<String> =
+        get("sign-out")
+
+    override suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse> =
         patch { body = userProfileRequest }
 
-    override suspend fun register(userProfileRequest: UserProfileRequest) : ApiResponse<UserResponse> =
+    override suspend fun register(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse> =
         post { body = userProfileRequest }
 
     override suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String> =
