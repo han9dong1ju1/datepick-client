@@ -1,4 +1,4 @@
-package app.hdj.datepick.domain.usecase.user
+package app.hdj.datepick.domain.usecase.user.params
 
 
 data class UserProfileRequestParams(
@@ -8,6 +8,6 @@ data class UserProfileRequestParams(
 ) {
     enum class Gender(val value: String) {
         Male("M"),
-        Female("F")
+        Female("F"),
     }
 }
