@@ -140,7 +140,7 @@ private fun getMapLifecycleObserver(mapView: MapView): LifecycleEventObserver =
     }
 
 @Composable
-private fun rememberMapViewWithLifecycle(): MapView {
+fun rememberMapViewWithLifecycle(): MapView {
     val context = LocalContext.current
     val mapView = remember {
         MapView(context)
