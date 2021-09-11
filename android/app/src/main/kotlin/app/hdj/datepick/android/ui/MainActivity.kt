@@ -12,6 +12,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import app.hdj.datepick.android.ui.StatusBarMode.*
 import app.hdj.datepick.android.ui.providers.LocalMe
+import app.hdj.datepick.android.ui.providers.ProvideDeviceType
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
 import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
@@ -88,7 +89,11 @@ class MainActivity : AppCompatActivity() {
 
                 ProvideToastPresenter {
                     DatePickTheme {
-                        ProvideWindowInsets { DatePickApp() }
+                        ProvideWindowInsets {
+                            ProvideDeviceType {
+                                DatePickApp()
+                            }
+                        }
                     }
                 }
 

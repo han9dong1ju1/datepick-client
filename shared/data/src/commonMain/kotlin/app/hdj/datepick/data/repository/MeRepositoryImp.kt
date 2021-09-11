@@ -41,6 +41,13 @@ class MeRepositoryImp @Inject constructor(
         }
     }
 
+    override fun signOut() = flow<LoadState<String>> {
+        emitState {
+            val response = userApi.signOut()
+            response.data
+        }
+    }
+
     override fun update(
         nickname: String?,
         profileImageUrl: String?,
