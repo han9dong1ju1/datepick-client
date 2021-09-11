@@ -41,7 +41,7 @@ class MeRepositoryImp @Inject constructor(
         }
     }
 
-    override fun signOut() = flow<LoadState<String>> {
+    override fun signOut() = flow {
         emitState {
             val response = userApi.signOut()
             response.data
