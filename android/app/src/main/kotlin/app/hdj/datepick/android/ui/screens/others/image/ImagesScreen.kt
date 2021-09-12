@@ -2,26 +2,15 @@ package app.hdj.datepick.android.ui.screens.others.image
 
 import android.os.Parcelable
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.consumeAllChanges
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
-import app.hdj.datepick.android.ui.DatePickAppViewModel
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.StatusBarMode
@@ -38,8 +27,6 @@ import app.hdj.datepick.ui.utils.getArgument
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.parcelize.Parcelize
-import timber.log.Timber
-import kotlin.math.roundToInt
 
 @Parcelize
 data class ImagesScreenArgument(
@@ -90,24 +77,9 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
         }
     ) {
 
-        var scale by remember { mutableStateOf(1f) }
-        var offset by remember { mutableStateOf(Offset(0f, 0f)) }
-
-        LaunchedEffect(key1 = pagerState.currentPage) {
-            scale = 1f
-            offset = Offset(0f, 0f)
-        }
-
         DatePickPager(
             itemSpacing = 40.dp,
-            modifier = Modifier
-                .fillMaxSize()
-                .pointerInput(Unit) {
-                    detectTransformGestures { _, pan, zoom, _ ->
-                        if (scale * zoom in 1f..5f) scale *= zoom
-                        offset += pan
-                    }
-                },
+            modifier = Modifier.fillMaxSize(),
             list = imagesArg.images,
             pagerState = pagerState
         ) { item, position ->
@@ -115,14 +87,7 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxSize()
-                    .align(Alignment.Center)
-                    .offset {
-                        IntOffset(offset.x.roundToInt(), offset.y.roundToInt())
-                    }
-                    .graphicsLayer(
-                        scaleX = if (position == pagerState.currentPage) scale else 1f,
-                        scaleY = if (position == pagerState.currentPage) scale else 1f
-                    ),
+                    .align(Alignment.Center),
                 painter = rememberImagePainter(data = item),
                 contentDescription = null
             )
