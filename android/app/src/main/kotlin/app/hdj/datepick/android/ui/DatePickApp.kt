@@ -29,6 +29,7 @@ import app.hdj.datepick.android.ui.screens.main.home.fakeHomeViewModel
 import app.hdj.datepick.android.ui.screens.main.map.fakeMapViewModel
 import app.hdj.datepick.android.ui.screens.main.pick.fakePickViewModel
 import app.hdj.datepick.android.ui.screens.main.menu.fakeMenuViewModel
+import app.hdj.datepick.android.ui.screens.others.image.imagesScreen
 import app.hdj.datepick.android.ui.screens.others.web.webScreen
 import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
 import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
@@ -129,7 +130,7 @@ fun DatePickApp() {
                     loginDialog()
 
                     webScreen()
-
+                    imagesScreen()
                 }
 
             }

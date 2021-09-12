@@ -10,6 +10,7 @@ import androidx.navigation.*
 import androidx.navigation.compose.NamedNavArgument
 import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedNavigationArgument
+import app.hdj.datepick.android.ui.screens.others.image.ImagesScreenArgument
 import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceNavigationArgument
 import app.hdj.datepick.android.utils.datePickNavDeepLink
 import app.hdj.datepick.android.utils.externalDatePickNavDeepLink
@@ -96,6 +97,15 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
             externalDatePickNavDeepLink(route)
         )
 
+    }
+
+    object Images : AppNavigationGraph("images") {
+        const val ARGUMENT_IMAGES = "images"
+
+        fun graphWithArgument(argument : ImagesScreenArgument) = NavigationGraph(
+            "images",
+            bundleOf(ARGUMENT_IMAGES to argument)
+        )
     }
 
     object SearchPlace : AppNavigationGraph("search_place")

@@ -2,13 +2,10 @@ package app.hdj.datepick.android.ui.screens.others.placeDetail
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddLocationAlt
@@ -23,8 +20,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.list.PlaceBlogReviewListItem
 import app.hdj.datepick.android.ui.list.PlaceListItem
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.android.ui.screens.openWebUrl
+import app.hdj.datepick.android.ui.screens.others.image.ImagesScreenArgument
 import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceDetailViewModelDelegate.Effect.ErrorOccurred
 import app.hdj.datepick.android.utils.foldComposable
 import app.hdj.datepick.android.utils.onSucceedComposable
@@ -151,7 +151,14 @@ fun PlaceDetailScreen(
                     Image(
                         modifier = Modifier
                             .size(100.dp)
-                            .clip(MaterialTheme.shapes.small),
+                            .clip(MaterialTheme.shapes.small)
+                            .clickable {
+                                navController.navigateRoute(
+                                    AppNavigationGraph.Images.graphWithArgument(
+                                        ImagesScreenArgument(photos, index)
+                                    )
+                                )
+                            },
                         contentScale = ContentScale.Crop,
                         painter = rememberUrlImagePainter(request = photo) {
                             scale(Scale.FIT)
