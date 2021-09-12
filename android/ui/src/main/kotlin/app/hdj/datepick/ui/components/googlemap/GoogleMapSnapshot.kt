@@ -31,9 +31,8 @@ fun GoogleMapSnapshot(location: LatLng, zoom : Float = 15f) {
                 val googleMap = mapView.awaitMap()
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoom))
                 googleMap.addMarker { position(location) }
-                delay(1000)
-                googleMap.snapshot {
-                    mapBitmap = it
+                googleMap.setOnMapLoadedCallback {
+                    googleMap.snapshot { mapBitmap = it }
                 }
             }
         }

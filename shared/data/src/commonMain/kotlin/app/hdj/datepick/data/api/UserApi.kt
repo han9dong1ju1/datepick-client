@@ -11,7 +11,7 @@ interface UserApi : Api {
     override val basePath: String get() = "/api/v1/users"
 
     suspend fun getMe(): ApiResponse<UserResponse>
-    suspend fun signIn(): ApiResponse<UserResponse>
+    suspend fun signIn(): ApiResponse<UserResponse?>
     suspend fun signOut(): ApiResponse<String>
     suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse>
     suspend fun register(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse>
@@ -24,7 +24,7 @@ open class UserApiImp @Inject constructor(override val client: HttpClient) : Use
     override suspend fun getMe(): ApiResponse<UserResponse> =
         get("me")
 
-    override suspend fun signIn(): ApiResponse<UserResponse> =
+    override suspend fun signIn(): ApiResponse<UserResponse?> =
         get("sign-in")
 
     override suspend fun signOut(): ApiResponse<String> =

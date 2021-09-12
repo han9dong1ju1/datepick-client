@@ -25,13 +25,9 @@ val emptyDialogScope = object : DialogScope {
 fun DialogScope(
     navController: NavController,
     content: @Composable DialogScope.() -> Unit
-) = object : DialogScope {
-    override fun dismiss() {
-        navController.popBackStack()
-    }
-}.content()
+) = DialogScope { navController.popBackStack() }.content()
 
-interface DialogScope {
+fun interface DialogScope {
     fun dismiss()
 }
 

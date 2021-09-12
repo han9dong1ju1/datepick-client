@@ -45,6 +45,8 @@ class MeRepositoryImp @Inject constructor(
         emitState {
             val response = userApi.signOut()
             response.data
+        }.onSuccess {
+            meDataStore.clearMe()
         }
     }
 

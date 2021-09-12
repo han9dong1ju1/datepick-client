@@ -15,14 +15,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Google
 import app.hdj.datepick.android.ui.icons.Kakao
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalToastPresenter
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.utils.collectInLaunchedEffect
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.bottomSheet
@@ -39,12 +40,12 @@ fun NavGraphBuilder.loginDialog() {
         val vm = hiltViewModel<LoginViewModel>()
         val (state, effect, event) = vm.extract()
 
+        effect.collectInLaunchedEffect {
+
+        }
+
         val googleSignInRequest = rememberLauncherForActivityResult(GoogleSignInContract()) {
-            if (it != null)
-                event(LoginViewModelDelegate.Event.RequestSignIn(AuthCredential(it)))
-            else {
-                toastPresenter.short("로그인에 실패했습니다.")
-            }
+            if (it != null) event(LoginViewModelDelegate.Event.RequestSignIn(AuthCredential(it)))
         }
 
         DialogScope(navController) {
@@ -112,7 +113,7 @@ fun DialogScope.LoginDialogUi(
                 .height(50.dp),
             text = "다음에 할래요",
         ) {
-
+            dismiss()
         }
 
     }

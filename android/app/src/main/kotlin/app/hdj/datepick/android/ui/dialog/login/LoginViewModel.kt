@@ -37,11 +37,12 @@ interface LoginViewModelDelegate :
     ViewModelDelegate<State, Effect, Event> {
 
     class State(
-        val loginState: LoadState<User> = loading()
+        val loginState: LoadState<User>? = null
     )
 
     sealed class Effect {
-
+        object ShowRegisterPage : Effect()
+        object DismissDialog : Effect()
     }
 
     sealed class Event {
@@ -53,21 +54,29 @@ interface LoginViewModelDelegate :
 @HiltViewModel
 @OptIn(FlowPreview::class)
 class LoginViewModel @Inject constructor(
-    private val authenticateMeUseCase: AuthenticateMeUseCase,
-    private val getMeUseCase: GetMeUseCase,
+    private val authenticateMeUseCase: AuthenticateMeUseCase
 ) : ViewModel(), LoginViewModelDelegate {
+
+    private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
+    override val effect = effectChannel.receiveAsFlow()
 
     private val authenticateTrigger = MutableStateFlow<AuthCredential?>(null)
 
     override val state: StateFlow<State> = authenticateTrigger
         .filterNotNull()
         .flatMapConcat { authenticateMeUseCase.execute(it) }
-        .map { State(it) }
+        .map {
+            when (it) {
+                is LoadState.Loading -> Unit
+                is LoadState.Failed -> {
+                    // TODO
+                    effectChannel.send(Effect.ShowRegisterPage)
+                }
+                is LoadState.Success -> effectChannel.send(Effect.DismissDialog)
+            }
+            State(it)
+        }
         .stateIn(viewModelScope, SharingStarted.Lazily, State())
-
-    private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
-
-    override val effect = effectChannel.receiveAsFlow()
 
     override fun event(event: Event) {
         viewModelScope.launch {
