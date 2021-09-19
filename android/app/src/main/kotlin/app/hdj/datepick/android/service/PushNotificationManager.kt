@@ -13,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
 
 interface PushNotificationManager {
@@ -21,6 +22,7 @@ interface PushNotificationManager {
 
 }
 
+@Singleton
 class PushNotificationManagerImp @Inject constructor(
     @ApplicationContext private val context: Context
 ) : PushNotificationManager, CoroutineScope {

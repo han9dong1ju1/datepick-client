@@ -18,7 +18,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-internal val Context.dataStore by preferencesDataStore("")
+const val DATA_STORE_NAME = "datepick-store"
+
+internal val Context.dataStore by preferencesDataStore(DATA_STORE_NAME)
 
 @Module
 @InstallIn(SingletonComponent::class)

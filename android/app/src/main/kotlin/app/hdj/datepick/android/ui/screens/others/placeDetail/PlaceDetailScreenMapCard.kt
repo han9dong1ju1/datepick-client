@@ -26,6 +26,12 @@ fun PlaceDetailMapCard(placeState: LoadState<Place>) {
     val navController = LocalAppNavController.current
 
     Surface(
+        onClick = {
+            if (placeState.isStateSucceed()) {
+                val url = "https://place.map.kakao.com/${placeState.data.kakaoId}"
+                navController.openWebUrl(url)
+            }
+        },
         shape = shapes.medium,
         elevation = 0.dp,
         modifier = Modifier
@@ -38,19 +44,6 @@ fun PlaceDetailMapCard(placeState: LoadState<Place>) {
 
             if (placeState.isStateSucceed()) {
                 GoogleMapSnapshot(LatLng(placeState.data.latitude, placeState.data.longitude))
-            }
-            
-            DatePickButton(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(20.dp),
-                icon = Icons.Rounded.Map,
-                text = "카카오맵으로 보기"
-            ) {
-                if (placeState.isStateSucceed()) {
-                    val url = "https://place.map.kakao.com/${placeState.data.kakaoId}"
-                    navController.openWebUrl(url)
-                }
             }
 
         }

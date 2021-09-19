@@ -18,7 +18,6 @@ class FeaturedApiImp @Inject constructor(
     override val client: HttpClient
 ) : FeaturedApi {
 
-//    override suspend fun getFeatured() = get<ApiResponse<List<FeaturedResponse>>>()
     override suspend fun getFeatured() = get<ApiResponse<List<FeaturedResponse>>>()
 
     override suspend fun getFeaturedDetail(id: Long) = get<ApiResponse<FeaturedDetailResponse>>("$id/")

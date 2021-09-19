@@ -145,7 +145,8 @@ fun PlaceDetailScreen(
                 contentPadding = PaddingValues(start = 20.dp, bottom = 20.dp, end = 20.dp)
             ) {
 
-                val photos = state.place.getOrNull { it.photos } ?: emptyList()
+                val title = state.place.getOrNull(Place::name).orEmpty()
+                val photos = state.place.getOrNull(Place::photos) ?: emptyList()
 
                 itemsIndexed(photos) { index, photo ->
                     Image(
@@ -155,7 +156,7 @@ fun PlaceDetailScreen(
                             .clickable {
                                 navController.navigateRoute(
                                     AppNavigationGraph.Images.graphWithArgument(
-                                        ImagesScreenArgument(photos, index)
+                                        ImagesScreenArgument(title, photos, index)
                                     )
                                 )
                             },

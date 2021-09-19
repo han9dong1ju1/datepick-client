@@ -18,6 +18,7 @@ import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.googlemap.*
 import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.onSurface10
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.pager.rememberPagerState
@@ -43,37 +44,34 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
     val polylineColors = MaterialTheme.colors.primary
 
     LaunchedEffect(pagerState.currentPage) {
-        delay(1000)
 
-        val latRand = { (5600..5700).random() / 10000.0 }
-
-        val lngRand = { (9600..9800).random() / 10000.0 }
-
-        val markers = (0..4 + Random.nextInt(3)).map {
-            LatLng(37.0 + latRand(), 126.0 + lngRand())
-        }.shuffled().map { latLng ->
-            markerOptions {
-                icon(polylineColors.getMarkerIcon())
-                position(latLng)
-                title("Example")
-            }
-        }
-
-        cameraPosition.animate(markers.map { it.position }, 100.dp)
-
-        markerOptionsState.clear()
-        markerOptionsState.addMarkerOptions(markers)
-
-        polylineOptionsState.polylineOptions {
-            addAll(markers.map { it.position })
-            startCap(RoundCap())
-            endCap(RoundCap())
-            width(15.dp.value)
-            visible(true)
-            pattern(listOf(Dot(), Gap(15.dp.value)))
-            jointType(JointType.ROUND)
-            color(polylineColors.toArgb())
-        }
+//        event.invoke(
+//            MapViewModelDelegate.Event.LoadCoursePlacesPathToMap()
+//        )
+//
+//        val markers = .map { latLng ->
+//        markerOptions {
+//            icon(polylineColors.getMarkerIcon())
+//            position(latLng)
+//            title("Example")
+//        }
+//    }
+//
+//        cameraPosition.animate(markers.map { it.position }, 100.dp)
+//
+//        markerOptionsState.clear()
+//        markerOptionsState.addMarkerOptions(markers)
+//
+//        polylineOptionsState.polylineOptions {
+//            addAll(markers.map { it.position })
+//            startCap(RoundCap())
+//            endCap(RoundCap())
+//            width(15.dp.value)
+//            visible(true)
+//            pattern(listOf(Dot(), Gap(15.dp.value)))
+//            jointType(JointType.ROUND)
+//            color(polylineColors.toArgb())
+//        }
     }
 
     DatePickScaffold(Modifier.fillMaxSize(), topBar = {
@@ -115,7 +113,8 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
                     LinearProgressIndicator(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(4.dp)
+                            .height(2.dp),
+                        backgroundColor = MaterialTheme.colors.onSurface10
                     )
                 }
 
