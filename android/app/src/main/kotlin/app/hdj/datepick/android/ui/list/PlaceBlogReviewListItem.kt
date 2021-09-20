@@ -9,8 +9,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.compositeOver
@@ -23,7 +21,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import app.hdj.datepick.android.ui.providers.Preview
 import app.hdj.datepick.android.ui.providers.preview.FakePlaceBlogReviewPreviewProvider
 import app.hdj.datepick.android.utils.loadNaverBlogUrlPreviewImage
-import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.fold
 import app.hdj.datepick.domain.model.place.BlogReview
 import app.hdj.datepick.ui.styles.DatePickTheme
@@ -55,7 +52,7 @@ fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogRe
                     ),
                 contentScale = ContentScale.Crop,
                 painter = rememberUrlImagePainter(
-                    request = imageUrl.fold(onSucceed = { it })
+                    request = imageUrl.fold(onSuccess = { it })
                 ) {
                     scale(Scale.FIT)
                 },

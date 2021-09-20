@@ -23,7 +23,7 @@ import app.hdj.datepick.ui.utils.*
 import coil.size.Scale
 
 @Composable
-fun PlaceListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
+fun PlaceVerticalListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
 
     Surface(onClick = { onPlaceClicked(place) }) {
 
@@ -81,14 +81,4 @@ fun PlaceListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
 
     }
 
-}
-
-@Composable
-@Preview(showBackground = true)
-fun PlaceListPreview(
-    @PreviewParameter(FakePlacePreviewProvider::class) place: List<Place>
-) {
-    DatePickTheme {
-        PlaceListItem(place = place.first()) {}
-    }
 }

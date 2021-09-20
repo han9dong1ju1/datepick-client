@@ -27,6 +27,7 @@ fun fakePlaceDetailViewModel() = object : PlaceDetailViewModelDelegate {
         State(
             LoadState.success(FakePlacePreviewProvider().values.first().first()),
             LoadState.success(FakePlacePreviewProvider().values.first()),
+            LoadState.success(FakePlacePreviewProvider().values.first()),
             LoadState.success(FakePlaceBlogReviewPreviewProvider().values.first()),
         )
     )
@@ -41,6 +42,7 @@ interface PlaceDetailViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 
     data class State(
         val place: LoadState<Place> = LoadState.loading(),
+        val nearbyPlaces: LoadState<List<Place>> = LoadState.loading(),
         val similarPlaces: LoadState<List<Place>> = LoadState.loading(),
         val blogReviews: LoadState<List<BlogReview>> = LoadState.loading(),
     )

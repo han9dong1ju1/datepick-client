@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.currentScreenRoute
 import com.google.accompanist.insets.LocalWindowInsets

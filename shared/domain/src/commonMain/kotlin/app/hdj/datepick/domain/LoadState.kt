@@ -53,11 +53,11 @@ suspend fun <T : Any> FlowCollector<LoadState<T>>.emitState(
 }
 
 fun <T, R> LoadState<T>.fold(
-    onSucceed: (T) -> R,
+    onSuccess: (T) -> R,
     onFailed: (T?, Throwable) -> R? = { _, _ -> null },
     onLoading: () -> R? = { null },
 ) = when {
-    isStateSucceed() -> onSucceed(data)
+    isStateSucceed() -> onSuccess(data)
     isStateFailed() -> onFailed(cachedData, throwable)
     else -> onLoading()
 }

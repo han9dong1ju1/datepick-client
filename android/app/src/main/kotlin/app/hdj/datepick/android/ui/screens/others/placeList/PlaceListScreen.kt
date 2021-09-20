@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.list.PlaceListItem
+import app.hdj.datepick.android.ui.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.domain.onSucceed
@@ -60,7 +60,7 @@ fun PlaceListScreen(
 
             state.results.onSucceed { list ->
                 items(list) { place ->
-                    PlaceListItem(place, navController::openPlace)
+                    PlaceVerticalListItem(place, navController::openPlace)
                 }
             }
 

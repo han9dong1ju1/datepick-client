@@ -18,11 +18,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.list.PlaceBlogReviewListItem
-import app.hdj.datepick.android.ui.list.PlaceListItem
+import app.hdj.datepick.android.ui.list.PlaceHorizontalListWithHeader
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
-import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.android.ui.screens.openWebUrl
 import app.hdj.datepick.android.ui.screens.others.image.ImagesScreenArgument
 import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceDetailViewModelDelegate.Effect.ErrorOccurred
@@ -87,7 +86,7 @@ fun PlaceDetailScreen(
                 navigationIcon = { TopAppBarBackButton() },
                 actions = {
                     placeState.foldComposable(
-                        onSucceed = {
+                        onSuccess = {
 
                             IconButton(onClick = {
 
@@ -195,17 +194,14 @@ fun PlaceDetailScreen(
             ) {
 
             }
+
             Spacer(Modifier.height(10.dp))
 
-            Header(title = "이 장소는 어때요?")
+            PlaceHorizontalListWithHeader("주변에 있는 또다른 장소", state.nearbyPlaces)
 
-            Column(modifier = Modifier.fillMaxWidth()) {
-                state.similarPlaces.foldComposable(onSucceed = { list ->
-                    list.forEach { place ->
-                        PlaceListItem(place = place, onPlaceClicked = navController::openPlace)
-                    }
-                })
-            }
+            Spacer(Modifier.height(10.dp))
+
+            PlaceHorizontalListWithHeader("이 장소는 어때요?", state.similarPlaces)
 
             Spacer(Modifier.height(10.dp))
 

@@ -1,7 +1,6 @@
 package app.hdj.datepick.android.utils
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateFailed
@@ -16,12 +15,12 @@ fun <T> LoadState<T>.onSucceedComposable(block: @Composable (T) -> Unit) {
 @SuppressLint("ComposableNaming")
 @Composable
 fun <T> LoadState<T>.foldComposable(
-    onSucceed: @Composable (T) -> Unit = {},
+    onSuccess: @Composable (T) -> Unit = {},
     onFailed: @Composable (T?, Throwable) -> Unit = { _, _ -> },
     onLoading: @Composable () -> Unit = {},
 ) {
     when {
-        isStateSucceed() -> onSucceed(data)
+        isStateSucceed() -> onSuccess(data)
         isStateFailed() -> onFailed(cachedData, throwable)
         else -> onLoading()
     }

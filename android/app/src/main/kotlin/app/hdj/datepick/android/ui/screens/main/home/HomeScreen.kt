@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStatusBarMode
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.StatusBarMode
-import app.hdj.datepick.android.ui.list.PlaceListItem
+import app.hdj.datepick.android.ui.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.android.ui.screens.openFeatured
@@ -98,7 +98,7 @@ fun HomeScreen(
                     Column(Modifier.fillMaxWidth()) {
                         state.featuredPlaces.onSucceedComposable { list ->
                             list.forEach {
-                                PlaceListItem(
+                                PlaceVerticalListItem(
                                     place = it,
                                     onPlaceClicked = navController::openPlace
                                 )
