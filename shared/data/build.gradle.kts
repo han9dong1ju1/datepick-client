@@ -9,9 +9,15 @@ plugins {
     id("com.squareup.sqldelight")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 version = "1.0"
+
+multiplatformResources {
+    multiplatformResourcesPackage = "app.hdj.datepick"
+    iosBaseLocalizationRegion = "ko"
+}
 
 sqldelight {
     database("DatePickDatabase") {
@@ -66,6 +72,7 @@ kotlin {
             api(MultiplatformSettings.core)
             api(MultiplatformSettings.coroutines)
             api(MultiplatformSettings.serialization)
+            api(Utils.mokoResource)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test-common"))
