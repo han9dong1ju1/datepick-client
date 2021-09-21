@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.list
+package app.hdj.datepick.android.ui.components
 
 import androidx.compose.runtime.Composable
 

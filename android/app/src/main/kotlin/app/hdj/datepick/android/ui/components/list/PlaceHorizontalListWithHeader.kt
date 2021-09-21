@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.list
+package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

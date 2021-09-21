@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.list
+package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import app.hdj.datepick.android.ui.providers.Preview
+import app.hdj.datepick.android.ui.providers.PreviewScope
 import app.hdj.datepick.android.ui.providers.preview.FakePlaceBlogReviewPreviewProvider
 import app.hdj.datepick.android.utils.loadNaverBlogUrlPreviewImage
 import app.hdj.datepick.domain.fold
@@ -92,7 +92,7 @@ fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogRe
 fun PlaceBlogReviewListItemPreview(
     @PreviewParameter(FakePlaceBlogReviewPreviewProvider::class) blogReviews: List<BlogReview>
 ) {
-    Preview {
+    PreviewScope {
         DatePickTheme {
             PlaceBlogReviewListItem(blogReviews.first()) {}
         }

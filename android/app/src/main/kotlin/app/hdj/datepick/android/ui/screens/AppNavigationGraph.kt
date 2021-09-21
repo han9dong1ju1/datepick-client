@@ -160,8 +160,8 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
             const val route = "settings"
         }
 
-        object List : Settings("licenses")
-        object Notifications : Settings("licenses")
+        object GeneralSettings : Settings("general")
+        object NotificationSettings : Settings("notification")
     }
 
     object Web : AppNavigationGraph("web?url={url}") {

@@ -15,22 +15,31 @@ import app.hdj.datepick.ui.utils.*
 import app.hdj.datepick.ui.utils.b2b
 
 @Composable
-fun LargeTitle(text: String) {
+fun LargeTitle(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
 
-    ConstraintLayout(
-        modifier = Modifier
+    Surface(
+        modifier = modifier
             .fillMaxWidth()
     ) {
-
-        val (titleRef) = createRefs()
-
-        Text(
+        ConstraintLayout(
             modifier = Modifier
-                .constrainAs(titleRef, b2b() + s2s()),
-            text = text,
-            style = MaterialTheme.typography.h1, maxLines = 2
-        )
+                .padding(20.dp)
+                .fillMaxWidth()
+        ) {
 
+            val (titleRef) = createRefs()
+
+            Text(
+                modifier = Modifier
+                    .constrainAs(titleRef, b2b() + s2s()),
+                text = text,
+                style = MaterialTheme.typography.h1, maxLines = 2
+            )
+
+        }
     }
 
 }
@@ -41,25 +50,29 @@ fun LargeTitleAndSubtitle(
     subtitle: String,
     modifier: Modifier = Modifier,
 ) {
-    ConstraintLayout(
-        modifier = modifier.fillMaxWidth()
-    ) {
-
-        val (titleRef, subtitleRef) = createRefs()
-
-        Text(
+    Surface(modifier = modifier.fillMaxWidth()) {
+        ConstraintLayout(
             modifier = Modifier
-                .constrainAs(titleRef, b2t(subtitleRef, margin = 10.dp) + s2s(subtitleRef)),
-            text = title,
-            style = MaterialTheme.typography.h1, maxLines = 2
-        )
+                .padding(20.dp)
+                .fillMaxWidth()
+        ) {
 
-        Text(
-            modifier = Modifier
-                .constrainAs(subtitleRef, b2b() + s2s()),
-            text = subtitle,
-            style = MaterialTheme.typography.subtitle2, maxLines = 2,
-        )
+            val (titleRef, subtitleRef) = createRefs()
 
+            Text(
+                modifier = Modifier
+                    .constrainAs(titleRef, b2t(subtitleRef, margin = 10.dp) + s2s(subtitleRef)),
+                text = title,
+                style = MaterialTheme.typography.h1, maxLines = 2
+            )
+
+            Text(
+                modifier = Modifier
+                    .constrainAs(subtitleRef, b2b() + s2s()),
+                text = subtitle,
+                style = MaterialTheme.typography.subtitle2, maxLines = 2,
+            )
+
+        }
     }
 }

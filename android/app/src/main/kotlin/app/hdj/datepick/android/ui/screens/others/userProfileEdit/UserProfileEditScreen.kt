@@ -1,45 +1,45 @@
-package app.hdj.datepick.android.ui.screens.others.settings.setting_list
+package app.hdj.datepick.android.ui.screens.others.userProfileEdit
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.PreviewScope
 import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
-import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.ui.utils.extract
 
 @Composable
-fun SettingListScreen(
-    vm: SettingsViewModelDelegate = hiltViewModel<SettingListViewModel>()
-) {
+fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel()) {
+
+    val navController = LocalAppNavController.current
 
     val (state, effect, event) = vm.extract()
 
+    val me = LocalMe.current
+
+    val scrollState = rememberScrollState()
+
     DatePickScaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             DatePickTopAppBar(
-                title = { Text(text = "") },
                 navigationIcon = { TopAppBarBackButton() }
             )
         }
     ) {
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = it.calculateTopPadding())
-        ) {
-
-
+            Modifier
+                .padding(it)
+                .verticalScroll(scrollState)) {
 
         }
 
@@ -47,12 +47,10 @@ fun SettingListScreen(
 
 }
 
-@Composable
 @Preview
-fun SettingsScreenPreview() {
-    DatePickTheme {
-        PreviewScope {
-            SettingListScreen(fakeSettingListViewModel())
-        }
+@Composable
+fun UserProfileEditScreenPreview() {
+    PreviewScope {
+        UserProfileEditScreen(fakeUserProfileEditViewModel())
     }
 }

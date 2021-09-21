@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.list
+package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -9,12 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
-import app.hdj.datepick.ui.styles.DatePickTheme
 import app.hdj.datepick.domain.model.place.*
 import app.hdj.datepick.ui.components.ImmutableRatingBar
 import app.hdj.datepick.ui.styles.onSurface30
@@ -23,7 +19,7 @@ import app.hdj.datepick.ui.utils.*
 import coil.size.Scale
 
 @Composable
-fun PlaceHorizontalListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
+fun PlaceVerticalListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
 
     Surface(onClick = { onPlaceClicked(place) }) {
 

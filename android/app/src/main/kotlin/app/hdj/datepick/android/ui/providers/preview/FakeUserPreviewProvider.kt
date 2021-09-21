@@ -7,12 +7,12 @@ import kotlin.random.Random
 class FakeUserPreviewProvider : PreviewParameterProvider<User?> {
     override val values: Sequence<User?>
         get() = sequenceOf(
-            null,
             object : User {
                 override val id: Long = Random.nextLong()
                 override val nickname: String = "Harry"
                 override val isMe: Boolean = true
-                override val profileImageUrl: String = ""
-            }
+                override val profileImageUrl: String = "https://picsum.photos/200"
+            },
+            null
         )
 }

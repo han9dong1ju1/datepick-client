@@ -1,11 +1,10 @@
-package app.hdj.datepick.android.ui.screens.others.user
+package app.hdj.datepick.android.ui.screens.others.userProfileEdit
 
 import androidx.lifecycle.ViewModel
-import app.hdj.datepick.android.ui.screens.others.user.UserProfileEditViewModelDelegate.*
+import app.hdj.datepick.android.ui.screens.others.userProfileEdit.UserProfileEditViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow

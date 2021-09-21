@@ -24,9 +24,7 @@ fun CourseScreen(
     TitledLazyListScaffold(
         title = { Text(text = "홈") },
         expandedTitle = {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                LargeTitleAndSubtitle(title = "코스 제목", subtitle = "내용이 들어갈 곳입니다.")
-            }
+            LargeTitleAndSubtitle(title = "코스 제목", subtitle = "내용이 들어갈 곳입니다.")
         },
         navIcons = { TopAppBarBackButton() }
     ) {

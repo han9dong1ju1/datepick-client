@@ -17,8 +17,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.list.PlaceBlogReviewListItem
-import app.hdj.datepick.android.ui.list.PlaceHorizontalListWithHeader
+import app.hdj.datepick.android.ui.components.list.PlaceBlogReviewListItem
+import app.hdj.datepick.android.ui.components.list.PlaceHorizontalListWithHeader
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
@@ -30,6 +30,8 @@ import app.hdj.datepick.android.utils.onSucceedComposable
 import app.hdj.datepick.domain.getOrNull
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.place.Place
+import app.hdj.datepick.ui.animation.materialTransitionYaxisIn
+import app.hdj.datepick.ui.animation.materialTransitionYaxisOut
 import app.hdj.datepick.ui.components.DatePickScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.Header
@@ -79,7 +81,7 @@ fun PlaceDetailScreen(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            val elevationAnimate by animateDpAsState(targetValue = if (isHeaderScrolled) 4.dp else 0.dp)
+            val elevationAnimate by animateDpAsState(targetValue = if (isHeaderScrolled)  AppBarDefaults.TopAppBarElevation else 0.dp)
 
             DatePickTopAppBar(
                 elevation = elevationAnimate,
@@ -107,8 +109,8 @@ fun PlaceDetailScreen(
                 title = {
                     AnimatedVisibility(
                         visible = isHeaderScrolled,
-                        enter = slideInVertically(initialOffsetY = { it / 2 }) + fadeIn(),
-                        exit = slideOutVertically(targetOffsetY = { it / 2 }) + fadeOut()
+                        enter = materialTransitionYaxisIn,
+                        exit = materialTransitionYaxisOut
                     ) {
                         if (placeState.isStateSucceed()) Text(text = placeState.data.name)
                     }
