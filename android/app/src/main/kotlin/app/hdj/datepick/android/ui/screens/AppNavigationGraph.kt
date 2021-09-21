@@ -147,6 +147,8 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         const val ARGUMENT_COURSE_ID = "courseId"
     }
 
+    object UserProfileEdit : AppNavigationGraph("user_profile_edit")
+
     object CourseList : AppNavigationGraph("course_list?search={search}&sort={sort}") {
         const val ARGUMENT_SEARCH = "search"
         const val ARGUMENT_SORT = "sort"
