@@ -10,8 +10,13 @@ import android.net.Uri
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.os.bundleOf
+import androidx.navigation.NavDeepLinkBuilder
 import app.hdj.datepick.MR
+import app.hdj.datepick.android.ui.MainActivity
+import app.hdj.datepick.android.utils.DEEPLINK_URL
 import app.hdj.datepick.data.utils.res
 import app.hdj.datepick.domain.model.pushNotification.PushNotificationData
 import app.hdj.datepick.domain.model.pushNotification.PushNotificationData.PushNotificationType
@@ -19,6 +24,7 @@ import app.hdj.datepick.domain.model.pushNotification.PushNotificationData.PushN
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,18 +60,21 @@ class PushNotificationManagerImp @Inject constructor(
     private fun createNotificationChannels() {
         val notificationChannelData = PushNotificationType.values().map { type ->
             val nameRes = when (type) {
-                NOTICE_AND_EVENT -> MR.strings.title_notice_or_event
+                NOTICE -> MR.strings.title_notice
+                EVENT -> MR.strings.title_event
                 COURSE_RECOMMENDATION -> MR.strings.title_course_recommendation
                 PICK -> MR.strings.title_pick
             }
             PushNotificationChannelData(type, context.res(nameRes))
         }
 
-        notificationChannelData.forEach { (type, name) ->
+        val channels = notificationChannelData.map { (type, name) ->
             NotificationChannelCompat.Builder(type.name, NotificationManager.IMPORTANCE_HIGH)
                 .setName(name)
                 .build()
         }
+
+        notificationManager.createNotificationChannelsCompat(channels)
     }
 
     override fun showNotification(pushNotificationData: PushNotificationData) {
@@ -95,19 +104,35 @@ class PushNotificationManagerImp @Inject constructor(
             transformations(CircleCropTransformation())
         }
 
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link)).apply {
+        val image = image.loadIconBitmap {
+            transformations(RoundedCornersTransformation(20f))
+        }
+
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(link)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
         NotificationCompat.Builder(context, type.name)
             .setContentTitle(title)
             .setContentText(content)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSmallIcon(app.hdj.datepick.ui.R.mipmap.ic_launcher_round)
             .setContentIntent(
-                PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                TaskStackBuilder.create(context)
+                    .addNextIntent(intent)
+                    .getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
             )
             .apply {
                 if (largeIcon != null) setLargeIcon(largeIcon)
+                if (image != null) {
+                    setStyle(
+                        NotificationCompat.BigPictureStyle()
+                            .bigLargeIcon(largeIcon)
+                            .bigPicture(image)
+                    )
+                }
             }
             .build()
     }

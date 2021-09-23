@@ -4,14 +4,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PushNotificationData(
-    val id : String,
-    val icon : String? = null,
+    val id : Long,
+    val largeIcon : String? = null,
     val image : String? = null,
     val type : PushNotificationType,
     val title : String,
     val content : String,
-    val link : String,
-    val createdAt : String
+    val link : String
 ) {
 
     enum class PushNotificationType {
