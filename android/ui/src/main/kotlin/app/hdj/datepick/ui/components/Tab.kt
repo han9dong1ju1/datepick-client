@@ -119,7 +119,7 @@ class ScrollableTabData(
 }
 
 @Composable
-fun DatePickScrollableTabRow(
+fun CustomScrollableTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
     elevation : Dp = 0.dp,
@@ -236,7 +236,7 @@ fun Modifier.tabIndicatorOffset(
 }
 
 @ExperimentalPagerApi
-fun Modifier.pagerDatePickTabIndicatorOffset(
+fun Modifier.pagerCustomTabIndicatorOffset(
     pagerState: PagerState,
     tabPositions: List<TabPosition>,
 ): Modifier = composed {

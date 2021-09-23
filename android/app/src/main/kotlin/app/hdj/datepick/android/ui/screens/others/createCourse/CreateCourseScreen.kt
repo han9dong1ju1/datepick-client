@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.components.TitledLazyListScaffold
 import app.hdj.datepick.ui.components.TopAppBarBackButton
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 
 @Composable
@@ -43,7 +43,7 @@ fun CreateCourseScreen(
 @Composable
 @Preview
 fun CreateCourseScreenPreview() {
-    DatePickTheme {
+    BaseTheme {
         CreateCourseScreen(vm = fakeCreateCourseViewModel())
     }
 }

@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.components.DatePickScaffold
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.components.BaseScaffold
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -25,7 +25,7 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
         systemUiController.setStatusBarColor(Color.White.copy(0.5f), useDarkIcons)
     }
 
-    DatePickScaffold(modifier = Modifier.fillMaxSize()) {
+    BaseScaffold(modifier = Modifier.fillMaxSize()) {
 
     }
 
@@ -34,7 +34,7 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
 @Composable
 @Preview
 fun PickScreenPreview() {
-    DatePickTheme {
+    BaseTheme {
         PickScreen(fakePickViewModel())
     }
 }

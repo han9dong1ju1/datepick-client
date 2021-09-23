@@ -1,9 +1,7 @@
 package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -23,8 +21,12 @@ import app.hdj.datepick.android.ui.providers.preview.FakePlaceBlogReviewPreviewP
 import app.hdj.datepick.android.utils.loadNaverBlogUrlPreviewImage
 import app.hdj.datepick.domain.fold
 import app.hdj.datepick.domain.model.place.BlogReview
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.animation.SwitchFromBottomContent
+import app.hdj.datepick.ui.components.NetworkImage
+import app.hdj.datepick.ui.components.Shimmer
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.*
+import coil.compose.ImagePainter
 import coil.size.Scale
 
 @Composable
@@ -42,7 +44,7 @@ fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogRe
 
             val (imageRef, titleRef, contentRef) = createRefs()
 
-            Image(
+            NetworkImage(
                 modifier = Modifier
                     .size(60.dp)
                     .clip(MaterialTheme.shapes.small)
@@ -50,13 +52,7 @@ fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogRe
                         imageRef,
                         t2t() + b2b() + s2s()
                     ),
-                contentScale = ContentScale.Crop,
-                painter = rememberUrlImagePainter(
-                    request = imageUrl.fold(onSuccess = { it })
-                ) {
-                    scale(Scale.FIT)
-                },
-                contentDescription = null
+                url = imageUrl.fold(onSuccess = { it })
             )
 
             Text(
@@ -93,7 +89,7 @@ fun PlaceBlogReviewListItemPreview(
     @PreviewParameter(FakePlaceBlogReviewPreviewProvider::class) blogReviews: List<BlogReview>
 ) {
     PreviewScope {
-        DatePickTheme {
+        BaseTheme {
             PlaceBlogReviewListItem(blogReviews.first()) {}
         }
     }

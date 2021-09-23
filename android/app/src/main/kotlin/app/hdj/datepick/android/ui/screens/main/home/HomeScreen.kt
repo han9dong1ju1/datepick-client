@@ -26,9 +26,9 @@ import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.android.ui.screens.openFeatured
 import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.android.utils.onSucceedComposable
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.Header
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.styles.onSurface50
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.isFirstItemScrolled
@@ -60,7 +60,7 @@ fun HomeScreen(
         mode
     }
 
-    DatePickScaffold(
+    BaseScaffold(
         topBar = {
             HomeScreenTopBar(isHeaderCollapsed) {
 
@@ -132,7 +132,7 @@ fun HomeScreen(
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
 fun HomeScreenPreview() {
-    DatePickTheme {
+    BaseTheme {
         HomeScreen(fakeHomeViewModel())
     }
 }
@@ -143,7 +143,7 @@ fun HomeScreenPreview() {
     device = Devices.NEXUS_10
 )
 fun HomeScreenTabletPreview() {
-    DatePickTheme {
+    BaseTheme {
         HomeScreen(fakeHomeViewModel())
     }
 }

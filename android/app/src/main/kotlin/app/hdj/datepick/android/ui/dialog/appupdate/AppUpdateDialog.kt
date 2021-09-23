@@ -20,7 +20,7 @@ import app.hdj.datepick.android.ui.dialog.appupdate.AppUpdateViewModelDelegate.*
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalSnackBarPresenter
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.getActivity
 import com.google.android.play.core.ktx.AppUpdateResult
@@ -114,7 +114,7 @@ fun NavGraphBuilder.appUpdateDialog() {
 @Composable
 @Preview
 fun AppUpdateDialogPreview() {
-    DatePickTheme {
+    BaseTheme {
         val (s, e, ev) = fakeAppUpdateViewModel().extract()
         emptyDialogScope.AppUpdateDialogUi(s, e, ev)
     }

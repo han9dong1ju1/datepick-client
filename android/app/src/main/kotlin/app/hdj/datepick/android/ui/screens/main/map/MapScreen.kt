@@ -8,24 +8,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.components.DatePickPager
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.ViewPager
+import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.googlemap.*
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.styles.onSurface10
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.pager.rememberPagerState
-import com.google.android.gms.maps.model.*
-import com.google.maps.android.ktx.model.markerOptions
-import kotlinx.coroutines.delay
-import kotlin.random.Random
 
 @Composable
 fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
@@ -74,7 +69,7 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
 //        }
     }
 
-    DatePickScaffold(Modifier.fillMaxSize(), topBar = {
+    BaseScaffold(Modifier.fillMaxSize(), topBar = {
         DatePickTopAppBar()
     }) {
 
@@ -91,7 +86,7 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
             ) {
-                DatePickPager(
+                ViewPager(
                     modifier = Modifier.fillMaxWidth(),
                     list = pages,
                     pagerState = pagerState,
@@ -133,7 +128,7 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
 @Composable
 @Preview
 fun MapScreenPreview() {
-    DatePickTheme {
+    BaseTheme {
         MapScreen(fakeMapViewModel())
     }
 }

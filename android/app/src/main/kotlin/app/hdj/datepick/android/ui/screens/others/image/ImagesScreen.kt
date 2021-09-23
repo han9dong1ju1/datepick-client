@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,8 +22,8 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Images.ARGUMENT_IMAGES
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
-import app.hdj.datepick.ui.components.DatePickPager
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.ViewPager
+import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.utils.extract
@@ -73,7 +72,7 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
         }
     }
 
-    DatePickScaffold(
+    BaseScaffold(
         modifier = Modifier.fillMaxSize(),
         backgroundColor = Color.Black,
         topBar = {
@@ -87,7 +86,7 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
 
         Box(modifier = Modifier.fillMaxSize()) {
 
-            DatePickPager(
+            ViewPager(
                 itemSpacing = 40.dp,
                 modifier = Modifier.fillMaxSize(),
                 list = imagesArg.images,

@@ -1,9 +1,12 @@
 package app.hdj.datepick.android.ui.components
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import app.hdj.datepick.ui.components.NetworkImage
+import app.hdj.datepick.ui.components.Shimmer
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 import coil.transform.CircleCropTransformation
 
@@ -12,14 +15,17 @@ fun ProfileImage(
     modifier: Modifier = Modifier,
     profileImageUrl: String?
 ) {
-    val imagePainter = rememberUrlImagePainter(request = profileImageUrl) {
-        transformations(CircleCropTransformation())
-    }
 
-    Image(
+    NetworkImage(
         modifier = modifier,
-        contentScale = ContentScale.Crop,
-        painter = imagePainter,
-        contentDescription = "Profile Image"
+        url = profileImageUrl,
+        imageRequestBuilder =  {
+            transformations(CircleCropTransformation())
+        },
+        onLoading = {
+            Surface(modifier, shape = CircleShape) {
+                Shimmer(Modifier.fillMaxSize())
+            }
+        }
     )
 }

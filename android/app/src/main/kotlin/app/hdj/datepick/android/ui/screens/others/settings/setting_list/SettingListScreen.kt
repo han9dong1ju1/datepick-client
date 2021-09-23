@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.providers.PreviewScope
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 
 @Composable
@@ -23,7 +23,7 @@ fun SettingListScreen(
 
     val (state, effect, event) = vm.extract()
 
-    DatePickScaffold(
+    BaseScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             DatePickTopAppBar(
@@ -50,7 +50,7 @@ fun SettingListScreen(
 @Composable
 @Preview
 fun SettingsScreenPreview() {
-    DatePickTheme {
+    BaseTheme {
         PreviewScope {
             SettingListScreen(fakeSettingListViewModel())
         }

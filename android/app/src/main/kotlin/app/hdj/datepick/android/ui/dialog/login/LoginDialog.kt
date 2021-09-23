@@ -22,7 +22,7 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalToastPresenter
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.ui.components.*
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
@@ -72,7 +72,7 @@ fun DialogScope.LoginDialogUi(
         * Login Buttons
         * */
 
-        DatePickButton(
+        BaseButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -90,7 +90,7 @@ fun DialogScope.LoginDialogUi(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        DatePickButton(
+        BaseButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -107,7 +107,7 @@ fun DialogScope.LoginDialogUi(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        DatePickUnAccentButton(
+        UnAccentButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -124,7 +124,7 @@ fun DialogScope.LoginDialogUi(
 @Composable
 @Preview
 fun LoginScreenPreview() {
-    DatePickTheme {
+    BaseTheme {
         emptyDialogScope.LoginDialogUi {
 
         }

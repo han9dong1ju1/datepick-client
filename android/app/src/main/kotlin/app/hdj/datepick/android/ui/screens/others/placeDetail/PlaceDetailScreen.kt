@@ -1,6 +1,5 @@
 package app.hdj.datepick.android.ui.screens.others.placeDetail
 
-import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -18,7 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.list.PlaceBlogReviewListItem
-import app.hdj.datepick.android.ui.components.list.PlaceHorizontalListWithHeader
+import app.hdj.datepick.android.ui.components.list.PlaceListWithHeader
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
@@ -30,12 +29,7 @@ import app.hdj.datepick.android.utils.onSucceedComposable
 import app.hdj.datepick.domain.getOrNull
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.place.Place
-import app.hdj.datepick.ui.animation.materialTransitionYaxisIn
-import app.hdj.datepick.ui.animation.materialTransitionYaxisOut
-import app.hdj.datepick.ui.components.DatePickScaffold
-import app.hdj.datepick.ui.components.DatePickTopAppBar
-import app.hdj.datepick.ui.components.Header
-import app.hdj.datepick.ui.components.TopAppBarBackButton
+import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.icon.LikeIconButton
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
 import app.hdj.datepick.ui.utils.extract
@@ -77,13 +71,14 @@ fun PlaceDetailScreen(
 
     val placeState = state.place
 
-    DatePickScaffold(
+    BaseScaffold(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            val elevationAnimate by animateDpAsState(targetValue = if (isHeaderScrolled)  AppBarDefaults.TopAppBarElevation else 0.dp)
+            val elevationAnimate by animateDpAsState(targetValue = if (isHeaderScrolled) AppBarDefaults.TopAppBarElevation else 0.dp)
 
-            DatePickTopAppBar(
+            TitleAnimatedTopAppBar(
+                isTitleVisible = isHeaderScrolled,
                 elevation = elevationAnimate,
                 navigationIcon = { TopAppBarBackButton() },
                 actions = {
@@ -94,6 +89,7 @@ fun PlaceDetailScreen(
 
                             }) {
                                 Icon(
+                                    modifier = Modifier.size(20.dp),
                                     imageVector = Icons.Rounded.AddLocationAlt,
                                     contentDescription = null
                                 )
@@ -107,13 +103,7 @@ fun PlaceDetailScreen(
                     )
                 },
                 title = {
-                    AnimatedVisibility(
-                        visible = isHeaderScrolled,
-                        enter = materialTransitionYaxisIn,
-                        exit = materialTransitionYaxisOut
-                    ) {
-                        if (placeState.isStateSucceed()) Text(text = placeState.data.name)
-                    }
+                    if (placeState.isStateSucceed()) Text(text = placeState.data.name)
                 }
             )
         }
@@ -122,18 +112,10 @@ fun PlaceDetailScreen(
         Column(
             Modifier
                 .verticalScroll(scrollState)
-                .padding(top = it.calculateTopPadding())
+                .padding(it)
         ) {
 
-            Surface(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Spacer(Modifier.height(20.dp))
-                    PlaceDetailScreenHeader(placeState = placeState)
-                    Spacer(Modifier.height(20.dp))
-                    PlaceDetailMapCard(placeState = placeState)
-                    Spacer(Modifier.height(20.dp))
-                }
-            }
+            PlaceDetailScreenHeader(placeState = state.place)
 
             Spacer(Modifier.height(10.dp))
 
@@ -150,7 +132,7 @@ fun PlaceDetailScreen(
                 val photos = state.place.getOrNull(Place::photos) ?: emptyList()
 
                 itemsIndexed(photos) { index, photo ->
-                    Image(
+                    NetworkImage(
                         modifier = Modifier
                             .size(100.dp)
                             .clip(MaterialTheme.shapes.small)
@@ -161,11 +143,7 @@ fun PlaceDetailScreen(
                                     )
                                 )
                             },
-                        contentScale = ContentScale.Crop,
-                        painter = rememberUrlImagePainter(request = photo) {
-                            scale(Scale.FIT)
-                        },
-                        contentDescription = null
+                        url = photo
                     )
                     if (index != photos.lastIndex)
                         Spacer(modifier = Modifier.width(20.dp))
@@ -199,11 +177,11 @@ fun PlaceDetailScreen(
 
             Spacer(Modifier.height(10.dp))
 
-            PlaceHorizontalListWithHeader("주변에 있는 또다른 장소", state.nearbyPlaces)
+            PlaceListWithHeader("주변에 있는 또다른 장소", state.nearbyPlaces)
 
             Spacer(Modifier.height(10.dp))
 
-            PlaceHorizontalListWithHeader("이 장소는 어때요?", state.similarPlaces)
+            PlaceListWithHeader("이 장소는 어때요?", state.similarPlaces)
 
             Spacer(Modifier.height(10.dp))
 
@@ -217,6 +195,12 @@ fun PlaceDetailScreen(
             ) {
 
             }
+
+            Spacer(Modifier.height(10.dp))
+
+            Header(title = "위치 보기")
+
+            PlaceDetailMapCard(placeState = placeState)
 
             Spacer(Modifier.navigationBarsHeight(additional = 20.dp))
 

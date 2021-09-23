@@ -35,7 +35,7 @@ import app.hdj.datepick.android.ui.screens.others.web.webScreen
 import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
 import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
 import app.hdj.datepick.ui.components.BottomNavigationProperty
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.BaseScaffold
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
@@ -79,7 +79,7 @@ fun DatePickApp() {
         LocalSnackBarPresenter provides snackBarPresenter
     ) {
 
-        DatePickScaffold(
+        BaseScaffold(
             scaffoldState = scaffoldState,
             bottomBar = {
 

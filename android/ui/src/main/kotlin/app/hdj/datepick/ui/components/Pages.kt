@@ -14,7 +14,7 @@ import kotlinx.coroutines.yield
 
 @ExperimentalPagerApi
 @Composable
-fun <T> DatePickPager(
+fun <T> ViewPager(
     modifier: Modifier = Modifier,
     list: List<T>,
     pagerState: PagerState = rememberPagerState(pageCount = list.size),

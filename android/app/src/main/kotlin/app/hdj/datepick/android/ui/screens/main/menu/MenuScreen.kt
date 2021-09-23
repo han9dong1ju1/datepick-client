@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.components.ProfileImage
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.PreviewScope
@@ -28,16 +27,10 @@ import app.hdj.datepick.android.ui.providers.preview.FakeUserPreviewProvider
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.domain.model.user.User
-import app.hdj.datepick.ui.animation.materialTransitionYaxisIn
-import app.hdj.datepick.ui.animation.materialTransitionYaxisOut
-import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
-import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
 import app.hdj.datepick.ui.components.*
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.isFirstItemScrolled
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -56,35 +49,15 @@ fun MenuScreen(
 //    val me = LocalMe.current
     val me = FakeUserPreviewProvider().values.first()
 
-    DatePickScaffold(
+    BaseScaffold(
         Modifier.fillMaxSize(),
         topBar = {
             val elevationAnimate by animateDpAsState(targetValue = if (isHeaderScrolled) AppBarDefaults.TopAppBarElevation else 0.dp)
 
-            DatePickTopAppBar(
+            TitleAnimatedTopAppBar(
+                isTitleVisible = isHeaderScrolled,
                 elevation = elevationAnimate,
-                navigationIcon = {
-                    Spacer(modifier = Modifier.width(16.dp))
-                    AnimatedVisibility(
-                        isHeaderScrolled,
-                        enter = materialTransitionZaxisIn,
-                        exit = materialTransitionZaxisOut
-                    ) {
-                        ProfileImage(
-                            modifier = Modifier.size(24.dp),
-                            profileImageUrl = me?.profileImageUrl
-                        )
-                    }
-                },
-                title = {
-                    AnimatedVisibility(
-                        isHeaderScrolled,
-                        enter = materialTransitionYaxisIn,
-                        exit = materialTransitionYaxisOut
-                    ) {
-                        Text(text = "전체 메뉴")
-                    }
-                },
+                title = { Text(text = "전체 메뉴") },
                 actions = {
                     IconButton(onClick = {
                         navController.navigateRoute(AppNavigationGraph.Settings.GeneralSettings)
@@ -129,7 +102,7 @@ fun ProfileScreenPreview(
 ) {
     PreviewScope {
         CompositionLocalProvider(LocalMe provides user) {
-            DatePickTheme {
+            BaseTheme {
                 MenuScreen(fakeMenuViewModel())
             }
         }

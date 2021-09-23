@@ -23,11 +23,10 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import timber.log.Timber
@@ -88,7 +87,7 @@ fun WebScreen(url: String) {
         }
     }
 
-    DatePickScaffold(
+    BaseScaffold(
         topBar = {
             DatePickTopAppBar(
                 navigationIcon = { TopAppBarBackButton(Icons.Rounded.Close) },

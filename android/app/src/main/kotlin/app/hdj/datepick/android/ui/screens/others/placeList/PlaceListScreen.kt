@@ -18,7 +18,7 @@ import app.hdj.datepick.android.ui.components.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.domain.onSucceed
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.utils.extract
 
@@ -37,7 +37,7 @@ fun PlaceListScreen(
 //        event(PlaceListViewModelDelegate.Event.Query(initialPlaceQuery))
     }
 
-    DatePickScaffold(modifier = Modifier.fillMaxSize(),
+    BaseScaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             DatePickTopAppBar(
                 title = {

@@ -1,6 +1,5 @@
 package app.hdj.datepick.android.ui.screens.others.userProfileEdit
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -12,7 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.PreviewScope
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.utils.extract
@@ -28,7 +27,7 @@ fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel()
 
     val scrollState = rememberScrollState()
 
-    DatePickScaffold(
+    BaseScaffold(
         topBar = {
             DatePickTopAppBar(
                 navigationIcon = { TopAppBarBackButton() }

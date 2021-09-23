@@ -109,7 +109,7 @@ val shapes = Shapes(
 )
 
 @Composable
-fun DatePickTheme(
+fun BaseTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(

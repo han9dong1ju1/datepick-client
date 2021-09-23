@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DatePickButton(
+fun BaseButton(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     iconTint: Color? = null,
@@ -54,7 +54,7 @@ fun DatePickCTAButton(
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
-    DatePickButton(
+    BaseButton(
         modifier,
         icon,
         text = text,
@@ -65,14 +65,14 @@ fun DatePickCTAButton(
 }
 
 @Composable
-fun DatePickUnAccentButton(
+fun UnAccentButton(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     text: String,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
-    DatePickButton(
+    BaseButton(
         modifier,
         icon,
         text = text,

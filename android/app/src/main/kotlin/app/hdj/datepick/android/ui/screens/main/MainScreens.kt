@@ -14,6 +14,10 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Main.*
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Main.Map
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
+import app.hdj.datepick.ui.animation.materialTransitionYaxisIn
+import app.hdj.datepick.ui.animation.materialTransitionYaxisOut
+import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
+import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
 import com.google.accompanist.navigation.animation.navigation
 
 fun NavGraphBuilder.mainScreens(
@@ -25,7 +29,9 @@ fun NavGraphBuilder.mainScreens(
 
     navigation(
         startDestination = Home.route,
-        route = AppNavigationGraph.Main.route
+        route = AppNavigationGraph.Main.route,
+        enterTransition = { _, _ -> materialTransitionYaxisIn() },
+        exitTransition = { _, _ -> materialTransitionYaxisOut(false)  }
     ) {
 
         appNavigationComposable(Home) {

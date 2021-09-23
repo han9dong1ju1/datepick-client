@@ -1,6 +1,7 @@
 package app.hdj.datepick.android.ui.screens.others.placeDetail
 
 import android.os.Parcelable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavGraphBuilder
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
@@ -59,6 +60,8 @@ fun NavGraphBuilder.placeDetailScreen() {
         val placeId =
             it.arguments?.getLong(ARGUMENT_PLACE_ID)
 
-        PlaceDetailScreen(placeId, place, fakePlaceDetailViewModel())
+        val vm = remember { fakePlaceDetailViewModel() }
+
+        PlaceDetailScreen(placeId, place, vm)
     }
 }

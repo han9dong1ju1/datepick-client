@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Logo
 import app.hdj.datepick.ui.components.DatePickTopAppBar
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 
 @Composable
 fun HomeScreenTopBar(
@@ -70,7 +70,7 @@ fun HomeScreenTopBar(
 @Composable
 @Preview
 fun HomeScreenTopBarPreview() {
-    DatePickTheme {
+    BaseTheme {
         HomeScreenTopBar(true) {}
     }
 }

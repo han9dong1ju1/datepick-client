@@ -15,11 +15,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 
-val emptyDialogScope = object : DialogScope {
-    override fun dismiss() {
-
-    }
-}
+val emptyDialogScope = DialogScope { }
 
 @Composable
 fun DialogScope(
@@ -73,11 +69,7 @@ fun DatePickDialog(
             properties = DialogProperties(dismissOnBackPress, dismissOnClickOutside)
         ) {
             content(
-                object : DialogScope {
-                    override fun dismiss() {
-                        onDismiss()
-                    }
-                }
+                DialogScope { onDismiss() }
             )
         }
 
@@ -141,7 +133,7 @@ fun DialogScope.DialogButtonContent(
 
         if (cancelButton != null) {
 
-            DatePickUnAccentButton(
+            UnAccentButton(
                 modifier = Modifier
                     .weight(1f)
                     .height(50.dp),

@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 
 @Composable
 fun Header(title: String) {
@@ -26,7 +26,7 @@ fun Header(title: String) {
 @Composable
 @Preview(uiMode = UI_MODE_NIGHT_NO)
 fun HeaderLightPreview() {
-    DatePickTheme {
+    BaseTheme {
         Header(title = "오늘의 코스")
     }
 }
@@ -34,7 +34,7 @@ fun HeaderLightPreview() {
 @Composable
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 fun HeaderDarkPreview() {
-    DatePickTheme {
+    BaseTheme {
         Header(title = "오늘의 코스")
     }
 }

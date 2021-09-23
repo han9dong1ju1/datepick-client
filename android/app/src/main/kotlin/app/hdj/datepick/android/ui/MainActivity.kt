@@ -14,7 +14,7 @@ import app.hdj.datepick.android.ui.StatusBarMode.*
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.ProvideDeviceType
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import coil.ImageLoader
 import coil.compose.LocalImageLoader
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 ProvideToastPresenter {
-                    DatePickTheme {
+                    BaseTheme {
                         ProvideWindowInsets {
                             ProvideDeviceType {
                                 DatePickApp()

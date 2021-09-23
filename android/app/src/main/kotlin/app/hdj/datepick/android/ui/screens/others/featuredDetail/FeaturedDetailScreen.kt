@@ -33,10 +33,10 @@ import app.hdj.datepick.android.ui.StatusBarMode
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.featured.Featured
-import app.hdj.datepick.ui.components.DatePickScaffold
+import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.DatePickTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.*
 import coil.size.Scale
 
@@ -84,7 +84,7 @@ fun FeaturedDetailScreen(
         }
     }
 
-    DatePickScaffold(
+    BaseScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
 
@@ -296,7 +296,7 @@ private fun LazyListScope.featuredDetailTopHeader(featured: Featured) {
 @Composable
 @Preview
 fun FeaturedDetailScreenPreview() {
-    DatePickTheme {
+    BaseTheme {
         FeaturedDetailScreen(vm = fakeFeaturedDetailViewModel())
     }
 }

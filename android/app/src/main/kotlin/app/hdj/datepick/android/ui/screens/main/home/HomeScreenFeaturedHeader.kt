@@ -22,8 +22,8 @@ import app.hdj.datepick.domain.isStateFailed
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.animation.*
-import app.hdj.datepick.ui.components.DatePickPager
-import app.hdj.datepick.ui.styles.DatePickTheme
+import app.hdj.datepick.ui.components.ViewPager
+import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 import coil.size.Scale
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -141,7 +141,7 @@ private fun HomeScreenFeaturedPager(
                 .background(Color.Black.copy(0.4f))
         )
 
-        DatePickPager(
+        ViewPager(
             list = list,
             pagerState = pagerState,
             autoScrollDelay = 4000,
@@ -171,7 +171,7 @@ private fun HomeScreenFeaturedPager(
 fun HomeScreenFeaturedPagerPreview(
     @PreviewParameter(FakeFeaturedPreviewProvider::class) featuredList: List<Featured>
 ) {
-    DatePickTheme {
+    BaseTheme {
         HomeScreenFeaturedHeader(LoadState.success(featuredList)) {}
     }
 }

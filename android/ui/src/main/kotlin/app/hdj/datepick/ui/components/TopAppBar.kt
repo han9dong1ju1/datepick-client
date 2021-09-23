@@ -1,6 +1,7 @@
 package app.hdj.datepick.ui.components
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,6 +15,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import app.hdj.datepick.ui.animation.PopFromBottomVisibility
+import app.hdj.datepick.ui.animation.materialTransitionYaxisIn
+import app.hdj.datepick.ui.animation.materialTransitionYaxisOut
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
@@ -27,6 +31,37 @@ fun TopAppBarBackButton(
     IconButton(onClick = { backDispatcher?.onBackPressed() }) {
         Icon(imageVector = icon, null, tint = contentColor)
     }
+}
+
+@Composable
+fun TitleAnimatedTopAppBar(
+    isTitleVisible: Boolean,
+    modifier: Modifier = Modifier,
+    title: @Composable () -> Unit = {},
+    contentPadding: PaddingValues = rememberInsetsPaddingValues(
+        insets = LocalWindowInsets.current.statusBars,
+        applyStart = true,
+        applyTop = true,
+        applyEnd = true,
+    ),
+    navigationIcon: @Composable (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {},
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
+    elevation: Dp = 0.dp,
+) {
+
+    DatePickTopAppBar(
+        modifier,
+        { PopFromBottomVisibility(isTitleVisible) { title() } },
+        contentPadding,
+        navigationIcon,
+        actions,
+        backgroundColor,
+        contentColor,
+        elevation
+    )
+
 }
 
 @Composable
