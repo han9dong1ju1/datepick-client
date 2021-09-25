@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ApiResponse<T>(
     @SerialName("message") val message : String?,
-    @SerialName("code") val code : Int,
+    @SerialName("error") val error : String?,
     @SerialName("data") val data : T?
 )

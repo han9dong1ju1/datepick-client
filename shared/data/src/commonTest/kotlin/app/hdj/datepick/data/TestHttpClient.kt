@@ -23,6 +23,7 @@ import kotlinx.serialization.*
 val DefaultTestHttpClient = TestDatePickHttpClient()
 
 fun TestDatePickHttpClient(
+    customStatusCode: HttpStatusCode? = null,
     customApiResponse: ApiResponse<*>? = null
 ) = DatePickHttpClient(
     MockEngine,
@@ -30,12 +31,12 @@ fun TestDatePickHttpClient(
     TestAndroidAppInfo
 ) {
 
-    if (customApiResponse != null) {
+    if (customApiResponse != null && customStatusCode != null) {
         engine {
             addHandler {
                 respond(
                     content = kotlinx.serialization.json.Json.encodeToString(customApiResponse),
-                    status = HttpStatusCode(customApiResponse.code, customApiResponse.message),
+                    status = customStatusCode,
                     headers = headersOf(
                         HttpHeaders.ContentType,
                         ContentType.Application.Json.toString()
@@ -74,7 +75,8 @@ fun TestDatePickHttpClient(
 
         validateResponse {
             val response = it.receive<ApiResponse<Unit?>>()
-            if (response.code > 300) throw ClientRequestException(it, response.message)
+            val error = response.error
+            if (error != null) throw ClientRequestException(it, error)
         }
 
         handleResponseException { exception ->
