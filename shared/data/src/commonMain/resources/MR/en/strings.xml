@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_notice_or_event">Notice or Event</string>
+    <string name="title_notice">Notices</string>
+    <string name="title_event">Events</string>
     <string name="title_course_recommendation">Course Recommendation</string>
     <string name="title_pick">Pick</string>
 

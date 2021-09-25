@@ -10,10 +10,15 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import app.hdj.datepick.android.service.PushNotificationManager
 import app.hdj.datepick.android.ui.StatusBarMode.*
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.ProvideDeviceType
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
+import app.hdj.datepick.android.utils.DEEPLINK_URL
+import app.hdj.datepick.android.utils.EXTERNAL_DEEPLINK_URL
+import app.hdj.datepick.android.utils.datePickNavDeepLink
+import app.hdj.datepick.domain.model.pushNotification.PushNotificationData
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import coil.ImageLoader
@@ -21,11 +26,15 @@ import coil.compose.LocalImageLoader
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val appViewModel by viewModels<DatePickAppViewModel>()
+
+    @Inject
+    lateinit var pushNotificationManager: PushNotificationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashWasDisplayed = savedInstanceState != null
