@@ -14,7 +14,7 @@ data class PlaceResponse(
     override val longitude: Double,
     override val rating: Double,
     override val isPicked: Boolean,
-    override val photos: List<String>,
+    override val photo: String?,
 ) : Place
 
 @Serializable

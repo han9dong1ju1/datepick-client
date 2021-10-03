@@ -12,7 +12,7 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.PreviewScope
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.DatePickTopAppBar
+import app.hdj.datepick.ui.components.BaseTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.utils.extract
 
@@ -29,7 +29,7 @@ fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel()
 
     BaseScaffold(
         topBar = {
-            DatePickTopAppBar(
+            BaseTopAppBar(
                 navigationIcon = { TopAppBarBackButton() }
             )
         }

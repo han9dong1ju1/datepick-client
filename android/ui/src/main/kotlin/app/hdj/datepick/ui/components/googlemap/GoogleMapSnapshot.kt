@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addMarker
 import com.google.maps.android.ktx.awaitMap
@@ -13,9 +14,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun GoogleMapSnapshot(location: LatLng, zoom : Float = 15f) {
-
-    val map = rememberMapViewWithLifecycle()
+fun GoogleMapSnapshot(
+    map : MapView = rememberMapViewWithLifecycle(),
+    location: LatLng, zoom: Float = 15f
+) {
 
     var mapBitmap by remember { mutableStateOf<Bitmap?>(null) }
     val coroutineScope = rememberCoroutineScope()

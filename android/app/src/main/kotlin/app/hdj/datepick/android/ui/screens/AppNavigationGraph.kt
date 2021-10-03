@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
-import androidx.core.os.bundleOf
 import androidx.navigation.*
 import androidx.navigation.compose.NamedNavArgument
 import androidx.navigation.compose.navArgument
@@ -18,12 +17,11 @@ import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.NestedNavigationGraph
-import app.hdj.datepick.ui.utils.putArguments
 import com.google.accompanist.navigation.animation.composable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 fun NavController.navigateRoute(navigationGraph: NavigationGraph) {
-    val argument = navigationGraph.argument
-    if (argument != null) putArguments(argument)
     navigate(navigationGraph.route)
 }
 
@@ -78,18 +76,23 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
     }
     /* Main End */
 
-    object FeaturedDetail : AppNavigationGraph("featured/{featuredId}") {
+    object FeaturedDetail : AppNavigationGraph("featured/{featuredId}?featured={featured}") {
         const val ARGUMENT_FEATURED_ID = "featuredId"
         const val ARGUMENT_FEATURED = "featured"
 
         fun graphWithArgument(featured: Featured) =
             NavigationGraph(
-                "featured/${featured.id}",
-                bundleOf(ARGUMENT_FEATURED to FeaturedNavigationArgument.fromFeatured(featured))
+                "featured/${featured.id}?featured=${
+                    Json.encodeToString(FeaturedNavigationArgument.fromFeatured(featured))
+                }"
             )
 
         override val arguments: List<NamedNavArgument> = listOf(
-            navArgument(ARGUMENT_FEATURED_ID) { type = NavType.LongType }
+            navArgument(ARGUMENT_FEATURED_ID) { type = NavType.LongType },
+            navArgument(ARGUMENT_FEATURED) {
+                type = NavType.StringType
+                nullable = true
+            }
         )
 
         override val deeplinks: List<NavDeepLink> = listOf(
@@ -99,12 +102,18 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     }
 
-    object Images : AppNavigationGraph("images") {
+    object Images : AppNavigationGraph("images?images={images}") {
         const val ARGUMENT_IMAGES = "images"
 
-        fun graphWithArgument(argument : ImagesScreenArgument) = NavigationGraph(
-            "images",
-            bundleOf(ARGUMENT_IMAGES to argument)
+        override val arguments = listOf(
+            navArgument(ARGUMENT_IMAGES) {
+                type = NavType.StringType
+                nullable = true
+            }
+        )
+
+        fun graphWithArgument(argument: ImagesScreenArgument) = NavigationGraph(
+            "images?images=${Json.encodeToString(argument)}"
         )
     }
 
@@ -118,17 +127,20 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         const val ARGUMENT_COURSE_ID = "courseId"
     }
 
-    object PlaceDetail : AppNavigationGraph("place/{placeId}") {
+    object PlaceDetail : AppNavigationGraph("place/{placeId}?place={place}") {
         const val ARGUMENT_PLACE_ID = "placeId"
         const val ARGUMENT_PLACE = "place"
 
         fun graphWithArgument(place: Place) = NavigationGraph(
-            "place/${place.id}",
-            bundleOf(ARGUMENT_PLACE to PlaceNavigationArgument.fromPlace(place))
+            "place/${place.id}?place=${Json.encodeToString(PlaceNavigationArgument.fromPlace(place))}"
         )
 
         override val arguments: List<NamedNavArgument> = listOf(
-            navArgument(ARGUMENT_PLACE_ID) { type = NavType.LongType }
+            navArgument(ARGUMENT_PLACE_ID) { type = NavType.LongType },
+            navArgument(ARGUMENT_PLACE) {
+                type = NavType.StringType
+                nullable = true
+            },
         )
 
         override val deeplinks: List<NavDeepLink> = listOf(
@@ -167,10 +179,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
     object Web : AppNavigationGraph("web?url={url}") {
         const val ARGUMENT_URL = "url"
 
-        fun graphWithArgument(url: String) = NavigationGraph(
-            "web?url=$url",
-            bundleOf(ARGUMENT_URL to url)
-        )
+        fun graphWithArgument(url: String) = NavigationGraph("web?url=$url")
 
         override val arguments: List<NamedNavArgument> = listOf(
             navArgument(ARGUMENT_URL) { type = NavType.StringType }

@@ -20,7 +20,7 @@ object PlaceMapper : Mapper<PlaceEntity, Place> {
         override val longitude: Double = this@asDomain.longitude
         override val rating: Double = this@asDomain.rating
         override val isPicked: Boolean = this@asDomain.isPicked
-        override val photos: List<String> = this@asDomain.photos
+        override val photo: String? = this@asDomain.photo
     }
 
     override fun Place.asTable(): PlaceEntity =
@@ -36,7 +36,7 @@ object PlaceMapper : Mapper<PlaceEntity, Place> {
             latitude,
             longitude,
             rating,
-            photos,
+            photo,
             Clock.System.now().epochSeconds
         )
 

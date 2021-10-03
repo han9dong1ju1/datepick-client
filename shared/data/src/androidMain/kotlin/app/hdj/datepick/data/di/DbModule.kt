@@ -24,10 +24,7 @@ class DbModule {
     @Provides
     @Singleton
     fun provideDb(dbDriver: SqlDriver) =
-        DatePickDatabase(
-            dbDriver,
-            PlaceEntity.Adapter(ListStringColumnAdapter)
-        )
+        DatePickDatabase(dbDriver)
 
     @Provides
     @Singleton

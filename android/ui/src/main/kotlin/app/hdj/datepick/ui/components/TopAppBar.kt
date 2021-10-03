@@ -1,26 +1,23 @@
 package app.hdj.datepick.ui.components
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import app.hdj.datepick.ui.animation.PopFromBottomVisibility
-import app.hdj.datepick.ui.animation.materialTransitionYaxisIn
-import app.hdj.datepick.ui.animation.materialTransitionYaxisOut
+import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.insets.ui.TopAppBar
+import me.onebone.toolbar.CollapsingToolbarScope
 
 @Composable
 fun TopAppBarBackButton(
@@ -34,8 +31,7 @@ fun TopAppBarBackButton(
 }
 
 @Composable
-fun TitleAnimatedTopAppBar(
-    isTitleVisible: Boolean,
+fun BaseTopAppBar(
     modifier: Modifier = Modifier,
     title: @Composable () -> Unit = {},
     contentPadding: PaddingValues = rememberInsetsPaddingValues(
@@ -50,10 +46,78 @@ fun TitleAnimatedTopAppBar(
     contentColor: Color = contentColorFor(backgroundColor),
     elevation: Dp = 0.dp,
 ) {
-
-    DatePickTopAppBar(
+    TopAppBar(
+        {
+            ProvideTextStyle(value = MaterialTheme.typography.h5) {
+                CompositionLocalProvider(
+                    LocalContentAlpha provides ContentAlpha.high,
+                    content = title
+                )
+            }
+        },
         modifier,
-        { PopFromBottomVisibility(isTitleVisible) { title() } },
+        contentPadding,
+        navigationIcon,
+        actions,
+        backgroundColor,
+        contentColor,
+        elevation
+    )
+}
+
+@Composable
+fun CollapsingToolbarScope.BaseCollapsingTopBar(
+    modifier: Modifier = Modifier,
+    background: @Composable () -> Unit = {},
+    content: @Composable (PaddingValues) -> Unit = {},
+    titleWhenCollapsed: Alignment,
+    titleWhenExpanded: Alignment,
+    contentPadding: PaddingValues = rememberInsetsPaddingValues(
+        insets = LocalWindowInsets.current.statusBars,
+        applyStart = true,
+        applyTop = true,
+        applyEnd = true,
+    ),
+    navigationIcon: @Composable (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {},
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
+    elevation: Dp = 0.dp,
+) {
+    var progress by remember { mutableStateOf(0f) }
+
+    background()
+
+    Row(
+        modifier = Modifier
+            .statusBarsHeight(AppBarHeight)
+            .road(titleWhenCollapsed, titleWhenExpanded),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+
+        ProvideTextStyle(value = MaterialTheme.typography.h5) {
+            CompositionLocalProvider(
+                LocalContentAlpha provides ContentAlpha.high,
+                content = {
+
+                    val startMargin = (72 + (20 - 72) * progress).dp
+
+                    content(
+                        PaddingValues(
+                            top = contentPadding.calculateTopPadding(),
+                            start = (if (navigationIcon != null) startMargin else 16.dp) - AppBarHorizontalPadding,
+                            end = AppBarHorizontalPadding
+                        )
+                    )
+                }
+            )
+        }
+    }
+
+    BaseTopAppBar(
+        modifier
+            .progress { progress = it },
+        {},
         contentPadding,
         navigationIcon,
         actions,
@@ -62,87 +126,12 @@ fun TitleAnimatedTopAppBar(
         elevation
     )
 
-}
-
-@Composable
-fun DatePickTopAppBar(
-    modifier: Modifier = Modifier,
-    title: @Composable () -> Unit = {},
-    contentPadding: PaddingValues = rememberInsetsPaddingValues(
-        insets = LocalWindowInsets.current.statusBars,
-        applyStart = true,
-        applyTop = true,
-        applyEnd = true,
-    ),
-    navigationIcon: @Composable (() -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit = {},
-    backgroundColor: Color = MaterialTheme.colors.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
-    elevation: Dp = 0.dp,
-) {
-
-    Surface(
-        color = backgroundColor,
-        elevation = elevation,
-        contentColor = contentColor,
-        shape = RectangleShape,
-        modifier = modifier
-    ) {
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(contentPadding)
-                    .height(AppBarHeight),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically,
-                content = {
-                    if (navigationIcon == null) {
-                        Spacer(TitleInsetWithoutIcon)
-                    } else {
-                        Row(TitleIconModifier, verticalAlignment = Alignment.CenterVertically) {
-                            CompositionLocalProvider(
-                                LocalContentAlpha provides ContentAlpha.high,
-                                content = navigationIcon
-                            )
-                        }
-                    }
-
-                    Row(
-                        Modifier
-                            .fillMaxHeight()
-                            .weight(1f),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        ProvideTextStyle(value = MaterialTheme.typography.h5) {
-                            CompositionLocalProvider(
-                                LocalContentAlpha provides ContentAlpha.high,
-                                content = title
-                            )
-                        }
-                    }
-
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-                        Row(
-                            Modifier.fillMaxHeight(),
-                            horizontalArrangement = Arrangement.End,
-                            verticalAlignment = Alignment.CenterVertically,
-                            content = actions
-                        )
-                    }
-                }
-            )
-        }
-
-    }
 
 }
 
 private val AppBarHeight = 56.dp
 private val AppBarHorizontalPadding = 4.dp
-
 private val TitleInsetWithoutIcon = Modifier.width(16.dp - AppBarHorizontalPadding)
-
 private val TitleIconModifier = Modifier
     .fillMaxHeight()
-    .width(56.dp - AppBarHorizontalPadding)
+    .width(72.dp - AppBarHorizontalPadding)

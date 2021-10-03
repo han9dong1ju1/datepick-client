@@ -1,7 +1,8 @@
 package app.hdj.datepick.android.ui.components.list
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -10,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -21,13 +21,9 @@ import app.hdj.datepick.android.ui.providers.preview.FakePlaceBlogReviewPreviewP
 import app.hdj.datepick.android.utils.loadNaverBlogUrlPreviewImage
 import app.hdj.datepick.domain.fold
 import app.hdj.datepick.domain.model.place.BlogReview
-import app.hdj.datepick.ui.animation.SwitchFromBottomContent
 import app.hdj.datepick.ui.components.NetworkImage
-import app.hdj.datepick.ui.components.Shimmer
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.*
-import coil.compose.ImagePainter
-import coil.size.Scale
 
 @Composable
 fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogReview) -> Unit) {

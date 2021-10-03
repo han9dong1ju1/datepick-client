@@ -42,6 +42,23 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
+
+private val mainNavigationRoutesWithIcon = listOf(
+    BottomNavigationProperty(Icons.Rounded.Home, "홈", AppNavigationGraph.Main.Home),
+    BottomNavigationProperty(Icons.Rounded.Map, "지도", AppNavigationGraph.Main.Map),
+    BottomNavigationProperty(
+        Icons.Rounded.Favorite,
+        "픽",
+        AppNavigationGraph.Main.Pick
+    ),
+    BottomNavigationProperty(
+        Icons.Rounded.Person,
+        "프로필",
+        AppNavigationGraph.Main.Profile
+    ),
+)
+
+
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 @Composable
 fun DatePickApp() {
@@ -82,22 +99,6 @@ fun DatePickApp() {
         BaseScaffold(
             scaffoldState = scaffoldState,
             bottomBar = {
-
-                val mainNavigationRoutesWithIcon = listOf(
-                    BottomNavigationProperty(Icons.Rounded.Home, "홈", AppNavigationGraph.Main.Home),
-                    BottomNavigationProperty(Icons.Rounded.Map, "지도", AppNavigationGraph.Main.Map),
-                    BottomNavigationProperty(
-                        Icons.Rounded.Favorite,
-                        "픽",
-                        AppNavigationGraph.Main.Pick
-                    ),
-                    BottomNavigationProperty(
-                        Icons.Rounded.Person,
-                        "프로필",
-                        AppNavigationGraph.Main.Profile
-                    ),
-                )
-
                 MainBottomNavigation(mainNavigationRoutesWithIcon, currentRoute)
             }
         ) {
@@ -139,16 +140,6 @@ fun DatePickApp() {
 
         }
 
-    }
-
-    remember(currentRoute) {
-        val mode = if (AppNavigationGraph.Main.Home.route != currentRoute) {
-            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_SYSTEM)
-        } else {
-            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_FORCE_WHITE)
-        }
-        appViewModel.event(mode)
-        mode
     }
 
 }

@@ -1,37 +1,30 @@
 package app.hdj.datepick.android.ui.screens.main.home
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStatusBarMode
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
-import app.hdj.datepick.android.ui.StatusBarMode
+import app.hdj.datepick.android.ui.components.list.FeaturedPagerItem
 import app.hdj.datepick.android.ui.components.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.android.ui.screens.openFeatured
 import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.android.utils.onSucceedComposable
 import app.hdj.datepick.ui.components.BaseScaffold
+import app.hdj.datepick.ui.components.BaseTopAppBar
 import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.styles.BaseTheme
-import app.hdj.datepick.ui.styles.onSurface50
 import app.hdj.datepick.ui.utils.extract
-import app.hdj.datepick.ui.utils.isFirstItemScrolled
 import app.hdj.datepick.ui.utils.verticalMargin
 
 private val TOP_FEATURED_PAGER_HEIGHT = 400.dp
@@ -48,50 +41,29 @@ fun HomeScreen(
     val navController = LocalAppNavController.current
     val appViewModel = LocalDatePickAppViewModel.current
 
-    val isHeaderCollapsed = lazyListState.isFirstItemScrolled(limit = TOP_FEATURED_PAGER_HEIGHT / 3)
-
-    remember(isHeaderCollapsed) {
-        val mode = if (isHeaderCollapsed) {
-            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_SYSTEM_WITH_TRANSPARENCY)
-        } else {
-            ChangeStatusBarMode(StatusBarMode.STATUS_BAR_FORCE_WHITE)
-        }
-        appViewModel.event(mode)
-        mode
-    }
-
     BaseScaffold(
         topBar = {
-            HomeScreenTopBar(isHeaderCollapsed) {
-
-            }
-        },
-        bottomBar = {
-            Surface(modifier = Modifier
-                .height(56.dp)
-                .graphicsLayer {
-
-                }) {
-
-            }
+            BaseTopAppBar()
         }
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(it),
             state = lazyListState,
             content = {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(TOP_FEATURED_PAGER_HEIGHT)
-                            .background(MaterialTheme.colors.onSurface50)
-                    ) {
-                        HomeScreenFeaturedHeader(state.featured, navController::openFeatured)
-                    }
-                }
 
                 verticalMargin(10.dp)
+
+                item {
+                    state.featured.onSucceedComposable {
+                        ViewPager(
+                            modifier = Modifier.fillMaxWidth(),
+                            list = it,
+                            itemSpacing = (-30).dp
+                        ) { item, _ ->
+                            FeaturedPagerItem(item, navController::openFeatured)
+                        }
+                    }
+                }
 
                 item {
                     Header(title = "이 장소들은 어때요?")
@@ -105,21 +77,6 @@ fun HomeScreen(
                             }
                         }
                     }
-                }
-
-                verticalMargin(10.dp)
-
-                val place = FakePlacePreviewProvider().values
-                    .first()
-                    .first()
-
-                items((0..10).toList()) {
-                    Text(
-                        text = "$it", modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { navController.openPlace(place) }
-                            .padding(20.dp)
-                    )
                 }
 
             }

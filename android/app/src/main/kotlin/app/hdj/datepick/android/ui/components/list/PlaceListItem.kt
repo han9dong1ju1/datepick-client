@@ -54,7 +54,7 @@ fun PlaceVerticalListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
                 ImmutableRatingBar(starSize = 12.dp, rating = place.rating.toFloat())
             }
 
-            if (place.photos.isNotEmpty()) {
+            if (place.photo != null) {
 
                 Image(
                     modifier = Modifier
@@ -65,7 +65,7 @@ fun PlaceVerticalListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
                             t2t() + b2b() + e2e()
                         ),
                     contentScale = ContentScale.Crop,
-                    painter = rememberUrlImagePainter(request = place.photos.firstOrNull()) {
+                    painter = rememberUrlImagePainter(request = place.photo) {
                         scale(Scale.FIT)
                     },
                     contentDescription = null

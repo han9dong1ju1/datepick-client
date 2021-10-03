@@ -1,6 +1,5 @@
 package app.hdj.datepick.android.ui.screens.others.image
 
-import android.os.Parcelable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,36 +17,33 @@ import androidx.navigation.NavGraphBuilder
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.StatusBarMode
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Images.ARGUMENT_IMAGES
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.DatePickTopAppBar
+import app.hdj.datepick.ui.components.BaseTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.utils.extract
-import app.hdj.datepick.ui.utils.getArgument
+import app.hdj.datepick.ui.utils.getJsonDataArgument
 import coil.compose.rememberImagePainter
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class ImagesScreenArgument(
     val title: String,
     val images: List<String>,
     val selectedIndex: Int
-) : Parcelable
+)
 
 fun NavGraphBuilder.imagesScreen() {
 
     appNavigationComposable(AppNavigationGraph.Images) {
 
-        val navController = LocalAppNavController.current
-
         val images =
-            navController.getArgument<ImagesScreenArgument>(ARGUMENT_IMAGES)
+            it.getJsonDataArgument<ImagesScreenArgument>(ARGUMENT_IMAGES)
 
         images?.let { ImagesScreen(imagesArg = it) }
     }
@@ -76,7 +72,7 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
         modifier = Modifier.fillMaxSize(),
         backgroundColor = Color.Black,
         topBar = {
-            DatePickTopAppBar(
+            BaseTopAppBar(
                 title = { Text(imagesArg.title, color = Color.White) },
                 navigationIcon = { TopAppBarBackButton(contentColor = Color.White) },
                 backgroundColor = Color.Transparent

@@ -31,6 +31,7 @@ fun fakePlaceDetailViewModel() = object : PlaceDetailViewModelDelegate {
             state.emit(
                 State(
                     LoadState.success(FakePlacePreviewProvider().values.first().first()),
+                    LoadState.success((0..10).map { "https://postfiles.pstatic.net/MjAyMTAyMjNfMjQ5/MDAxNjE0MDQ4NDEwMDYy.JCXTJWhG8eUrNQjRkKtJpB7C3fDc5wyMm66xiG7sCcIg.Dxlm9hUXzUgHSxq4e0bz40d3nxMthzXMffnvyDUCyD0g.JPEG.hyonikim/IMG_1835.jpg?type=w773" }),
                     LoadState.success(FakePlacePreviewProvider().values.first()),
                     LoadState.success(FakePlacePreviewProvider().values.first()),
                     LoadState.success(FakePlaceBlogReviewPreviewProvider().values.first()),
@@ -49,6 +50,7 @@ interface PlaceDetailViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 
     data class State(
         val place: LoadState<Place> = LoadState.loading(),
+        val photos: LoadState<List<String>> = LoadState.loading(),
         val nearbyPlaces: LoadState<List<Place>> = LoadState.loading(),
         val similarPlaces: LoadState<List<Place>> = LoadState.loading(),
         val blogReviews: LoadState<List<BlogReview>> = LoadState.loading(),

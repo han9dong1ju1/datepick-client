@@ -19,7 +19,7 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.domain.onSucceed
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.DatePickTopAppBar
+import app.hdj.datepick.ui.components.BaseTopAppBar
 import app.hdj.datepick.ui.utils.extract
 
 @Composable
@@ -39,7 +39,7 @@ fun PlaceListScreen(
 
     BaseScaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            DatePickTopAppBar(
+            BaseTopAppBar(
                 title = {
                     // TODO Search Bar
                 },

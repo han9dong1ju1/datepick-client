@@ -1,26 +1,23 @@
 package app.hdj.datepick.android.ui.screens.others.placeDetail
 
-import android.os.Parcelable
-import androidx.compose.runtime.remember
 import androidx.navigation.NavGraphBuilder
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE_ID
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import app.hdj.datepick.domain.model.place.Place
-import app.hdj.datepick.ui.utils.getArgument
-import kotlinx.parcelize.Parcelize
+import app.hdj.datepick.ui.utils.getJsonDataArgument
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class PlaceCategoryNavigationArgument(
     override val category: String,
     override val type: String,
     override val subtype: String
-) : Place.Category, Parcelable
+) : Place.Category
 
-@Parcelize
+@Serializable
 data class PlaceNavigationArgument(
     override val id: Long,
     override val kakaoId: Long,
@@ -31,8 +28,8 @@ data class PlaceNavigationArgument(
     override val longitude: Double,
     override val rating: Double,
     override val isPicked: Boolean,
-    override val photos: List<String>,
-) : Place, Parcelable {
+    override val photo : String?,
+) : Place {
     companion object {
         fun fromPlace(place: Place) = with(place) {
             PlaceNavigationArgument(
@@ -45,7 +42,7 @@ data class PlaceNavigationArgument(
                 longitude,
                 rating,
                 isPicked,
-                photos
+                photo
             )
         }
     }
@@ -53,15 +50,12 @@ data class PlaceNavigationArgument(
 
 fun NavGraphBuilder.placeDetailScreen() {
     appNavigationComposable(PlaceDetail) {
-        val navController = LocalAppNavController.current
 
-        val place = navController.getArgument<PlaceNavigationArgument>(ARGUMENT_PLACE)
+        val place = it.getJsonDataArgument<PlaceNavigationArgument>(ARGUMENT_PLACE)
 
         val placeId =
             it.arguments?.getLong(ARGUMENT_PLACE_ID)
 
-        val vm = remember { fakePlaceDetailViewModel() }
-
-        PlaceDetailScreen(placeId, place, vm)
+        PlaceDetailScreen(placeId, place)
     }
 }

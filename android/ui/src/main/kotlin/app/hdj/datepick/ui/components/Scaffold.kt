@@ -2,7 +2,6 @@ package app.hdj.datepick.ui.components
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,6 +10,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import com.google.accompanist.insets.ui.LocalScaffoldPadding
 import com.google.accompanist.insets.ui.Scaffold
+import me.onebone.toolbar.*
 
 @Composable
 fun BaseScaffold(
@@ -55,4 +55,20 @@ fun BaseScaffold(
         contentPadding,
         content
     )
+}
+
+@Composable
+fun BaseCollapsingToolbarScaffold(
+    modifier: Modifier,
+    state: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
+    scrollStrategy: ScrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+    topBarModifier: Modifier = Modifier,
+    topBar: @Composable CollapsingToolbarScope.() -> Unit,
+    body: @Composable (PaddingValues) -> Unit
+) {
+    CollapsingToolbarScaffold(
+        modifier, state, scrollStrategy, topBarModifier, topBar
+    ) {
+        body(LocalScaffoldPadding.current)
+    }
 }

@@ -146,7 +146,7 @@ fun DialogScope.DialogButtonContent(
             Spacer(modifier = Modifier.width(10.dp))
         }
 
-        DatePickCTAButton(
+        CallToActionButton(
             modifier = Modifier
                 .weight(1f)
                 .height(50.dp),

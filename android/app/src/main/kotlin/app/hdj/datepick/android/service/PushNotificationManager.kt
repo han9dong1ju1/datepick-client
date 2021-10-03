@@ -12,11 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.os.bundleOf
-import androidx.navigation.NavDeepLinkBuilder
 import app.hdj.datepick.MR
-import app.hdj.datepick.android.ui.MainActivity
-import app.hdj.datepick.android.utils.DEEPLINK_URL
 import app.hdj.datepick.data.utils.res
 import app.hdj.datepick.domain.model.pushNotification.PushNotificationData
 import app.hdj.datepick.domain.model.pushNotification.PushNotificationData.PushNotificationType
@@ -40,6 +36,7 @@ internal data class PushNotificationChannelData(
 
 interface PushNotificationManager {
 
+    fun updateToken(token : String)
     fun showNotification(pushNotificationData: PushNotificationData)
 
 }
@@ -137,4 +134,9 @@ class PushNotificationManagerImp @Inject constructor(
             .build()
     }
 
+    override fun updateToken(token: String) {
+        launch {
+
+        }
+    }
 }

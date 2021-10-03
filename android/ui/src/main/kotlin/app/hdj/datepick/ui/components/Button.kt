@@ -47,7 +47,7 @@ fun BaseButton(
 }
 
 @Composable
-fun DatePickCTAButton(
+fun CallToActionButton(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     text: String,

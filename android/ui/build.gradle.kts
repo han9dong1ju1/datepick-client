@@ -4,6 +4,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
+    kotlin("plugin.serialization")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
 }
@@ -11,6 +12,8 @@ plugins {
 dependencies {
     implementation(project(":shared:utils"))
 
+    implementation(KotlinX.serialization.core)
+    implementation(KotlinX.serialization.json)
     api(AndroidX.appCompat)
     api(AndroidX.activityKtx)
     api(Google.android.material)

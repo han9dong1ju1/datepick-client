@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradient
+import androidx.compose.ui.graphics.LinearGradientShader
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -32,9 +35,17 @@ fun NavigationGraphBottomNavigation(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colors.surface)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colors.surface.copy(alpha = 0.0f),
+                        MaterialTheme.colors.surface.copy(alpha = 0.8f),
+                        MaterialTheme.colors.surface.copy(alpha = 0.95f),
+                        MaterialTheme.colors.surface
+                    )
+                )
+            )
     ) {
-        Divider(color = MaterialTheme.colors.onSurface.copy(alpha = 0.03f))
         BottomNavigation(
             backgroundColor = Color.Transparent,
             contentColor = MaterialTheme.colors.onBackground,
@@ -48,7 +59,7 @@ fun NavigationGraphBottomNavigation(
                 )
             )
         ) {
-            list.forEach { (icon, label, nav, badgeEnabled) ->
+            list.forEach { (icon, _, nav, badgeEnabled) ->
                 BottomNavigationItem(
                     selected = nav.route == navController.currentScreenRoute(),
                     onClick = { navController.navigate(nav.route) },
@@ -61,7 +72,6 @@ fun NavigationGraphBottomNavigation(
                             Icon(icon, null)
                         }
                     },
-                    label = { Text(text = label) },
                     unselectedContentColor = LocalContentColor.current.copy(alpha = 0.2f)
                 )
             }

@@ -27,7 +27,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.DatePickTopAppBar
+import app.hdj.datepick.ui.components.BaseTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import timber.log.Timber
 
@@ -89,7 +89,7 @@ fun WebScreen(url: String) {
 
     BaseScaffold(
         topBar = {
-            DatePickTopAppBar(
+            BaseTopAppBar(
                 navigationIcon = { TopAppBarBackButton(Icons.Rounded.Close) },
                 actions = {
 

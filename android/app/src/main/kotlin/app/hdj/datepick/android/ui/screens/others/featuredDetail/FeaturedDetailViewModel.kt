@@ -6,7 +6,9 @@ import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.graphWithArgument
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.*
 import app.hdj.datepick.android.utils.createDynamicLink
+import app.hdj.datepick.domain.EmptyLoadState
 import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.LoadState.Companion.failed
 import app.hdj.datepick.domain.LoadState.Companion.loading
 import app.hdj.datepick.domain.LoadState.Companion.success
 import app.hdj.datepick.domain.isStateSucceed
@@ -44,11 +46,11 @@ interface FeaturedDetailViewModelDelegate : ViewModelDelegate<State, Effect, Eve
         val featured: LoadState<Featured> = loading(),
         val content: LoadState<String> = loading(),
         val courses: LoadState<List<Course>> = loading(),
-        val shareUrl: LoadState<String>? = null
+        val shareUrlLoadState: EmptyLoadState? = null
     )
 
     sealed class Effect {
-
+        class OpenShareMenu(val link: String) : Effect()
     }
 
     sealed class Event {
@@ -69,7 +71,7 @@ class FeaturedDetailViewModel @Inject constructor(
     private val previousFeaturedData = MutableStateFlow<Featured?>(null)
     private val featuredId = MutableStateFlow<Long?>(null)
 
-    private val shareUrl = MutableStateFlow<LoadState<String>?>(null)
+    private val shareUrlLoadState = MutableStateFlow<EmptyLoadState?>(null)
 
     private val featuredDetail = featuredId
         .flatMapConcat {
@@ -80,8 +82,8 @@ class FeaturedDetailViewModel @Inject constructor(
     override val state = combine(
         previousFeaturedData,
         featuredDetail,
-        shareUrl
-    ) { previousFeaturedData, featuredDetail, shareUrl ->
+        shareUrlLoadState
+    ) { previousFeaturedData, featuredDetail, shareUrlLoadState ->
 
         val fetchedFeatured = featuredDetail.map { it.meta }
 
@@ -93,7 +95,7 @@ class FeaturedDetailViewModel @Inject constructor(
             else loading(),
             featuredDetail.map { it.content },
             featuredDetail.map { it.courses },
-            shareUrl
+            shareUrlLoadState
         )
     }.stateIn(
         viewModelScope,
@@ -122,7 +124,7 @@ class FeaturedDetailViewModel @Inject constructor(
 
                     val featured = state.value.featured as LoadState.Success
 
-                    shareUrl.emit(loading())
+                    shareUrlLoadState.emit(loading())
 
                     val url = createDynamicLink(
                         graphWithArgument(featured = featured.data).route,
@@ -131,10 +133,14 @@ class FeaturedDetailViewModel @Inject constructor(
                         featured.data.photoUrl,
                         1000,
                         "1000"
-                    ).toString()
+                    )
 
-                    shareUrl.emit(success(url))
-
+                    if (url != null) {
+                        shareUrlLoadState.emit(success(Unit))
+                        effectChannel.send(Effect.OpenShareMenu(url.toString()))
+                    } else {
+                        shareUrlLoadState.emit(failed(Exception("Can't generate url")))
+                    }
                 }
 
             }

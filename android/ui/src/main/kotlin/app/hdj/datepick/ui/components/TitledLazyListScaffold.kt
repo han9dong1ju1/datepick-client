@@ -29,7 +29,7 @@ fun TitledLazyListScaffold(
         topBar = {
             Column(modifier = Modifier.fillMaxWidth()) {
 
-                DatePickTopAppBar(
+                BaseTopAppBar(
                     modifier = Modifier.fillMaxWidth(),
                     title = {
                         AnimatedVisibility(

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.DatePickTopAppBar
+import app.hdj.datepick.ui.components.BaseTopAppBar
 import app.hdj.datepick.ui.components.googlemap.*
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.styles.onSurface10
@@ -70,7 +70,7 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
     }
 
     BaseScaffold(Modifier.fillMaxSize(), topBar = {
-        DatePickTopAppBar()
+        BaseTopAppBar()
     }) {
 
         Box(modifier = Modifier.fillMaxSize()) {
