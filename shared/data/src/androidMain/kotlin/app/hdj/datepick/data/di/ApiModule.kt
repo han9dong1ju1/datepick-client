@@ -2,7 +2,7 @@ package app.hdj.datepick.data.di
 
 import app.hdj.datepick.data.api.*
 import app.hdj.datepick.utils.AppInfo
-import app.hdj.datepick.utils.Authenticator
+import app.hdj.datepick.domain.Authenticator
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

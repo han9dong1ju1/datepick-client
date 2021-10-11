@@ -17,7 +17,7 @@ import kotlinx.coroutines.yield
 fun <T> ViewPager(
     modifier: Modifier = Modifier,
     list: List<T>,
-    pagerState: PagerState = rememberPagerState(pageCount = list.size),
+    pagerState: PagerState = rememberPagerState(),
     itemSpacing: Dp = 0.dp,
     autoScrollDelay: Long = 0,
     content: @Composable PagerScope.(T, Int) -> Unit
@@ -30,9 +30,9 @@ fun <T> ViewPager(
                 yield()
                 delay(autoScrollDelay)
 
+                tween<Float>(500)
                 pagerState.animateScrollToPage(
-                    page = (pagerState.currentPage + 1) % (pagerState.pageCount),
-                    animationSpec = tween(500)
+                    page = (pagerState.currentPage + 1) % (pagerState.pageCount)
                 )
             }
         }
@@ -41,7 +41,8 @@ fun <T> ViewPager(
     HorizontalPager(
         modifier = modifier.fillMaxWidth(),
         state = pagerState,
-        itemSpacing = itemSpacing
+        itemSpacing = itemSpacing,
+        count = list.size
     ) {
         content(list[it], it)
     }

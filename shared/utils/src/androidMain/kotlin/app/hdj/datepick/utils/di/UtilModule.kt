@@ -2,10 +2,7 @@ package app.hdj.datepick.utils.di
 
 import android.content.Context
 import app.hdj.datepick.utils.AppInfo
-import app.hdj.datepick.utils.Authenticator
 import app.hdj.datepick.utils.BuildConfig
-import app.hdj.datepick.utils.FirebaseAuthenticator
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,9 +14,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 interface UtilModule {
 
-    @get:[Binds]
-    val FirebaseAuthenticator.authenticator: Authenticator
-
     companion object {
         @Provides
         @Singleton
@@ -29,6 +23,5 @@ interface UtilModule {
             AppInfo.Os.Android
         )
     }
-
 
 }

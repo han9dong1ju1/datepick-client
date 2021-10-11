@@ -2,10 +2,10 @@ package app.hdj.datepick.ui.utils
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLink
-import androidx.navigation.compose.NamedNavArgument
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 

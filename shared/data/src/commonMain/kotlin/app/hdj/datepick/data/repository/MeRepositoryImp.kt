@@ -3,6 +3,7 @@ package app.hdj.datepick.data.repository
 import app.hdj.datepick.data.api.UserApi
 import app.hdj.datepick.data.datastore.MeDataStore
 import app.hdj.datepick.data.request.UserProfileRequest
+import app.hdj.datepick.data.request.UserRegisterRequest
 import app.hdj.datepick.data.request.UserUnregisterRequest
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.emitState
@@ -65,16 +66,12 @@ class MeRepositoryImp @Inject constructor(
     }
 
     override fun register(
-        nickname: String,
-        profileImageUrl: String?,
-        gender: String?
-    ) = flow<LoadState<User>> {
+        provider : String,
+        token : String
+    ) = flow {
         emitState {
-            val request = UserProfileRequest(nickname, profileImageUrl, gender)
-            val response = userApi.register(request)
-            response.data
-        }.onSuccess {
-            meDataStore.save(it)
+            val request = UserRegisterRequest(provider, token)
+            userApi.register(request).data
         }
     }
 

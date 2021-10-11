@@ -1,18 +1,15 @@
 package app.hdj.datepick.data.api
 
 import app.hdj.datepick.utils.AppInfo
-import app.hdj.datepick.utils.Authenticator
+import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.utils.PlatformLogger
-import app.hdj.datepick.utils.exception.ApiResponseException
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 
 
@@ -52,7 +49,7 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
 
     defaultRequest {
         if (authenticator.idToken != null) {
-            header("Authentication", "Token ${authenticator.idToken}")
+            header("Authentication", "Bearer ${authenticator.idToken}")
         }
 
         contentType(ContentType.Application.Json)
@@ -61,7 +58,7 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
 
         url {
             protocol = URLProtocol.HTTPS
-            host = "odd-crab-0.loca.lt"
+            host = "empty-parrot-42.loca.lt"
         }
     }
 

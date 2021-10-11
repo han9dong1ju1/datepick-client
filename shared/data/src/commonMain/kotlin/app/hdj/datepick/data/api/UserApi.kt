@@ -2,6 +2,7 @@ package app.hdj.datepick.data.api
 
 import app.hdj.datepick.data.entity.UserResponse
 import app.hdj.datepick.data.request.UserProfileRequest
+import app.hdj.datepick.data.request.UserRegisterRequest
 import app.hdj.datepick.data.request.UserUnregisterRequest
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
@@ -14,7 +15,7 @@ interface UserApi : Api {
     suspend fun signIn(): ApiResponse<UserResponse?>
     suspend fun signOut(): ApiResponse<String>
     suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse>
-    suspend fun register(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse>
+    suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<Unit>
     suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String>
 }
 
@@ -33,8 +34,8 @@ open class UserApiImp @Inject constructor(override val client: HttpClient) : Use
     override suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse> =
         patch { body = userProfileRequest }
 
-    override suspend fun register(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse> =
-        post { body = userProfileRequest }
+    override suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<Unit> =
+        post { body = userRegisterRequest }
 
     override suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String> =
         post("unregister") { body = userUnregisterRequest }

@@ -1,6 +1,6 @@
 package app.hdj.datepick.data
 
-import app.hdj.datepick.utils.Authenticator
+import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.utils.TestConstants
 import dev.gitlive.firebase.auth.AuthCredential
 import dev.gitlive.firebase.auth.FirebaseUser
@@ -13,7 +13,7 @@ class MockFirebaseAuthenticator : Authenticator {
         throw UnsupportedOperationException("Not Supported in Test")
     }
 
-    override suspend fun signInGoogle(credential: AuthCredential) {
+    override suspend fun signInWithCredential(credential: AuthCredential) {
         throw UnsupportedOperationException("Not Supported in Test")
     }
 
