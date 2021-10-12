@@ -6,8 +6,6 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
-import androidx.navigation.compose.NamedNavArgument
-import androidx.navigation.compose.navArgument
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedNavigationArgument
 import app.hdj.datepick.android.ui.screens.others.image.ImagesScreenArgument
 import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceNavigationArgument
