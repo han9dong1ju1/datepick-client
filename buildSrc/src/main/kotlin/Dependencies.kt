@@ -55,4 +55,6 @@ object Utils {
 
     const val jsoup = "org.jsoup:jsoup:_"
 
+    const val composeMaterial3 = "androidx.compose.material3:material3:_"
+
 }

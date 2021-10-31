@@ -2,10 +2,9 @@ package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +30,7 @@ fun FeaturedPagerItem(
             .padding(20.dp)
     ) {
 
-        Card(
+        Surface(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp),
@@ -65,7 +64,7 @@ fun FeaturedPagerItem(
                             s2s(descriptionRef) + b2t(descriptionRef, 8.dp)
                         ),
                         text = featured.title,
-                        style = MaterialTheme.typography.h1,
+                        style = MaterialTheme.typography.headlineLarge,
                         color = Color.White
                     )
 
@@ -77,7 +76,7 @@ fun FeaturedPagerItem(
                                 s2s() + b2b()
                             ),
                         text = featured.description,
-                        style = MaterialTheme.typography.subtitle1,
+                        style = MaterialTheme.typography.bodySmall,
                         color = Color.White
                     )
 

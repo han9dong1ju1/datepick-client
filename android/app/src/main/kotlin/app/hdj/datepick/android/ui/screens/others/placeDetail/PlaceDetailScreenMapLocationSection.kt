@@ -1,21 +1,15 @@
 package app.hdj.datepick.android.ui.screens.others.placeDetail
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.hdj.datepick.android.utils.foldComposable
-import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.components.Header
-import app.hdj.datepick.ui.components.Shimmer
 import app.hdj.datepick.ui.components.googlemap.GoogleMapSnapshot
-import app.hdj.datepick.ui.styles.shapes
 import com.google.android.gms.maps.model.LatLng
 
 @Composable
@@ -38,8 +32,6 @@ private fun GoogleMapCard(
             val url = "https://place.map.kakao.com/${place.kakaoId}"
             onClicked(url)
         },
-        shape = shapes.medium,
-        elevation = 0.dp,
         modifier = GoogleMapCardModifier
     ) {
         GoogleMapSnapshot(location = LatLng(place.latitude, place.longitude))

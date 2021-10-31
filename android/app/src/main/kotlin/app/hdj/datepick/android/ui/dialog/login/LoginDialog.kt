@@ -48,85 +48,65 @@ fun NavGraphBuilder.loginDialog() {
             if (it != null) event(LoginViewModelDelegate.Event.RequestSignIn(AuthCredential(it)))
         }
 
-        DialogScope(navController) {
-            LoginDialogUi(
-                onGoogleLoginClicked = googleSignInRequest::launch
-            )
-        }
+
+//        DialogTextContent(title = "로그인", message = "더 많은 기능을 사용하기 위해 로그인해주세요.")
+//
+//        Spacer(modifier = Modifier.height(20.dp))
+//
+//        /*
+//        * Login Buttons
+//        * */
+//
+//        BaseButton(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(50.dp),
+//            border = BorderStroke(1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.1f)),
+//            text = "구글로 시작하기",
+//            colors = ButtonDefaults.buttonColors(
+//                backgroundColor = MaterialTheme.colors.surface,
+//                contentColor = MaterialTheme.colors.onSurface,
+//            ),
+//            icon = DatePickIcons.Google,
+//            iconTint = Color.Unspecified
+//        ) {
+//            onGoogleLoginClicked()
+//        }
+//
+//        Spacer(modifier = Modifier.height(10.dp))
+//
+//        BaseButton(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(50.dp),
+//            text = "카카오로 시작하기",
+//            colors = ButtonDefaults.buttonColors(
+//                backgroundColor = Color(0xFFFEE500),
+//                contentColor = Color(0xD9000000),
+//            ),
+//            icon = DatePickIcons.Kakao,
+//            iconTint = Color.Unspecified
+//        ) {
+//
+//        }
+//
+//        Spacer(modifier = Modifier.height(10.dp))
+//
+//        UnAccentButton(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(50.dp),
+//            text = "다음에 할래요",
+//        ) {
+//            dismiss()
+//        }
 
     }
-}
-
-@Composable
-fun DialogScope.LoginDialogUi(
-    onGoogleLoginClicked: () -> Unit
-) {
-
-    BottomSheetDialogUI {
-
-        DialogTextContent(title = "로그인", message = "더 많은 기능을 사용하기 위해 로그인해주세요.")
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        /*
-        * Login Buttons
-        * */
-
-        BaseButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            border = BorderStroke(1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.1f)),
-            text = "구글로 시작하기",
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.surface,
-                contentColor = MaterialTheme.colors.onSurface,
-            ),
-            icon = DatePickIcons.Google,
-            iconTint = Color.Unspecified
-        ) {
-            onGoogleLoginClicked()
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        BaseButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            text = "카카오로 시작하기",
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color(0xFFFEE500),
-                contentColor = Color(0xD9000000),
-            ),
-            icon = DatePickIcons.Kakao,
-            iconTint = Color.Unspecified
-        ) {
-
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        UnAccentButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            text = "다음에 할래요",
-        ) {
-            dismiss()
-        }
-
-    }
-
-
 }
 
 @Composable
 @Preview
 fun LoginScreenPreview() {
     BaseTheme {
-        emptyDialogScope.LoginDialogUi {
-
-        }
     }
 }

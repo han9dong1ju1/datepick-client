@@ -3,9 +3,10 @@ package app.hdj.datepick.android.ui.components.list
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -43,7 +44,7 @@ fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogRe
             NetworkImage(
                 modifier = Modifier
                     .size(60.dp)
-                    .clip(MaterialTheme.shapes.small)
+                    .clip(RoundedCornerShape(20.dp))
                     .constrainAs(
                         imageRef,
                         t2t() + b2b() + s2s()
@@ -58,7 +59,7 @@ fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogRe
                 ),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                text = blogReview.title, style = MaterialTheme.typography.subtitle1
+                text = blogReview.title, style = MaterialTheme.typography.bodyMedium
             )
 
             Text(
@@ -68,9 +69,9 @@ fun PlaceBlogReviewListItem(blogReview: BlogReview, onBlogReviewClicked: (BlogRe
                 ),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                text = blogReview.content, style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.onSurface.copy(0.5f)
-                    .compositeOver(MaterialTheme.colors.surface)
+                text = blogReview.content, style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(0.5f)
+                    .compositeOver(MaterialTheme.colorScheme.surface)
             )
 
         }

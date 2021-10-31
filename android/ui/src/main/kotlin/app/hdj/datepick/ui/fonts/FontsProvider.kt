@@ -66,7 +66,7 @@ class FontsProvider : ContentProvider() {
 
         try {
             val response = client.newCall(request).execute()
-            response.body()?.source()?.use { source ->
+            response.body?.source()?.use { source ->
                 fontFile.sink().buffer().use { sink ->
                     sink.writeAll(source)
                     sink.flush()

@@ -2,19 +2,18 @@ package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import app.hdj.datepick.domain.model.place.*
+import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.components.ImmutableRatingBar
-import app.hdj.datepick.ui.styles.onSurface30
-import app.hdj.datepick.ui.styles.onSurface50
 import app.hdj.datepick.ui.utils.*
 import coil.size.Scale
 
@@ -39,16 +38,16 @@ fun PlaceVerticalListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
             ) {
                 Text(
                     text = place.category.typeAsString,
-                    style = MaterialTheme.typography.body2,
-                    color = MaterialTheme.colors.onSurface30
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(0.3f)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = place.name, style = MaterialTheme.typography.subtitle1)
+                Text(text = place.name, style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = place.address,
-                    style = MaterialTheme.typography.body2,
-                    color = MaterialTheme.colors.onSurface50
+                    style = MaterialTheme.typography.bodyMedium,
+                    color =  MaterialTheme.colorScheme.onSurface.copy(0.5f)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 ImmutableRatingBar(starSize = 12.dp, rating = place.rating.toFloat())
@@ -59,7 +58,7 @@ fun PlaceVerticalListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
                 Image(
                     modifier = Modifier
                         .size(50.dp)
-                        .clip(MaterialTheme.shapes.small)
+                        .clip(RoundedCornerShape(20.dp))
                         .constrainAs(
                             imageRef,
                             t2t() + b2b() + e2e()

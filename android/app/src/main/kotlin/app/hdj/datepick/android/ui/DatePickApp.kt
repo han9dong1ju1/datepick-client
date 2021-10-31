@@ -1,41 +1,44 @@
 package app.hdj.datepick.android.ui
 
-import androidx.compose.animation.*
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.plusAssign
-import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.Event.ChangeStatusBarMode
 import app.hdj.datepick.android.ui.dialog.appupdate.appUpdateDialog
 import app.hdj.datepick.android.ui.dialog.login.loginDialog
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.main.MainBottomNavigation
+import app.hdj.datepick.android.ui.screens.main.home.fakeHomeViewModel
 import app.hdj.datepick.android.ui.screens.main.mainScreens
+import app.hdj.datepick.android.ui.screens.main.map.fakeMapViewModel
+import app.hdj.datepick.android.ui.screens.main.menu.fakeMenuViewModel
+import app.hdj.datepick.android.ui.screens.main.pick.fakePickViewModel
 import app.hdj.datepick.android.ui.screens.others.course.courseScreen
 import app.hdj.datepick.android.ui.screens.others.createCourse.createCourseScreen
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.featuredDetailScreen
+import app.hdj.datepick.android.ui.screens.others.image.imagesScreen
 import app.hdj.datepick.android.ui.screens.others.placeDetail.placeDetailScreen
 import app.hdj.datepick.android.ui.screens.others.placeList.placeListScreen
 import app.hdj.datepick.android.ui.screens.others.settings.settingsScreens
-import app.hdj.datepick.android.ui.providers.*
-import app.hdj.datepick.android.ui.screens.main.home.fakeHomeViewModel
-import app.hdj.datepick.android.ui.screens.main.map.fakeMapViewModel
-import app.hdj.datepick.android.ui.screens.main.pick.fakePickViewModel
-import app.hdj.datepick.android.ui.screens.main.menu.fakeMenuViewModel
-import app.hdj.datepick.android.ui.screens.others.image.imagesScreen
 import app.hdj.datepick.android.ui.screens.others.userProfileEdit.userProfileEditScreenRoute
 import app.hdj.datepick.android.ui.screens.others.web.webScreen
 import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
 import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
-import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.BaseScaffold
+import app.hdj.datepick.ui.components.BottomNavigationProperty
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
@@ -59,7 +62,11 @@ private val mainNavigationRoutesWithIcon = listOf(
 )
 
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
+@OptIn(
+    ExperimentalAnimationApi::class,
+    ExperimentalMaterialNavigationApi::class,
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun DatePickApp() {
 
@@ -72,8 +79,6 @@ fun DatePickApp() {
     val scaffoldState = rememberScaffoldState()
 
     val coroutineScope = rememberCoroutineScope()
-
-    val snackBarPresenter = remember { SnackbarPresenter(coroutineScope, scaffoldState) }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -92,8 +97,7 @@ fun DatePickApp() {
     val profileViewModel = fakeMenuViewModel()
 
     CompositionLocalProvider(
-        LocalAppNavController provides navController,
-        LocalSnackBarPresenter provides snackBarPresenter
+        LocalAppNavController provides navController
     ) {
 
         BaseScaffold(

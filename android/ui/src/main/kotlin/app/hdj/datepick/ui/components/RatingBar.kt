@@ -2,7 +2,7 @@ package app.hdj.datepick.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarHalf
@@ -20,8 +20,8 @@ fun ImmutableRatingBar(
     modifier: Modifier = Modifier,
     rating: Float = 0f,
     max: Int = 5,
-    ratedColor: Color = MaterialTheme.colors.secondary,
-    unratedColor: Color = MaterialTheme.colors.onSurface.copy(0.1f),
+    ratedColor: Color = MaterialTheme.colorScheme.secondary,
+    unratedColor: Color = MaterialTheme.colorScheme.onSurface.copy(0.1f),
     spacing: Dp = 0.dp,
     starSize: Dp = 10.dp
 ) {
@@ -57,6 +57,7 @@ fun ImmutableRatingBar(
     }
 
 }
+
 
 @Composable
 @Preview(showBackground = true)

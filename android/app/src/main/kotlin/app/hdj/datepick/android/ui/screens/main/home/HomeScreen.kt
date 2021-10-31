@@ -20,7 +20,6 @@ import app.hdj.datepick.android.ui.screens.openFeatured
 import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.android.utils.onSucceedComposable
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.BaseTopAppBar
 import app.hdj.datepick.ui.components.Header
 import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.styles.BaseTheme
@@ -43,7 +42,7 @@ fun HomeScreen(
 
     BaseScaffold(
         topBar = {
-            BaseTopAppBar()
+
         }
     ) {
         LazyColumn(

@@ -1,14 +1,8 @@
 package app.hdj.datepick.android.ui.screens.others.createCourse
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.components.TitledLazyListScaffold
-import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 
@@ -25,18 +19,6 @@ fun CreateCourseScreen(
 //            position(LatLng(it.latitude, it.longitude))
 //        })
 //    }
-
-    TitledLazyListScaffold(
-        navIcons = { TopAppBarBackButton() },
-        title = { Text(text = "") },
-        expandedTitle = {
-            Column(modifier = Modifier.fillMaxWidth()) {
-
-            }
-        },
-    ) {
-
-    }
 
 }
 

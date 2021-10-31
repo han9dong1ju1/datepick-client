@@ -31,7 +31,7 @@ fun NetworkImage(
         val state = painter.state
 
         val performAnimation =
-            !(state is ImagePainter.State.Success && state.metadata.dataSource != DataSource.MEMORY_CACHE)
+            !(state is ImagePainter.State.Success && state.result.dataSource != DataSource.MEMORY_CACHE)
 
         Image(
             painter = painter,

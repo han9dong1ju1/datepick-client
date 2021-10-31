@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -12,10 +13,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.BaseTopAppBar
-import app.hdj.datepick.ui.components.googlemap.*
+import app.hdj.datepick.ui.components.ViewPager
+import app.hdj.datepick.ui.components.googlemap.GoogleMap
+import app.hdj.datepick.ui.components.googlemap.rememberCameraUpdateState
+import app.hdj.datepick.ui.components.googlemap.rememberMarkerOptionsState
+import app.hdj.datepick.ui.components.googlemap.rememberPolylineOptionsState
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.styles.onSurface10
 import app.hdj.datepick.ui.utils.extract
@@ -30,7 +33,7 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
     val context = LocalContext.current
 
     val pages = (0..10).toList()
-    val pagerState = rememberPagerState(pageCount = pages.size)
+    val pagerState = rememberPagerState()
 
     val cameraPosition = rememberCameraUpdateState()
     val polylineOptionsState = rememberPolylineOptionsState()
@@ -70,7 +73,9 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
     }
 
     BaseScaffold(Modifier.fillMaxSize(), topBar = {
-        BaseTopAppBar()
+        SmallTopAppBar(title = {
+
+        })
     }) {
 
         Box(modifier = Modifier.fillMaxSize()) {

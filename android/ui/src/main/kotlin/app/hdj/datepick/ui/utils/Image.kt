@@ -13,7 +13,7 @@ import coil.request.ImageRequest
 fun rememberUrlImagePainter(
     request: String?,
     imageLoader: ImageLoader = LocalImageLoader.current,
-    onExecute: ImagePainter.ExecuteCallback = ImagePainter.ExecuteCallback.Default,
+    onExecute: ImagePainter.ExecuteCallback = ImagePainter.ExecuteCallback.Lazy,
     builder: ImageRequest.Builder.() -> Unit = {},
 ) = rememberImagePainter(
     request,

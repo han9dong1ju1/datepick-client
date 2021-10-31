@@ -4,8 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
@@ -20,10 +19,9 @@ import app.hdj.datepick.android.ui.StatusBarMode
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Images.ARGUMENT_IMAGES
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
-import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.BaseTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
+import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.getJsonDataArgument
 import coil.compose.rememberImagePainter
@@ -54,7 +52,6 @@ fun NavGraphBuilder.imagesScreen() {
 fun ImagesScreen(imagesArg: ImagesScreenArgument) {
 
     val pagerState = rememberPagerState(
-        pageCount = imagesArg.images.size,
         initialPage = imagesArg.selectedIndex
     )
 
@@ -70,12 +67,12 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
 
     BaseScaffold(
         modifier = Modifier.fillMaxSize(),
-        backgroundColor = Color.Black,
+        containerColor = Color.Black,
         topBar = {
-            BaseTopAppBar(
+            SmallTopAppBar(
                 title = { Text(imagesArg.title, color = Color.White) },
                 navigationIcon = { TopAppBarBackButton(contentColor = Color.White) },
-                backgroundColor = Color.Transparent
+                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent)
             )
         }
     ) {
@@ -105,7 +102,7 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
                     .navigationBarsPadding(bottom = true),
                 text = "${pagerState.currentPage + 1} / ${pagerState.pageCount}",
                 color = Color.White,
-                style = MaterialTheme.typography.subtitle1
+                style = MaterialTheme.typography.bodyMedium
             )
         }
 

@@ -1,9 +1,8 @@
 package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.with
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -12,8 +11,6 @@ import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.animation.materialTransitionSpecYaxisPopFromBottom
-import app.hdj.datepick.ui.animation.materialTransitionYaxisIn
-import app.hdj.datepick.ui.animation.materialTransitionYaxisOut
 import app.hdj.datepick.ui.components.Header
 import app.hdj.datepick.ui.components.Shimmer
 

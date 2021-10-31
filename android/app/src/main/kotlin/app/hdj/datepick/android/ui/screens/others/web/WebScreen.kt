@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.compositeOver
@@ -27,7 +28,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.BaseTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import timber.log.Timber
 
@@ -89,7 +89,7 @@ fun WebScreen(url: String) {
 
     BaseScaffold(
         topBar = {
-            BaseTopAppBar(
+            SmallTopAppBar(
                 navigationIcon = { TopAppBarBackButton(Icons.Rounded.Close) },
                 actions = {
 
