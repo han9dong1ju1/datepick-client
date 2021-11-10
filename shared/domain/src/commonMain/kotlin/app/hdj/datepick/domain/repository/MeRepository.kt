@@ -18,7 +18,7 @@ interface MeRepository {
 
     fun signOut(): Flow<LoadState<String>>
 
-    fun register(nickname: String, profileImageUrl: String?, gender: String?): Flow<LoadState<User>>
+    fun register(provider : String, token : String): Flow<LoadState<Unit>>
 
     fun unregister(type: Int, reason: String?): Flow<LoadState<Unit>>
 

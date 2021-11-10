@@ -10,7 +10,7 @@ interface Place {
     val longitude : Double
     val rating : Double
     val isPicked : Boolean
-    val photos : List<String>
+    val photo : String?
 
     interface Category {
         val category : String

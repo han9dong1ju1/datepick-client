@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.map
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
+typealias EmptyLoadState = LoadState<Unit>
+
 sealed interface LoadState<T> {
 
     data class Success<T>(val data: T) : LoadState<T>
@@ -62,7 +64,7 @@ fun <T, R> LoadState<T>.fold(
     else -> onLoading()
 }
 
-fun <T, R> LoadState<T>.getOrNull(block: (T) -> R): R? {
+fun <T, R> LoadState<T>.mapOrNull(block: (T) -> R): R? {
     return if (isStateSucceed()) block(data) else null
 }
 

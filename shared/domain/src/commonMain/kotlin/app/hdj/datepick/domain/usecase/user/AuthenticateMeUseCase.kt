@@ -1,11 +1,10 @@
 package app.hdj.datepick.domain.usecase.user
 
 import app.hdj.datepick.domain.repository.MeRepository
-import app.hdj.datepick.utils.FirebaseAuthenticator
+import app.hdj.datepick.domain.FirebaseAuthenticator
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import dev.gitlive.firebase.auth.AuthCredential
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 
@@ -16,7 +15,7 @@ class AuthenticateMeUseCase @Inject constructor(
 ) {
 
     fun execute(credential: AuthCredential) = flow {
-        authenticator.signInGoogle(credential)
+        authenticator.signInWithCredential(credential)
         emitAll(meRepository.signIn())
     }
 

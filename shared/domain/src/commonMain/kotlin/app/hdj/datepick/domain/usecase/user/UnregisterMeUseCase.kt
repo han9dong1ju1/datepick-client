@@ -1,7 +1,7 @@
 package app.hdj.datepick.domain.usecase.user
 
 import app.hdj.datepick.domain.repository.MeRepository
-import app.hdj.datepick.utils.Authenticator
+import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import kotlinx.coroutines.flow.onCompletion
