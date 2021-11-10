@@ -30,8 +30,8 @@ fun NavGraphBuilder.mainScreens(
     navigation(
         startDestination = Home.route,
         route = AppNavigationGraph.Main.route,
-        enterTransition = { _, _ -> materialTransitionYaxisIn() },
-        exitTransition = { _, _ -> materialTransitionYaxisOut(false)  }
+        enterTransition = { materialTransitionYaxisIn() },
+        exitTransition = { materialTransitionYaxisOut(false)  }
     ) {
 
         appNavigationComposable(Home) {

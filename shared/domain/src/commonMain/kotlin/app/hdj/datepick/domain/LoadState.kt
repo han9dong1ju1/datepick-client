@@ -40,13 +40,13 @@ fun <T, R> LoadState<T>.map(mapper: (T) -> R): LoadState<R> {
     }
 }
 
-suspend fun <T : Any> FlowCollector<LoadState<T>>.emitState(
+suspend fun <T : Any?> FlowCollector<LoadState<T>>.emitState(
     defaultValue: T? = null,
-    executor: suspend () -> T?,
+    executor: suspend () -> T,
 ): Result<T> {
     emit(loading())
     return runCatching {
-        requireNotNull(executor())
+        executor()
     }.onSuccess {
         emit(success(it))
     }.onFailure {

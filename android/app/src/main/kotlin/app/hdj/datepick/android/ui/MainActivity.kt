@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import app.hdj.datepick.android.service.PushNotificationManager
-import app.hdj.datepick.android.ui.StatusBarMode.*
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.ProvideDeviceType
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
@@ -41,12 +40,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        if (!splashWasDisplayed) {
-            installSplashScreen()
-            setup()
-        } else {
-            setup()
-        }
+        if (!splashWasDisplayed) installSplashScreen()
+
+        setup()
 
 
 //        appViewModel.state.onEach {
@@ -75,26 +71,6 @@ class MainActivity : AppCompatActivity() {
                 LocalMe provides state.me,
                 LocalImageLoader provides imageLoader
             ) {
-
-                val systemUiController = rememberSystemUiController()
-                val statusBarMode = state.statusBarMode
-                val useDarkIcons = MaterialTheme.colors.isLight
-                val statusBarScrim = MaterialTheme.colors.background
-                val statusBarScrimWithTransparency = MaterialTheme.colors.background.copy(0.0f)
-
-                SideEffect {
-                    when (statusBarMode) {
-                        STATUS_BAR_FORCE_WHITE ->
-                            systemUiController.setStatusBarColor(Color.Transparent, false)
-                        STATUS_BAR_SYSTEM ->
-                            systemUiController.setStatusBarColor(statusBarScrim, useDarkIcons)
-                        STATUS_BAR_SYSTEM_WITH_TRANSPARENCY ->
-                            systemUiController.setStatusBarColor(
-                                statusBarScrimWithTransparency,
-                                useDarkIcons
-                            )
-                    }
-                }
 
                 ProvideToastPresenter {
                     BaseTheme {

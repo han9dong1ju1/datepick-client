@@ -4,7 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.*
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +30,7 @@ fun BaseButton(
         enabled = enabled,
         colors = colors,
         border = border,
-        elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp),
+        elevation = ButtonDefaults.buttonElevation(0.dp, 0.dp, 0.dp),
     ) {
 
         icon?.let {
@@ -77,11 +78,11 @@ fun UnAccentButton(
         icon,
         text = text,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.onSurface.copy(alpha = 0.06f)
-                .compositeOver(MaterialTheme.colors.surface),
-            contentColor = MaterialTheme.colors.onSurface
+            containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.06f)
+                .compositeOver(MaterialTheme.colorScheme.surface),
+            contentColor = MaterialTheme.colorScheme.onSurface
                 .copy(alpha = 0.8f)
-                .compositeOver(MaterialTheme.colors.surface)
+                .compositeOver(MaterialTheme.colorScheme.surface)
         ),
         enabled = enabled,
         onClick = onClick

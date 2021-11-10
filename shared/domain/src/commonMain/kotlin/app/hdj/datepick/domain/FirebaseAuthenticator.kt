@@ -1,6 +1,7 @@
 package app.hdj.datepick.domain
 
 import app.hdj.datepick.utils.Inject
+import app.hdj.datepick.utils.PlatformLogger
 import app.hdj.datepick.utils.Singleton
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.AuthCredential
@@ -47,6 +48,7 @@ class FirebaseAuthenticator @Inject constructor() : Authenticator {
 
     private suspend fun AuthResult.updateIdToken(refresh: Boolean) {
         _idToken = user?.getIdToken(refresh)
+        PlatformLogger.d("FirebaseAuthenticator : Id Token $idToken")
     }
 
     override suspend fun refreshIdToken() {

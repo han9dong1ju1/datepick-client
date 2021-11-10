@@ -7,15 +7,14 @@ import app.hdj.datepick.data.request.UserUnregisterRequest
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.*
+import io.ktor.client.request.forms.*
 
 interface UserApi : Api {
     override val basePath: String get() = "/api/v1/users"
 
     suspend fun getMe(): ApiResponse<UserResponse>
-    suspend fun signIn(): ApiResponse<UserResponse?>
-    suspend fun signOut(): ApiResponse<String>
     suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse>
-    suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<Unit>
+    suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<String?>
     suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String>
 }
 
@@ -25,17 +24,11 @@ open class UserApiImp @Inject constructor(override val client: HttpClient) : Use
     override suspend fun getMe(): ApiResponse<UserResponse> =
         get("me")
 
-    override suspend fun signIn(): ApiResponse<UserResponse?> =
-        get("sign-in")
-
-    override suspend fun signOut(): ApiResponse<String> =
-        get("sign-out")
-
     override suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse> =
         patch { body = userProfileRequest }
 
-    override suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<Unit> =
-        post { body = userRegisterRequest }
+    override suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<String?> =
+        post("register") { body = userRegisterRequest }
 
     override suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String> =
         post("unregister") { body = userUnregisterRequest }

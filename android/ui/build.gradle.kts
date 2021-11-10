@@ -39,6 +39,7 @@ dependencies {
     api(Google.accompanist.pager.indicators)
     api(Google.accompanist.systemuicontroller)
     api(Google.accompanist.swiperefresh)
+    api(Google.accompanist.placeholderMaterial)
     api(Google.accompanist.navigation.animation)
     api(Google.accompanist.navigation.material)
     api(Google.android.maps)

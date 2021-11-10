@@ -33,24 +33,6 @@ class MeRepositoryImp @Inject constructor(
         }
     }
 
-    override fun signIn() = flow<LoadState<User>> {
-        emitState {
-            val response = userApi.signIn()
-            response.data
-        }.onSuccess {
-            meDataStore.save(it)
-        }
-    }
-
-    override fun signOut() = flow {
-        emitState {
-            val response = userApi.signOut()
-            response.data
-        }.onSuccess {
-            meDataStore.clearMe()
-        }
-    }
-
     override fun update(
         nickname: String?,
         profileImageUrl: String?,
@@ -72,6 +54,7 @@ class MeRepositoryImp @Inject constructor(
         emitState {
             val request = UserRegisterRequest(provider, token)
             userApi.register(request).data
+            Unit
         }
     }
 

@@ -14,10 +14,6 @@ interface MeRepository {
 
     fun update(nickname: String?, profileImageUrl: String?, gender: String?): Flow<LoadState<User>>
 
-    fun signIn(): Flow<LoadState<User>>
-
-    fun signOut(): Flow<LoadState<String>>
-
     fun register(provider : String, token : String): Flow<LoadState<Unit>>
 
     fun unregister(type: Int, reason: String?): Flow<LoadState<Unit>>

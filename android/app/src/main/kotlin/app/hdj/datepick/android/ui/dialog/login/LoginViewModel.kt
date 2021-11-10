@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.dialog.login.LoginViewModelDelegate.*
 import app.hdj.datepick.domain.LoadState
-import app.hdj.datepick.domain.LoadState.Companion.loading
-import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.usecase.user.AuthenticateMeUseCase
-import app.hdj.datepick.domain.usecase.user.GetMeUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
+import app.hdj.datepick.utils.PlatformLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.gitlive.firebase.auth.AuthCredential
 import kotlinx.coroutines.FlowPreview
@@ -37,7 +35,7 @@ interface LoginViewModelDelegate :
     ViewModelDelegate<State, Effect, Event> {
 
     class State(
-        val loginState: LoadState<User>? = null
+        val loginState: LoadState<Unit>? = null
     )
 
     sealed class Effect {
@@ -54,7 +52,7 @@ interface LoginViewModelDelegate :
 @HiltViewModel
 @OptIn(FlowPreview::class)
 class LoginViewModel @Inject constructor(
-    private val authenticateMeUseCase: AuthenticateMeUseCase
+    private val authenticateMeUseCase: AuthenticateMeUseCase,
 ) : ViewModel(), LoginViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
@@ -69,7 +67,6 @@ class LoginViewModel @Inject constructor(
             when (it) {
                 is LoadState.Loading -> Unit
                 is LoadState.Failed -> {
-                    // TODO
                     effectChannel.send(Effect.ShowRegisterPage)
                 }
                 is LoadState.Success -> effectChannel.send(Effect.DismissDialog)

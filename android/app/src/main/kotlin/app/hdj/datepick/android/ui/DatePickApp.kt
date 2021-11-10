@@ -8,12 +8,14 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.plusAssign
 import app.hdj.datepick.android.ui.dialog.appupdate.appUpdateDialog
@@ -107,14 +109,17 @@ fun DatePickApp() {
             }
         ) {
 
-            ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
+            ModalBottomSheetLayout(
+                bottomSheetNavigator = bottomSheetNavigator,
+                sheetBackgroundColor = Color.Unspecified
+            ) {
 
                 AnimatedNavHost(
                     modifier = Modifier.fillMaxSize(),
                     navController = navController,
                     startDestination = AppNavigationGraph.Main.route,
-                    enterTransition = { _, _ -> materialTransitionZaxisIn },
-                    exitTransition = { _, _ -> materialTransitionZaxisOut }
+                    enterTransition = { materialTransitionZaxisIn },
+                    exitTransition = { materialTransitionZaxisOut }
                 ) {
 
                     /* Main Screens */

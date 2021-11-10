@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
-import app.hdj.datepick.android.ui.StatusBarMode
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Images.ARGUMENT_IMAGES
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
@@ -56,14 +55,6 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
     )
 
     val (state, effect, event) = LocalDatePickAppViewModel.current.extract()
-    val previousStatusBarMode = state.statusBarMode
-
-    DisposableEffect(true) {
-        event(DatePickAppViewModelDelegate.Event.ChangeStatusBarMode(StatusBarMode.STATUS_BAR_FORCE_WHITE))
-        onDispose {
-            event(DatePickAppViewModelDelegate.Event.ChangeStatusBarMode(previousStatusBarMode))
-        }
-    }
 
     BaseScaffold(
         modifier = Modifier.fillMaxSize(),

@@ -11,8 +11,10 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlinx.serialization.ExperimentalSerializationApi
 
 
+@OptIn(ExperimentalSerializationApi::class)
 @Suppress("FunctionName")
 fun <T : HttpClientEngineConfig> DatePickHttpClient(
     engineFactory: HttpClientEngineFactory<T>,
@@ -34,6 +36,7 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
             allowSpecialFloatingPointValues = true
             useArrayPolymorphism = true
             prettyPrint = true
+            explicitNulls = false
             allowStructuredMapKeys = true
         })
     }
@@ -49,7 +52,7 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
 
     defaultRequest {
         if (authenticator.idToken != null) {
-            header("Authentication", "Bearer ${authenticator.idToken}")
+            header("Authorization", "Bearer ${authenticator.idToken}")
         }
 
         contentType(ContentType.Application.Json)
@@ -58,7 +61,7 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
 
         url {
             protocol = URLProtocol.HTTPS
-            host = "empty-parrot-42.loca.lt"
+            host = "tall-deer-56.loca.lt"
         }
     }
 

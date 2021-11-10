@@ -20,8 +20,8 @@ fun MainBottomNavigation(
 
     AnimatedVisibility(
         visible = isRouteAllowedForBottomNavigation,
-        enter = slideInHorizontally(initialOffsetX = { -it / 2 }) + fadeIn(),
-        exit = slideOutHorizontally(targetOffsetX = { -it / 2 }) + fadeOut()
+        enter = slideInVertically(initialOffsetY = { it / 2 }) + fadeIn(),
+        exit = slideOutVertically(targetOffsetY = { it / 2 }) + fadeOut()
     ) {
         NavigationGraphBottomNavigation(
             navController,

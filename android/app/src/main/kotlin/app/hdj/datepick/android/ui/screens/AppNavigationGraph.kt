@@ -38,16 +38,16 @@ fun NavController.openWebUrl(url: String) {
 fun <Graph : NavigationGraph> NavGraphBuilder.appNavigationComposable(
     graph: Graph,
     enterTransition: (
-    AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition?
+    AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition?
     )? = null,
     exitTransition: (
-    AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition?
+    AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition?
     )? = null,
     popEnterTransition: (
-    AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition?
+    AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition?
     )? = enterTransition,
     popExitTransition: (
-    AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition?
+    AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition?
     )? = exitTransition,
     content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
 ) = composable(
