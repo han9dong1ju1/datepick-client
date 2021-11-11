@@ -18,13 +18,6 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
 
     val (state, effect, event) = vm.extract()
 
-    val systemUiController = rememberSystemUiController()
-    val useDarkIcons = MaterialTheme.colors.isLight
-
-    SideEffect {
-        systemUiController.setStatusBarColor(Color.White.copy(0.5f), useDarkIcons)
-    }
-
     BaseScaffold(modifier = Modifier.fillMaxSize()) {
 
     }

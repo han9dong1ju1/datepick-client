@@ -72,65 +72,45 @@ fun MenuScreen(
             }
         }
     ) {
-        Surface(
-            onClick = {
 
-            },
-            modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp)
-        ) {
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(20.dp)
-            ) {
+        Column(modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .verticalScroll(rememberScrollState())
+            .padding(it)) {
 
-                NetworkImage(modifier = Modifier.size(60.dp), url = me?.profileUrl)
+            if (me == null) {
+                Button(onClick = {
+                    navController.navigateRoute(AppNavigationGraph.LoginDialog)
+                }) {
+                    Text(text = "로그인하기")
+                }
+            } else {
 
-                Spacer(modifier = Modifier.width(20.dp))
+                Surface(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp)) {
 
-                Text(text = me?.nickname.orEmpty())
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(20.dp)
+                    ) {
+
+                        NetworkImage(modifier = Modifier.size(60.dp), url = me.profileUrl)
+
+                        Spacer(modifier = Modifier.width(20.dp))
+
+                        Text(text = me.nickname)
+
+                    }
+
+                }
 
             }
 
+            (0..100).forEach {
+                Text(text = it.toString(), modifier = Modifier.padding(20.dp))
+            }
+
         }
-//
-//        Column(modifier = Modifier
-//            .background(MaterialTheme.colorScheme.surface)
-//            .verticalScroll(rememberScrollState())
-//            .padding(it)) {
-//
-//            if (me == null) {
-//                Button(onClick = {
-//                    navController.navigateRoute(AppNavigationGraph.LoginDialog)
-//                }) {
-//                    Text(text = "로그인하기")
-//                }
-//            } else {
-//
-//                Surface(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp)) {
-//
-//                    Row(
-//                        verticalAlignment = Alignment.CenterVertically,
-//                        modifier = Modifier.padding(20.dp)
-//                    ) {
-//
-//                        NetworkImage(modifier = Modifier.size(60.dp), url = me.profileUrl)
-//
-//                        Spacer(modifier = Modifier.width(20.dp))
-//
-//                        Text(text = me.nickname)
-//
-//                    }
-//
-//                }
-//
-//            }
-//
-//            (0..100).forEach {
-//                Text(text = it.toString(), modifier = Modifier.padding(20.dp))
-//            }
-//
-//        }
 
 
     }
