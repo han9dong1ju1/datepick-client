@@ -55,13 +55,14 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
             header("Authorization", "Bearer ${authenticator.idToken}")
         }
 
-        contentType(ContentType.Application.Json)
         accept(ContentType.Application.Json)
         accept(ContentType.Text.Plain)
+        accept(ContentType.MultiPart.FormData)
+        accept(ContentType.Image.Any)
 
         url {
             protocol = URLProtocol.HTTPS
-            host = "tall-deer-56.loca.lt"
+            host = "datepick.app"
         }
     }
 

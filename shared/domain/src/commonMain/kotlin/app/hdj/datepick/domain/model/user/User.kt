@@ -10,7 +10,7 @@ interface User {
     val nickname: String
     val uid : String
     val gender : UserGender
-    val profileUrl: String?
+    val profileImage: String?
 
     val isMe : Boolean
 }

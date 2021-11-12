@@ -11,7 +11,7 @@ import coil.request.ImageRequest
 @ExperimentalCoilApi
 @Composable
 fun rememberUrlImagePainter(
-    request: String?,
+    request: Any?,
     imageLoader: ImageLoader = LocalImageLoader.current,
     onExecute: ImagePainter.ExecuteCallback = ImagePainter.ExecuteCallback.Lazy,
     builder: ImageRequest.Builder.() -> Unit = {},

@@ -8,9 +8,11 @@ import app.hdj.datepick.data.request.UserUnregisterRequest
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.user.User
+import app.hdj.datepick.domain.model.user.UserGender
 import app.hdj.datepick.domain.repository.MeRepository
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
+import io.ktor.utils.io.core.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -34,13 +36,13 @@ class MeRepositoryImp @Inject constructor(
     }
 
     override fun update(
-        nickname: String?,
-        profileImageUrl: String?,
-        gender: String?
+        nickname: String,
+        gender: UserGender,
+        profileImageUrl: Input?,
     ) = flow<LoadState<User>> {
         emitState {
-            val request = UserProfileRequest(nickname, profileImageUrl, gender)
-            val response = userApi.updateMe(request)
+            val request = UserProfileRequest(nickname, gender, profileImageUrl)
+            val response = userApi.updateMe(meDataStore.cachedMe()!!.id, request)
             response.data
         }.onSuccess {
             meDataStore.save(it)
@@ -48,20 +50,19 @@ class MeRepositoryImp @Inject constructor(
     }
 
     override fun register(
-        provider : String,
-        token : String
+        provider: String,
+        token: String
     ) = flow {
         emitState {
             val request = UserRegisterRequest(provider, token)
-            userApi.register(request).data
-            Unit
+            meDataStore.save(userApi.register(request).data)
         }
     }
 
-    override fun unregister(type: Int, reason: String?) =
+    override fun unregister(reason: String) =
         flow {
             emitState {
-                userApi.unregister(UserUnregisterRequest(type, reason))
+                userApi.unregister(UserUnregisterRequest(reason))
                 meDataStore.clearMe()
             }
         }
