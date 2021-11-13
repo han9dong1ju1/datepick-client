@@ -35,8 +35,7 @@ fun NetworkImage(
     val state = painter.state
 
     val performAnimation =
-        url == null
-//        !(state is ImagePainter.State.Success && state.result.dataSource != DataSource.MEMORY_CACHE)
+        !(state is ImagePainter.State.Success && state.result.dataSource != DataSource.MEMORY_CACHE)
 
     Image(
         painter = painter,
