@@ -43,7 +43,9 @@ fun NavGraphBuilder.loginDialog() {
         val (state, effect, event) = vm.extract()
 
         effect.collectInLaunchedEffect {
-
+            if (it is LoginViewModelDelegate.Effect.DismissDialog) {
+                navController.popBackStack()
+            }
         }
 
         val googleSignInRequest = rememberLauncherForActivityResult(GoogleSignInContract()) {
@@ -51,8 +53,8 @@ fun NavGraphBuilder.loginDialog() {
         }
 
         Surface(
-            modifier = Modifier.fillMaxWidth(), shape =
-            RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
         ) {
 
             Column(
@@ -63,8 +65,10 @@ fun NavGraphBuilder.loginDialog() {
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-
-                Text(text = "로그인", style = MaterialTheme.typography.headlineSmall)
+                Text(
+                    text = "로그인",
+                    style = MaterialTheme.typography.headlineSmall
+                )
 
                 Spacer(modifier = Modifier.height(8.dp))
 

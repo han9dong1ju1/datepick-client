@@ -35,7 +35,6 @@ fun NavGraphBuilder.mainScreens(
     ) {
 
         appNavigationComposable(Home) {
-            val navController = LocalAppNavController.current
             HomeScreen(
                 homeViewModel
             )

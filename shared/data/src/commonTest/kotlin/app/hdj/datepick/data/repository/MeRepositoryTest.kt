@@ -31,7 +31,7 @@ class MeRepositoryTest {
             override val id: String = "example_id"
             override val nickname: String = ""
             override val isMe: Boolean = true
-            override val profileUrl: String = ""
+            override val profileImage: String = ""
         }
 
         coEvery { repository.cache() } returns cacheMe

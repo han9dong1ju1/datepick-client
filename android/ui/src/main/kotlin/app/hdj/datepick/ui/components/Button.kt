@@ -2,6 +2,7 @@ package app.hdj.datepick.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.LocalContentAlpha
@@ -25,7 +26,7 @@ fun BaseButton(
     onClick: () -> Unit = {},
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier.height(54.dp),
         onClick = onClick,
         enabled = enabled,
         colors = colors,

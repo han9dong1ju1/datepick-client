@@ -56,7 +56,7 @@ class DatePickAppViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             authenticator.getCurrentFirebaseUser()
-            getMeUseCase.fetch().collect()
+            getMeUseCase.fetchFromRemote().collect()
         }
     }
 

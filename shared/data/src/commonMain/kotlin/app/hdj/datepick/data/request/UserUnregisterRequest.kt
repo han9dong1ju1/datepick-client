@@ -4,6 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserUnregisterRequest(
-    val type: Int,
-    val reason: String?
+    val reason: String
 )

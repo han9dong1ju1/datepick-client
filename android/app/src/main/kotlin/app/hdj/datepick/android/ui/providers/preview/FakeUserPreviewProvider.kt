@@ -16,7 +16,7 @@ class FakeUserPreviewProvider : PreviewParameterProvider<User?> {
                 override val gender: UserGender
                     get() = UserGender.U
                 override val isMe: Boolean = true
-                override val profileUrl: String = "https://picsum.photos/200"
+                override val profileImage: String = "https://picsum.photos/200"
             },
             null
         )

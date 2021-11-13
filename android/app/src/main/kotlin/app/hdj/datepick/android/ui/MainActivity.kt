@@ -14,6 +14,7 @@ import app.hdj.datepick.android.service.PushNotificationManager
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.ProvideDeviceType
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
+import app.hdj.datepick.android.ui.providers.preview.FakeUserPreviewProvider
 import app.hdj.datepick.android.utils.DEEPLINK_URL
 import app.hdj.datepick.android.utils.EXTERNAL_DEEPLINK_URL
 import app.hdj.datepick.android.utils.datePickNavDeepLink
