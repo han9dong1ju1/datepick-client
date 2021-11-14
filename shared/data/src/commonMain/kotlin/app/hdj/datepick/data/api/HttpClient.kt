@@ -38,6 +38,8 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
             prettyPrint = true
             explicitNulls = false
             allowStructuredMapKeys = true
+            coerceInputValues = true
+            useAlternativeNames = false
         })
     }
 
@@ -54,11 +56,6 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
         if (authenticator.idToken != null) {
             header("Authorization", "Bearer ${authenticator.idToken}")
         }
-
-        accept(ContentType.Application.Json)
-        accept(ContentType.Text.Plain)
-        accept(ContentType.MultiPart.FormData)
-        accept(ContentType.Image.Any)
 
         url {
             protocol = URLProtocol.HTTPS
