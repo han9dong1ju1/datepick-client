@@ -39,6 +39,9 @@ open class UserApiImp @Inject constructor(override val client: HttpClient) : Use
             headers.remove(HttpHeaders.ContentType)
             val (nickname, gender, image) = userProfileRequest
             parameter("removePhoto", false)
+
+            contentType(ContentType.MultiPart.FormData)
+
             body = MultiPartFormDataContent(
                 formData {
                     append("nickname", nickname)

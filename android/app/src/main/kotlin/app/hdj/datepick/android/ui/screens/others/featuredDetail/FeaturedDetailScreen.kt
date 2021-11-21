@@ -1,16 +1,21 @@
 package app.hdj.datepick.android.ui.screens.others.featuredDetail
 
 import android.content.Intent
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.Event.FetchFeaturedById
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.Event.ServePreviousFeaturedData
 import app.hdj.datepick.android.utils.onSucceedComposable
+import app.hdj.datepick.domain.fold
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.styles.BaseTheme
@@ -27,6 +33,7 @@ import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.verticalMargin
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeaturedDetailScreen(
     id: Long? = null,
@@ -60,7 +67,23 @@ fun FeaturedDetailScreen(
         }
     }
 
-    BaseScaffold(modifier = Modifier.fillMaxSize()) {
+    val scrollBehavior = remember {
+        TopAppBarDefaults.pinnedScrollBehavior()
+    }
+
+    BaseScaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            InsetMediumTopAppBar(
+                navigationIcon = { TopAppBarBackButton() },
+                title = {
+                    state.featured.onSucceedComposable { Text(text = it.title) }
+                }, scrollBehavior = scrollBehavior
+            )
+        }
+    ) {
 
         LazyColumn(
             state = lazyListState,

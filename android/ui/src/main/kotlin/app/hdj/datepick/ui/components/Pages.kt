@@ -1,6 +1,7 @@
 package app.hdj.datepick.ui.components
 
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +20,7 @@ fun <T> ViewPager(
     list: List<T>,
     pagerState: PagerState = rememberPagerState(),
     itemSpacing: Dp = 0.dp,
+    contentPadding : PaddingValues = PaddingValues(),
     autoScrollDelay: Long = 0,
     content: @Composable PagerScope.(T, Int) -> Unit
 ) {
@@ -42,6 +44,7 @@ fun <T> ViewPager(
         modifier = modifier.fillMaxWidth(),
         state = pagerState,
         itemSpacing = itemSpacing,
+        contentPadding = contentPadding,
         count = list.size
     ) {
         content(list[it], it)

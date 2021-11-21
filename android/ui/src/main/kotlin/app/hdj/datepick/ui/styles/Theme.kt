@@ -21,6 +21,7 @@ fun BaseTheme(
 
     MaterialTheme(
         colorScheme = colorSchemes,
+        typography = Typographies,
         content = content
     )
 }

@@ -88,3 +88,34 @@ fun InsetSmallTopAppBar(
     }
 
 }
+@Composable
+fun InsetMediumTopAppBar(
+    title: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable () -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {},
+    colors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(),
+    scrollBehavior: TopAppBarScrollBehavior? = null
+) {
+
+    Column {
+        val color by colors.containerColor(scrollFraction = scrollBehavior?.scrollFraction ?: 0f)
+
+        Surface(
+            modifier = Modifier
+                .statusBarsHeight()
+                .fillMaxWidth(),
+            color = color
+        ) {}
+
+        MediumTopAppBar(
+            title,
+            modifier,
+            navigationIcon,
+            actions,
+            colors,
+            scrollBehavior
+        )
+    }
+
+}

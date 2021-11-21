@@ -2,6 +2,7 @@ package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,67 +25,60 @@ fun FeaturedPagerItem(
     onFeaturedClicked: (Featured) -> Unit
 ) {
 
-    Box(
+    Surface(
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp)
+            .height(300.dp),
+        onClick = { onFeaturedClicked(featured) }
     ) {
 
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp),
-            onClick = { onFeaturedClicked(featured) }
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
 
-            Box(modifier = Modifier.fillMaxSize()) {
+            NetworkImage(
+                modifier = Modifier.fillMaxSize(),
+                url = featured.photoUrl
+            )
 
-                NetworkImage(
-                    modifier = Modifier.fillMaxSize(),
-                    url = featured.photoUrl
+            Spacer(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+            )
+
+            ConstraintLayout(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(20.dp)
+            ) {
+
+                val (titleRef, descriptionRef) = createRefs()
+
+                Text(
+                    modifier = Modifier.constrainAs(
+                        titleRef,
+                        s2s(descriptionRef) + b2t(descriptionRef, 8.dp)
+                    ),
+                    text = featured.title,
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = Color.White
                 )
 
-                Spacer(
+                Text(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.5f))
-                )
-
-                ConstraintLayout(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(20.dp)
-                ) {
-
-                    val (titleRef, descriptionRef) = createRefs()
-
-                    Text(
-                        modifier = Modifier.constrainAs(
-                            titleRef,
-                            s2s(descriptionRef) + b2t(descriptionRef, 8.dp)
+                        .fillMaxWidth()
+                        .constrainAs(
+                            descriptionRef,
+                            s2s() + b2b()
                         ),
-                        text = featured.title,
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = Color.White
-                    )
-
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .constrainAs(
-                                descriptionRef,
-                                s2s() + b2b()
-                            ),
-                        text = featured.description,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White
-                    )
-
-                }
+                    text = featured.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White
+                )
 
             }
-        }
 
+        }
     }
 
 }
