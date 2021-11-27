@@ -11,6 +11,7 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.http.HttpHeaders.Accept
 import kotlinx.serialization.ExperimentalSerializationApi
 
 
@@ -55,6 +56,11 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
     defaultRequest {
         if (authenticator.idToken != null) {
             header("Authorization", "Bearer ${authenticator.idToken}")
+        }
+
+        headers {
+            append(Accept, ContentType.Application.Json)
+            append(Accept, ContentType.MultiPart.FormData)
         }
 
         url {

@@ -86,48 +86,9 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
                 cameraUpdateState = cameraPosition
             )
 
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-            ) {
-                ViewPager(
-                    modifier = Modifier.fillMaxWidth(),
-                    list = pages,
-                    pagerState = pagerState,
-                    itemSpacing = (-30).dp
-                ) { _, _ ->
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(150.dp)
-                            .padding(20.dp)
-                    ) {
-
-                    }
-
-                }
-
-                if (state.showProgressBar) {
-                    LinearProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(2.dp),
-                        backgroundColor = MaterialTheme.colors.onSurface10
-                    )
-                }
-
-                Spacer(modifier = Modifier.navigationBarsHeight(56.dp))
-
-
-            }
-
-
         }
 
     }
-
 }
 
 @Composable

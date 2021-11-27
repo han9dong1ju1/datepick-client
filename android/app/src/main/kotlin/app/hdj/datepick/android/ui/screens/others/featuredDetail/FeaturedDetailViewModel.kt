@@ -14,7 +14,9 @@ import app.hdj.datepick.domain.LoadState.Companion.success
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.map
 import app.hdj.datepick.domain.model.course.Course
+import app.hdj.datepick.domain.model.course.FeatureCourseMatas
 import app.hdj.datepick.domain.model.featured.Featured
+import app.hdj.datepick.domain.model.featured.FeaturedWithContent
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -84,17 +86,12 @@ class FeaturedDetailViewModel @Inject constructor(
         featuredDetail,
         shareUrlLoadState
     ) { previousFeaturedData, featuredDetail, shareUrlLoadState ->
-
-        val fetchedFeatured = featuredDetail.map { it.meta }
-
-        Timber.d("previousFeaturedData : $previousFeaturedData")
-
         State(
-            if (fetchedFeatured.isStateSucceed() && previousFeaturedData == null) fetchedFeatured
+            if (featuredDetail.isStateSucceed() && previousFeaturedData == null) featuredDetail.map { it.featured }
             else if (previousFeaturedData != null) success(previousFeaturedData)
             else loading(),
-            featuredDetail.map { it.content },
-            featuredDetail.map { it.courses },
+            featuredDetail.map { it.featured.content },
+            featuredDetail.map { it.courses.map { it.courseMeta } },
             shareUrlLoadState
         )
     }.stateIn(

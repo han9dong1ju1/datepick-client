@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.AsyncImagePainter
 import coil.compose.ImagePainter
 import coil.request.ImageRequest
 import com.google.accompanist.placeholder.PlaceholderHighlight
@@ -30,9 +31,9 @@ fun NetworkImage(
     val painter = rememberUrlImagePainter(request = url, builder = imageRequestBuilder)
     val state = painter.state
 
-    if (onFailed != null && (state is ImagePainter.State.Error || url == null)) onFailed()
+    if (onFailed != null && (state is AsyncImagePainter.State.Error || url == null)) onFailed()
     else {
-        val performAnimation = remember(painter.state) { state is ImagePainter.State.Loading }
+        val performAnimation = remember(painter.state) { state is AsyncImagePainter.State.Loading }
 
         Image(
             painter = painter,

@@ -1,16 +1,30 @@
 import java.lang.Long;
 
 CREATE TABLE courseEntity (
-    id TEXT NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
-    cachedAt INTEGER AS Long NOT NULL
+    id INTEGER AS Long NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    region TEXT NOT NULL,
+    expectedAt TEXT NOT NULL,
+    pickCount INTEGER NOT NULL,
+    importCount INTEGER NOT NULL,
+    userId INTEGER AS Long NOT NULL,
+    thumbnailUrl TEXT
 );
 
 getById:
 SELECT * FROM courseEntity WHERE id = :id;
 
 insert:
-INSERT INTO courseEntity(id, name, cachedAt) VALUES ?;
+INSERT INTO courseEntity(
+id,
+title,
+region,
+expectedAt,
+pickCount,
+importCount,
+userId,
+thumbnailUrl
+) VALUES ?;
 
 deleteById:
 DELETE FROM courseEntity WHERE id = :id;

@@ -30,7 +30,6 @@ dependencies {
     api(AndroidX.compose.ui.tooling)
     api(AndroidX.constraintLayoutCompose)
     api(AndroidX.compose.material3)
-    api(Utils.composeCollapsingToolbarLayout)
     api(COIL.compose)
     api(COIL.composeBase)
     api(Google.accompanist.insets)

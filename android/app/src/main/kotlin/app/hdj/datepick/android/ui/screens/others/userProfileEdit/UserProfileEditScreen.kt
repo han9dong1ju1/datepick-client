@@ -1,27 +1,33 @@
 package app.hdj.datepick.android.ui.screens.others.userProfileEdit
 
+import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material3.*
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toFile
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
@@ -32,16 +38,24 @@ import app.hdj.datepick.domain.model.user.UserGender.*
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
 import app.hdj.datepick.ui.utils.extract
+import coil.compose.LocalImageLoader
+import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.google.accompanist.insets.navigationBarsHeight
+import id.zelory.compressor.Compressor
+import id.zelory.compressor.constraint.format
+import id.zelory.compressor.constraint.quality
 import io.ktor.utils.io.core.*
-import io.ktor.utils.io.streams.*
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 @Composable
 fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel<UserProfileEditViewModel>()) {
 
     val context = LocalContext.current
     val navController = LocalAppNavController.current
+    val lifecycle = LocalLifecycleOwner.current
+    val imageLoader = LocalImageLoader.current
 
     val (state, effect, event) = vm.extract()
 
@@ -72,6 +86,8 @@ fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel<U
         }
     }
 
+    val coroutineScope = rememberCoroutineScope()
+
     BaseScaffold(
         topBar = {
             InsetSmallTopAppBar(
@@ -88,18 +104,35 @@ fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel<U
                     event(UserProfileEditViewModelDelegate.Event.Unregister("좆같아서"))
                 })
 
+                Spacer(modifier = Modifier.height(20.dp))
+
                 BaseButton(modifier = Modifier.fillMaxWidth(), text = "변경하기", onClick = {
-                    event(
-                        UserProfileEditViewModelDelegate.Event.UpdateProfile(
-                            nickname,
-                            gender,
-                            profileImage?.let { (it as? Uri?) }
-                                ?.let { context.contentResolver.openInputStream(it) }
-                                ?.let {
-                                    buildPacket { writeFully(it.readBytes()) }
-                                }
+
+                    val coilImageCompress = ImageRequest.Builder(context)
+                        .data(profileImage)
+                        .lifecycle(lifecycle)
+                        .build()
+
+                    coroutineScope.launch {
+                        val bitmap = imageLoader.execute(coilImageCompress).drawable?.toBitmap()
+
+                        val byteArrayOutputStream = ByteArrayOutputStream()
+                        val compressFormat =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Bitmap.CompressFormat.WEBP_LOSSY
+                            else Bitmap.CompressFormat.WEBP
+
+                        bitmap?.compress(compressFormat, 10, byteArrayOutputStream)
+                        val byteArray = byteArrayOutputStream.toByteArray()
+                        bitmap?.recycle()
+
+                        event(
+                            UserProfileEditViewModelDelegate.Event.UpdateProfile(
+                                nickname,
+                                gender,
+                                buildPacket { writeFully(byteArray) }
+                            )
                         )
-                    )
+                    }
                 })
 
                 Spacer(modifier = Modifier.navigationBarsHeight())
