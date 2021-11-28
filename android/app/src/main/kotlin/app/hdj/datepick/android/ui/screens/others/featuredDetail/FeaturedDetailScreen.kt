@@ -18,11 +18,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.MR
 import app.hdj.datepick.android.ui.MarkdownText
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.Event.FetchFeaturedById
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.Event.ServePreviousFeaturedData
+import app.hdj.datepick.android.utils.createDynamicLink
 import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.android.utils.onSucceedComposable
+import app.hdj.datepick.data.utils.res
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.InsetLargeTopAppBar
@@ -60,11 +63,16 @@ fun FeaturedDetailScreen(
     effect.collectInLaunchedEffect {
         when (it) {
             is FeaturedDetailViewModelDelegate.Effect.OpenShareMenu -> {
-                context.startActivity(Intent.createChooser(Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, it.link)
+                val intent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
-                }, "공유"))
+                    putExtra(Intent.EXTRA_TEXT, it.link)
+                }
+                context.startActivity(
+                    Intent.createChooser(
+                        intent,
+                        context.res(MR.strings.title_share)
+                    )
+                )
             }
         }
     }
@@ -83,7 +91,7 @@ fun FeaturedDetailScreen(
                 title = {},
                 actions = {
                     IconButton(onClick = {
-
+                        event(FeaturedDetailViewModelDelegate.Event.CreateShareUrl)
                     }) {
                         Icon(imageVector = Icons.Rounded.Share, null)
                     }

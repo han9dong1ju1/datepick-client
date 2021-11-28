@@ -1,8 +1,1 @@
-- DATEPICK-115
-- DATEPICK-118
-- DATEPICK-122
-
-- [x] Place UseCase 구현
-- [x] Place Model 구성
-- [ ] Place Detail UI 구현
-- [ ] Place List UI 구현
+Featured UI, 로직 반영

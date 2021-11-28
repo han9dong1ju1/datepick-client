@@ -6,10 +6,20 @@ platform :android do
     lane :distributeDebug do
         gradle(task: "clean assembleDebug")
 
+        version_name = get_version_name(
+              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/BuildConfig.java",
+              ext_constant_name:"VERSION_NAME"
+        ).delete_suffix(";")
+
+        version_code = get_version_name(
+              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/BuildConfig.java",
+              ext_constant_name:"VERSION_CODE"
+        ).delete_suffix(";")
+
         firebase_app_distribution(
             service_credentials_file: "firebase_credentials.json",
             app: ENV['FAD_ANDROID_APP_ID'],
-            release_notes_file: "fastlane/metadata/android/ko-KR/changelogs/debug-release-notes.txt",
+            release_notes_file: "FirebaseAppDistributionConfig/release_notes.txt",
             groups: "all"
         )
 
@@ -24,11 +34,11 @@ platform :android do
                fields: [
                    {
                        title: "항상 감사하십시오",
-                       value: "https://appdistribution.firebase.dev/i/ffdfa1174a751ffe",
+                       value: "https://appdistribution.firebase.google.com",
                    },
                    {
-                       title: "Release Notes",
-                       value: release_notes
+                       title: "Version",
+                       value: "#{version_name}(#{version_code})"
                    }
                ]
            }
@@ -46,6 +56,10 @@ platform :android do
                        {
                            title: "반성하십시오 고치세요",
                            value: exception
+                       },
+                       {
+                           title: "Version",
+                           value: "#{version_name}(#{version_code})"
                        }
                    ]
                }

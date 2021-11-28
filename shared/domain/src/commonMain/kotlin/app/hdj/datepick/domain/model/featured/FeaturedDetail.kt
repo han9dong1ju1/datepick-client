@@ -1,11 +1,11 @@
 package app.hdj.datepick.domain.model.featured
 
 import app.hdj.datepick.domain.model.course.Course
+import app.hdj.datepick.domain.model.course.FeatureCourseMatas
 
 interface FeaturedDetail {
 
-    val meta: Featured
-    val content: String
-    val courses: List<Course>
+    val featured : FeaturedWithContent
+    val courses: List<FeatureCourseMatas>
 
 }
