@@ -25,7 +25,7 @@ platform :android do
                    {
                        title: "항상 감사하십시오",
                        value: "https://appdistribution.firebase.dev/i/ffdfa1174a751ffe",
-                   }
+                   },
                    {
                        title: "Release Notes",
                        value: release_notes
