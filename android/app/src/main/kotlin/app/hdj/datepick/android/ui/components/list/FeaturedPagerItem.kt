@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,9 +16,13 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import app.hdj.datepick.android.ui.providers.PreviewScope
 import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
+import app.hdj.datepick.android.ui.shimmer
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.NetworkImage
 import app.hdj.datepick.ui.utils.*
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.placeholder
+import com.google.accompanist.placeholder.shimmer
 
 @Composable
 fun FeaturedPagerItem(
@@ -77,6 +82,64 @@ fun FeaturedPagerItem(
                 )
 
             }
+
+        }
+    }
+
+}
+
+@Composable
+fun FeaturedPagerItemShimmer() {
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                MaterialTheme.colorScheme.onBackground.copy(0.05f),
+                RoundedCornerShape(20.dp)
+            )
+            .height(300.dp),
+    ) {
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(20.dp)
+        ) {
+
+            Spacer(
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(40.dp)
+                    .shimmer(
+                        shape = RoundedCornerShape(20.dp),
+                        alpha = 0.05f
+                    )
+            )
+
+            Spacer(Modifier.height(10.dp))
+
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(16.dp)
+                    .shimmer(
+                        shape = RoundedCornerShape(20.dp),
+                        alpha = 0.05f
+                    )
+            )
+
+            Spacer(Modifier.height(10.dp))
+
+            Spacer(
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(16.dp)
+                    .shimmer(
+                        shape = RoundedCornerShape(20.dp),
+                        alpha = 0.05f
+                    )
+            )
 
         }
     }

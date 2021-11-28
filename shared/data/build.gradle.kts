@@ -87,6 +87,7 @@ kotlin {
             implementation(MultiplatformSettings.datastore)
             implementation(AndroidX.dataStore.core)
             implementation(AndroidX.dataStore.preferences)
+            implementation(AndroidX.paging.commonKtx)
             kapt(AndroidX.paging.runtimeKtx)
             kapt(AndroidX.navigation.runtimeKtx)
             kapt(AndroidX.hilt.compiler)

@@ -1,4 +1,4 @@
-package app.hdj.datepick.data.entity
+package app.hdj.datepick.data.entity.course
 
 import kotlinx.serialization.Serializable
 

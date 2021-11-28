@@ -1,6 +1,6 @@
 package app.hdj.datepick.data.api
 
-import app.hdj.datepick.data.entity.UserResponse
+import app.hdj.datepick.data.entity.user.UserResponse
 import app.hdj.datepick.data.request.UserProfileRequest
 import app.hdj.datepick.data.request.UserRegisterRequest
 import app.hdj.datepick.data.request.UserUnregisterRequest
@@ -10,7 +10,6 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
-import io.ktor.utils.io.core.*
 
 interface UserApi : Api {
     override val basePath: String get() = "/api/v1/users"

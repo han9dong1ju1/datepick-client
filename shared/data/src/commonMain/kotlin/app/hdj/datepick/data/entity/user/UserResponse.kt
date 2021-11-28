@@ -1,4 +1,4 @@
-package app.hdj.datepick.data.entity
+package app.hdj.datepick.data.entity.user
 
 import app.hdj.datepick.data.const.s3ImageUrl
 import app.hdj.datepick.domain.model.user.User

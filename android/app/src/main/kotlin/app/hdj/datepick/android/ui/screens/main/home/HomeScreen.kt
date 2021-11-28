@@ -19,12 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.components.list.FeaturedPagerItem
+import app.hdj.datepick.android.ui.components.list.FeaturedPagerItemShimmer
 import app.hdj.datepick.android.ui.components.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Logo
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.openFeatured
 import app.hdj.datepick.android.ui.screens.openPlace
+import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.android.utils.onSucceedComposable
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.Header
@@ -76,16 +78,23 @@ fun HomeScreen(
                 verticalMargin(10.dp)
 
                 item {
-                    state.featured.onSucceedComposable {
-                        ViewPager(
-                            modifier = Modifier.fillMaxWidth(),
-                            list = it,
-                            itemSpacing = 10.dp,
-                            contentPadding = PaddingValues(horizontal = 20.dp)
-                        ) { item, _ ->
-                            FeaturedPagerItem(item, navController::openFeatured)
+                    state.featured.foldCrossfade(
+                        onLoading = {
+                            Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
+                                FeaturedPagerItemShimmer()
+                            }
+                        },
+                        onSuccess = {
+                            ViewPager(
+                                modifier = Modifier.fillMaxWidth(),
+                                list = it,
+                                itemSpacing = 10.dp,
+                                contentPadding = PaddingValues(horizontal = 20.dp)
+                            ) { item, _ ->
+                                FeaturedPagerItem(item, navController::openFeatured)
+                            }
                         }
-                    }
+                    )
                 }
 
                 stickyHeader { Header(title = "이 장소들은 어때요?") }

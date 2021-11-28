@@ -1,6 +1,6 @@
 package app.hdj.datepick.data.entity.featured
 
-import app.hdj.datepick.data.entity.CourseResponse
+import app.hdj.datepick.data.entity.course.CourseResponse
 import app.hdj.datepick.domain.model.course.FeatureCourseMatas
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
