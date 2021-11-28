@@ -6,16 +6,6 @@ platform :android do
     lane :distributeDebug do
         gradle(task: "clean assembleDebug")
 
-        version_name = get_version_name(
-              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/BuildConfig.java",
-              ext_constant_name:"VERSION_NAME"
-        ).delete_suffix(";")
-
-        version_code = get_version_name(
-              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/BuildConfig.java",
-              ext_constant_name:"VERSION_CODE"
-        ).delete_suffix(";")
-
         firebase_app_distribution(
             service_credentials_file: "firebase_credentials.json",
             app: ENV['FAD_ANDROID_APP_ID'],
@@ -35,11 +25,7 @@ platform :android do
                    {
                        title: "항상 감사하십시오",
                        value: "https://appdistribution.firebase.dev/i/ffdfa1174a751ffe",
-                   },
-                   {
-                       title: "Version",
-                       value: "#{version_name}(#{version_code})"
-                   },
+                   }
                    {
                        title: "Release Notes",
                        value: release_notes
@@ -60,10 +46,6 @@ platform :android do
                        {
                            title: "반성하십시오 고치세요",
                            value: exception
-                       },
-                       {
-                           title: "Version",
-                           value: "#{version_name}(#{version_code})"
                        }
                    ]
                }
