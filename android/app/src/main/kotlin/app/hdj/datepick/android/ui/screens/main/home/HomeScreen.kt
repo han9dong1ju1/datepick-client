@@ -5,9 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -59,13 +64,21 @@ fun HomeScreen(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            InsetSmallTopAppBar(title = {
-                Image(
-                    imageVector = DatePickIcons.Logo,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                    contentDescription = null
-                )
-            }, scrollBehavior = scrollBehavior)
+            InsetSmallTopAppBar(
+                actions = {
+                    IconButton(onClick = { }) {
+                        Icon(imageVector = Icons.Rounded.Notifications, null)
+                    }
+                },
+                title = {
+                    Image(
+                        imageVector = DatePickIcons.Logo,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                        contentDescription = null
+                    )
+                },
+                scrollBehavior = scrollBehavior
+            )
         }
     ) {
         LazyColumn(
@@ -80,7 +93,11 @@ fun HomeScreen(
                 item {
                     state.featured.foldCrossfade(
                         onLoading = {
-                            Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp)
+                            ) {
                                 FeaturedPagerItemShimmer()
                             }
                         },
@@ -97,7 +114,34 @@ fun HomeScreen(
                     )
                 }
 
-                stickyHeader { Header(title = "이 장소들은 어때요?") }
+                stickyHeader {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp)
+                    ) {
+                        Surface(
+                            onClick = {},
+                            color = MaterialTheme.colorScheme.surfaceVariant,
+                            shape = RoundedCornerShape(100.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                            ) {
+                                Icon(imageVector = Icons.Rounded.Search, contentDescription = null)
+                                Spacer(modifier = Modifier.width(10.dp))
+                                Text(text = "검색하기")
+                            }
+                        }
+                    }
+                }
+
+                item {
+                    Header(title = "이 장소들은 어때요?")
+                }
+
 
                 item {
                     Column(Modifier.fillMaxWidth()) {

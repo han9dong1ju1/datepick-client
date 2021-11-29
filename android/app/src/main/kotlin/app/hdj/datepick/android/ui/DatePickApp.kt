@@ -2,18 +2,11 @@ package app.hdj.datepick.android.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Map
-import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.rounded.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +17,7 @@ import app.hdj.datepick.android.ui.dialog.login.loginDialog
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.main.MainBottomNavigation
+import app.hdj.datepick.android.ui.screens.main.MainFloatingActionButton
 import app.hdj.datepick.android.ui.screens.main.home.HomeViewModel
 import app.hdj.datepick.android.ui.screens.main.home.fakeHomeViewModel
 import app.hdj.datepick.android.ui.screens.main.mainScreens
@@ -89,9 +83,9 @@ fun DatePickApp() {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    val currentRoute = navBackStackEntry?.destination?.route
-
-    val appViewModel = LocalDatePickAppViewModel.current
+    val currentRoute = remember(navBackStackEntry?.destination?.route) {
+        navBackStackEntry?.destination?.route
+    }
 
     val homeViewModel = hiltViewModel<HomeViewModel>()
     val mapViewModel = hiltViewModel<MapViewModel>()
@@ -104,9 +98,8 @@ fun DatePickApp() {
 
         BaseScaffold(
             scaffoldState = scaffoldState,
-            bottomBar = {
-                MainBottomNavigation(mainNavigationRoutesWithIcon, currentRoute)
-            }
+            bottomBar = { MainBottomNavigation(mainNavigationRoutesWithIcon, currentRoute) },
+            floatingActionButton = { MainFloatingActionButton(currentRoute) },
         ) {
 
             ModalBottomSheetLayout(

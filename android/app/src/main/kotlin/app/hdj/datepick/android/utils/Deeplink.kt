@@ -11,7 +11,7 @@ import timber.log.Timber
 
 const val DEEPLINK_URL = "datepick://"
 const val EXTERNAL_DEEPLINK_URL = "https://deeplink.datepick.app"
-const val FIREBASE_DYNAMIC_LINK_DOMAIN_URL = "https://datepick.page.link"
+const val FIREBASE_DYNAMIC_LINK_DOMAIN_URL = "https://datepick.app/deeplink"
 
 private const val IosBundleId = "app.hdj.datepick.ios"
 

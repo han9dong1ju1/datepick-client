@@ -23,9 +23,11 @@ import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import coil.ImageLoader
 import coil.compose.LocalImageLoader
+import coil.disk.DiskCache
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -61,6 +63,11 @@ class MainActivity : AppCompatActivity() {
     private fun setup() {
         val imageLoader = ImageLoader.Builder(this)
             .crossfade(true)
+            .diskCache(
+                DiskCache.Builder(this)
+                    .directory(cacheDir)
+                    .build()
+            )
             .build()
 
         setContent {

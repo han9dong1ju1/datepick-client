@@ -35,7 +35,6 @@ interface CreateCourseViewModelDelegate : ViewModelDelegate<State, Effect, Event
     }
 
     sealed class Event {
-        object ReloadContents : Event()
     }
 
 }
@@ -45,7 +44,7 @@ class CreateCourseViewModel @Inject constructor(
 
 ) : ViewModel(), CreateCourseViewModelDelegate {
 
-    override val state = TODO()
+    override val state = MutableStateFlow(State())
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 

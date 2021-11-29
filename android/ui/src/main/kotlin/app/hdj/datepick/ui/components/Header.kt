@@ -16,10 +16,8 @@ import app.hdj.datepick.ui.styles.BaseTheme
 
 @Composable
 fun Header(title: String) {
-    Surface(modifier = Modifier.fillMaxWidth()) {
-        Box(modifier = Modifier.padding(20.dp)) {
-            Text(text = title, style = MaterialTheme.typography.titleMedium)
-        }
+    Box(modifier = Modifier.padding(20.dp)) {
+        Text(text = title, style = MaterialTheme.typography.titleMedium)
     }
 }
 

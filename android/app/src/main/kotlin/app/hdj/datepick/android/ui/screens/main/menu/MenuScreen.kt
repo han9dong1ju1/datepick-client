@@ -66,7 +66,6 @@ fun MenuScreen(
 
         Column(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.surface)
                 .verticalScroll(rememberScrollState())
                 .padding(PaddingValues(horizontal = 20.dp))
         ) {

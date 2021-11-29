@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -26,8 +27,9 @@ fun BaseButton(
     onClick: () -> Unit = {},
 ) {
     Button(
-        modifier = modifier.height(54.dp),
+        modifier = modifier.height(50.dp),
         onClick = onClick,
+        shape = RoundedCornerShape(25.dp),
         enabled = enabled,
         colors = colors,
         border = border,

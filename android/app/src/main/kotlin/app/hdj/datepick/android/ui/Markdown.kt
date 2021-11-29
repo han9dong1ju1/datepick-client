@@ -112,10 +112,9 @@ private fun createTextView(
 
 private fun createMarkdownRender(context: Context): Markwon {
     val imageLoader = ImageLoader.Builder(context)
-        .apply {
-            memoryCache(MemoryCache.Builder(context).maxSizePercent(IMAGE_MEMORY_PERCENTAGE).build())
-            crossfade(true)
-        }.build()
+        .memoryCache(MemoryCache.Builder(context).maxSizePercent(IMAGE_MEMORY_PERCENTAGE).build())
+        .crossfade(true)
+        .build()
 
     return Markwon.builder(context)
         .usePlugin(HtmlPlugin.create())

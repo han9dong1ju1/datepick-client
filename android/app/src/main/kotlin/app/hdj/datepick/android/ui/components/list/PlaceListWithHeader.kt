@@ -8,11 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.openPlace
+import app.hdj.datepick.android.ui.shimmer
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.animation.materialTransitionSpecYaxisPopFromBottom
 import app.hdj.datepick.ui.components.Header
-import app.hdj.datepick.ui.components.Shimmer
 
 @Composable
 fun PlaceListWithHeader(
@@ -50,11 +50,11 @@ private fun PlaceListShimmerWithHeader(headerText: String) {
                 Modifier
                     .fillMaxWidth()
                     .padding(20.dp)) {
-                Shimmer(modifier = Modifier.size(80.dp, 8.dp))
+                Spacer(modifier = Modifier.size(80.dp, 8.dp).shimmer())
                 Spacer(modifier = Modifier.height(10.dp))
-                Shimmer(modifier = Modifier.size(100.dp, 14.dp))
+                Spacer(modifier = Modifier.size(100.dp, 14.dp).shimmer())
                 Spacer(modifier = Modifier.height(10.dp))
-                Shimmer(modifier = Modifier.size(60.dp, 10.dp))
+                Spacer(modifier = Modifier.size(60.dp, 10.dp).shimmer())
             }
         }
     }

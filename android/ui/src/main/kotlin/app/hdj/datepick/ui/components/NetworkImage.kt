@@ -10,9 +10,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import app.hdj.datepick.ui.utils.rememberUrlImagePainter
+import app.hdj.datepick.utils.PlatformLogger
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImagePainter
-import coil.compose.ImagePainter
 import coil.request.ImageRequest
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
@@ -29,26 +29,12 @@ fun NetworkImage(
 ) {
 
     val painter = rememberUrlImagePainter(request = url, builder = imageRequestBuilder)
-    val state = painter.state
 
-    if (onFailed != null && (state is AsyncImagePainter.State.Error || url == null)) onFailed()
+    if (onFailed != null && (painter.state is AsyncImagePainter.State.Error || url == null)) onFailed()
     else {
-        val performAnimation = remember(painter.state) { state is AsyncImagePainter.State.Loading }
-
         Image(
             painter = painter,
-            modifier = modifier
-                .fillMaxSize()
-                .placeholder(
-                    visible = performAnimation,
-                    color = MaterialTheme.colorScheme.onBackground.copy(0.1f),
-                    shape = shimmerShape,
-                    highlight = PlaceholderHighlight.shimmer(
-                        highlightColor = MaterialTheme.colorScheme.onBackground.copy(
-                            0.2f
-                        )
-                    )
-                ),
+            modifier = modifier.fillMaxSize(),
             contentDescription = null,
             contentScale = ContentScale.Crop
         )
