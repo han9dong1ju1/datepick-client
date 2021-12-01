@@ -154,7 +154,6 @@ fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel<U
                 NetworkImage(
                     modifier = Modifier.fillMaxSize(),
                     url = profileImage,
-                    shimmerShape = CircleShape,
                     imageRequestBuilder = { transformations(CircleCropTransformation()) },
                     onFailed = {
                         Surface(

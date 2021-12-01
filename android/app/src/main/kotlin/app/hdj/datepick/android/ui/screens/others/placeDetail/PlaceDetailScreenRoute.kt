@@ -3,7 +3,6 @@ package app.hdj.datepick.android.ui.screens.others.placeDetail
 import androidx.navigation.NavGraphBuilder
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.PlaceDetail.ARGUMENT_PLACE_ID
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import app.hdj.datepick.domain.model.place.Place
@@ -51,11 +50,8 @@ data class PlaceNavigationArgument(
 fun NavGraphBuilder.placeDetailScreen() {
     appNavigationComposable(PlaceDetail) {
 
-        val place = it.getJsonDataArgument<PlaceNavigationArgument>(ARGUMENT_PLACE)
+        val placeId = it.arguments?.getLong(ARGUMENT_PLACE_ID)
 
-        val placeId =
-            it.arguments?.getLong(ARGUMENT_PLACE_ID)
-
-        PlaceDetailScreen(placeId, place)
+        PlaceDetailScreen(placeId)
     }
 }

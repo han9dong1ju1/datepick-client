@@ -1,6 +1,7 @@
 package app.hdj.datepick.android.utils
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
 import app.hdj.datepick.domain.LoadState
@@ -15,11 +16,11 @@ fun <T> LoadState<T>.foldCrossfade(
     onLoading: @Composable () -> Unit = {},
     onFailed: @Composable (T?, Throwable) -> Unit = { _, _ -> },
 ) {
-    Crossfade(targetState = this) {
+    Crossfade(targetState = this) { state ->
         when {
-            it.isStateSucceed() -> onSuccess(it.data)
-            it.isStateLoading() -> onLoading()
-            it.isStateFailed() -> onFailed(it.cachedData, it.throwable)
+            state.isStateSucceed() -> onSuccess(state.data)
+            state.isStateLoading() -> onLoading()
+            state.isStateFailed() -> onFailed(state.cachedData, state.throwable)
         }
     }
 }

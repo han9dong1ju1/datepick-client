@@ -1,32 +1,34 @@
 package app.hdj.datepick.android.ui.screens.others.createCourse
 
-import android.widget.Space
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate
+import androidx.navigation.compose.currentBackStackEntryAsState
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph.CreateCourse.*
+import app.hdj.datepick.android.ui.screens.appNavigationComposable
+import app.hdj.datepick.android.ui.screens.navigateRoute
+import app.hdj.datepick.android.ui.screens.others.createCourse.info.CreateCourseInfoScreen
+import app.hdj.datepick.android.ui.screens.others.createCourse.recommendedPlaces.CreateCourseRecommendedPlacesScreen
+import app.hdj.datepick.android.ui.screens.others.createCourse.tags.CreateCourseTagsScreen
+import app.hdj.datepick.ui.animation.materialTransitionXaxisIn
+import app.hdj.datepick.ui.animation.materialTransitionXaxisOut
 import app.hdj.datepick.ui.components.*
-import app.hdj.datepick.ui.styles.BaseTheme
-import app.hdj.datepick.ui.utils.extract
-import com.google.accompanist.flowlayout.FlowColumn
-import com.google.accompanist.flowlayout.FlowRow
+import app.hdj.datepick.ui.utils.*
 import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateCourseScreen(
-    courseId: String? = null,
     vm: CreateCourseViewModelDelegate = hiltViewModel<CreateCourseViewModel>()
 ) {
 
@@ -34,6 +36,16 @@ fun CreateCourseScreen(
 
     val scrollBehavior = remember {
         TopAppBarDefaults.pinnedScrollBehavior()
+    }
+
+    val appNavController = LocalAppNavController.current
+
+    val createdCourseNavController = rememberAnimatedNavController()
+
+    val navBackStackEntry by createdCourseNavController.currentBackStackEntryAsState()
+
+    val currentRoute = remember(navBackStackEntry?.destination?.route) {
+        navBackStackEntry?.destination?.route
     }
 
     BaseScaffold(
@@ -52,76 +64,78 @@ fun CreateCourseScreen(
         }
     ) {
 
-        Box(
+        ConstraintLayout(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            Column(
-                modifier = Modifier
-                    .padding(20.dp)
-            ) {
-                Text(
-                    text = "나만의 코스를\n만들어보세요.",
-                    style = MaterialTheme.typography.headlineMedium
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = "아래 여러가지 태그들 중 해당되는 것을 선택해주세요.",
-                    color = MaterialTheme.colorScheme.onBackground
-                        .copy(0.5f)
-                        .compositeOver(MaterialTheme.colorScheme.background)
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                FlowRow {
-                    listOf(
-                        "크리스마스", "기념일", "생일파티", "액티비티",
-                        "맛있는 음식", "영화", "여행", "기념일"
-                    )
-                        .forEach {
-                            Row {
-                                Surface(
-                                    onClick = {
+            val (navHostRef, bottomButtonRef) = createRefs()
 
-                                    },
-                                    color = MaterialTheme.colorScheme.surfaceVariant,
-                                    shape = RoundedCornerShape(100.dp)
-                                ) {
-                                    Text(
-                                        modifier = Modifier.padding(
-                                            horizontal = 14.dp,
-                                            vertical = 6.dp
-                                        ), text = it
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(8.dp))
-                            }
-                        }
+            AnimatedNavHost(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(navHostRef, t2t() + b2t(bottomButtonRef) + fillHeightToConstraint),
+                navController = createdCourseNavController,
+                startDestination = Tags.route,
+                enterTransition = {
+                    val initialRoute = initialState.destination.route
+                    val targetRoute = targetState.destination.route
+                    val slideToRight =
+                        (initialRoute == RecommendedPlaces.route && targetRoute == Tags.route) ||
+                                (initialRoute == Info.route)
+
+                    materialTransitionXaxisIn(!slideToRight)
+                },
+                exitTransition = {
+                    val initialRoute = initialState.destination.route
+                    val targetRoute = targetState.destination.route
+                    val slideToRight =
+                        (initialRoute == RecommendedPlaces.route && targetRoute == Tags.route) ||
+                                (initialRoute == Info.route)
+
+                    materialTransitionXaxisOut(!slideToRight)
                 }
+            ) {
+
+                appNavigationComposable(Tags) {
+                    CreateCourseTagsScreen(state = state, event = event)
+                }
+
+                appNavigationComposable(RecommendedPlaces) {
+                    CreateCourseRecommendedPlacesScreen(state = state, event = event)
+                }
+
+                appNavigationComposable(Info) {
+                    CreateCourseInfoScreen(state = state, event = event)
+                }
+
             }
 
             Box(
                 Modifier
                     .navigationBarsPadding()
-                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .constrainAs(bottomButtonRef, b2b())
             ) {
                 BaseButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(20.dp),
-                    text = "다음"
-                )
+                    text = if (currentRoute == Info.route) "저장하기" else "다음으로"
+                ) {
+                    when (currentRoute) {
+                        Tags.route ->
+                            createdCourseNavController.navigateRoute(RecommendedPlaces)
+                        RecommendedPlaces.route ->
+                            createdCourseNavController.navigateRoute(Info)
+                        Info.route -> {
+
+                        }
+                    }
+                }
             }
 
         }
 
     }
 
-}
-
-@Composable
-@Preview
-fun CreateCourseScreenPreview() {
-    BaseTheme {
-        CreateCourseScreen(vm = fakeCreateCourseViewModel())
-    }
 }

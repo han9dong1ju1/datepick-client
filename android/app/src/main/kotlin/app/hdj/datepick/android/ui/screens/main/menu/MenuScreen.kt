@@ -98,7 +98,6 @@ fun MenuScreen(
                         NetworkImage(
                             modifier = Modifier.size(60.dp),
                             url = me.profileImage,
-                            shimmerShape = CircleShape,
                             imageRequestBuilder = { transformations(CircleCropTransformation()) },
                             onFailed = {
                                 Surface(

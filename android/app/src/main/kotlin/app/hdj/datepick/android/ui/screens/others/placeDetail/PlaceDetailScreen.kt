@@ -24,7 +24,6 @@ import com.google.accompanist.insets.navigationBarsHeight
 @Composable
 fun PlaceDetailScreen(
     placeId: Long? = null,
-    place: Place? = null,
     vm: PlaceDetailViewModelDelegate = hiltViewModel<PlaceDetailViewModel>(),
 ) {
 
@@ -35,11 +34,7 @@ fun PlaceDetailScreen(
     val scrollState = rememberScrollState()
 
     LaunchedEffect(true) {
-        if (place != null) {
-            event(PlaceDetailViewModelDelegate.Event.ShowPassedPlace(place))
-        } else {
-            placeId?.let { event(PlaceDetailViewModelDelegate.Event.RequestPlace(it)) }
-        }
+        placeId?.let { event(PlaceDetailViewModelDelegate.Event.RequestPlace(it)) }
     }
 
     BaseScaffold(modifier = Modifier.fillMaxSize()) {

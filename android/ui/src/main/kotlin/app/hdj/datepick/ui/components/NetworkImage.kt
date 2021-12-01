@@ -22,7 +22,6 @@ import com.google.accompanist.placeholder.shimmer
 @Composable
 fun NetworkImage(
     modifier: Modifier = Modifier,
-    shimmerShape: Shape = RectangleShape,
     url: Any?,
     imageRequestBuilder: ImageRequest.Builder.() -> Unit = {},
     onFailed: (@Composable () -> Unit)? = null

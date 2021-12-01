@@ -10,8 +10,10 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material.*
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -122,8 +124,9 @@ class ScrollableTabData(
 fun CustomScrollableTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
-    elevation : Dp = 0.dp,
-    backgroundColor: Color = MaterialTheme.colors.surface,
+    tonalElevation: Dp = 0.dp,
+    shadowElevation: Dp = 0.dp,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = contentColorFor(backgroundColor),
     edgePadding: Dp = 20.dp,
     indicator: @Composable (tabPositions: List<TabPosition>) -> Unit = @Composable { tabPositions ->
@@ -133,16 +136,15 @@ fun CustomScrollableTabRow(
                 .background(color = LocalContentColor.current)
         )
     },
-    divider: @Composable () -> Unit = @Composable {
-        TabRowDefaults.Divider()
-    },
+    divider: @Composable () -> Unit = @Composable {},
     tabs: @Composable () -> Unit
 ) {
     Surface(
         modifier = modifier,
         color = backgroundColor,
         contentColor = contentColor,
-        elevation = elevation
+        shadowElevation = shadowElevation,
+        tonalElevation = tonalElevation
     ) {
         val scrollState = rememberScrollState()
         val coroutineScope = rememberCoroutineScope()

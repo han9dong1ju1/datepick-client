@@ -59,8 +59,8 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
         }
 
         headers {
-            append(Accept, ContentType.Application.Json)
-            append(Accept, ContentType.MultiPart.FormData)
+            accept(ContentType.Application.Json)
+            accept(ContentType.MultiPart.FormData)
         }
 
         url {

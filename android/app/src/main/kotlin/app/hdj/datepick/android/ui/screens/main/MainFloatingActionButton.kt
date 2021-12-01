@@ -24,7 +24,7 @@ fun MainFloatingActionButton(currentRoute: String?) {
         exit = scaleOut() + fadeOut(),
     ) {
         FloatingActionButton(
-            onClick = { navController.navigateRoute(AppNavigationGraph.CreateCourse) },
+            onClick = { navController.navigate(AppNavigationGraph.CreateCourse.route) },
             shape = CircleShape
         ) {
             Icon(imageVector = Icons.Rounded.Add, null)

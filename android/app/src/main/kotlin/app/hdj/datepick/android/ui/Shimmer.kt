@@ -18,7 +18,7 @@ import com.google.accompanist.placeholder.shimmer
 fun Modifier.shimmer(
     visible: Boolean = true,
     color: Color = MaterialTheme.colorScheme.onBackground,
-    shape: Shape = RoundedCornerShape(4.dp),
+    shape: Shape = RoundedCornerShape(100.dp),
     alpha: Float = 0.1f
 ) =  placeholder(
     visible = visible,

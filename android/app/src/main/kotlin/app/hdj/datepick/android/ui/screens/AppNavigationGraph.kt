@@ -121,24 +121,25 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     object LoginDialog : AppNavigationGraph("login_dialog")
 
-    object CreateCourse : AppNavigationGraph("create_course/{courseId}") {
-        const val ARGUMENT_COURSE_ID = "courseId"
+    sealed class CreateCourse(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
+
+        companion object {
+            const val route = "create_course"
+        }
+
+        object Tags : CreateCourse("select_tags")
+        object RecommendedPlaces : CreateCourse("recommended_places")
+        object Info : CreateCourse("edit")
+
     }
 
     object PlaceDetail : AppNavigationGraph("place/{placeId}?place={place}") {
         const val ARGUMENT_PLACE_ID = "placeId"
-        const val ARGUMENT_PLACE = "place"
 
-        fun graphWithArgument(place: Place) = NavigationGraph(
-            "place/${place.id}?place=${Json.encodeToString(PlaceNavigationArgument.fromPlace(place))}"
-        )
+        fun graphWithArgument(place: Place) = NavigationGraph("place/${place.id}")
 
         override val arguments: List<NamedNavArgument> = listOf(
-            navArgument(ARGUMENT_PLACE_ID) { type = NavType.LongType },
-            navArgument(ARGUMENT_PLACE) {
-                type = NavType.StringType
-                nullable = true
-            },
+            navArgument(ARGUMENT_PLACE_ID) { type = NavType.LongType }
         )
 
         override val deeplinks: List<NavDeepLink> = listOf(
