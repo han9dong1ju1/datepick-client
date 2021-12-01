@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.math.max
 
-private val unselectedContentAlpha = 0.3f
+private const val UnselectedContentAlpha = 0.3f
 
 @Composable
 fun Tab(
@@ -50,7 +50,7 @@ fun Tab(
     icon: @Composable (() -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     selectedContentColor: Color = LocalContentColor.current,
-    unselectedContentColor: Color = selectedContentColor.copy(alpha = unselectedContentAlpha)
+    unselectedContentColor: Color = selectedContentColor.copy(alpha = UnselectedContentAlpha)
 ) {
     val styledText: @Composable (() -> Unit)? = text?.let {
         @Composable {
@@ -112,7 +112,7 @@ fun LeadingIconTab(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     selectedContentColor: Color = LocalContentColor.current,
-    unselectedContentColor: Color = selectedContentColor.copy(alpha = unselectedContentAlpha)
+    unselectedContentColor: Color = selectedContentColor.copy(alpha = UnselectedContentAlpha)
 ) {
     // The color of the Ripple should always the be selected color, as we want to show the color
     // before the item is considered selected, and hence before the new contentColor is
@@ -181,7 +181,7 @@ fun Tab(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     selectedContentColor: Color = LocalContentColor.current,
-    unselectedContentColor: Color = selectedContentColor.copy(alpha = unselectedContentAlpha),
+    unselectedContentColor: Color = selectedContentColor.copy(alpha = UnselectedContentAlpha),
     content: @Composable ColumnScope.() -> Unit
 ) {
     // The color of the Ripple should always the selected color, as we want to show the color

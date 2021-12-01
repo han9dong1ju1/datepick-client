@@ -8,6 +8,7 @@ import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.course.CourseTag
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.utils.ViewModelDelegate
+import app.hdj.datepick.utils.PlatformLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -32,7 +33,7 @@ fun fakeCreateCourseViewModel() = object : CreateCourseViewModelDelegate {
 
 interface CreateCourseViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
-    class State(
+    data class State(
         val availableTags: LoadState<List<CourseTag>> = LoadState.loading(),
         val recommendedPlaces: LoadState<List<Place>> = LoadState.loading(),
         val selectedTags: List<CourseTag> = emptyList(),
@@ -91,9 +92,11 @@ class CreateCourseViewModel @Inject constructor(
 
             availableTags.emit(LoadState.success(list))
 
-            recommendedPlaces.emit(LoadState.success(
-                FakePlacePreviewProvider().values.first()
-            ))
+            recommendedPlaces.emit(
+                LoadState.success(
+                    FakePlacePreviewProvider().values.first()
+                )
+            )
         }
     }
 

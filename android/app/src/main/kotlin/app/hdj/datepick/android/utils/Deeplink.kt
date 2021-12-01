@@ -2,8 +2,6 @@ package app.hdj.datepick.android.utils
 
 import android.net.Uri
 import androidx.navigation.navDeepLink
-import com.google.firebase.dynamiclinks.DynamicLink
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.ktx.*
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await

@@ -1,10 +1,16 @@
 package app.hdj.datepick.android.ui.screens.others.createCourse.recommendedPlaces
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -13,8 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import app.hdj.datepick.android.ui.components.list.PlaceHorizontalListItem
 import app.hdj.datepick.android.ui.components.list.PlaceHorizontalListItemShimmer
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.ui.screens.others.createCourse.CreateCourseViewModelDelegate
 import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.ui.components.CustomScrollableTabRow
@@ -24,6 +33,7 @@ import app.hdj.datepick.ui.components.tabIndicatorOffset
 
 @Composable
 fun CreateCourseRecommendedPlacesScreen(
+    navController: NavController,
     state: CreateCourseViewModelDelegate.State,
     event: (CreateCourseViewModelDelegate.Event) -> Unit
 ) {
@@ -72,6 +82,12 @@ fun CreateCourseRecommendedPlacesScreen(
                     .compositeOver(MaterialTheme.colorScheme.background),
                 style = MaterialTheme.typography.bodyMedium
             )
+            Spacer(modifier = Modifier.width(6.dp))
+            IconButton(onClick = {
+                navController.navigateRoute(AppNavigationGraph.CreateCourse.ShowSelectedPlaces)
+            }) {
+                Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = null)
+            }
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -110,7 +126,13 @@ fun CreateCourseRecommendedPlacesScreen(
 
         state.recommendedPlaces.foldCrossfade(
             onLoading = {
-                Box(modifier = Modifier.padding(horizontal = 20.dp)) {
+                Row(
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState(), enabled = false)
+                ) {
+                    Spacer(modifier = Modifier.width(20.dp))
+                    PlaceHorizontalListItemShimmer()
+                    Spacer(modifier = Modifier.width(20.dp))
                     PlaceHorizontalListItemShimmer()
                 }
             },

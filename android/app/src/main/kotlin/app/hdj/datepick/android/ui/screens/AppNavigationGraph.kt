@@ -130,6 +130,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         object Tags : CreateCourse("select_tags")
         object RecommendedPlaces : CreateCourse("recommended_places")
         object Info : CreateCourse("edit")
+        object ShowSelectedPlaces : CreateCourse("selected_places_dialog")
 
     }
 

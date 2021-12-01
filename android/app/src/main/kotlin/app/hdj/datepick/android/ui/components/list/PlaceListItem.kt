@@ -25,7 +25,10 @@ import app.hdj.datepick.ui.utils.*
 @Composable
 fun PlaceVerticalListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
 
-    Surface(onClick = { onPlaceClicked(place) }) {
+    Surface(
+        onClick = { onPlaceClicked(place) },
+        shape = RoundedCornerShape(10.dp)
+    ) {
 
         ConstraintLayout(
             modifier = Modifier
@@ -122,17 +125,20 @@ fun PlaceHorizontalListItem(
     onPlaceClicked: (Place) -> Unit
 ) {
 
-    Surface(onClick = { onPlaceClicked(place) }) {
+    Surface(
+        onClick = { onPlaceClicked(place) },
+        shape = RoundedCornerShape(10.dp)
+    ) {
         Column(
             modifier = Modifier
                 .width(200.dp)
         ) {
 
-            Surface(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp),
-                shape = RoundedCornerShape(10.dp)
+                    .height(150.dp)
+                    .clip(RoundedCornerShape(10.dp)),
             ) {
                 NetworkImage(
                     modifier = Modifier.fillMaxSize(),

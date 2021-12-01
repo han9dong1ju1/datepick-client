@@ -133,10 +133,3 @@ fun NavGraphBuilder.loginDialog() {
 
     }
 }
-
-@Composable
-@Preview
-fun LoginScreenPreview() {
-    BaseTheme {
-    }
-}
