@@ -7,13 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.screens.others.createCourse.CreateCourseViewModelDelegate
+import app.hdj.datepick.ui.utils.extract
 
 
 @Composable
 fun CreateCourseInfoScreen(
-    state: CreateCourseViewModelDelegate.State,
-    event: (CreateCourseViewModelDelegate.Event) -> Unit
+    vm: CreateCourseViewModelDelegate
 ) {
+
+    val (state, effect, event) = vm.extract()
 
     Column(
         modifier = Modifier
@@ -26,7 +28,7 @@ fun CreateCourseInfoScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp),
-            text = "추천 장소들을\n선택해보세요.",
+            text = "이 코스의 이름을\n입력해주세요.",
             style = MaterialTheme.typography.headlineMedium
         )
 

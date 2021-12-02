@@ -14,6 +14,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.CreateCourse.*
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import app.hdj.datepick.android.ui.screens.navigateRoute
@@ -43,8 +44,6 @@ fun CreateCourseScreen(
     vm: CreateCourseViewModelDelegate = hiltViewModel<CreateCourseViewModel>()
 ) {
 
-    val (state, effect, event) = vm.extract()
-
     val scrollBehavior = remember {
         TopAppBarDefaults.pinnedScrollBehavior()
     }
@@ -71,9 +70,6 @@ fun CreateCourseScreen(
                 InsetSmallTopAppBar(
                     navigationIcon = { TopAppBarBackButton() },
                     title = {},
-                    actions = {
-
-                    },
                     scrollBehavior = scrollBehavior
                 )
             }
@@ -115,23 +111,22 @@ fun CreateCourseScreen(
                 ) {
 
                     appNavigationComposable(Tags) {
-                        CreateCourseTagsScreen(state = state, event = event)
+                        CreateCourseTagsScreen(vm)
                     }
 
                     appNavigationComposable(RecommendedPlaces) {
                         CreateCourseRecommendedPlacesScreen(
                             createdCourseNavController,
-                            state = state, event = event
+                            vm
                         )
                     }
 
                     appNavigationComposable(Info) {
-                        CreateCourseInfoScreen(state = state, event = event)
+                        CreateCourseInfoScreen(vm)
                     }
 
                     bottomSheet(ShowSelectedPlaces.route) {
-                        val state by vm.state.collectAsState()
-                        CreateCourseSelectedPlacesDialog(state = state, event = event)
+                        CreateCourseSelectedPlacesDialog(vm)
                     }
 
                 }
@@ -154,7 +149,8 @@ fun CreateCourseScreen(
                             RecommendedPlaces.route ->
                                 createdCourseNavController.navigateRoute(Info)
                             Info.route -> {
-
+                                appNavController.popBackStack()
+                                appNavController.navigateRoute(AppNavigationGraph.Settings)
                             }
                         }
                     }

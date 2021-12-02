@@ -29,14 +29,17 @@ import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.ui.components.CustomScrollableTabRow
 import app.hdj.datepick.ui.components.Tab
 import app.hdj.datepick.ui.components.tabIndicatorOffset
+import app.hdj.datepick.ui.utils.extract
 
 
 @Composable
 fun CreateCourseRecommendedPlacesScreen(
     navController: NavController,
-    state: CreateCourseViewModelDelegate.State,
-    event: (CreateCourseViewModelDelegate.Event) -> Unit
+    vm: CreateCourseViewModelDelegate
 ) {
+
+    val (state, effect, event) = vm.extract()
+
     var selectedTabIndex by remember { mutableStateOf(0) }
 
     Column(

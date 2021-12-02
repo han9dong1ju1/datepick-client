@@ -12,15 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.screens.others.createCourse.CreateCourseViewModelDelegate
+import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
 
 
 @Composable
 fun CreateCourseSelectedPlacesDialog(
-    state: CreateCourseViewModelDelegate.State,
-    event: (CreateCourseViewModelDelegate.Event) -> Unit
+    vm: CreateCourseViewModelDelegate
 ) {
+
+    val (state, effect, event) = vm.extract()
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)

@@ -43,7 +43,7 @@ interface SettingsViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 class SettingListViewModel @Inject constructor(
 ) : ViewModel(), SettingsViewModelDelegate {
 
-    override val state: StateFlow<State> = TODO()
+    override val state: StateFlow<State> = MutableStateFlow(State())
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 

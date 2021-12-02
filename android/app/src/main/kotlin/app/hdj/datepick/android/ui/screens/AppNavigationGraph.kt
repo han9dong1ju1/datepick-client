@@ -19,20 +19,32 @@ import com.google.accompanist.navigation.animation.composable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-fun NavController.navigateRoute(navigationGraph: NavigationGraph) {
-    navigate(navigationGraph.route)
+fun NavController.navigateRoute(
+    navigationGraph: NavigationGraph,
+    builder: NavOptionsBuilder.() -> Unit = {}
+) {
+    navigate(navigationGraph.route, builder)
 }
 
-fun NavController.openFeatured(featured: Featured) {
-    navigateRoute(AppNavigationGraph.FeaturedDetail.graphWithArgument(featured))
+fun NavController.openFeatured(
+    featured: Featured,
+    builder: NavOptionsBuilder.() -> Unit = {}
+) {
+    navigateRoute(AppNavigationGraph.FeaturedDetail.graphWithArgument(featured), builder)
 }
 
-fun NavController.openPlace(place: Place) {
-    navigateRoute(AppNavigationGraph.PlaceDetail.graphWithArgument(place))
+fun NavController.openPlace(
+    place: Place,
+    builder: NavOptionsBuilder.() -> Unit = {}
+) {
+    navigateRoute(AppNavigationGraph.PlaceDetail.graphWithArgument(place), builder)
 }
 
-fun NavController.openWebUrl(url: String) {
-    navigateRoute(AppNavigationGraph.Web.graphWithArgument(url))
+fun NavController.openWebUrl(
+    url: String,
+    builder: NavOptionsBuilder.() -> Unit = {}
+) {
+    navigateRoute(AppNavigationGraph.Web.graphWithArgument(url), builder)
 }
 
 fun <Graph : NavigationGraph> NavGraphBuilder.appNavigationComposable(
@@ -62,9 +74,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
     /* Main Start */
     sealed class Main(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
 
-        companion object {
-            const val route = "main"
-        }
+        companion object : AppNavigationGraph("main")
 
         object Home : Main("home")
         object Pick : Main("pick")
@@ -168,9 +178,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     sealed class Settings(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
 
-        companion object {
-            const val route = "settings"
-        }
+        companion object : AppNavigationGraph("settings")
 
         object GeneralSettings : Settings("general")
         object NotificationSettings : Settings("notification")

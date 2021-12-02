@@ -12,14 +12,16 @@ import app.hdj.datepick.android.ui.screens.others.createCourse.CreateCourseViewM
 import app.hdj.datepick.android.ui.shimmer
 import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.ui.components.Chip
+import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.flowlayout.FlowRow
 
 
 @Composable
 fun CreateCourseTagsScreen(
-    state: CreateCourseViewModelDelegate.State,
-    event : (CreateCourseViewModelDelegate.Event) -> Unit
+    vm: CreateCourseViewModelDelegate
 ) {
+
+    val (state, effect, event) = vm.extract()
 
     Column(
         modifier = Modifier.padding(20.dp)
