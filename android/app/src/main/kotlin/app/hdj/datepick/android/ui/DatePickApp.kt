@@ -77,8 +77,6 @@ fun DatePickApp() {
 
     navController.navigatorProvider += bottomSheetNavigator
 
-    val scaffoldState = rememberScaffoldState()
-
     val coroutineScope = rememberCoroutineScope()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -97,7 +95,6 @@ fun DatePickApp() {
     ) {
 
         BaseScaffold(
-            scaffoldState = scaffoldState,
             bottomBar = { MainBottomNavigation(mainNavigationRoutesWithIcon, currentRoute) },
             floatingActionButton = { MainFloatingActionButton(currentRoute) },
         ) {

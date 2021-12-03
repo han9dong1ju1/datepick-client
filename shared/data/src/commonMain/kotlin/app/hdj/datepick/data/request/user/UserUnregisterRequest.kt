@@ -1,4 +1,4 @@
-package app.hdj.datepick.data.request
+package app.hdj.datepick.data.request.user
 
 import kotlinx.serialization.Serializable
 

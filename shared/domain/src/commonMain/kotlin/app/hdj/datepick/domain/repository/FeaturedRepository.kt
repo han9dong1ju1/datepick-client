@@ -9,6 +9,6 @@ interface FeaturedRepository {
 
     fun getFeatured(): Flow<LoadState<List<Featured>>>
 
-    fun getFeaturedDetail(id: Long): Flow<LoadState<FeaturedDetail>>
+    fun getById(id: Long): Flow<LoadState<FeaturedDetail>>
 
 }

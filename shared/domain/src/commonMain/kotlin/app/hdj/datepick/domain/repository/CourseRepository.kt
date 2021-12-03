@@ -6,6 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface CourseRepository {
 
-    fun getById(id: String) : Flow<LoadState<Course>>
+    fun getById(id: Long) : Flow<LoadState<Course>>
+
+    fun create(
+        title : String,
+        region : String
+    ) : Flow<LoadState<Course>>
 
 }

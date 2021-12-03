@@ -2,9 +2,9 @@ package app.hdj.datepick.data.repository
 
 import app.hdj.datepick.data.api.UserApi
 import app.hdj.datepick.data.datastore.MeDataStore
-import app.hdj.datepick.data.request.UserProfileRequest
-import app.hdj.datepick.data.request.UserRegisterRequest
-import app.hdj.datepick.data.request.UserUnregisterRequest
+import app.hdj.datepick.data.request.user.UserProfileRequest
+import app.hdj.datepick.data.request.user.UserRegisterRequest
+import app.hdj.datepick.data.request.user.UserUnregisterRequest
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.user.User

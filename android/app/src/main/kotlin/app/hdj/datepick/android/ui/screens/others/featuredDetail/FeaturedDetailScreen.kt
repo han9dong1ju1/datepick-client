@@ -12,21 +12,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import app.hdj.datepick.MR
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.MR
 import app.hdj.datepick.android.ui.MarkdownText
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.Event.FetchFeaturedById
-import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.Event.ServePreviousFeaturedData
-import app.hdj.datepick.android.utils.createDynamicLink
 import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.android.utils.onSucceedComposable
 import app.hdj.datepick.data.utils.res
-import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.InsetLargeTopAppBar
 import app.hdj.datepick.ui.components.InsetSmallTopAppBar
@@ -43,8 +40,7 @@ import com.google.accompanist.placeholder.shimmer
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeaturedDetailScreen(
-    id: Long? = null,
-    prevFeatured: Featured? = null,
+    id: Long,
     vm: FeaturedDetailViewModelDelegate = hiltViewModel<FeaturedDetailViewModel>()
 ) {
 
@@ -53,11 +49,7 @@ fun FeaturedDetailScreen(
     val context = LocalContext.current
 
     SideEffect {
-        if (prevFeatured != null) {
-            event(ServePreviousFeaturedData(prevFeatured))
-        } else if (id != null) {
-            event(FetchFeaturedById(id))
-        }
+        event(FetchFeaturedById(id))
     }
 
     effect.collectInLaunchedEffect {
@@ -183,13 +175,5 @@ private fun FeaturedContentShimmer() {
             Spacer(modifier = Modifier.height(10.dp))
             shimmerUi((200..300).random().dp, 14.dp)
         }
-    }
-}
-
-@Composable
-@Preview
-fun FeaturedDetailScreenPreview() {
-    BaseTheme {
-        FeaturedDetailScreen(vm = fakeFeaturedDetailViewModel())
     }
 }

@@ -13,6 +13,7 @@ import app.hdj.datepick.domain.model.featured.FeaturedDetail
 import app.hdj.datepick.domain.repository.FeaturedRepository
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.date.isPassedDay
 import kotlinx.coroutines.flow.flow
 
 @Singleton
@@ -33,7 +34,7 @@ class FeaturedRepositoryImp @Inject constructor(
         }
     }
 
-    override fun getFeaturedDetail(id: Long) = flow<LoadState<FeaturedDetail>> {
+    override fun getById(id: Long) = flow<LoadState<FeaturedDetail>> {
         emitState {
             api.getFeaturedDetail(id).data
         }

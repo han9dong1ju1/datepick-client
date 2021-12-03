@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0")
         classpath("com.android.tools.build:gradle:7.2.0-alpha04")
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0")
         classpath(Google.playServicesGradlePlugin)
@@ -17,7 +17,7 @@ buildscript {
 }
 
 plugins {
-    id("com.google.devtools.ksp") version "1.5.31-1.0.0"
+    id("com.google.devtools.ksp") version "1.6.0-1.0.1"
 }
 
 allprojects {
@@ -38,6 +38,7 @@ allprojects {
                 "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
                 "-Xopt-in=com.google.accompanist.pager.ExperimentalPagerApi",
                 "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
+                "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
                 "-Xopt-in=coil.annotation.ExperimentalCoilApi",
             )
         }

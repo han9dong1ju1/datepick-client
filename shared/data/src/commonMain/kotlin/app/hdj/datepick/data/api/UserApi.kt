@@ -1,9 +1,9 @@
 package app.hdj.datepick.data.api
 
 import app.hdj.datepick.data.entity.user.UserResponse
-import app.hdj.datepick.data.request.UserProfileRequest
-import app.hdj.datepick.data.request.UserRegisterRequest
-import app.hdj.datepick.data.request.UserUnregisterRequest
+import app.hdj.datepick.data.request.user.UserProfileRequest
+import app.hdj.datepick.data.request.user.UserRegisterRequest
+import app.hdj.datepick.data.request.user.UserUnregisterRequest
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.*
@@ -44,10 +44,14 @@ open class UserApiImp @Inject constructor(override val client: HttpClient) : Use
                     append("nickname", nickname)
                     append("gender", gender.name)
                     image?.let {
-                        appendInput("image", headers = Headers.build {
-                            append(HttpHeaders.ContentType, ContentType.Image.Any)
-                            append(HttpHeaders.ContentDisposition, "filename=$myId.jpg")
-                        }) { it }
+                        appendInput(
+                            key = "image",
+                            headers =
+                            headersOf(
+                                HttpHeaders.ContentType to listOf(ContentType.Image.Any.toString()),
+                                HttpHeaders.ContentDisposition to listOf("filename=$myId.jpg")
+                            )
+                        ) { it }
                     }
                 }
             )

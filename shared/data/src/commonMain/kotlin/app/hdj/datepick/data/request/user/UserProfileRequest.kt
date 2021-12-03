@@ -1,4 +1,4 @@
-package app.hdj.datepick.data.request
+package app.hdj.datepick.data.request.user
 
 import app.hdj.datepick.domain.model.user.UserGender
 import io.ktor.utils.io.core.*

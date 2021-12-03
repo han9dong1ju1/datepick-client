@@ -5,6 +5,7 @@ import app.hdj.datepick.domain.FirebaseAuthenticator
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.map
+import app.hdj.datepick.domain.usecase.UseCase
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import dev.gitlive.firebase.auth.AuthCredential
@@ -16,10 +17,10 @@ import kotlinx.coroutines.flow.*
 class AuthenticateMeUseCase @Inject constructor(
     private val authenticator: FirebaseAuthenticator,
     private val meRepository: MeRepository
-) {
+)  : UseCase<AuthCredential, Flow<LoadState<Unit>>> {
 
-    fun execute(credential: AuthCredential) = flow {
-        authenticator.signInWithCredential(credential)
+    override fun invoke(input: AuthCredential) = flow {
+        authenticator.signInWithCredential(input)
         val flows : Flow<LoadState<Unit>> = meRepository
             .fetch()
             .flatMapConcat {

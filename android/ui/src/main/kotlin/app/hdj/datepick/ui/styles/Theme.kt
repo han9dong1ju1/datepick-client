@@ -137,10 +137,6 @@ fun BaseTheme(
     MaterialTheme(
         colorScheme = colorSchemes,
         typography = Typographies,
-        content = {
-            CompositionLocalProvider(LocalIndication provides rememberRipple()) {
-                content()
-            }
-        }
+        content = content
     )
 }

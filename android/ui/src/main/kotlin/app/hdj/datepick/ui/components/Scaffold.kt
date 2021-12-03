@@ -15,34 +15,22 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BaseScaffold(
     modifier: Modifier = Modifier,
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
-    drawerContent: @Composable (ColumnScope.() -> Unit)? = null,
-    drawerGesturesEnabled: Boolean = true,
-    drawerShape: Shape = RoundedCornerShape(16.dp),
-    drawerTonalElevation: Dp = DrawerDefaults.Elevation,
-    drawerScrimColor: Color = DrawerDefaults.scrimColor,
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = contentColorFor(containerColor),
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         modifier,
-        scaffoldState,
         topBar,
         bottomBar,
         floatingActionButton,
         floatingActionButtonPosition,
-        drawerContent,
-        drawerGesturesEnabled,
-        drawerShape,
-        drawerTonalElevation,
-        drawerScrimColor,
         containerColor,
         contentColor,
-        content = content
+        content
     )
 }

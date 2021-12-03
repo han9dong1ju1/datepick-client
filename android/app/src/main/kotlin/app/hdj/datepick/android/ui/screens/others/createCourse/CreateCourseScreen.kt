@@ -44,10 +44,6 @@ fun CreateCourseScreen(
     vm: CreateCourseViewModelDelegate = hiltViewModel<CreateCourseViewModel>()
 ) {
 
-    val scrollBehavior = remember {
-        TopAppBarDefaults.pinnedScrollBehavior()
-    }
-
     val appNavController = LocalAppNavController.current
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     val createdCourseNavController = rememberAnimatedNavController(bottomSheetNavigator)
@@ -63,15 +59,9 @@ fun CreateCourseScreen(
         sheetBackgroundColor = Color.Unspecified
     ) {
         BaseScaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            modifier = Modifier.fillMaxSize(),
             topBar = {
-                InsetSmallTopAppBar(
-                    navigationIcon = { TopAppBarBackButton() },
-                    title = {},
-                    scrollBehavior = scrollBehavior
-                )
+                InsetSmallTopAppBar(navigationIcon = { TopAppBarBackButton() })
             }
         ) {
 
@@ -149,8 +139,9 @@ fun CreateCourseScreen(
                             RecommendedPlaces.route ->
                                 createdCourseNavController.navigateRoute(Info)
                             Info.route -> {
+                                // TODO Course Create 하는 요청이후 Navigate 되도록 변경
                                 appNavController.popBackStack()
-                                appNavController.navigateRoute(AppNavigationGraph.Settings)
+                                appNavController.navigate("course/0")
                             }
                         }
                     }

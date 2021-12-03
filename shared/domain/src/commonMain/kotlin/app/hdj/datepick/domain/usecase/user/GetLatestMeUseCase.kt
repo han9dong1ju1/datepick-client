@@ -7,6 +7,7 @@ import app.hdj.datepick.domain.LoadState.Companion.success
 import app.hdj.datepick.domain.mapFailedState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.repository.MeRepository
+import app.hdj.datepick.domain.usecase.UseCase
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.features.*
@@ -16,12 +17,12 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 
 @Singleton
-class GetMeUseCase @Inject constructor(
+class GetLatestMeUseCase @Inject constructor(
     private val meRepository: MeRepository,
     private val authenticator: Authenticator
-) {
+) : UseCase<Unit, Flow<LoadState<User>>> {
 
-    fun fetchFromRemote(): Flow<LoadState<User>> {
+    override operator fun invoke(input : Unit): Flow<LoadState<User>> {
         return meRepository.fetch().mapFailedState { error ->
             val cached = meRepository.cache()
             val throwable = error.throwable
@@ -34,15 +35,5 @@ class GetMeUseCase @Inject constructor(
             failed(throwable, cached)
         }
     }
-
-    fun fetch(): Flow<LoadState<User>> {
-        return flow {
-            val cached = meRepository.cache()
-            if (cached != null) emit(success(cached))
-            else emitAll(fetchFromRemote())
-        }
-    }
-
-    fun observable() = meRepository.observableCache()
 
 }

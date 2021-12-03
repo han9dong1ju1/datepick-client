@@ -6,11 +6,10 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
-import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedNavigationArgument
 import app.hdj.datepick.android.ui.screens.others.image.ImagesScreenArgument
-import app.hdj.datepick.android.ui.screens.others.placeDetail.PlaceNavigationArgument
 import app.hdj.datepick.android.utils.datePickNavDeepLink
 import app.hdj.datepick.android.utils.externalDatePickNavDeepLink
+import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.utils.NavigationGraph
@@ -84,23 +83,14 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
     }
     /* Main End */
 
-    object FeaturedDetail : AppNavigationGraph("featured/{featuredId}?featured={featured}") {
+    object FeaturedDetail : AppNavigationGraph("featured/{featuredId}") {
         const val ARGUMENT_FEATURED_ID = "featuredId"
-        const val ARGUMENT_FEATURED = "featured"
 
         fun graphWithArgument(featured: Featured) =
-            NavigationGraph(
-                "featured/${featured.id}?featured=${
-                    Json.encodeToString(FeaturedNavigationArgument.fromFeatured(featured))
-                }"
-            )
+            NavigationGraph("featured/${featured.id}")
 
         override val arguments: List<NamedNavArgument> = listOf(
-            navArgument(ARGUMENT_FEATURED_ID) { type = NavType.LongType },
-            navArgument(ARGUMENT_FEATURED) {
-                type = NavType.StringType
-                nullable = true
-            }
+            navArgument(ARGUMENT_FEATURED_ID) { type = NavType.LongType }
         )
 
         override val deeplinks: List<NavDeepLink> = listOf(
@@ -133,9 +123,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     sealed class CreateCourse(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
 
-        companion object {
-            const val route = "create_course"
-        }
+        companion object : AppNavigationGraph("create_course")
 
         object Tags : CreateCourse("select_tags")
         object RecommendedPlaces : CreateCourse("recommended_places")
@@ -144,7 +132,8 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     }
 
-    object PlaceDetail : AppNavigationGraph("place/{placeId}?place={place}") {
+    object PlaceDetail : AppNavigationGraph("place/{placeId}") {
+
         const val ARGUMENT_PLACE_ID = "placeId"
 
         fun graphWithArgument(place: Place) = NavigationGraph("place/${place.id}")
@@ -167,6 +156,17 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     object Course : AppNavigationGraph("course/{courseId}") {
         const val ARGUMENT_COURSE_ID = "courseId"
+
+        fun graphWithArgument(
+            course: app.hdj.datepick.domain.model.course.Course
+        ) = NavigationGraph("course/${course.id}")
+
+        override val arguments = listOf(
+            navArgument(ARGUMENT_COURSE_ID) {
+                type = NavType.LongType
+            }
+        )
+
     }
 
     object UserProfileEdit : AppNavigationGraph("user_profile_edit")

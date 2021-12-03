@@ -1,6 +1,6 @@
 package app.hdj.datepick.data.entity.featured
 
-import app.hdj.datepick.data.entity.course.CourseResponse
+import app.hdj.datepick.data.entity.course.CourseMetaResponse
 import app.hdj.datepick.domain.model.course.FeatureCourseMatas
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FeaturedCourseMetasResponse(
     @SerialName("order") override val order : Int,
-    @SerialName("course_meta") override val courseMeta : CourseResponse
+    @SerialName("course_meta") override val courseMeta : CourseMetaResponse
 ) : FeatureCourseMatas

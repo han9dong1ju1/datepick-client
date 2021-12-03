@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CourseResponse(
+data class CourseMetaResponse(
     @SerialName("id") override val id: Long,
     @SerialName("title") override val title: String,
     @SerialName("region") override val region: String,

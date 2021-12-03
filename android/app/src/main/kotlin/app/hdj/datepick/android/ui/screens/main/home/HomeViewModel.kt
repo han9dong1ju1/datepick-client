@@ -9,6 +9,7 @@ import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
+import app.hdj.datepick.domain.usecase.invoke
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -60,8 +61,10 @@ class HomeViewModel @Inject constructor(
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()
 
+    private val featuredList = getFeaturedListUseCase()
+
     override val state: StateFlow<State> = combine(
-        getFeaturedListUseCase.execute(),
+        featuredList,
         flowOf(true)
     ) { featured, _ ->
         State(featured)

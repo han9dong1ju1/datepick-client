@@ -2,7 +2,6 @@ package app.hdj.datepick.android.ui.screens.others.featuredDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.FeaturedDetail.graphWithArgument
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.*
 import app.hdj.datepick.android.utils.createDynamicLink
@@ -14,17 +13,14 @@ import app.hdj.datepick.domain.LoadState.Companion.success
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.map
 import app.hdj.datepick.domain.model.course.Course
-import app.hdj.datepick.domain.model.course.FeatureCourseMatas
 import app.hdj.datepick.domain.model.featured.Featured
-import app.hdj.datepick.domain.model.featured.FeaturedWithContent
-import app.hdj.datepick.domain.usecase.featured.GetFeaturedUseCase
+import app.hdj.datepick.domain.usecase.featured.GetFeaturedDetailUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -67,7 +63,7 @@ interface FeaturedDetailViewModelDelegate : ViewModelDelegate<State, Effect, Eve
 @HiltViewModel
 @OptIn(FlowPreview::class)
 class FeaturedDetailViewModel @Inject constructor(
-    getFeaturedUseCase: GetFeaturedUseCase
+    getFeaturedDetailUseCase: GetFeaturedDetailUseCase
 ) : ViewModel(), FeaturedDetailViewModelDelegate {
 
     private val previousFeaturedData = MutableStateFlow<Featured?>(null)
@@ -77,7 +73,7 @@ class FeaturedDetailViewModel @Inject constructor(
 
     private val featuredDetail = featuredId
         .flatMapConcat {
-            if (it != null) getFeaturedUseCase.execute(it)
+            if (it != null) getFeaturedDetailUseCase.invoke(it)
             else flowOf(loading())
         }
 

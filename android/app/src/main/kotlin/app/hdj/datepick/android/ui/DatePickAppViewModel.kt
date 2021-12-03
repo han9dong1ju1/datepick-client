@@ -6,14 +6,15 @@ import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.*
 import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.domain.model.user.User
-import app.hdj.datepick.domain.usecase.user.GetMeUseCase
+import app.hdj.datepick.domain.usecase.invoke
+import app.hdj.datepick.domain.usecase.user.GetLatestMeUseCase
+import app.hdj.datepick.domain.usecase.user.ObserveMeUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 val LocalDatePickAppViewModel = compositionLocalOf<DatePickAppViewModelDelegate> {
@@ -43,10 +44,11 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 @OptIn(FlowPreview::class)
 class DatePickAppViewModel @Inject constructor(
     private val authenticator: Authenticator,
-    getMeUseCase: GetMeUseCase
+    getLatestMeUseCase: GetLatestMeUseCase,
+    observeMeUseCase: ObserveMeUseCase
 ) : ViewModel(), DatePickAppViewModelDelegate {
 
-    private val me = getMeUseCase.observable()
+    private val me = observeMeUseCase()
 
     override val state: StateFlow<State> =
         combine(me, flowOf("")) { me, _ ->
@@ -56,7 +58,7 @@ class DatePickAppViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             authenticator.getCurrentFirebaseUser()
-            getMeUseCase.fetchFromRemote().collect()
+            getLatestMeUseCase.invoke().collect()
         }
     }
 

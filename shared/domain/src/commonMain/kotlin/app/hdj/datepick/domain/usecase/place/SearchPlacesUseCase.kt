@@ -3,6 +3,7 @@ package app.hdj.datepick.domain.usecase.place
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.repository.PlaceRepository
+import app.hdj.datepick.domain.usecase.UseCase
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import kotlinx.coroutines.flow.Flow
@@ -10,10 +11,10 @@ import kotlinx.coroutines.flow.Flow
 @Singleton
 class SearchPlacesUseCase @Inject constructor(
     private val placeRepository: PlaceRepository
-) {
+) : UseCase<SearchPlacesUseCase.Param, Flow<LoadState<List<Place>>>> {
 
-    fun execute(param: Param): Flow<LoadState<List<Place>>> {
-        val (query, sort) = param
+    override fun invoke(input: Param): Flow<LoadState<List<Place>>> {
+        val (query, sort) = input
         return placeRepository.search(query, sort.value)
     }
 

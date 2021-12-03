@@ -7,7 +7,6 @@ import app.hdj.datepick.android.ui.dialog.login.LoginViewModelDelegate.*
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.usecase.user.AuthenticateMeUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
-import app.hdj.datepick.utils.PlatformLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.gitlive.firebase.auth.AuthCredential
 import kotlinx.coroutines.FlowPreview
@@ -62,7 +61,7 @@ class LoginViewModel @Inject constructor(
 
     override val state: StateFlow<State> = authenticateTrigger
         .filterNotNull()
-        .flatMapConcat { authenticateMeUseCase.execute(it) }
+        .flatMapConcat { authenticateMeUseCase.invoke(it) }
         .map {
             when (it) {
                 is LoadState.Loading -> Unit

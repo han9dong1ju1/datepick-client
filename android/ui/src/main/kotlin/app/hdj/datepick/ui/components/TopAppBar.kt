@@ -27,7 +27,7 @@ fun TopAppBarBackButton(
 
 @Composable
 fun InsetLargeTopAppBar(
-    title: @Composable () -> Unit,
+    title: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
@@ -59,7 +59,7 @@ fun InsetLargeTopAppBar(
 
 @Composable
 fun InsetSmallTopAppBar(
-    title: @Composable () -> Unit,
+    title: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
@@ -88,9 +88,10 @@ fun InsetSmallTopAppBar(
     }
 
 }
+
 @Composable
 fun InsetMediumTopAppBar(
-    title: @Composable () -> Unit,
+    title: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},

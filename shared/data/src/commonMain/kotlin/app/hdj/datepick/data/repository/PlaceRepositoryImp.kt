@@ -19,23 +19,23 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 class PlaceRepositoryImp @Inject constructor(
     private val api: PlaceApi,
-    private val datastore: PlaceDataStore
+    private val dataStore: PlaceDataStore
 ) : PlaceRepository, Mapper<PlaceEntity, Place> by PlaceMapper {
 
     override fun getById(id: Long) = flow {
         emitState {
-            val cached = datastore.getById(id)
+            val cached = dataStore.getById(id)
             if (cached != null && cached.cachedAt isPassedDay 30) cached.asDomain()
             else api.getById(id).data
         }.onSuccess {
-            datastore.save(it.asTable())
+            dataStore.save(it.asTable())
         }
     }
 
     override fun search(query: String, sort: String) = flow<LoadState<List<Place>>> {
         emitState {
             val places = requireNotNull(api.search(query, sort).data)
-            datastore.saveAll(places = places.mapTable())
+            dataStore.saveAll(places = places.mapTable())
             places
         }
     }
