@@ -30,7 +30,7 @@ fun materialTransitionYaxisOut(outToTop: Boolean = true) =
     fadeOut(
         animationSpec = tween(
             90,
-            easing = FastOutLinearInEasing
+            easing = LinearOutSlowInEasing
         )
     ) + slideOutVertically(
         animationSpec = tween(300, easing = LinearOutSlowInEasing),

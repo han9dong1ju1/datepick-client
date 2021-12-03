@@ -1,5 +1,6 @@
 package app.hdj.datepick.android.ui.screens.others.createCourse
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -119,6 +120,12 @@ fun CreateCourseScreen(
                         CreateCourseSelectedPlacesDialog(vm)
                     }
 
+                }
+
+                val visibility = false
+
+                AnimatedVisibility(visible = visibility) {
+                    Text(text = "I can disappear!")
                 }
 
                 Box(

@@ -1,15 +1,20 @@
 package app.hdj.datepick.android.ui.screens.others.course
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldColors
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.InsetSmallTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
+import app.hdj.datepick.ui.components.material3TextFieldColors
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 
@@ -28,7 +34,6 @@ fun CourseScreen(
 ) {
 
     val (state, effect, event) = vm.extract()
-
 
     val scrollBehavior = remember {
         TopAppBarDefaults.pinnedScrollBehavior()
@@ -55,7 +60,7 @@ fun CourseScreen(
                     }) {
                         AnimatedContent(targetState = state.isEditMode) {
                             Icon(
-                                imageVector = if (it) Icons.Rounded.Edit else Icons.Rounded.Done,
+                                imageVector = if (it) Icons.Rounded.Done else Icons.Rounded.Edit,
                                 contentDescription = null
                             )
                         }
@@ -71,16 +76,21 @@ fun CourseScreen(
 
                 Box(modifier = Modifier.padding(20.dp)) {
 
-                    BasicTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = title,
-                        readOnly = !state.isEditMode,
-                        onValueChange = { title = it },
-                        textStyle = MaterialTheme.typography.headlineMedium.copy(
-                            color = MaterialTheme.colorScheme.onBackground
-                        ),
-                        cursorBrush = SolidColor(MaterialTheme.colorScheme.secondary)
-                    )
+                    Crossfade(targetState = state.isEditMode) {
+                        if (it) {
+                            TextField(
+                                modifier = Modifier.fillMaxWidth(),
+                                value = title,
+                                readOnly = !state.isEditMode,
+                                enabled = state.isEditMode,
+                                onValueChange = { title = it },
+                                textStyle = MaterialTheme.typography.headlineMedium,
+                                colors = TextFieldDefaults.material3TextFieldColors()
+                            )
+                        } else {
+                            Text(text = title, style = MaterialTheme.typography.headlineMedium)
+                        }
+                    }
 
                 }
             }

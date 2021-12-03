@@ -28,7 +28,7 @@ fun materialTransitionXaxisOut(outToLeft: Boolean = true) =
     fadeOut(
         animationSpec = tween(
             90,
-            easing = FastOutLinearInEasing
+            easing = LinearOutSlowInEasing
         )
     ) + slideOutHorizontally(
         animationSpec = tween(300, easing = LinearOutSlowInEasing),
