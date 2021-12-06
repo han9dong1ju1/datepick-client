@@ -28,6 +28,8 @@ dependencies {
     implementation(AndroidX.core)
     implementation(AndroidX.core.splashscreen)
 
+    implementation(AndroidX.glanceAppWidget)
+
     implementation(AndroidX.appCompat)
 
     implementation(AndroidX.paging.commonKtx)

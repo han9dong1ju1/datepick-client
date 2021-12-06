@@ -3,6 +3,9 @@ package app.hdj.datepick.ui.styles
 import android.os.Build
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Colors
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -137,6 +140,26 @@ fun BaseTheme(
     MaterialTheme(
         colorScheme = colorSchemes,
         typography = Typographies,
-        content = content
+        content = {
+            androidx.compose.material.MaterialTheme(
+                colors = Colors(
+                    primary = MaterialTheme.colorScheme.primary,
+                    primaryVariant = MaterialTheme.colorScheme.primaryContainer,
+                    secondary = MaterialTheme.colorScheme.secondary,
+                    secondaryVariant = MaterialTheme.colorScheme.surfaceVariant,
+                    background = MaterialTheme.colorScheme.background,
+                    surface = MaterialTheme.colorScheme.surface,
+                    error = MaterialTheme.colorScheme.error,
+                    onPrimary = MaterialTheme.colorScheme.onPrimary,
+                    onSecondary = MaterialTheme.colorScheme.onSecondary,
+                    onBackground = MaterialTheme.colorScheme.onBackground,
+                    onSurface = MaterialTheme.colorScheme.onSurface,
+                    onError = MaterialTheme.colorScheme.onError,
+                    isLight = !isDarkTheme
+                )
+            ) {
+                content()
+            }
+        }
     )
 }

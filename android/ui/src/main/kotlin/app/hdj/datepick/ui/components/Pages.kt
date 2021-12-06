@@ -20,7 +20,7 @@ fun <T> ViewPager(
     list: List<T>,
     pagerState: PagerState = rememberPagerState(),
     itemSpacing: Dp = 0.dp,
-    contentPadding : PaddingValues = PaddingValues(),
+    contentPadding: PaddingValues = PaddingValues(),
     autoScrollDelay: Long = 0,
     content: @Composable PagerScope.(T, Int) -> Unit
 ) {
@@ -41,7 +41,8 @@ fun <T> ViewPager(
     }
 
     HorizontalPager(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth(),
         state = pagerState,
         itemSpacing = itemSpacing,
         contentPadding = contentPadding,

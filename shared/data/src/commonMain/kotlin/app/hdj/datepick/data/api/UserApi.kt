@@ -35,6 +35,7 @@ open class UserApiImp @Inject constructor(override val client: HttpClient) : Use
         userProfileRequest: UserProfileRequest
     ): ApiResponse<UserResponse> =
         patch("$myId") {
+            headers.remove(HttpHeaders.ContentType)
             val (nickname, gender, image) = userProfileRequest
 
             parameter("removePhoto", false)

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -14,12 +16,15 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.android.ui.icons.DatePickIcons
+import app.hdj.datepick.android.ui.icons.Diary
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.PreviewScope
@@ -27,9 +32,7 @@ import app.hdj.datepick.android.ui.providers.preview.FakeUserPreviewProvider
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.domain.model.user.User
-import app.hdj.datepick.ui.components.HighSurface
-import app.hdj.datepick.ui.components.InsetLargeTopAppBar
-import app.hdj.datepick.ui.components.NetworkImage
+import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import coil.transform.CircleCropTransformation
@@ -67,12 +70,15 @@ fun MenuScreen(
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(PaddingValues(horizontal = 20.dp))
         ) {
 
             if (me == null) {
 
-                Column(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(PaddingValues(horizontal = 20.dp))
+                ) {
 
                     Button(onClick = {
                         navController.navigateRoute(AppNavigationGraph.LoginDialog)
@@ -84,17 +90,11 @@ fun MenuScreen(
 
             } else {
 
-                HighSurface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(28.dp),
-                    onClick = { navController.navigateRoute(AppNavigationGraph.UserProfileEdit) }
-                ) {
+                Header("내 계정")
 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(20.dp)
-                    ) {
-
+                ListItem(
+                    title = me.nickname,
+                    leftSideUi = {
                         NetworkImage(
                             modifier = Modifier.size(60.dp),
                             url = me.profileImage,
@@ -119,23 +119,50 @@ fun MenuScreen(
                                 }
                             }
                         )
-
-                        Spacer(modifier = Modifier.width(20.dp))
-
-                        Text(text = me.nickname)
-
+                    },
+                    rightSideUi = {
+                        Icon(
+                            imageVector = Icons.Rounded.ChevronRight,
+                            contentDescription = null
+                        )
                     }
-
+                ) {
+                    navController.navigateRoute(AppNavigationGraph.UserProfileEdit)
                 }
 
             }
 
-            (0..100).forEach {
-                Text(
-                    text = it.toString(), modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp)
-                )
+            ListItem(
+                title = "내 데이트 다이어리",
+                leftSideUi = {
+                    Icon(
+                        imageVector = DatePickIcons.Diary,
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                }
+            ) {
+
+            }
+
+            Header("기타")
+
+            ListItem(
+                title = "공지사항",
+                leftSideUi = {
+                    Icon(imageVector = Icons.Rounded.Notifications, contentDescription = null)
+                }
+            ) {
+
+            }
+
+            ListItem(
+                title = "오픈센스 라이센스",
+                leftSideUi = {
+                    Icon(imageVector = Icons.Rounded.Notifications, contentDescription = null)
+                }
+            ) {
+
             }
 
         }

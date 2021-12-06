@@ -1,21 +1,15 @@
 package app.hdj.datepick.android.ui.screens.others.createCourse
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.CreateCourse.*
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import app.hdj.datepick.android.ui.screens.navigateRoute
@@ -25,13 +19,11 @@ import app.hdj.datepick.android.ui.screens.others.createCourse.recommendedPlaces
 import app.hdj.datepick.android.ui.screens.others.createCourse.tags.CreateCourseTagsScreen
 import app.hdj.datepick.ui.animation.materialTransitionXaxisIn
 import app.hdj.datepick.ui.animation.materialTransitionXaxisOut
-import app.hdj.datepick.ui.components.*
-import app.hdj.datepick.ui.utils.*
-import app.hdj.datepick.utils.PlatformLogger
-import com.google.accompanist.insets.navigationBarsPadding
+import app.hdj.datepick.ui.components.BaseScaffold
+import app.hdj.datepick.ui.components.InsetSmallTopAppBar
+import app.hdj.datepick.ui.components.TopAppBarBackButton
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
@@ -57,7 +49,8 @@ fun CreateCourseScreen(
 
     ModalBottomSheetLayout(
         bottomSheetNavigator = bottomSheetNavigator,
-        sheetBackgroundColor = Color.Unspecified
+        sheetBackgroundColor = Color.Unspecified,
+        scrimColor = Color.Black.copy(0.5f)
     ) {
         BaseScaffold(
             modifier = Modifier.fillMaxSize(),
@@ -65,93 +58,55 @@ fun CreateCourseScreen(
                 InsetSmallTopAppBar(navigationIcon = { TopAppBarBackButton() })
             }
         ) {
+            AnimatedNavHost(
+                modifier = Modifier
+                    .fillMaxSize(),
+                navController = createdCourseNavController,
+                startDestination = Tags.route,
+                enterTransition = {
+                    val initialRoute = initialState.destination.route
+                    val targetRoute = targetState.destination.route
+                    val slideToRight =
+                        (initialRoute == RecommendedPlaces.route && targetRoute == Tags.route) ||
+                                (initialRoute == Info.route)
 
-            ConstraintLayout(
-                modifier = Modifier.fillMaxSize()
+                    materialTransitionXaxisIn(!slideToRight)
+                },
+                exitTransition = {
+                    val initialRoute = initialState.destination.route
+                    val targetRoute = targetState.destination.route
+                    val slideToRight =
+                        (initialRoute == RecommendedPlaces.route && targetRoute == Tags.route) ||
+                                (initialRoute == Info.route)
+
+                    materialTransitionXaxisOut(!slideToRight)
+                }
             ) {
 
-                val (navHostRef, bottomButtonRef) = createRefs()
-
-                AnimatedNavHost(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .constrainAs(
-                            navHostRef,
-                            t2t() + b2t(bottomButtonRef) + fillHeightToConstraint
-                        ),
-                    navController = createdCourseNavController,
-                    startDestination = Tags.route,
-                    enterTransition = {
-                        val initialRoute = initialState.destination.route
-                        val targetRoute = targetState.destination.route
-                        val slideToRight =
-                            (initialRoute == RecommendedPlaces.route && targetRoute == Tags.route) ||
-                                    (initialRoute == Info.route)
-
-                        materialTransitionXaxisIn(!slideToRight)
-                    },
-                    exitTransition = {
-                        val initialRoute = initialState.destination.route
-                        val targetRoute = targetState.destination.route
-                        val slideToRight =
-                            (initialRoute == RecommendedPlaces.route && targetRoute == Tags.route) ||
-                                    (initialRoute == Info.route)
-
-                        materialTransitionXaxisOut(!slideToRight)
+                appNavigationComposable(Tags) {
+                    CreateCourseTagsScreen(vm) {
+                        createdCourseNavController.navigateRoute(RecommendedPlaces)
                     }
-                ) {
-
-                    appNavigationComposable(Tags) {
-                        CreateCourseTagsScreen(vm)
-                    }
-
-                    appNavigationComposable(RecommendedPlaces) {
-                        CreateCourseRecommendedPlacesScreen(
-                            createdCourseNavController,
-                            vm
-                        )
-                    }
-
-                    appNavigationComposable(Info) {
-                        CreateCourseInfoScreen(vm)
-                    }
-
-                    bottomSheet(ShowSelectedPlaces.route) {
-                        CreateCourseSelectedPlacesDialog(vm)
-                    }
-
                 }
 
-                val visibility = false
-
-                AnimatedVisibility(visible = visibility) {
-                    Text(text = "I can disappear!")
-                }
-
-                Box(
-                    Modifier
-                        .navigationBarsPadding()
-                        .fillMaxWidth()
-                        .constrainAs(bottomButtonRef, b2b())
-                ) {
-                    BaseButton(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp),
-                        text = if (currentRoute == Info.route) "저장하기" else "다음으로"
+                appNavigationComposable(RecommendedPlaces) {
+                    CreateCourseRecommendedPlacesScreen(
+                        createdCourseNavController,
+                        vm
                     ) {
-                        when (currentRoute) {
-                            Tags.route ->
-                                createdCourseNavController.navigateRoute(RecommendedPlaces)
-                            RecommendedPlaces.route ->
-                                createdCourseNavController.navigateRoute(Info)
-                            Info.route -> {
-                                // TODO Course Create 하는 요청이후 Navigate 되도록 변경
-                                appNavController.popBackStack()
-                                appNavController.navigate("course/0")
-                            }
-                        }
+                        createdCourseNavController.navigateRoute(Info)
                     }
+                }
+
+                appNavigationComposable(Info) {
+                    CreateCourseInfoScreen(vm) {
+                        appNavController.popBackStack()
+                        appNavController.navigate("course/0")
+                    }
+                }
+
+                bottomSheet(ShowSelectedPlaces.route) {
+                    CreateCourseSelectedPlacesDialog(vm)
                 }
 
             }

@@ -25,6 +25,8 @@ object Multiplatform {
 
 val Firebase.multiplatform get() = Multiplatform
 
+val AndroidX.glanceAppWidget get() = "androidx.glance:glance-appwidget:_"
+
 val Google.Android.maps get() = "com.google.maps.android:maps-ktx:_"
 val Google.Android.mapsUtils get() = "com.google.maps.android:maps-utils-ktx:_"
 val Google.Accompanist.navigation get() = Navigation

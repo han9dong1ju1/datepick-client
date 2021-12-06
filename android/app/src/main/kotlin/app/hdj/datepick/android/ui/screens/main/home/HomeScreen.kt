@@ -106,7 +106,8 @@ fun HomeScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 list = it,
                                 itemSpacing = 10.dp,
-                                contentPadding = PaddingValues(horizontal = 20.dp)
+                                contentPadding = PaddingValues(horizontal = 20.dp),
+                                autoScrollDelay = 7000
                             ) { item, _ ->
                                 FeaturedPagerItem(item, navController::openFeatured)
                             }
@@ -161,23 +162,4 @@ fun HomeScreen(
 
     }
 
-}
-
-@Composable
-@Preview(showBackground = true, showSystemUi = true)
-fun HomeScreenPreview() {
-    BaseTheme {
-        HomeScreen(fakeHomeViewModel())
-    }
-}
-
-@Composable
-@Preview(
-    showBackground = true, showSystemUi = true,
-    device = Devices.NEXUS_10
-)
-fun HomeScreenTabletPreview() {
-    BaseTheme {
-        HomeScreen(fakeHomeViewModel())
-    }
 }

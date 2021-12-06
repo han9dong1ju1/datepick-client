@@ -26,6 +26,7 @@ allprojects {
         google()
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
+        maven(url = "https://androidx.dev/snapshots/builds/7909927/artifacts/repository")
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
