@@ -23,10 +23,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.badge.DatePickBadges
-import app.hdj.datepick.android.ui.icons.DatePickIcons
-import app.hdj.datepick.android.ui.icons.Diary
-import app.hdj.datepick.android.ui.icons.Notice
-import app.hdj.datepick.android.ui.icons.NotificationSettings
+import app.hdj.datepick.android.ui.icons.*
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.PreviewScope
@@ -59,7 +56,7 @@ fun MenuScreen(
 
     val me = LocalMe.current
 
-    Scaffold(
+    BaseScaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             InsetLargeTopAppBar(
@@ -164,6 +161,19 @@ fun MenuScreen(
                 rightSideUi = DatePickBadges.new
             ) {
 
+            }
+            ListItem(
+                title = "앱 설정",
+                leftSideUi = {
+                    Icon(
+                        imageVector = DatePickIcons.AppSettings,
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                },
+                rightSideUi = DatePickBadges.new
+            ) {
+                navController.navigateRoute(AppNavigationGraph.AppSettings)
             }
 
             Header("기타")

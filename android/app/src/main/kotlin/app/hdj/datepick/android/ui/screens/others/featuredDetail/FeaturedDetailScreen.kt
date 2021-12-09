@@ -3,23 +3,22 @@ package app.hdj.datepick.android.ui.screens.others.featuredDetail
 import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import app.hdj.datepick.MR
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.MarkdownText
+import app.hdj.datepick.MR
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.Event.FetchFeaturedById
 import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.android.utils.onSucceedComposable
@@ -28,13 +27,16 @@ import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.InsetLargeTopAppBar
 import app.hdj.datepick.ui.components.InsetSmallTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
-import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
 import app.hdj.datepick.ui.utils.extract
-import app.hdj.datepick.ui.utils.verticalMargin
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
+import com.halilibo.richtext.markdown.Markdown
+import com.halilibo.richtext.ui.RichText
+import com.halilibo.richtext.ui.RichTextStyle
+import com.halilibo.richtext.ui.material.MaterialRichText
+import com.halilibo.richtext.ui.string.RichTextStringStyle
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -106,26 +108,19 @@ fun FeaturedDetailScreen(
                 item {
                     state.content.foldCrossfade(
                         onSuccess = {
-                            MarkdownText(
-                                markdown = it,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(20.dp),
-                                style = MaterialTheme.typography.bodyMedium
-                            )
+                            CompositionLocalProvider(androidx.compose.material.LocalContentColor provides MaterialTheme.colorScheme.onBackground) {
+                                MaterialRichText(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(20.dp),
+                                    style = RichTextStyle(paragraphSpacing = 20.sp)
+                                ) {
+                                    Markdown(content = it)
+                                }
+                            }
                         },
                         onLoading = { FeaturedContentShimmer() }
                     )
-                }
-
-                verticalMargin(80.dp)
-
-                item {
-                    LazyRow {
-
-
-                    }
                 }
 
             }

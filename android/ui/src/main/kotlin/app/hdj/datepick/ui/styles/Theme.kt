@@ -52,16 +52,16 @@ Inverse On Surface          #fff4eff4   #ff313033 *
 
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF8B374B),
+    primary = Color(0xFFC7536F),
     onPrimary = Color(0xFFFFDDE7),
-    primaryContainer = Color(0xFF8B374B),
+    primaryContainer = Color(0xFFA33A54),
     onPrimaryContainer = Color(0xFFFFDDE7),
     inversePrimary = Color(0xFFA45064),
 
-    secondary = Color(0xFFDCCBC2),
-    onSecondary = Color(0xFF41332D),
-    secondaryContainer = Color(0xFF584944),
-    onSecondaryContainer = Color(0xFFF8E5DE),
+    secondary = Color(0xFFE9ACBE),
+    onSecondary = Color(0xFF583039),
+    secondaryContainer = Color(0xFF461F28),
+    onSecondaryContainer = Color(0xFFFFDDE7),
 
     tertiary = Color(0xFFBAB8EF),
     onTertiary = Color(0xFF262549),
@@ -75,10 +75,10 @@ private val DarkColorScheme = darkColorScheme(
 
     outline = Color(0xff938f99),
 
-    background = Color(0xFF1F1B1C),
+    background = Color(0xFF0F0C0D),
     onBackground = Color(0xFFE6E1E3),
 
-    surface = Color(0xFF1F1B1C),
+    surface = Color(0xFF0F0C0D),
     onSurface = Color(0xFFE6E1E2),
     surfaceVariant = Color(0xFF4F4549),
     onSurfaceVariant = Color(0xFFD0C4C9),

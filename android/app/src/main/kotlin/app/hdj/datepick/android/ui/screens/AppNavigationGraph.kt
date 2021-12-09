@@ -176,13 +176,18 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         const val ARGUMENT_SORT = "sort"
     }
 
-    sealed class Settings(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
+    sealed class AppSettings (nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
 
-        companion object : AppNavigationGraph("settings")
+        companion object : AppNavigationGraph("app_settings") {
 
-        object GeneralSettings : Settings("general")
-        object NotificationSettings : Settings("notification")
+        }
+
+        object SettingList : AppSettings("setting_list")
+        object ThemeDialog : AppSettings("theme_dialog")
+
     }
+
+    object NotificationSettings : AppNavigationGraph("notification_settings")
 
     object Web : AppNavigationGraph("web?url={url}") {
         const val ARGUMENT_URL = "url"

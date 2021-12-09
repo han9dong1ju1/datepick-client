@@ -2,10 +2,12 @@ package app.hdj.datepick.android.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Map
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,21 +21,17 @@ import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.main.MainBottomNavigation
 import app.hdj.datepick.android.ui.screens.main.MainFloatingActionButton
 import app.hdj.datepick.android.ui.screens.main.home.HomeViewModel
-import app.hdj.datepick.android.ui.screens.main.home.fakeHomeViewModel
 import app.hdj.datepick.android.ui.screens.main.mainScreens
 import app.hdj.datepick.android.ui.screens.main.map.MapViewModel
-import app.hdj.datepick.android.ui.screens.main.map.fakeMapViewModel
 import app.hdj.datepick.android.ui.screens.main.menu.MenuViewModel
-import app.hdj.datepick.android.ui.screens.main.menu.fakeMenuViewModel
 import app.hdj.datepick.android.ui.screens.main.pick.PickViewModel
-import app.hdj.datepick.android.ui.screens.main.pick.fakePickViewModel
+import app.hdj.datepick.android.ui.screens.others.appSettings.appSettingsScreen
 import app.hdj.datepick.android.ui.screens.others.course.courseScreen
 import app.hdj.datepick.android.ui.screens.others.createCourse.createCourseScreen
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.featuredDetailScreen
 import app.hdj.datepick.android.ui.screens.others.image.imagesScreen
 import app.hdj.datepick.android.ui.screens.others.placeDetail.placeDetailScreen
 import app.hdj.datepick.android.ui.screens.others.placeList.placeListScreen
-import app.hdj.datepick.android.ui.screens.others.settings.settingsScreens
 import app.hdj.datepick.android.ui.screens.others.userProfileEdit.userProfileEditScreenRoute
 import app.hdj.datepick.android.ui.screens.others.web.webScreen
 import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
@@ -125,7 +123,7 @@ fun DatePickApp() {
                     createCourseScreen()
 
                     /* Setting Screens */
-                    settingsScreens()
+                    appSettingsScreen()
 
                     webScreen()
                     imagesScreen()

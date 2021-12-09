@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.*
 import app.hdj.datepick.domain.Authenticator
+import app.hdj.datepick.domain.model.settings.AppTheme
 import app.hdj.datepick.domain.model.user.User
+import app.hdj.datepick.domain.repository.SettingsRepository
 import app.hdj.datepick.domain.usecase.invoke
 import app.hdj.datepick.domain.usecase.user.GetLatestMeUseCase
 import app.hdj.datepick.domain.usecase.user.ObserveMeUseCase
@@ -24,7 +26,8 @@ val LocalDatePickAppViewModel = compositionLocalOf<DatePickAppViewModelDelegate>
 interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val me: User? = null
+        val me: User? = null,
+        val appTheme: AppTheme = AppTheme.System
     )
 
     sealed class Effect {
@@ -44,6 +47,7 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 @OptIn(FlowPreview::class)
 class DatePickAppViewModel @Inject constructor(
     private val authenticator: Authenticator,
+    settingsRepository: SettingsRepository,
     getLatestMeUseCase: GetLatestMeUseCase,
     observeMeUseCase: ObserveMeUseCase
 ) : ViewModel(), DatePickAppViewModelDelegate {
@@ -51,8 +55,8 @@ class DatePickAppViewModel @Inject constructor(
     private val me = observeMeUseCase()
 
     override val state: StateFlow<State> =
-        combine(me, flowOf("")) { me, _ ->
-            State(me)
+        combine(me, settingsRepository.theme) { me, theme ->
+            State(me, theme)
         }.stateIn(viewModelScope, SharingStarted.Lazily, State())
 
     init {

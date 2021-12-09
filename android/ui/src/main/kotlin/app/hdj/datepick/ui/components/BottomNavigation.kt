@@ -1,6 +1,9 @@
 package app.hdj.datepick.ui.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,11 +30,14 @@ fun NavigationGraphBottomNavigation(
 
     HighSurface(
         modifier = Modifier
-            .navigationBarsHeight(80.dp)
+            .navigationBarsHeight(60.dp)
             .fillMaxWidth()
     ) {
         Column {
-            NavigationBar(containerColor = Color.Unspecified) {
+            NavigationBar(
+                modifier = Modifier.height(60.dp),
+                containerColor = Color.Unspecified
+            ) {
                 list.forEach { (icon, label, nav, badgeEnabled) ->
                     NavigationBarItem(
                         selected = nav.route == navController.currentScreenRoute(),
@@ -50,7 +56,10 @@ fun NavigationGraphBottomNavigation(
                                 Icon(icon, null)
                             }
                         },
-                        label = { Text(label) }
+                        colors = NavigationBarItemDefaults.colors(
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.3f)
+                        )
+//                        label = { Text(label) }
                     )
                 }
             }
