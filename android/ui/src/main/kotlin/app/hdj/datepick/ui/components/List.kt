@@ -16,7 +16,7 @@ fun Header(
     title: String
 ) {
     Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge
@@ -72,6 +72,8 @@ fun ListItem(
                     text = title,
                     style = MaterialTheme.typography.titleMedium
                 )
+
+                Spacer(modifier = Modifier.height(4.dp))
 
                 if (subtitle != null) {
                     Text(

@@ -25,13 +25,22 @@ fun NavigationGraphBottomNavigation(
     list: List<BottomNavigationProperty>
 ) {
 
-    HighSurface(modifier = Modifier.navigationBarsHeight(80.dp).fillMaxWidth()) {
+    HighSurface(
+        modifier = Modifier
+            .navigationBarsHeight(80.dp)
+            .fillMaxWidth()
+    ) {
         Column {
             NavigationBar(containerColor = Color.Unspecified) {
                 list.forEach { (icon, label, nav, badgeEnabled) ->
                     NavigationBarItem(
                         selected = nav.route == navController.currentScreenRoute(),
-                        onClick = { navController.navigate(nav.route) },
+                        onClick = {
+                            navController.navigate(nav.route) {
+                                launchSingleTop = true
+                                popUpTo(list.first().navigation.route)
+                            }
+                        },
                         icon = {
                             if (badgeEnabled) {
                                 BadgedBox(badge = {

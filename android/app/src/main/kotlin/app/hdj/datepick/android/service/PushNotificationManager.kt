@@ -115,7 +115,7 @@ class PushNotificationManagerImp @Inject constructor(
             .setContentText(content)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setSmallIcon(app.hdj.datepick.ui.R.mipmap.ic_launcher_round)
+            .setSmallIcon(app.hdj.datepick.android.R.drawable.ic_launcher_foreground)
             .setContentIntent(
                 TaskStackBuilder.create(context)
                     .addNextIntent(intent)

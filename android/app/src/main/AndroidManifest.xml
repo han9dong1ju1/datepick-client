@@ -47,7 +47,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".ui.widgets.PlaceRecommendationAppWidgetReceiver"
+        <receiver android:name=".ui.glance.PlaceRecommendationAppWidgetReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

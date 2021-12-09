@@ -75,7 +75,7 @@ fun FeaturedDetailScreen(
 
     BaseScaffold(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             InsetSmallTopAppBar(

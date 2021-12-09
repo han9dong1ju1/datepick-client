@@ -84,7 +84,7 @@ internal object TypeScale {
 
     val TitleLargeFont = font
     val TitleLargeLineHeight = 28.0.sp
-    val TitleLargeSize = 22.sp
+    val TitleLargeSize = 18.sp
     val TitleLargeTracking = 0.0.sp
     val TitleLargeWeight = FontWeight.Bold
 

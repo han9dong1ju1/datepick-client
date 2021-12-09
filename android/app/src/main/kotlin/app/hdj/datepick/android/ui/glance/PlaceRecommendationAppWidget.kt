@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.widgets
+package app.hdj.datepick.android.ui.glance
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color

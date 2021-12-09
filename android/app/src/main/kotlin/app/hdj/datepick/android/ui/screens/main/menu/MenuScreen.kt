@@ -5,9 +5,8 @@ import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.*
@@ -23,8 +22,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.android.ui.components.badge.DatePickBadges
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Diary
+import app.hdj.datepick.android.ui.icons.Notice
+import app.hdj.datepick.android.ui.icons.NotificationSettings
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.PreviewScope
@@ -90,10 +92,9 @@ fun MenuScreen(
 
             } else {
 
-                Header("내 계정")
-
                 ListItem(
                     title = me.nickname,
+                    subtitle = "내 프로필 설정",
                     leftSideUi = {
                         NetworkImage(
                             modifier = Modifier.size(60.dp),
@@ -119,18 +120,21 @@ fun MenuScreen(
                                 }
                             }
                         )
-                    },
-                    rightSideUi = {
-                        Icon(
-                            imageVector = Icons.Rounded.ChevronRight,
-                            contentDescription = null
-                        )
                     }
                 ) {
                     navController.navigateRoute(AppNavigationGraph.UserProfileEdit)
                 }
 
             }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(MaterialTheme.colorScheme.onBackground.copy(0.1f))
+            )
+
+            Header("내 계정")
 
             ListItem(
                 title = "내 데이트 다이어리",
@@ -140,7 +144,24 @@ fun MenuScreen(
                         contentDescription = null,
                         tint = Color.Unspecified
                     )
-                }
+                },
+                rightSideUi = DatePickBadges.event
+            ) {
+
+            }
+
+            Header("설정")
+
+            ListItem(
+                title = "알림 설정",
+                leftSideUi = {
+                    Icon(
+                        imageVector = DatePickIcons.NotificationSettings,
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                },
+                rightSideUi = DatePickBadges.new
             ) {
 
             }
@@ -150,8 +171,10 @@ fun MenuScreen(
             ListItem(
                 title = "공지사항",
                 leftSideUi = {
-                    Icon(imageVector = Icons.Rounded.Notifications, contentDescription = null)
-                }
+                    Icon(imageVector = DatePickIcons.Notice, contentDescription = null,
+                        tint = Color.Unspecified)
+                },
+                rightSideUi = DatePickBadges.notice
             ) {
 
             }
@@ -159,8 +182,13 @@ fun MenuScreen(
             ListItem(
                 title = "오픈센스 라이센스",
                 leftSideUi = {
-                    Icon(imageVector = Icons.Rounded.Notifications, contentDescription = null)
-                }
+                    Icon(
+                        imageVector = Icons.Rounded.Code,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                },
+                rightSideUi = DatePickBadges.update
             ) {
 
             }
