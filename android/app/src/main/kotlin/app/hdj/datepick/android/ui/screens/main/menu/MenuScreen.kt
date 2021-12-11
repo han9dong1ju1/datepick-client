@@ -23,10 +23,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.badge.DatePickBadges
-import app.hdj.datepick.android.ui.icons.DatePickIcons
-import app.hdj.datepick.android.ui.icons.Diary
-import app.hdj.datepick.android.ui.icons.Notice
-import app.hdj.datepick.android.ui.icons.NotificationSettings
+import app.hdj.datepick.android.ui.icons.*
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.PreviewScope
@@ -168,7 +165,7 @@ fun MenuScreen(
                 title = "앱 설정",
                 leftSideUi = {
                     Icon(
-                        imageVector = DatePickIcons.NotificationSettings,
+                        imageVector = DatePickIcons.AppSettings,
                         contentDescription = null,
                         tint = Color.Unspecified
                     )
@@ -210,18 +207,4 @@ fun MenuScreen(
 
     }
 
-}
-
-@Composable
-@Preview(showSystemUi = true, showBackground = true)
-fun ProfileScreenPreview(
-    @PreviewParameter(FakeUserPreviewProvider::class) user: User?
-) {
-    PreviewScope {
-        CompositionLocalProvider(LocalMe provides user) {
-            BaseTheme {
-                MenuScreen(fakeMenuViewModel())
-            }
-        }
-    }
 }

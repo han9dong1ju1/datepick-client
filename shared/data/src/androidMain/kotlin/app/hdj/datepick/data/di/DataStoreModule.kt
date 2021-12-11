@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.preferencesDataStore
 import app.hdj.datepick.data.datastore.*
+import app.hdj.datepick.data.settings.AppSettingsImp
+import app.hdj.datepick.domain.settings.AppSettings
 import com.russhwolf.settings.AndroidSettings
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
@@ -37,6 +39,9 @@ interface DataStoreModule {
 
     @get:[Binds]
     val FeaturedDataStoreImp.featuredDataStore: FeaturedDataStore
+
+    @get:[Binds]
+    val AppSettingsImp.appSettings : AppSettings
 
     companion object {
 

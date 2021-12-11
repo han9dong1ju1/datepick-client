@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.*
 import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.domain.model.user.User
+import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.domain.usecase.invoke
 import app.hdj.datepick.domain.usecase.user.GetLatestMeUseCase
 import app.hdj.datepick.domain.usecase.user.ObserveMeUseCase
@@ -24,7 +25,8 @@ val LocalDatePickAppViewModel = compositionLocalOf<DatePickAppViewModelDelegate>
 interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val me: User? = null
+        val me: User? = null,
+        val appTheme: AppSettings.AppTheme? = null
     )
 
     sealed class Effect {
@@ -33,7 +35,7 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 
     sealed class Event {
 
-        object ReloadContents : Event()
+        class UpdateAppTheme(val appTheme: AppSettings.AppTheme) : Event()
 
 
     }
@@ -44,6 +46,7 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 @OptIn(FlowPreview::class)
 class DatePickAppViewModel @Inject constructor(
     private val authenticator: Authenticator,
+    private val appSettings: AppSettings,
     getLatestMeUseCase: GetLatestMeUseCase,
     observeMeUseCase: ObserveMeUseCase
 ) : ViewModel(), DatePickAppViewModelDelegate {
@@ -51,8 +54,8 @@ class DatePickAppViewModel @Inject constructor(
     private val me = observeMeUseCase()
 
     override val state: StateFlow<State> =
-        combine(me, flowOf("")) { me, _ ->
-            State(me)
+        combine(me, appSettings.appTheme) { me, appTheme ->
+            State(me, appTheme)
         }.stateIn(viewModelScope, SharingStarted.Lazily, State())
 
     init {
@@ -68,8 +71,8 @@ class DatePickAppViewModel @Inject constructor(
     override fun event(event: Event) {
         viewModelScope.launch {
             when (event) {
-                Event.ReloadContents -> {
-
+                is Event.UpdateAppTheme -> {
+                    appSettings.updateAppTheme(event.appTheme)
                 }
             }
         }

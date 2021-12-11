@@ -63,7 +63,7 @@ fun InsetSmallTopAppBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
-    colors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(),
+    colors: TopAppBarColors = TopAppBarDefaults.smallTopAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
 
@@ -95,7 +95,7 @@ fun InsetMediumTopAppBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
-    colors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(),
+    colors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
 

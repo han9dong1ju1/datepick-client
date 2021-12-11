@@ -88,16 +88,16 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xff6750a4),
+    primary = Color(0xFFDD6A80),
     onPrimary = Color(0xffffffff),
-    primaryContainer = Color(0xffeaddff),
-    onPrimaryContainer = Color(0xff21005d),
-    inversePrimary = Color(0xffd0bcff),
+    primaryContainer = Color(0xFFDD6A80),
+    onPrimaryContainer = Color(0xffffffff),
+    inversePrimary = Color(0xfff2b8b5),
 
-    secondary = Color(0xff625b71),
+    secondary = Color(0xFFDD6A80),
     onSecondary = Color(0xffffffff),
-    secondaryContainer = Color(0xffe8def8),
-    onSecondaryContainer = Color(0xff1d192b),
+    secondaryContainer = Color(0xFFF8DEE3),
+    onSecondaryContainer = Color(0xFF702F45),
 
     tertiary = Color(0xff7d5260),
     onTertiary = Color(0xffffffff),
@@ -111,16 +111,16 @@ private val LightColorScheme = lightColorScheme(
 
     outline = Color(0xff79747e),
 
-    background = Color(0xfffffbfe),
-    onBackground = Color(0xff1c1b1f),
+    background = Color(0xFFFFFFFF),
+    onBackground = Color(0xFF1D1517),
 
-    surface = Color(0xfffffbfe),
-    onSurface = Color(0xff1c1b1f),
-    surfaceVariant = Color(0xffe7e0ec),
-    onSurfaceVariant = Color(0xff49454f),
+    surface = Color(0xFFFFFFFF),
+    onSurface = Color(0xFF1D1517),
+    surfaceVariant = Color(0xFFFFEDF1),
+    onSurfaceVariant = Color(0xFF66263F),
 
-    inverseSurface = Color(0xff313033),
-    inverseOnSurface = Color(0xfff4eff4),
+    inverseSurface = Color(0xFF333031),
+    inverseOnSurface = Color(0xFFE6E1E3),
 )
 
 @Composable
