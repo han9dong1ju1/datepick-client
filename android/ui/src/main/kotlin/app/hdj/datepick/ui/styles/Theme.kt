@@ -58,15 +58,15 @@ private val DarkColorScheme = darkColorScheme(
     onPrimaryContainer = Color(0xFFFFDDE7),
     inversePrimary = Color(0xFFA45064),
 
-    secondary = Color(0xFFDCC2C9),
-    onSecondary = Color(0xFF412D33),
-    secondaryContainer = Color(0xFF584448),
-    onSecondaryContainer = Color(0xFFF8DEE4),
+    secondary = Color(0xFF8B374B),
+    onSecondary = Color(0xffffffff),
+    secondaryContainer = Color(0xFF52343C),
+    onSecondaryContainer = Color(0xFFF8DEE3),
 
-    tertiary = Color(0xFFBAB8EF),
-    onTertiary = Color(0xFF262549),
-    tertiaryContainer = Color(0xFF3C3B63),
-    onTertiaryContainer = Color(0xFFDED8FF),
+    tertiary = Color(0xffffffff),
+    onTertiary = Color(0xff7d5260),
+    tertiaryContainer = Color(0xff31111d),
+    onTertiaryContainer = Color(0xffffd8e4),
 
     error = Color(0xfff2b8b5),
     onError = Color(0xff601410),
