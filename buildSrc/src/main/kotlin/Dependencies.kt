@@ -59,11 +59,10 @@ object Utils {
 
     const val jsoup = "org.jsoup:jsoup:_"
 
-    const val markdown = "io.noties.markwon:core:_"
-    const val markdownStrikethrough = "io.noties.markwon:ext-strikethrough:_"
-    const val markdownTables = "io.noties.markwon:ext-tables:_"
-    const val markdownHtml = "io.noties.markwon:html:_"
-    const val markdownCoil = "io.noties.markwon:image-coil:_"
-    const val markdownLinkify = "io.noties.markwon:linkify:_"
+    const val richText = "com.halilibo.compose-richtext:richtext-ui:_"
+
+    const val richTextMaterial = "com.halilibo.compose-richtext:richtext-ui-material:_"
+
+    const val richTextCommonMark = "com.halilibo.compose-richtext:richtext-commonmark:_"
 
 }

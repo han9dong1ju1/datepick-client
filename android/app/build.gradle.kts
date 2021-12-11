@@ -61,12 +61,9 @@ dependencies {
 
     implementation(Utils.jsoup)
     implementation(Utils.imageCompressor)
-    implementation(Utils.markdown)
-    implementation(Utils.markdownStrikethrough)
-    implementation(Utils.markdownTables)
-    implementation(Utils.markdownHtml)
-    implementation(Utils.markdownCoil)
-    implementation(Utils.markdownLinkify)
+    implementation(Utils.richText)
+    implementation(Utils.richTextMaterial)
+    implementation(Utils.richTextCommonMark)
 
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)

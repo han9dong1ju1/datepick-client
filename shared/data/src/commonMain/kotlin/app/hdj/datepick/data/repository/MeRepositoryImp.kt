@@ -5,6 +5,7 @@ import app.hdj.datepick.data.datastore.MeDataStore
 import app.hdj.datepick.data.request.user.UserProfileRequest
 import app.hdj.datepick.data.request.user.UserRegisterRequest
 import app.hdj.datepick.data.request.user.UserUnregisterRequest
+import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.user.User
@@ -19,7 +20,8 @@ import kotlinx.coroutines.flow.flow
 @Singleton
 class MeRepositoryImp @Inject constructor(
     private val userApi: UserApi,
-    private val meDataStore: MeDataStore
+    private val meDataStore: MeDataStore,
+    private val authenticator: Authenticator
 ) : MeRepository {
 
     override suspend fun cache(): User? = meDataStore.cachedMe()
@@ -66,5 +68,10 @@ class MeRepositoryImp @Inject constructor(
                 meDataStore.clearMe()
             }
         }
+
+    override suspend fun signOut() {
+        meDataStore.clearMe()
+        authenticator.signOut()
+    }
 
 }
