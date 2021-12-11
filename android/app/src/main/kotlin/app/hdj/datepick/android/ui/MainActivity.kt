@@ -4,26 +4,30 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.lifecycleScope
 import app.hdj.datepick.android.service.PushNotificationManager
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.ProvideDeviceType
 import app.hdj.datepick.android.ui.providers.ProvideToastPresenter
-import app.hdj.datepick.domain.model.settings.AppTheme
+import app.hdj.datepick.android.ui.providers.preview.FakeUserPreviewProvider
+import app.hdj.datepick.android.utils.DEEPLINK_URL
+import app.hdj.datepick.android.utils.EXTERNAL_DEEPLINK_URL
+import app.hdj.datepick.android.utils.datePickNavDeepLink
+import app.hdj.datepick.domain.model.pushNotification.PushNotificationData
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import coil.ImageLoader
 import coil.compose.LocalImageLoader
 import coil.disk.DiskCache
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,21 +39,24 @@ class MainActivity : AppCompatActivity() {
     lateinit var pushNotificationManager: PushNotificationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashWasDisplayed = savedInstanceState != null
         super.onCreate(savedInstanceState)
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (!splashWasDisplayed) installSplashScreen()
 
         setup()
 
-        appViewModel.state.onEach {
-            AppCompatDelegate.setDefaultNightMode(
-                when (it.appTheme) {
-                    AppTheme.System -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                    AppTheme.Dark -> AppCompatDelegate.MODE_NIGHT_YES
-                    AppTheme.Light -> AppCompatDelegate.MODE_NIGHT_NO
-                }
-            )
-        }.launchIn(lifecycleScope)
+
+//        appViewModel.state.onEach {
+//            AppCompatDelegate.setDefaultNightMode(
+//                when (it.appTheme) {
+//                    app.hdj.datepick.data.model.settings.AppTheme.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+//                    app.hdj.datepick.data.model.settings.AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+//                    app.hdj.datepick.data.model.settings.AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+//                }
+//            )
+//        }.launchIn(lifecycleScope)
 
     }
 
@@ -74,13 +81,7 @@ class MainActivity : AppCompatActivity() {
             ) {
 
                 ProvideToastPresenter {
-                    BaseTheme(
-                        isDarkTheme = when (state.appTheme) {
-                            AppTheme.Dark -> true
-                            AppTheme.Light -> false
-                            AppTheme.System -> isSystemInDarkTheme()
-                        }
-                    ) {
+                    BaseTheme {
                         ProvideWindowInsets {
                             ProvideDeviceType {
                                 DatePickApp()

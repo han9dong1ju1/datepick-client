@@ -10,8 +10,6 @@ interface MeRepository {
 
     suspend fun cache(): User?
 
-    suspend fun signOut()
-
     fun observableCache(): Flow<User?>
 
     fun fetch(): Flow<LoadState<User>>
