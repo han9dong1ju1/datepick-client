@@ -16,7 +16,7 @@ fun Header(
     title: String
 ) {
     Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge
@@ -30,8 +30,8 @@ fun ListItem(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
-    leftSideUi: @Composable () -> Unit = {},
-    rightSideUi: @Composable () -> Unit = {},
+    leftSideUi: (@Composable () -> Unit)? = null,
+    rightSideUi: (@Composable () -> Unit)? = null,
     onClick: () -> Unit
 ) {
 
@@ -49,14 +49,16 @@ fun ListItem(
 
             val (leftSideUiRef, textContainer, rightSideUiRef) = createRefs()
 
-            Row(
-                modifier = Modifier.constrainAs(
-                    leftSideUiRef,
-                    t2t(textContainer) + s2s() + b2b(textContainer)
-                )
-            ) {
-                leftSideUi()
-                Spacer(modifier = Modifier.width(20.dp))
+            if (leftSideUi != null) {
+                Row(
+                    modifier = Modifier.constrainAs(
+                        leftSideUiRef,
+                        t2t(textContainer) + s2s() + b2b(textContainer)
+                    )
+                ) {
+                    leftSideUi()
+                    Spacer(modifier = Modifier.width(20.dp))
+                }
             }
 
             Column(
@@ -84,14 +86,16 @@ fun ListItem(
                 }
             }
 
-            Row(
-                modifier = Modifier.constrainAs(
-                    rightSideUiRef,
-                    t2t(textContainer) + e2e() + b2b(textContainer)
-                )
-            ) {
-                Spacer(modifier = Modifier.width(20.dp))
-                rightSideUi()
+            if (rightSideUi != null) {
+                Row(
+                    modifier = Modifier.constrainAs(
+                        rightSideUiRef,
+                        t2t(textContainer) + e2e() + b2b(textContainer)
+                    )
+                ) {
+                    Spacer(modifier = Modifier.width(20.dp))
+                    rightSideUi()
+                }
             }
 
         }

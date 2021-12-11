@@ -23,7 +23,7 @@ object DatePickBadges {
     }
 
     val event = @Composable {
-        TextBadge(text = "이벤트", color = Color(0xFFFFC83E))
+        TextBadge(text = "이벤트", color = Color(0xFFFFBE1C))
     }
 
     val notice = @Composable {

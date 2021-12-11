@@ -2,7 +2,7 @@ package app.hdj.datepick.android.ui.screens.others.settings.setting_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.hdj.datepick.android.ui.screens.others.settings.setting_list.SettingsViewModelDelegate.*
+import app.hdj.datepick.android.ui.screens.others.settings.setting_list.AppSettingsViewModelDelegate.*
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-fun fakeSettingListViewModel() = object : SettingsViewModelDelegate {
+fun fakeSettingListViewModel() = object : AppSettingsViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
 
@@ -25,7 +25,7 @@ fun fakeSettingListViewModel() = object : SettingsViewModelDelegate {
 
 }
 
-interface SettingsViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
+interface AppSettingsViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     class State(
     )
@@ -35,13 +35,14 @@ interface SettingsViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
     }
 
     sealed class Event {
+        class ChangeAppTheme() : Event()
     }
 
 }
 
 @HiltViewModel
-class SettingListViewModel @Inject constructor(
-) : ViewModel(), SettingsViewModelDelegate {
+class AppSettingsListViewModel @Inject constructor(
+) : ViewModel(), AppSettingsViewModelDelegate {
 
     override val state: StateFlow<State> = MutableStateFlow(State())
 

@@ -27,11 +27,14 @@ fun NavigationGraphBottomNavigation(
 
     HighSurface(
         modifier = Modifier
-            .navigationBarsHeight(80.dp)
+            .navigationBarsHeight(56.dp)
             .fillMaxWidth()
     ) {
         Column {
-            NavigationBar(containerColor = Color.Unspecified) {
+            NavigationBar(
+                modifier = Modifier.height(56.dp),
+                containerColor = Color.Unspecified
+            ) {
                 list.forEach { (icon, label, nav, badgeEnabled) ->
                     NavigationBarItem(
                         selected = nav.route == navController.currentScreenRoute(),
@@ -50,7 +53,11 @@ fun NavigationGraphBottomNavigation(
                                 Icon(icon, null)
                             }
                         },
-                        label = { Text(label) }
+                        colors = NavigationBarItemDefaults.colors(
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                0.2f
+                            )
+                        )
                     )
                 }
             }

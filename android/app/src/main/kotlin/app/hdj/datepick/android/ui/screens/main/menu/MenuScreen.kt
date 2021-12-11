@@ -47,19 +47,18 @@ import coil.transform.CircleCropTransformation
 fun MenuScreen(
     vm: MenuViewModelDelegate = hiltViewModel<MenuViewModel>()
 ) {
+    val (state, effect, event) = vm.extract()
 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
 
-    val (state, effect, event) = vm.extract()
-
     val navController = LocalAppNavController.current
 
     val me = LocalMe.current
 
-    Scaffold(
+    BaseScaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             InsetLargeTopAppBar(
@@ -164,6 +163,19 @@ fun MenuScreen(
                 rightSideUi = DatePickBadges.new
             ) {
 
+            }
+            ListItem(
+                title = "앱 설정",
+                leftSideUi = {
+                    Icon(
+                        imageVector = DatePickIcons.NotificationSettings,
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                },
+                rightSideUi = DatePickBadges.new
+            ) {
+                navController.navigateRoute(AppNavigationGraph.AppSettings)
             }
 
             Header("기타")

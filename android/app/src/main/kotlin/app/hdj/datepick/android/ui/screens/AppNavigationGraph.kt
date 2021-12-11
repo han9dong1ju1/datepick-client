@@ -9,7 +9,6 @@ import androidx.navigation.*
 import app.hdj.datepick.android.ui.screens.others.image.ImagesScreenArgument
 import app.hdj.datepick.android.utils.datePickNavDeepLink
 import app.hdj.datepick.android.utils.externalDatePickNavDeepLink
-import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.utils.NavigationGraph
@@ -176,13 +175,16 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         const val ARGUMENT_SORT = "sort"
     }
 
-    sealed class Settings(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
+    sealed class AppSettings(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
 
         companion object : AppNavigationGraph("settings")
 
-        object GeneralSettings : Settings("general")
-        object NotificationSettings : Settings("notification")
+        object List : AppSettings("general")
+
+        object AppThemeDialog : AppSettings("app_theme_dialog")
     }
+
+    object NotificationSettings : AppNavigationGraph("notification")
 
     object Web : AppNavigationGraph("web?url={url}") {
         const val ARGUMENT_URL = "url"

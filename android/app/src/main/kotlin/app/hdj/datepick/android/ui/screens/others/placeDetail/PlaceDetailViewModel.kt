@@ -106,7 +106,7 @@ class PlaceDetailViewModel @Inject constructor(
                 }
                 Event.ReloadContents -> Unit
                 is Event.RequestPlace -> {
-                    getPlaceById(input = event.id).collect(place::emit)
+                    getPlaceById(input = event.id).onEach(place::emit).collect()
                 }
                 is Event.ShowPassedPlace -> {
                     place.emit(LoadState.success(event.place))
