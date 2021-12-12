@@ -19,7 +19,8 @@ fun Header(
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = title,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.secondary
         )
         Spacer(modifier = Modifier.height(10.dp))
     }
@@ -64,10 +65,26 @@ fun ListItem(
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .constrainAs(
-                        textContainer,
-                        t2t() + b2b() + s2e(leftSideUiRef) + e2s(rightSideUiRef) + fillWidthToConstraint
-                    ),
+                    .run {
+                        if (leftSideUi == null && rightSideUi == null) fillMaxWidth()
+                        else {
+                            constrainAs(
+                                textContainer,
+                                t2t() + b2b() +
+                                        if (leftSideUi != null) {
+                                            s2e(leftSideUiRef) + fillWidthToConstraint
+                                        } else {
+                                            s2s()
+                                        } +
+                                        if (rightSideUi != null) {
+                                            e2s(rightSideUiRef) + fillWidthToConstraint
+                                        } else {
+                                            e2e()
+                                        }
+
+                            )
+                        }
+                    },
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(

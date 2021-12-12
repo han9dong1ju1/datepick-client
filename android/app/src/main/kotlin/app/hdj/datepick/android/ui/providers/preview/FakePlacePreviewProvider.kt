@@ -7,7 +7,7 @@ import kotlin.random.Random
 class FakePlacePreviewProvider : PreviewParameterProvider<List<Place>> {
     override val values: Sequence<List<Place>>
         get() = sequenceOf(
-            (0..20).map {
+            (0..5).map {
                 object : Place {
                     override val id: Long = Random.nextLong()
                     override val category: Place.Category = object : Place.Category {

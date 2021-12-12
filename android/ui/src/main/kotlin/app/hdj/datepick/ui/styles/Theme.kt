@@ -58,8 +58,8 @@ private val DarkColorScheme = darkColorScheme(
     onPrimaryContainer = Color(0xFFFFDDE7),
     inversePrimary = Color(0xFFA45064),
 
-    secondary = Color(0xFF8B374B),
-    onSecondary = Color(0xffffffff),
+    secondary = Color(0xFFF5C9D5),
+    onSecondary = Color(0xFF52343C),
     secondaryContainer = Color(0xFF52343C),
     onSecondaryContainer = Color(0xFFF8DEE3),
 
@@ -94,7 +94,7 @@ private val LightColorScheme = lightColorScheme(
     onPrimaryContainer = Color(0xffffffff),
     inversePrimary = Color(0xfff2b8b5),
 
-    secondary = Color(0xFFDD6A80),
+    secondary = Color(0xFF8D5863),
     onSecondary = Color(0xffffffff),
     secondaryContainer = Color(0xFFF8DEE3),
     onSecondaryContainer = Color(0xFF702F45),
@@ -126,13 +126,17 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun BaseTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
+    isDynamicColorSchemeEnabled: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
 
     val colorSchemes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        if (isDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-//        if (isDarkTheme) DarkColorScheme else LightColorScheme
+        if (isDynamicColorSchemeEnabled) {
+            if (isDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        } else {
+            if (isDarkTheme) DarkColorScheme else LightColorScheme
+        }
     } else {
         if (isDarkTheme) DarkColorScheme else LightColorScheme
     }

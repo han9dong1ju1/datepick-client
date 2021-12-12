@@ -9,18 +9,22 @@ import androidx.compose.material.TabRow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
-import app.hdj.datepick.ui.components.*
+import app.hdj.datepick.ui.components.BaseScaffold
+import app.hdj.datepick.ui.components.InsetSmallTopAppBar
+import app.hdj.datepick.ui.components.Tab
+import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -73,7 +77,7 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
                     },
                     divider = {}
                 ) {
-                    listOf("장소", "코스").forEachIndexed { index, label ->
+                    listOf("장소", "코스", "...").forEachIndexed { index, label ->
                         Tab(
                             selected = pagerState.currentPage == index,
                             onClick = {
@@ -97,22 +101,20 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
         ViewPager(
             modifier = Modifier.fillMaxSize(),
             pagerState = pagerState,
-            list = listOf(0, 1)
+            list = listOf(0, 1, 2)
         ) { item, position ->
-            if (position == 0) {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
 
-                    stickyHeader {
+                stickyHeader {
 
-                    }
-
-                    items(FakePlacePreviewProvider().values.first()) {
-                        PlaceVerticalListItem(place = it, onPlaceClicked = {})
-                    }
                 }
-            } else {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
 
+                items(
+                    FakePlacePreviewProvider().values.first() +
+                            FakePlacePreviewProvider().values.first() +
+                            FakePlacePreviewProvider().values.first()
+                ) {
+                    PlaceVerticalListItem(place = it, onPlaceClicked = {})
                 }
             }
         }

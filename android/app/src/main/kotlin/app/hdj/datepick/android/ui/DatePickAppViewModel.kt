@@ -14,6 +14,7 @@ import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,7 +27,9 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 
     data class State(
         val me: User? = null,
-        val appTheme: AppSettings.AppTheme? = null
+        val appTheme: AppSettings.AppTheme? = null,
+        val isDynamicThemeEnabled: Boolean? = null,
+        val isSplashScreenShown: Boolean = true,
     )
 
     sealed class Effect {
@@ -53,16 +56,26 @@ class DatePickAppViewModel @Inject constructor(
 
     private val me = observeMeUseCase()
 
+    private val splashScreen = MutableStateFlow(true)
+
     override val state: StateFlow<State> =
-        combine(me, appSettings.appTheme) { me, appTheme ->
-            State(me, appTheme)
+        combine(
+            me,
+            appSettings.appTheme,
+            appSettings.isDynamicThemeEnabled,
+            splashScreen
+        ) { me, appTheme, isDynamicThemeEnabled, splashScreen ->
+            State(me, appTheme, isDynamicThemeEnabled, splashScreen)
         }.stateIn(viewModelScope, SharingStarted.Lazily, State())
 
     init {
         viewModelScope.launch {
             authenticator.getCurrentFirebaseUser()
-            getLatestMeUseCase.invoke().collect()
+            getLatestMeUseCase().onCompletion {
+                splashScreen.emit(false)
+            }.collect()
         }
+
     }
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)

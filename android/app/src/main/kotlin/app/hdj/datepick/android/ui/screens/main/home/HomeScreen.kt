@@ -108,34 +108,9 @@ fun HomeScreen(
                     )
                 }
 
-                stickyHeader {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp)
-                    ) {
-                        Surface(
-                            onClick = {},
-                            color = MaterialTheme.colorScheme.surfaceVariant,
-                            shape = RoundedCornerShape(100.dp)
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 12.dp)
-                            ) {
-                                Icon(imageVector = Icons.Rounded.Search, contentDescription = null)
-                                Spacer(modifier = Modifier.width(10.dp))
-                                Text(text = "검색하기")
-                            }
-                        }
-                    }
-                }
-
                 item {
                     Header(title = "이 장소들은 어때요?")
                 }
-
 
                 item {
                     Column(Modifier.fillMaxWidth()) {
