@@ -1,5 +1,8 @@
 package app.hdj.datepick.android.ui.screens.main.map
 
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -18,9 +21,7 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -32,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.SearchBox
 import app.hdj.datepick.android.ui.components.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.components.rememberSearchBoxState
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.Header
@@ -44,6 +46,7 @@ import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 private val BottomSheetState.currentFraction: Float
@@ -67,45 +70,11 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
 
     val context = LocalContext.current
 
-    val pages = (0..10).toList()
-    val pagerState = rememberPagerState()
+    val appNavController = LocalAppNavController.current
 
     val cameraPosition = rememberCameraUpdateState()
     val polylineOptionsState = rememberPolylineOptionsState()
     val markerOptionsState = rememberMarkerOptionsState()
-
-    val polylineColors = MaterialTheme.colorScheme.primary
-
-    LaunchedEffect(pagerState.currentPage) {
-
-//        event.invoke(
-//            MapViewModelDelegate.Event.LoadCoursePlacesPathToMap()
-//        )
-//
-//        val markers = .map { latLng ->
-//        markerOptions {
-//            icon(polylineColors.getMarkerIcon())
-//            position(latLng)
-//            title("Example")
-//        }
-//    }
-//
-//        cameraPosition.animate(markers.map { it.position }, 100.dp)
-//
-//        markerOptionsState.clear()
-//        markerOptionsState.addMarkerOptions(markers)
-//
-//        polylineOptionsState.polylineOptions {
-//            addAll(markers.map { it.position })
-//            startCap(RoundCap())
-//            endCap(RoundCap())
-//            width(15.dp.value)
-//            visible(true)
-//            pattern(listOf(Dot(), Gap(15.dp.value)))
-//            jointType(JointType.ROUND)
-//            color(polylineColors.toArgb())
-//        }
-    }
 
     val bottomSheetState = rememberBottomSheetState(initialValue = Collapsed)
 
@@ -113,6 +82,25 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
         rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState)
 
     val searchBoxState = rememberSearchBoxState()
+
+    val backPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+
+    val coroutineScope = rememberCoroutineScope()
+
+    DisposableEffect(true) {
+        var callback : OnBackPressedCallback? = null
+        backPressedDispatcher?.addCallback {
+            callback = this
+            when {
+                bottomSheetState.isExpanded -> coroutineScope.launch { bottomSheetState.collapse() }
+                searchBoxState.isExpanded -> searchBoxState.collapse()
+                else -> appNavController.popBackStack()
+            }
+        }
+        onDispose {
+            callback?.remove()
+        }
+    }
 
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
@@ -130,8 +118,6 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
                 cameraUpdateState = cameraPosition
             )
         }
-
-
     }
 
     Box(modifier = Modifier.fillMaxWidth()) {

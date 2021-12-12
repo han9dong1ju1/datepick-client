@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,7 @@ fun BaseButton(
     icon: ImageVector? = null,
     iconTint: Color? = null,
     text: String,
+    shape: Shape = RoundedCornerShape(25.dp),
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     border: BorderStroke? = null,
     enabled: Boolean = true,
@@ -29,7 +31,7 @@ fun BaseButton(
     Button(
         modifier = modifier.height(50.dp),
         onClick = onClick,
-        shape = RoundedCornerShape(25.dp),
+        shape = shape,
         enabled = enabled,
         colors = colors,
         border = border,
@@ -73,6 +75,7 @@ fun UnAccentButton(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     text: String,
+    shape : Shape = RoundedCornerShape(8.dp),
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
@@ -80,6 +83,7 @@ fun UnAccentButton(
         modifier,
         icon,
         text = text,
+        shape = shape,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.06f)
                 .compositeOver(MaterialTheme.colorScheme.surface),

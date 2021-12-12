@@ -201,4 +201,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         )
 
     }
+
+    object ExitDialog : AppNavigationGraph("exit_dialog")
+
 }

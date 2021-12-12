@@ -110,13 +110,11 @@ fun SearchBox(
                             SizeTransform { initialSize, targetSize ->
                                 if (targetState) {
                                     keyframes {
-                                        // Expand horizontally first.
                                         IntSize(targetSize.width, initialSize.height) at 150
                                         durationMillis = 300
                                     }
                                 } else {
                                     keyframes {
-                                        // Shrink vertically first.
                                         IntSize(initialSize.width, targetSize.height) at 150
                                         durationMillis = 300
                                     }
@@ -142,7 +140,7 @@ fun SearchBox(
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
                             text = "검색하기",
-                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black)
+                            style = MaterialTheme.typography.titleLarge
                         )
                     }
                 }

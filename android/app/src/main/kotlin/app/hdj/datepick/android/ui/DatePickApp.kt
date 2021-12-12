@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.plusAssign
 import app.hdj.datepick.android.ui.dialog.appupdate.appUpdateDialog
+import app.hdj.datepick.android.ui.dialog.exit.exitDialog
 import app.hdj.datepick.android.ui.dialog.login.loginDialog
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
@@ -128,6 +129,8 @@ fun DatePickApp() {
 
                     appUpdateDialog()
                     loginDialog()
+                    exitDialog()
+
                 }
 
             }

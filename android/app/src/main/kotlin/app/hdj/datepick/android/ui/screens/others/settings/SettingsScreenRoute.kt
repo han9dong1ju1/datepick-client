@@ -1,9 +1,10 @@
 package app.hdj.datepick.android.ui.screens.others.settings
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -55,7 +56,22 @@ fun NavGraphBuilder.appSettingsScreens() {
             }) {
                 Surface(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp)) {
                     Column {
-                        Header(title = "앱 테마 설정")
+                        Column(modifier = Modifier.padding(start = 30.dp, end = 30.dp, top = 30.dp)) {
+                            Text(
+                                text = "앱 테마 설정",
+                                style = MaterialTheme.typography.titleLarge
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            Text(
+                                text = "적용할 앱 테마를 선택해주세요.",
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(20.dp))
+
                         TextRadioButtonGroup(
                             texts = listOf("밝은 테마", "어두운 테마", "시스템 설정에 따름"),
                             state = radioButtonGroupState
