@@ -2,6 +2,7 @@ package app.hdj.datepick.android.ui.screens.main.map
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -35,6 +36,8 @@ import app.hdj.datepick.android.ui.components.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.components.rememberSearchBoxState
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.Header
 import app.hdj.datepick.ui.components.googlemap.GoogleMap
@@ -83,22 +86,13 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
 
     val searchBoxState = rememberSearchBoxState()
 
-    val backPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-
     val coroutineScope = rememberCoroutineScope()
 
-    DisposableEffect(true) {
-        var callback : OnBackPressedCallback? = null
-        backPressedDispatcher?.addCallback {
-            callback = this
-            when {
-                bottomSheetState.isExpanded -> coroutineScope.launch { bottomSheetState.collapse() }
-                searchBoxState.isExpanded -> searchBoxState.collapse()
-                else -> appNavController.popBackStack()
-            }
-        }
-        onDispose {
-            callback?.remove()
+    BackHandler {
+        when {
+            bottomSheetState.isExpanded -> coroutineScope.launch { bottomSheetState.collapse() }
+            searchBoxState.isExpanded -> searchBoxState.collapse()
+            else -> appNavController.popBackStack()
         }
     }
 

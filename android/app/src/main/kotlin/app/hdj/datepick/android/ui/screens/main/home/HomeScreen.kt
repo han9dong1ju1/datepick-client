@@ -2,6 +2,7 @@ package app.hdj.datepick.android.ui.screens.main.home
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -61,17 +62,8 @@ fun HomeScreen(
         TopAppBarDefaults.pinnedScrollBehavior()
     }
 
-    val backPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-
-    DisposableEffect(true) {
-        var callback : OnBackPressedCallback? = null
-        backPressedDispatcher?.addCallback {
-            callback = this
-            navController.navigateRoute(AppNavigationGraph.ExitDialog)
-        }
-        onDispose {
-            callback?.remove()
-        }
+    BackHandler {
+        navController.navigateRoute(AppNavigationGraph.ExitDialog)
     }
 
     BaseScaffold(

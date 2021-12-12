@@ -1,4 +1,4 @@
-[feature/paging] 페이징 추가
-[feature/course-ui] Deeplink.kt 수정
-[feature/course-ui] 코스 생성 부분에서 추천 Place 선택하는 부분 작업
-[feature/course-ui] 코스 생성, 추천 장소 쪽 작업완료
+지도 UI 구현
+뒤로가기 핸들러 구현
+앱 테마 설정 구현
+Pick UI 구현
