@@ -148,9 +148,9 @@ fun BaseTheme(
             androidx.compose.material.MaterialTheme(
                 colors = Colors(
                     primary = MaterialTheme.colorScheme.primary,
-                    primaryVariant = MaterialTheme.colorScheme.primaryContainer,
+                    primaryVariant = MaterialTheme.colorScheme.primary,
                     secondary = MaterialTheme.colorScheme.secondary,
-                    secondaryVariant = MaterialTheme.colorScheme.surfaceVariant,
+                    secondaryVariant = MaterialTheme.colorScheme.secondary,
                     background = MaterialTheme.colorScheme.background,
                     surface = MaterialTheme.colorScheme.surface,
                     error = MaterialTheme.colorScheme.error,
