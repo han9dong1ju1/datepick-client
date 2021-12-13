@@ -14,6 +14,7 @@ import androidx.navigation.plusAssign
 import app.hdj.datepick.android.ui.dialog.appupdate.appUpdateDialog
 import app.hdj.datepick.android.ui.dialog.exit.exitDialog
 import app.hdj.datepick.android.ui.dialog.login.loginDialog
+import app.hdj.datepick.android.ui.dialog.networkError.networkErrorDialog
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.main.MainBottomNavigation
@@ -30,6 +31,7 @@ import app.hdj.datepick.android.ui.screens.others.image.imagesScreen
 import app.hdj.datepick.android.ui.screens.others.placeDetail.placeDetailScreen
 import app.hdj.datepick.android.ui.screens.others.placeList.placeListScreen
 import app.hdj.datepick.android.ui.screens.others.settings.appSettingsScreens
+import app.hdj.datepick.android.ui.screens.others.splash.splashScreenRoute
 import app.hdj.datepick.android.ui.screens.others.userProfileEdit.userProfileEditScreenRoute
 import app.hdj.datepick.android.ui.screens.others.web.webScreen
 import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
@@ -73,8 +75,6 @@ fun DatePickApp() {
 
     navController.navigatorProvider += bottomSheetNavigator
 
-    val coroutineScope = rememberCoroutineScope()
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val currentRoute = remember(navBackStackEntry?.destination?.route) {
@@ -103,7 +103,7 @@ fun DatePickApp() {
                 AnimatedNavHost(
                     modifier = Modifier.fillMaxSize(),
                     navController = navController,
-                    startDestination = AppNavigationGraph.Main.route,
+                    startDestination = AppNavigationGraph.SplashScreen.route,
                     enterTransition = { materialTransitionZaxisIn },
                     exitTransition = { materialTransitionZaxisOut }
                 ) {
@@ -127,10 +127,13 @@ fun DatePickApp() {
                     imagesScreen()
                     userProfileEditScreenRoute()
 
+                    /* Dialogs */
                     appUpdateDialog()
                     loginDialog()
                     exitDialog()
+                    networkErrorDialog()
 
+                    splashScreenRoute()
                 }
 
             }

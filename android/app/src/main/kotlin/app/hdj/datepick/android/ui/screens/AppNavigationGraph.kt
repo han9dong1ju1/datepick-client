@@ -114,6 +114,8 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         )
     }
 
+    object ExitDialog : AppNavigationGraph("exit_dialog")
+
     object SearchPlace : AppNavigationGraph("search_place")
 
     object AppUpdateDialog : AppNavigationGraph("app_update")
@@ -202,6 +204,6 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     }
 
-    object ExitDialog : AppNavigationGraph("exit_dialog")
-
+    object SplashScreen : AppNavigationGraph("splash")
+    object NetworkErrorDialog : AppNavigationGraph("network_error_dialog")
 }

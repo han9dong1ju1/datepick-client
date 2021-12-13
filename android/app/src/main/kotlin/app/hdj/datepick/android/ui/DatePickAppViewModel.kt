@@ -11,6 +11,7 @@ import app.hdj.datepick.domain.usecase.invoke
 import app.hdj.datepick.domain.usecase.user.GetLatestMeUseCase
 import app.hdj.datepick.domain.usecase.user.ObserveMeUseCase
 import app.hdj.datepick.ui.utils.ViewModelDelegate
+import app.hdj.datepick.utils.PlatformLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -28,18 +29,19 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
     data class State(
         val me: User? = null,
         val appTheme: AppSettings.AppTheme? = null,
-        val isDynamicThemeEnabled: Boolean? = null,
-        val isSplashScreenShown: Boolean = true,
+        val isDynamicThemeEnabled: Boolean = false,
     )
 
     sealed class Effect {
-
+        object ShowNetworkErrorDialog : Effect()
+        object OpenMainScreen : Effect()
     }
 
     sealed class Event {
 
         class UpdateAppTheme(val appTheme: AppSettings.AppTheme) : Event()
 
+        object RetryFetchMe : Event()
 
     }
 
@@ -50,32 +52,38 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 class DatePickAppViewModel @Inject constructor(
     private val authenticator: Authenticator,
     private val appSettings: AppSettings,
-    getLatestMeUseCase: GetLatestMeUseCase,
+    private val getLatestMeUseCase: GetLatestMeUseCase,
     observeMeUseCase: ObserveMeUseCase
 ) : ViewModel(), DatePickAppViewModelDelegate {
 
     private val me = observeMeUseCase()
 
-    private val splashScreen = MutableStateFlow(true)
-
     override val state: StateFlow<State> =
         combine(
             me,
             appSettings.appTheme,
-            appSettings.isDynamicThemeEnabled,
-            splashScreen
-        ) { me, appTheme, isDynamicThemeEnabled, splashScreen ->
-            State(me, appTheme, isDynamicThemeEnabled, splashScreen)
+            appSettings.isDynamicThemeEnabled
+        ) { me, appTheme, isDynamicThemeEnabled ->
+            State(me, appTheme, isDynamicThemeEnabled)
         }.stateIn(viewModelScope, SharingStarted.Lazily, State())
 
     init {
         viewModelScope.launch {
-            authenticator.getCurrentFirebaseUser()
-            getLatestMeUseCase().onCompletion {
-                splashScreen.emit(false)
-            }.collect()
+            fetchMe()
         }
+    }
 
+    private suspend fun fetchMe() {
+        authenticator.runCatching {
+            getCurrentFirebaseUser()
+        }.onSuccess {
+            getLatestMeUseCase().onCompletion {
+                effectChannel.send(Effect.OpenMainScreen)
+            }.collect()
+        }.onFailure {
+            PlatformLogger.e(it)
+            effectChannel.send(Effect.ShowNetworkErrorDialog)
+        }
     }
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
@@ -87,6 +95,7 @@ class DatePickAppViewModel @Inject constructor(
                 is Event.UpdateAppTheme -> {
                     appSettings.updateAppTheme(event.appTheme)
                 }
+                Event.RetryFetchMe -> fetchMe()
             }
         }
     }

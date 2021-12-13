@@ -88,44 +88,23 @@ class MainActivity : AppCompatActivity() {
                     Light -> false
                     Dark -> true
                     System -> isSystemInDarkTheme
-                    else -> null
+                    else -> isSystemInDarkTheme
                 }
 
                 val isDynamicThemeEnabled = state.isDynamicThemeEnabled
 
-                AnimatedContent(
-                    targetState = state.isSplashScreenShown,
-                    transitionSpec = { materialTransitionZaxisIn with materialTransitionZaxisOut }
-                ) {
-                    if (it || isDarkTheme == null || isDynamicThemeEnabled == null) {
+                val systemUiController = rememberSystemUiController()
 
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            Icon(
-                                modifier = Modifier
-                                    .size(100.dp)
-                                    .align(Alignment.Center),
-                                imageVector = DatePickIcons.DatePickIcon,
-                                tint = Color.Unspecified,
-                                contentDescription = null
-                            )
-                        }
-
-                    } else {
-                        val systemUiController = rememberSystemUiController()
-
-                        LaunchedEffect(isDarkTheme) {
-                            systemUiController.systemBarsDarkContentEnabled = !isDarkTheme
-                        }
-
-                        BaseTheme(
-                            isDarkTheme = isDarkTheme,
-                            isDynamicColorSchemeEnabled = isDynamicThemeEnabled
-                        ) {
-                            DatePickApp()
-                        }
-                    }
+                LaunchedEffect(isDarkTheme) {
+                    systemUiController.systemBarsDarkContentEnabled = !isDarkTheme
                 }
 
+                BaseTheme(
+                    isDarkTheme = isDarkTheme,
+                    isDynamicColorSchemeEnabled = isDynamicThemeEnabled
+                ) {
+                    DatePickApp()
+                }
             }
 
         }

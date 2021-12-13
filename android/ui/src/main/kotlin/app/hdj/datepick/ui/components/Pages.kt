@@ -1,6 +1,5 @@
 package app.hdj.datepick.ui.components
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -31,8 +30,6 @@ fun <T> ViewPager(
             while (true) {
                 yield()
                 delay(autoScrollDelay)
-
-                tween<Float>(500)
                 pagerState.animateScrollToPage(
                     page = (pagerState.currentPage + 1) % (pagerState.pageCount)
                 )
