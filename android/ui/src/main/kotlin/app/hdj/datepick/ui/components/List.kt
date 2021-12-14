@@ -13,9 +13,10 @@ import app.hdj.datepick.ui.utils.*
 
 @Composable
 fun Header(
-    title: String
+    title: String,
+    modifier : Modifier = Modifier,
 ) {
-    Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+    Column(modifier = modifier.padding(horizontal = 20.dp)) {
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = title,

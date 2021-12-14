@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateFailed
 import app.hdj.datepick.domain.isStateLoading
@@ -12,11 +13,15 @@ import app.hdj.datepick.domain.isStateSucceed
 @SuppressLint("ComposableNaming")
 @Composable
 fun <T> LoadState<T>.foldCrossfade(
+    modifier: Modifier = Modifier,
     onSuccess: @Composable (T) -> Unit = {},
     onLoading: @Composable () -> Unit = {},
     onFailed: @Composable (T?, Throwable) -> Unit = { _, _ -> },
 ) {
-    Crossfade(targetState = this) { state ->
+    Crossfade(
+        modifier = modifier,
+        targetState = this
+    ) { state ->
         when {
             state.isStateSucceed() -> onSuccess(state.data)
             state.isStateLoading() -> onLoading()

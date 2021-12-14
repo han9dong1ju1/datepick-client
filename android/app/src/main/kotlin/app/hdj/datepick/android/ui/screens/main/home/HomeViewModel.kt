@@ -6,6 +6,7 @@ import app.hdj.datepick.android.ui.screens.main.home.HomeViewModelDelegate.*
 import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.isStateLoading
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
@@ -41,7 +42,14 @@ interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
     data class State(
         val featured: LoadState<List<Featured>> = LoadState.loading(),
         val featuredPlaces: LoadState<List<Place>> = LoadState.loading(),
-    )
+    ) {
+
+        val isContentLoading
+            get() =
+                featured.isStateLoading() ||
+                        featuredPlaces.isStateLoading()
+
+    }
 
     sealed class Effect {
 
@@ -55,31 +63,44 @@ interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    getFeaturedListUseCase: GetFeaturedListUseCase
+    private val getFeaturedListUseCase: GetFeaturedListUseCase
 ) : ViewModel(), HomeViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect = effectChannel.receiveAsFlow()
 
-    private val featuredList = getFeaturedListUseCase()
+    private val featuredList = MutableStateFlow<LoadState<List<Featured>>>(LoadState.loading())
+    private val featuredPlaces = MutableStateFlow<LoadState<List<Place>>>(LoadState.loading())
 
     override val state: StateFlow<State> = combine(
         featuredList,
-        flowOf(true)
-    ) { featured, _ ->
-        State(featured)
+        featuredPlaces
+    ) { featured, featuredPlaces ->
+        State(
+            featured,
+            featuredPlaces
+        )
     }.stateIn(
         viewModelScope,
         SharingStarted.Lazily,
         State()
     )
 
+    init {
+        viewModelScope.launch {
+            loadContents()
+        }
+    }
+
+    private suspend fun loadContents() {
+        getFeaturedListUseCase().onEach(featuredList::emit).collect()
+        featuredPlaces.emit(LoadState.failed(Exception("Not Ready")))
+    }
+
     override fun event(event: Event) {
         viewModelScope.launch {
             when (event) {
-                Event.ReloadContents -> {
-
-                }
+                Event.ReloadContents -> loadContents()
             }
         }
     }

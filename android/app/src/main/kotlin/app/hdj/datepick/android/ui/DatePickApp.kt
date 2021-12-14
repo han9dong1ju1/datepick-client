@@ -19,6 +19,7 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.main.MainBottomNavigation
 import app.hdj.datepick.android.ui.screens.main.MainFloatingActionButton
+import app.hdj.datepick.android.ui.screens.main.diary.DiaryViewModel
 import app.hdj.datepick.android.ui.screens.main.home.HomeViewModel
 import app.hdj.datepick.android.ui.screens.main.mainScreens
 import app.hdj.datepick.android.ui.screens.main.map.MapViewModel
@@ -26,6 +27,7 @@ import app.hdj.datepick.android.ui.screens.main.menu.MenuViewModel
 import app.hdj.datepick.android.ui.screens.main.pick.PickViewModel
 import app.hdj.datepick.android.ui.screens.others.course.courseScreen
 import app.hdj.datepick.android.ui.screens.others.createCourse.createCourseScreen
+import app.hdj.datepick.android.ui.screens.others.diaryDetail.diaryDetailScreen
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.featuredDetailScreen
 import app.hdj.datepick.android.ui.screens.others.image.imagesScreen
 import app.hdj.datepick.android.ui.screens.others.placeDetail.placeDetailScreen
@@ -48,6 +50,7 @@ import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 private val mainNavigationRoutesWithIcon = listOf(
     BottomNavigationProperty(Icons.Rounded.Home, "홈", AppNavigationGraph.Main.Home),
     BottomNavigationProperty(Icons.Rounded.Map, "지도", AppNavigationGraph.Main.Map),
+    BottomNavigationProperty(Icons.Rounded.Book, "다이어리", AppNavigationGraph.Main.Diary),
     BottomNavigationProperty(
         Icons.Rounded.Favorite,
         "픽",
@@ -85,6 +88,7 @@ fun DatePickApp() {
     val mapViewModel = hiltViewModel<MapViewModel>()
     val pickViewModel = hiltViewModel<PickViewModel>()
     val menuViewModel = hiltViewModel<MenuViewModel>()
+    val diaryViewModel = hiltViewModel<DiaryViewModel>()
 
     CompositionLocalProvider(
         LocalAppNavController provides navController
@@ -103,16 +107,23 @@ fun DatePickApp() {
                 AnimatedNavHost(
                     modifier = Modifier.fillMaxSize(),
                     navController = navController,
-                    startDestination = AppNavigationGraph.SplashScreen.route,
+                    startDestination = AppNavigationGraph.Splash.route,
                     enterTransition = { materialTransitionZaxisIn },
                     exitTransition = { materialTransitionZaxisOut }
                 ) {
 
                     /* Main Screens */
-                    mainScreens(homeViewModel, mapViewModel, pickViewModel, menuViewModel)
+                    mainScreens(
+                        homeViewModel,
+                        mapViewModel,
+                        pickViewModel,
+                        menuViewModel,
+                        diaryViewModel
+                    )
 
                     /* Other Screens */
                     featuredDetailScreen()
+                    diaryDetailScreen()
 
                     placeDetailScreen()
                     placeListScreen()

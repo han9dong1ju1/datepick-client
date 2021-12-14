@@ -56,6 +56,7 @@ kotlin {
         sourceSets["androidMain"].dependencies {
             implementation(Google.dagger.hilt.android)
             api(JakeWharton.timber)
+            api(Utils.qrGenerator)
             kapt(AndroidX.paging.runtimeKtx)
             kapt(AndroidX.navigation.runtimeKtx)
             kapt(AndroidX.hilt.compiler)

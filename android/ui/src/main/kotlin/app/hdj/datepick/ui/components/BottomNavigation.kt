@@ -21,50 +21,37 @@ data class BottomNavigationProperty(
 
 @Composable
 fun NavigationGraphBottomNavigation(
+    modifier : Modifier = Modifier,
     navController: NavController,
     list: List<BottomNavigationProperty>
 ) {
-
-    HighSurface(
-        modifier = Modifier
-            .navigationBarsHeight(56.dp)
-            .fillMaxWidth()
+    NavigationBar(
+        modifier = modifier
     ) {
-        Column {
-            NavigationBar(
-                modifier = Modifier.height(56.dp),
-                containerColor = Color.Unspecified
-            ) {
-                list.forEach { (icon, label, nav, badgeEnabled) ->
-                    NavigationBarItem(
-                        selected = nav.route == navController.currentScreenRoute(),
-                        onClick = {
-                            navController.navigate(nav.route) {
-                                launchSingleTop = true
-                                popUpTo(list.first().navigation.route)
-                            }
-                        },
-                        icon = {
-                            if (badgeEnabled) {
-                                BadgedBox(badge = {
-                                    Badge()
-                                }) { Icon(icon, null) }
-                            } else {
-                                Icon(icon, null)
-                            }
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(
-                                0.2f
-                            )
-                        )
+        list.forEach { (icon, label, nav, badgeEnabled) ->
+            NavigationBarItem(
+                selected = nav.route == navController.currentScreenRoute(),
+                onClick = {
+                    navController.navigate(nav.route) {
+                        launchSingleTop = true
+                        popUpTo(list.first().navigation.route)
+                    }
+                },
+                icon = {
+                    if (badgeEnabled) {
+                        BadgedBox(badge = {
+                            Badge()
+                        }) { Icon(icon, null) }
+                    } else {
+                        Icon(icon, null)
+                    }
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                        0.2f
                     )
-                }
-            }
-
-            Box(Modifier.navigationBarsHeight())
+                )
+            )
         }
-
     }
-
 }

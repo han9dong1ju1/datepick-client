@@ -67,6 +67,7 @@ dependencies {
     implementation(Utils.markdownHtml)
     implementation(Utils.markdownCoil)
     implementation(Utils.markdownLinkify)
+    implementation(Utils.qrGenerator)
 
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)

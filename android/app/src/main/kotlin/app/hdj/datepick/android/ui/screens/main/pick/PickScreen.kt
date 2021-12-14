@@ -1,5 +1,6 @@
 package app.hdj.datepick.android.ui.screens.main.pick
 
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,12 +23,11 @@ import app.hdj.datepick.android.ui.components.list.PlaceVerticalListItem
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
-import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.InsetSmallTopAppBar
-import app.hdj.datepick.ui.components.Tab
-import app.hdj.datepick.ui.components.ViewPager
+import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
@@ -36,8 +37,6 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
 
     val (state, effect, event) = vm.extract()
 
-    val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
-
     val navController = LocalAppNavController.current
 
     val me = LocalMe.current
@@ -46,54 +45,67 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
 
     val coroutineScope = rememberCoroutineScope()
 
-    val colors = TopAppBarDefaults.smallTopAppBarColors()
+    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
+    val scrollBehavior = remember(decayAnimationSpec) {
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
+    }
 
     BaseScaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                rememberInsetsPaddingValues(
+                    insets = LocalWindowInsets.current.navigationBars,
+                    additionalBottom = 56.dp
+                )
+            )
+        ,
         topBar = {
             Column {
-                InsetSmallTopAppBar(
-                    title = { Text(text = "Pick") },
-                    scrollBehavior = scrollBehavior,
-                    colors = colors
-                )
-                TabRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    backgroundColor = colors.containerColor(scrollBehavior.scrollFraction).value,
-                    selectedTabIndex = pagerState.currentPage,
-                    indicator = {
-                        Box(
-                            Modifier
-                                .pagerTabIndicatorOffset(pagerState, it)
-                                .height(2.dp)
-                                .padding(horizontal = 10.dp)
-                                .background(
-                                    color = MaterialTheme.colorScheme.secondary,
-                                    shape = RoundedCornerShape(
-                                        topStart = 10.dp, topEnd = 10.dp
-                                    )
-                                )
-                        )
+                InsetLargeTopAppBar(
+                    title = {
+                        Text("Pick")
                     },
-                    divider = {}
-                ) {
-                    listOf("장소", "코스", "...").forEachIndexed { index, label ->
-                        Tab(
-                            selected = pagerState.currentPage == index,
-                            onClick = {
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(index)
-                                }
+                    below = {
+                        TabRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            backgroundColor = Color.Unspecified,
+                            selectedTabIndex = pagerState.currentPage,
+                            indicator = {
+                                Box(
+                                    Modifier
+                                        .pagerTabIndicatorOffset(pagerState, it)
+                                        .height(2.dp)
+                                        .padding(horizontal = 10.dp)
+                                        .background(
+                                            color = MaterialTheme.colorScheme.secondary,
+                                            shape = RoundedCornerShape(
+                                                topStart = 10.dp, topEnd = 10.dp
+                                            )
+                                        )
+                                )
                             },
+                            divider = {}
                         ) {
-                            Text(
-                                text = label,
-                                style = MaterialTheme.typography.titleMedium,
-                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 14.dp)
-                            )
+                            listOf("장소", "코스").forEachIndexed { index, label ->
+                                Tab(
+                                    selected = pagerState.currentPage == index,
+                                    onClick = {
+                                        coroutineScope.launch {
+                                            pagerState.animateScrollToPage(index)
+                                        }
+                                    },
+                                ) {
+                                    Text(
+                                        text = label,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 14.dp)
+                                    )
+                                }
+                            }
                         }
                     }
-                }
+                )
             }
         }
     ) {
@@ -101,13 +113,9 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
         ViewPager(
             modifier = Modifier.fillMaxSize(),
             pagerState = pagerState,
-            list = listOf(0, 1, 2)
+            list = listOf(0, 1)
         ) { item, position ->
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-
-                stickyHeader {
-
-                }
 
                 items(
                     FakePlacePreviewProvider().values.first() +

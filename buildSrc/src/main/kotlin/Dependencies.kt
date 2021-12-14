@@ -66,4 +66,6 @@ object Utils {
     const val markdownCoil = "io.noties.markwon:image-coil:_"
     const val markdownLinkify = "io.noties.markwon:linkify:_"
 
+    const val qrGenerator = "com.google.zxing:zxingorg:_"
+
 }

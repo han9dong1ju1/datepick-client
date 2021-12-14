@@ -72,7 +72,7 @@ fun NavGraphBuilder.networkErrorDialog() {
                                 .padding(start = 5.dp)
                         ) {
                             navController.popBackStack()
-                            event(DatePickAppViewModelDelegate.Event.RetryFetchMe)
+                            event(DatePickAppViewModelDelegate.Event.TryFetchMe)
                         }
                     }
                 }

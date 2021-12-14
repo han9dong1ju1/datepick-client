@@ -1,16 +1,12 @@
 package app.hdj.datepick.android.ui.screens.main
 
-import android.app.Activity
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Main.*
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Main.Map
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
+import app.hdj.datepick.android.ui.screens.main.diary.DiaryScreen
+import app.hdj.datepick.android.ui.screens.main.diary.DiaryViewModelDelegate
 import app.hdj.datepick.android.ui.screens.main.home.HomeScreen
 import app.hdj.datepick.android.ui.screens.main.home.HomeViewModelDelegate
 import app.hdj.datepick.android.ui.screens.main.map.MapScreen
@@ -27,7 +23,8 @@ fun NavGraphBuilder.mainScreens(
     homeViewModel: HomeViewModelDelegate,
     mapViewModel: MapViewModelDelegate,
     pickViewModel: PickViewModelDelegate,
-    menuViewModel: MenuViewModelDelegate
+    menuViewModel: MenuViewModelDelegate,
+    diaryViewModel: DiaryViewModelDelegate,
 ) {
 
     navigation(
@@ -58,6 +55,12 @@ fun NavGraphBuilder.mainScreens(
         appNavigationComposable(Profile) {
             MenuScreen(
                 menuViewModel
+            )
+        }
+
+        appNavigationComposable(Diary) {
+            DiaryScreen(
+                diaryViewModel
             )
         }
 

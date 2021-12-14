@@ -1,22 +1,17 @@
 package app.hdj.datepick.android.ui.screens.main.home
 
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Notifications
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -33,15 +28,14 @@ import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.ui.screens.openFeatured
 import app.hdj.datepick.android.ui.screens.openPlace
+import app.hdj.datepick.android.utils.ConnectionState
+import app.hdj.datepick.android.utils.connectivityState
 import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.android.utils.onSucceedComposable
-import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.Header
-import app.hdj.datepick.ui.components.InsetSmallTopAppBar
-import app.hdj.datepick.ui.components.ViewPager
+import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.verticalMargin
-import kotlinx.coroutines.launch
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 private val TOP_FEATURED_PAGER_HEIGHT = 400.dp
 
@@ -52,8 +46,6 @@ fun HomeScreen(
 ) {
 
     val (state, effect, event) = vm.extract()
-
-    val lazyListState = rememberLazyListState()
 
     val navController = LocalAppNavController.current
     val appViewModel = LocalDatePickAppViewModel.current
@@ -66,7 +58,9 @@ fun HomeScreen(
         navController.navigateRoute(AppNavigationGraph.ExitDialog)
     }
 
-    BaseScaffold(
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = state.isContentLoading)
+
+    BaseSwipeRefreshLayoutScaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -85,19 +79,21 @@ fun HomeScreen(
                 },
                 scrollBehavior = scrollBehavior
             )
-        }
+        },
+        swipeRefreshState = swipeRefreshState,
+        onRefresh = { event(HomeViewModelDelegate.Event.ReloadContents) },
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it),
-            state = lazyListState,
             content = {
 
                 verticalMargin(10.dp)
 
                 item {
                     state.featured.foldCrossfade(
+                        modifier = Modifier.animateItemPlacement(),
                         onLoading = {
                             Box(
                                 modifier = Modifier
@@ -117,17 +113,21 @@ fun HomeScreen(
                             ) { item, _ ->
                                 FeaturedPagerItem(item, navController::openFeatured)
                             }
+                        },
+                        onFailed = { _, _ ->
+
                         }
                     )
                 }
 
                 item {
-                    Header(title = "이 장소들은 어때요?")
-                }
-
-                item {
-                    Column(Modifier.fillMaxWidth()) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .animateItemPlacement()
+                    ) {
                         state.featuredPlaces.onSucceedComposable { list ->
+                            Header(title = "이 장소들은 어때요?")
                             list.forEach {
                                 PlaceVerticalListItem(
                                     place = it,

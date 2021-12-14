@@ -15,9 +15,9 @@ import app.hdj.datepick.utils.PlatformLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 val LocalDatePickAppViewModel = compositionLocalOf<DatePickAppViewModelDelegate> {
@@ -41,7 +41,7 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
 
         class UpdateAppTheme(val appTheme: AppSettings.AppTheme) : Event()
 
-        object RetryFetchMe : Event()
+        object TryFetchMe : Event()
 
     }
 
@@ -75,7 +75,7 @@ class DatePickAppViewModel @Inject constructor(
 
     private suspend fun fetchMe() {
         authenticator.runCatching {
-            getCurrentFirebaseUser()
+            withTimeout(5000) { getCurrentFirebaseUser() }
         }.onSuccess {
             getLatestMeUseCase().onCompletion {
                 effectChannel.send(Effect.OpenMainScreen)
@@ -92,10 +92,8 @@ class DatePickAppViewModel @Inject constructor(
     override fun event(event: Event) {
         viewModelScope.launch {
             when (event) {
-                is Event.UpdateAppTheme -> {
-                    appSettings.updateAppTheme(event.appTheme)
-                }
-                Event.RetryFetchMe -> fetchMe()
+                is Event.UpdateAppTheme -> appSettings.updateAppTheme(event.appTheme)
+                Event.TryFetchMe -> fetchMe()
             }
         }
     }

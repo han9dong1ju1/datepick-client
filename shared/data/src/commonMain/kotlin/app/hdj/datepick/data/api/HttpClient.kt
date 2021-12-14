@@ -28,7 +28,8 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
     expectSuccess = false
 
     install(HttpTimeout) {
-        requestTimeoutMillis = 10_000L
+        requestTimeoutMillis = 5000L
+        connectTimeoutMillis = 5000L
     }
 
     install(JsonFeature) {

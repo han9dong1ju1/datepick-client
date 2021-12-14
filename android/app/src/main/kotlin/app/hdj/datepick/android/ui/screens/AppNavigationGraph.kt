@@ -9,6 +9,7 @@ import androidx.navigation.*
 import app.hdj.datepick.android.ui.screens.others.image.ImagesScreenArgument
 import app.hdj.datepick.android.utils.datePickNavDeepLink
 import app.hdj.datepick.android.utils.externalDatePickNavDeepLink
+import app.hdj.datepick.domain.model.diary.Diary
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.utils.NavigationGraph
@@ -78,6 +79,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         object Pick : Main("pick")
         object Map : Main("map")
         object Profile : Main("profile")
+        object Diary : Main("diary")
 
     }
     /* Main End */
@@ -204,6 +206,26 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
     }
 
-    object SplashScreen : AppNavigationGraph("splash")
+
+    object DiaryDetail : AppNavigationGraph("diary/{diaryId}") {
+        const val ARGUMENT_DIARY_ID = "diaryId"
+
+        fun graphWithArgument(diary: Diary) =
+            NavigationGraph("diary/${diary.id}")
+
+        override val arguments: List<NamedNavArgument> = listOf(
+            navArgument(ARGUMENT_DIARY_ID) { type = NavType.LongType }
+        )
+
+        override val deeplinks: List<NavDeepLink> = listOf(
+            datePickNavDeepLink(route),
+            externalDatePickNavDeepLink(route)
+        )
+
+    }
+
+    object Splash : AppNavigationGraph("splash")
+
+
     object NetworkErrorDialog : AppNavigationGraph("network_error_dialog")
 }

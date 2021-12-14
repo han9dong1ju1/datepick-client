@@ -31,6 +31,7 @@ fun InsetLargeTopAppBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
+    below: @Composable () -> Unit = {},
     colors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
@@ -53,6 +54,10 @@ fun InsetLargeTopAppBar(
             colors,
             scrollBehavior
         )
+
+        Surface(color = color) {
+            below()
+        }
     }
 
 }
@@ -63,6 +68,7 @@ fun InsetSmallTopAppBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
+    below: @Composable () -> Unit = {},
     colors: TopAppBarColors = TopAppBarDefaults.smallTopAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
@@ -85,6 +91,10 @@ fun InsetSmallTopAppBar(
             colors,
             scrollBehavior
         )
+
+        Surface(color = color) {
+            below()
+        }
     }
 
 }
@@ -95,6 +105,7 @@ fun InsetMediumTopAppBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
+    below: @Composable () -> Unit = {},
     colors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
@@ -117,6 +128,10 @@ fun InsetMediumTopAppBar(
             colors,
             scrollBehavior
         )
+
+        Surface(color = color) {
+            below()
+        }
     }
 
 }
