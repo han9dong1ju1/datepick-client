@@ -103,10 +103,10 @@ fun HomeScreen(
                                 FeaturedPagerItemShimmer()
                             }
                         },
-                        onSuccess = {
+                        onSuccess = { featured ->
                             ViewPager(
                                 modifier = Modifier.fillMaxWidth(),
-                                list = it,
+                                list = featured,
                                 itemSpacing = 10.dp,
                                 contentPadding = PaddingValues(horizontal = 20.dp),
                                 autoScrollDelay = 7000

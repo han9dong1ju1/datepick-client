@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -31,64 +32,63 @@ fun MainBottomNavigation(
 
     val navController = LocalAppNavController.current
 
-    val isRouteAllowedForBottomNavigation =
+    val isRouteAllowedForBottomNavigation = remember(currentRoute) {
         (mainNavigationRoutesWithIcon.map { it.navigation } + listOf(
             AppNavigationGraph.AppUpdateDialog,
             AppNavigationGraph.ExitDialog,
             AppNavigationGraph.LoginDialog,
         )).map { it.route }.contains(currentRoute)
+    }
 
     val connectivityState by connectivityState()
 
-    Column(Modifier.fillMaxWidth()) {
+    AnimatedVisibility(
+        visible = isRouteAllowedForBottomNavigation,
+        enter = slideInVertically(initialOffsetY = { it }),
+        exit = slideOutVertically(targetOffsetY = { it })
+    ) {
+        HighSurface {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .animateContentSize()
+            ) {
+                NavigationGraphBottomNavigation(
+                    modifier = Modifier.height(56.dp),
+                    navController,
+                    mainNavigationRoutesWithIcon
+                )
 
-        AnimatedVisibility(
-            visible = isRouteAllowedForBottomNavigation,
-            enter = slideInVertically(initialOffsetY = { it }),
-            exit = slideOutVertically(targetOffsetY = { it })
-        ) {
-            HighSurface {
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .animateContentSize()
-                ) {
-                    NavigationGraphBottomNavigation(
-                        modifier = Modifier.height(56.dp),
-                        navController,
-                        mainNavigationRoutesWithIcon
-                    )
-                    if (connectivityState == ConnectionState.Available) {
-                        Spacer(modifier = Modifier.navigationBarsHeight())
+                if (connectivityState == ConnectionState.Available) {
+                    Spacer(modifier = Modifier.navigationBarsHeight())
+                }
+
+                AnimatedVisibility(connectivityState == ConnectionState.Unavailable) {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .navigationBarsHeight(36.dp),
+                        color = MaterialTheme.colorScheme.errorContainer
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(10.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(14.dp),
+                                imageVector = Icons.Rounded.SignalWifiConnectedNoInternet4,
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = "네트워크 상태를 확인해주세요.",
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
                     }
                 }
             }
-
         }
-
-        AnimatedVisibility(connectivityState == ConnectionState.Unavailable) {
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .navigationBarsHeight(36.dp),
-                color = MaterialTheme.colorScheme.errorContainer
-            ) {
-                Row(
-                    modifier = Modifier.padding(10.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.Top
-                ) {
-                    Icon(
-                        modifier = Modifier.size(14.dp),
-                        imageVector = Icons.Rounded.SignalWifiConnectedNoInternet4,
-                        contentDescription = null
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "네트워크 상태를 확인해주세요.", style = MaterialTheme.typography.bodySmall)
-                }
-            }
-        }
-
-
     }
 }

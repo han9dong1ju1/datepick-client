@@ -90,8 +90,10 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         fun graphWithArgument(featured: Featured) =
             NavigationGraph("featured/${featured.id}")
 
-        override val arguments: List<NamedNavArgument> = listOf(
-            navArgument(ARGUMENT_FEATURED_ID) { type = NavType.LongType }
+        override val arguments = listOf(
+            navArgument(ARGUMENT_FEATURED_ID) {
+                type = NavType.LongType
+            }
         )
 
         override val deeplinks: List<NavDeepLink> = listOf(
