@@ -7,7 +7,9 @@ import app.hdj.datepick.android.ui.providers.preview.FakeFeaturedPreviewProvider
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateLoading
+import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.featured.Featured
+import app.hdj.datepick.domain.model.notice.Notice
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
 import app.hdj.datepick.domain.usecase.invoke
@@ -41,13 +43,15 @@ interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     data class State(
         val featured: LoadState<List<Featured>> = LoadState.loading(),
-        val featuredPlaces: LoadState<List<Place>> = LoadState.loading(),
+        val places: LoadState<List<Place>> = LoadState.loading(),
+        val courses: LoadState<List<Course>> = LoadState.loading(),
+        val notices: LoadState<List<Notice>> = LoadState.loading(),
     ) {
 
         val isContentLoading
             get() =
                 featured.isStateLoading() ||
-                        featuredPlaces.isStateLoading()
+                        places.isStateLoading()
 
     }
 
@@ -70,15 +74,15 @@ class HomeViewModel @Inject constructor(
     override val effect = effectChannel.receiveAsFlow()
 
     private val featuredList = MutableStateFlow<LoadState<List<Featured>>>(LoadState.loading())
-    private val featuredPlaces = MutableStateFlow<LoadState<List<Place>>>(LoadState.loading())
+    private val placeList = MutableStateFlow<LoadState<List<Place>>>(LoadState.loading())
 
     override val state: StateFlow<State> = combine(
         featuredList,
-        featuredPlaces
-    ) { featured, featuredPlaces ->
+        placeList
+    ) { featured, places ->
         State(
             featured,
-            featuredPlaces
+            places
         )
     }.stateIn(
         viewModelScope,
@@ -94,7 +98,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadContents() {
         getFeaturedListUseCase().onEach(featuredList::emit).collect()
-        featuredPlaces.emit(LoadState.failed(Exception("Not Ready")))
+        placeList.emit(LoadState.failed(Exception("Not Ready")))
     }
 
     override fun event(event: Event) {

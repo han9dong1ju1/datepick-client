@@ -31,10 +31,9 @@ fun FeaturedPagerItem(
 ) {
 
     Surface(
-        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp),
+            .height(450.dp),
         onClick = { onFeaturedClicked(featured) }
     ) {
 
@@ -94,11 +93,8 @@ fun FeaturedPagerItemShimmer() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                MaterialTheme.colorScheme.onBackground.copy(0.05f),
-                RoundedCornerShape(20.dp)
-            )
-            .height(300.dp),
+            .background(MaterialTheme.colorScheme.onBackground.copy(0.05f))
+            .height(450.dp),
     ) {
 
         Column(

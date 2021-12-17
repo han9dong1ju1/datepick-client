@@ -47,6 +47,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var pushNotificationManager: PushNotificationManager
 
+    @Inject
+    lateinit var imageLoader: ImageLoader
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -67,14 +70,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setup() {
-        val imageLoader = ImageLoader.Builder(this)
-            .crossfade(true)
-            .diskCache(
-                DiskCache.Builder(this)
-                    .directory(cacheDir)
-                    .build()
-            )
-            .build()
 
         setContent {
 

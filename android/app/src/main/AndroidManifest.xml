@@ -48,7 +48,17 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".ui.glance.PlaceRecommendationAppWidgetReceiver"
+        <receiver android:name=".ui.glance.placeRecommendation.PlaceRecommendationAppWidgetReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_place_recommendation" />
+        </receiver>
+        <receiver android:name=".ui.glance.diary.DiaryAppWidgetReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

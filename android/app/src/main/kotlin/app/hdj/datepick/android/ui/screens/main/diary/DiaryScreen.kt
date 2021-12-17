@@ -71,31 +71,6 @@ fun DiaryScreen(vm: DiaryViewModelDelegate = hiltViewModel<DiaryViewModel>()) {
                     title = {
                         Text("다이어리")
                     },
-                    below = {
-                        Surface(
-                            modifier = Modifier
-                                .padding(
-                                    start = 10.dp,
-                                    end = 10.dp,
-                                    bottom = 6.dp,
-                                )
-                                .fillMaxWidth()
-                                .padding(6.dp),
-                            color = MaterialTheme.colorScheme.secondaryContainer,
-                            shape = RoundedCornerShape(100.dp),
-                        ) {
-                            OutlinedTextField(
-                                value = "",
-                                onValueChange = {},
-                                placeholder = { Text(text = "검색어를 입력해주세요.") },
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    disabledBorderColor = Color.Unspecified,
-                                    focusedBorderColor = Color.Unspecified,
-                                    unfocusedBorderColor = Color.Unspecified
-                                )
-                            )
-                        }
-                    },
                     scrollBehavior = scrollBehavior
                 )
 

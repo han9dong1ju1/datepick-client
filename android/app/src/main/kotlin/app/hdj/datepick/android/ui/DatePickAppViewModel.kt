@@ -1,6 +1,6 @@
 package app.hdj.datepick.android.ui
 
-import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.*
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
-val LocalDatePickAppViewModel = compositionLocalOf<DatePickAppViewModelDelegate> {
+val LocalDatePickAppViewModel = staticCompositionLocalOf<DatePickAppViewModelDelegate> {
     error("Not Provided")
 }
 
