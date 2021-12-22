@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.list.FeaturedPagerItem
 import app.hdj.datepick.android.ui.components.list.FeaturedPagerItemShimmer
+import app.hdj.datepick.android.ui.components.list.NoticeBannerListItem
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.openFeatured
 import app.hdj.datepick.android.utils.foldCrossfade
@@ -51,6 +52,7 @@ fun LazyItemScope.HomeScreenNoticesContents(
 ) {
     val navController = LocalAppNavController.current
     state.foldCrossfade(
+        modifier = Modifier.animateItemPlacement(),
         onSuccess = { list ->
             ViewPager(
                 modifier = Modifier.fillMaxWidth(),
@@ -58,7 +60,7 @@ fun LazyItemScope.HomeScreenNoticesContents(
                 itemSpacing = 10.dp,
                 contentPadding = PaddingValues(horizontal = 20.dp)
             ) { notice, i ->
-
+                NoticeBannerListItem(notice = notice)
             }
         },
         onLoading = {

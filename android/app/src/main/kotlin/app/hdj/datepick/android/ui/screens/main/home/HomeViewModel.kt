@@ -49,9 +49,10 @@ interface HomeViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
     ) {
 
         val isContentLoading
-            get() =
-                featured.isStateLoading() ||
-                        places.isStateLoading()
+            get() = featured.isStateLoading() ||
+                    courses.isStateLoading() ||
+                    notices.isStateLoading() ||
+                    places.isStateLoading()
 
     }
 

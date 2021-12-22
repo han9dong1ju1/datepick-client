@@ -66,11 +66,11 @@ fun HomeScreen(
                 verticalMargin(20.dp)
 
                 item {
-                    HomeScreenCourseContents(state = )
+                    HomeScreenCourseContents(state = state.courses)
                 }
 
                 item {
-                    HomeScreenNoticesContents(state = )
+                    HomeScreenNoticesContents(state = state.notices)
                 }
 
                 item {
