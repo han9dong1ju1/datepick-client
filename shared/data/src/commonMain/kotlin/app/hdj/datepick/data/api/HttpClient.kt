@@ -1,18 +1,17 @@
 package app.hdj.datepick.data.api
 
-import app.hdj.datepick.utils.AppInfo
 import app.hdj.datepick.domain.Authenticator
+import app.hdj.datepick.utils.AppInfo
 import app.hdj.datepick.utils.PlatformLogger
 import io.ktor.client.*
 import io.ktor.client.engine.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import io.ktor.http.HttpHeaders.Accept
+import io.ktor.serialization.kotlinx.*
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -32,17 +31,22 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
         connectTimeoutMillis = 5000L
     }
 
-    install(JsonFeature) {
-        serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
-            ignoreUnknownKeys = true
-            allowSpecialFloatingPointValues = true
-            useArrayPolymorphism = true
-            prettyPrint = true
-            explicitNulls = false
-            allowStructuredMapKeys = true
-            coerceInputValues = true
-            useAlternativeNames = false
-        })
+    install(ContentNegotiation) {
+        register(
+            contentType = ContentType.Application.Json,
+            converter = KotlinxSerializationConverter(
+                Json {
+                    ignoreUnknownKeys = true
+                    allowSpecialFloatingPointValues = true
+                    useArrayPolymorphism = true
+                    prettyPrint = true
+                    explicitNulls = false
+                    allowStructuredMapKeys = true
+                    coerceInputValues = true
+                    useAlternativeNames = false
+                }
+            )
+        )
     }
 
     install(Logging) {
