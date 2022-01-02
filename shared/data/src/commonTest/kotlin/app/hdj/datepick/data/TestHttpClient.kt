@@ -6,19 +6,15 @@ import app.hdj.datepick.data.api.ApiResponse
 import app.hdj.datepick.data.api.DatePickHttpClient
 import app.hdj.datepick.utils.PlatformLogger
 import app.hdj.datepick.utils.exception.ApiResponseException
-import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.engine.mock.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.util.date.*
-import io.ktor.utils.io.*
-import kotlinx.serialization.*
+import io.ktor.serialization.kotlinx.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 val DefaultTestHttpClient = TestDatePickHttpClient()
 
@@ -35,7 +31,7 @@ fun TestDatePickHttpClient(
         engine {
             addHandler {
                 respond(
-                    content = kotlinx.serialization.json.Json.encodeToString(customApiResponse),
+                    content = Json.encodeToString(customApiResponse),
                     status = customStatusCode,
                     headers = headersOf(
                         HttpHeaders.ContentType,
@@ -53,12 +49,15 @@ fun TestDatePickHttpClient(
         requestTimeoutMillis = 10_000L
     }
 
-    install(JsonFeature) {
-        serializer = KotlinxSerializer(
-            kotlinx.serialization.json.Json {
-                prettyPrint = true
-                isLenient = true
-            }
+    install(ContentNegotiation) {
+        register(
+            contentType = ContentType.Application.Json,
+            converter = KotlinxSerializationConverter(
+                Json {
+                    prettyPrint = true
+                    isLenient = true
+                }
+            )
         )
     }
 
@@ -73,10 +72,9 @@ fun TestDatePickHttpClient(
 
     HttpResponseValidator {
 
-        validateResponse {
-            val response = it.receive<ApiResponse<Unit?>>()
-            val error = response.error
-            if (error != null) throw ClientRequestException(it, error)
+        validateResponse { response ->
+            if (!response.status.isSuccess())
+                throw ClientRequestException(response, response.bodyAsText())
         }
 
         handleResponseException { exception ->

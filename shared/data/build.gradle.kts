@@ -65,8 +65,10 @@ kotlin {
             implementation(project(":shared:domain"))
             implementation(KotlinX.coroutines.core)
             implementation(KotlinX.serialization.json)
+            api(Ktor.serializationKotlinx)
             api(Ktor.client.core)
-            api(Ktor.client.serialization)
+            api(Ktor.client.contentNegotiation)
+            api(Ktor.client.json)
             api(Ktor.client.logging)
             api(Square.sqlDelight.coroutinesExtensions)
             api(MultiplatformSettings.core)
@@ -98,8 +100,8 @@ kotlin {
             implementation(kotlin("test-junit"))
             implementation(Mokk.core)
             implementation(Testing.junit4)
-            implementation(Testing.junit.api)
-            implementation(Testing.junit.engine)
+            implementation(Testing.junit.jupiter.api)
+            implementation(Testing.junit.jupiter.engine)
         }
         sourceSets["iosMain"].dependencies {
             implementation(Koin.core)

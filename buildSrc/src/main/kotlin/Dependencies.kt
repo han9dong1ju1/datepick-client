@@ -23,6 +23,9 @@ object Multiplatform {
     const val firestore = "dev.gitlive:firebase-firestore:_"
 }
 
+val Ktor.Client.contentNegotiation get() = "io.ktor:ktor-client-content-negotiation:_"
+val Ktor.serializationKotlinx get() = "io.ktor:ktor-serialization-kotlinx:_"
+
 val Firebase.multiplatform get() = Multiplatform
 
 val AndroidX.glanceAppWidget get() = "androidx.glance:glance-appwidget:_"

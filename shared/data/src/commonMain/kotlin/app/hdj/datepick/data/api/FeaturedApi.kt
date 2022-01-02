@@ -5,6 +5,7 @@ import app.hdj.datepick.data.entity.featured.FeaturedResponse
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.*
+import io.ktor.client.call.*
 
 interface FeaturedApi : Api {
     override val basePath: String get() = "/api/v1/featured"
