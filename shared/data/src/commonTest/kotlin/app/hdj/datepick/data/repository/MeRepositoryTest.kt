@@ -9,7 +9,6 @@ import app.hdj.datepick.domain.repository.MeRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import kotlin.test.BeforeTest
@@ -31,7 +30,7 @@ class MeRepositoryTest {
             override val id: String = "example_id"
             override val nickname: String = ""
             override val isMe: Boolean = true
-            override val profileImage: String = ""
+            override val imageUrl: String = ""
         }
 
         coEvery { repository.cache() } returns cacheMe

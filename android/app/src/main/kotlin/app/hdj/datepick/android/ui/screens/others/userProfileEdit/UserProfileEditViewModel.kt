@@ -3,7 +3,6 @@ package app.hdj.datepick.android.ui.screens.others.userProfileEdit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hdj.datepick.android.ui.screens.others.userProfileEdit.UserProfileEditViewModelDelegate.*
-import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.user.UserGender
 import app.hdj.datepick.domain.usecase.user.UnregisterMeUseCase
@@ -46,7 +45,7 @@ interface UserProfileEditViewModelDelegate : ViewModelDelegate<State, Effect, Ev
         data class Unregister(val reason: String) : Event()
         data class UpdateProfile(
             val nickname: String,
-            val gender: UserGender,
+            val gender: UserGender?,
             val image: Input? = null
         ) : Event()
     }

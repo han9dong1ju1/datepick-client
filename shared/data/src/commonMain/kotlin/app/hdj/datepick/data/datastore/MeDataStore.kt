@@ -23,13 +23,12 @@ data class MeEntity(
     override val id: Long,
     override val nickname: String,
     override val isMe: Boolean,
-    override val profileImage: String?,
-    override val uid: String,
-    override val gender: UserGender
+    override val imageUrl: String?,
+    override val gender: UserGender?
 ) : User {
     companion object {
         fun fromUser(user: User) = with(user) {
-            MeEntity(id, nickname, isMe, profileImage, uid, gender)
+            MeEntity(id, nickname, isMe, imageUrl, gender)
         }
     }
 

@@ -1,9 +1,7 @@
 package app.hdj.datepick.android.ui.screens.main.home
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -60,7 +58,7 @@ fun LazyItemScope.HomeScreenNoticesContents(
                 itemSpacing = 10.dp,
                 contentPadding = PaddingValues(horizontal = 20.dp)
             ) { notice, i ->
-                NoticeBannerListItem(notice = notice)
+                NoticeBannerListItem(notice = notice) {}
             }
         },
         onLoading = {

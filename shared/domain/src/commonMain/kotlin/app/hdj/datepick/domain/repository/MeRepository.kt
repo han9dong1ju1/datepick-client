@@ -16,7 +16,7 @@ interface MeRepository {
 
     fun update(
         nickname: String,
-        gender: UserGender,
+        gender: UserGender?,
         profileImageUrl: Input?,
     ): Flow<LoadState<User>>
 

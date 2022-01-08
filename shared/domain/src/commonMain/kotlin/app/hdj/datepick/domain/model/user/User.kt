@@ -1,16 +1,15 @@
 package app.hdj.datepick.domain.model.user
 
 enum class UserGender {
-    U, M, F
+    M, F
 }
 
 interface User {
 
     val id: Long
     val nickname: String
-    val uid : String
-    val gender : UserGender
-    val profileImage: String?
+    val gender: UserGender?
+    val imageUrl: String?
 
-    val isMe : Boolean
+    val isMe: Boolean
 }

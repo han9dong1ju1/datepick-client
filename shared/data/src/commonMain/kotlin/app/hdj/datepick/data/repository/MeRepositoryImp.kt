@@ -37,12 +37,12 @@ class MeRepositoryImp @Inject constructor(
 
     override fun update(
         nickname: String,
-        gender: UserGender,
+        gender: UserGender?,
         profileImageUrl: Input?,
     ) = flow<LoadState<User>> {
         emitState {
             val request = UserProfileRequest(nickname, gender, profileImageUrl)
-            val response = userApi.updateMe(meDataStore.cachedMe()!!.id, request)
+            val response = userApi.updateMe(request)
             response.data
         }.onSuccess {
             meDataStore.save(it)

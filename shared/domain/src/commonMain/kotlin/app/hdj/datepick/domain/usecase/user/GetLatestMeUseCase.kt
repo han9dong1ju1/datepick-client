@@ -3,18 +3,15 @@ package app.hdj.datepick.domain.usecase.user
 import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.LoadState.Companion.failed
-import app.hdj.datepick.domain.LoadState.Companion.success
 import app.hdj.datepick.domain.mapFailedState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.repository.MeRepository
 import app.hdj.datepick.domain.usecase.UseCase
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
-import io.ktor.client.features.*
+import io.ktor.client.plugins.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
 
 @Singleton
 class GetLatestMeUseCase @Inject constructor(

@@ -5,7 +5,6 @@ import app.hdj.datepick.data.request.course.CourseCommitRequest
 import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.Singleton
 import io.ktor.client.*
-import io.ktor.client.request.*
 
 interface CoursesApi : Api {
 
@@ -20,7 +19,7 @@ interface CoursesApi : Api {
 @Singleton
 class CoursesApiImp @Inject constructor(override val client: HttpClient) : CoursesApi {
 
-    override suspend fun getById(id : Long) = client.get<ApiResponse<CourseMetaResponse>>("/$id")
+    override suspend fun getById(id: Long) = get<ApiResponse<CourseMetaResponse>>("/$id")
 
     override suspend fun createCourse(courseCommitRequest: CourseCommitRequest): ApiResponse<CourseMetaResponse> {
         TODO("Not yet implemented")

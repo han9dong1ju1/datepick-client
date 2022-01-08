@@ -7,32 +7,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Code
-import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.badge.DatePickBadges
 import app.hdj.datepick.android.ui.icons.*
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
-import app.hdj.datepick.android.ui.providers.PreviewScope
-import app.hdj.datepick.android.ui.providers.preview.FakeUserPreviewProvider
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
-import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.ui.components.*
-import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import coil.transform.CircleCropTransformation
 
@@ -94,7 +86,7 @@ fun MenuScreen(
                     leftSideUi = {
                         NetworkImage(
                             modifier = Modifier.size(60.dp),
-                            url = me.profileImage,
+                            url = me.imageUrl,
                             imageRequestBuilder = { transformations(CircleCropTransformation()) },
                             onFailed = {
                                 Surface(

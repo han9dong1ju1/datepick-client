@@ -6,6 +6,6 @@ import io.ktor.utils.io.core.*
 
 data class UserProfileRequestParams(
     val nickname: String,
-    val gender: UserGender,
+    val gender: UserGender? = null,
     val image: Input? = null,
 )

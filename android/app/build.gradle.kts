@@ -1,6 +1,6 @@
 import de.fayard.refreshVersions.core.versionFor
-import java.util.Properties
 import java.io.ByteArrayOutputStream
+import java.util.Properties
 import Properties as AppProperties
 
 plugins {
@@ -24,6 +24,7 @@ dependencies {
 
     implementation(Google.dagger.hilt.android)
     implementation(KotlinX.coroutines.playServices)
+    implementation(KotlinX.serialization.json)
 
     implementation(AndroidX.core)
     implementation(AndroidX.core.splashscreen)

@@ -68,6 +68,8 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
             accept(ContentType.MultiPart.FormData)
         }
 
+        contentType(ContentType.Application.Json)
+
         url {
             protocol = URLProtocol.HTTPS
             host = "datepick.app"

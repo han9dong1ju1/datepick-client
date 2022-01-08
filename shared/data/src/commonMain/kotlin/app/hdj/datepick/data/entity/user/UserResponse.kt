@@ -10,15 +10,14 @@ import kotlinx.serialization.Serializable
 data class UserResponse(
     @SerialName("id") override val id: Long,
     @SerialName("nickname") override val nickname: String,
-    @SerialName("profile_image") override var profileImage: String?,
-    @SerialName("uid") override val uid: String,
-    @SerialName("gender") override val gender: UserGender
+    @SerialName("image_url") override var imageUrl: String?,
+    @SerialName("gender") override val gender: UserGender?
 ) : User {
 
     init {
-        val image = profileImage
+        val image = imageUrl
         if (image != null && !image.startsWith("http")) {
-            profileImage = s3ImageUrl(profileImage!!)
+            imageUrl = s3ImageUrl(imageUrl!!)
         }
     }
 
