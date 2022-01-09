@@ -3,6 +3,7 @@ package app.hdj.datepick.android
 import android.app.Application
 import app.hdj.datepick.android.utils.FirebaseCrashlyticsTree
 import app.hdj.datepick.utils.AppInfo
+import app.hdj.datepick.utils.MarkdownGenerator
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber

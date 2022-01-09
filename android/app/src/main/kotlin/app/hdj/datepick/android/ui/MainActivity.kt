@@ -38,6 +38,8 @@ import javax.inject.Inject
 import app.hdj.datepick.android.R
 import app.hdj.datepick.android.ui.icons.DatePickIcon
 import app.hdj.datepick.android.ui.icons.DatePickIcons
+import app.hdj.datepick.utils.MarkdownGenerator
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

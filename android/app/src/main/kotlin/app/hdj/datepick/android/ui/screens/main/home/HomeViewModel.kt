@@ -15,7 +15,9 @@ import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
 import app.hdj.datepick.domain.usecase.invoke
 import app.hdj.datepick.ui.utils.ViewModelDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject

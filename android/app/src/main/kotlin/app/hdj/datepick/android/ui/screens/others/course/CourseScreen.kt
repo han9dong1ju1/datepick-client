@@ -43,7 +43,7 @@ fun CourseScreen(
 
     }
 
-    var title by remember {
+    var title = remember {
         mutableStateOf("")
     }
 
@@ -75,22 +75,6 @@ fun CourseScreen(
             item {
 
                 Box(modifier = Modifier.padding(20.dp)) {
-
-                    Crossfade(targetState = state.isEditMode) {
-                        if (it) {
-                            TextField(
-                                modifier = Modifier.fillMaxWidth(),
-                                value = title,
-                                readOnly = !state.isEditMode,
-                                enabled = state.isEditMode,
-                                onValueChange = { title = it },
-                                textStyle = MaterialTheme.typography.headlineMedium,
-                                colors = TextFieldDefaults.material3TextFieldColors()
-                            )
-                        } else {
-                            Text(text = title, style = MaterialTheme.typography.headlineMedium)
-                        }
-                    }
 
                 }
             }

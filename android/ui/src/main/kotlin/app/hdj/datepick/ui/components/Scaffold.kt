@@ -7,6 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.SwipeRefreshState
@@ -69,7 +72,8 @@ fun BaseSwipeRefreshLayoutScaffold(
             modifier = Modifier.padding(it),
             state = swipeRefreshState,
             indicator = indicator,
-            onRefresh = onRefresh
+            onRefresh = onRefresh,
+            indicatorPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.statusBars)
         ) {
             content(it)
         }

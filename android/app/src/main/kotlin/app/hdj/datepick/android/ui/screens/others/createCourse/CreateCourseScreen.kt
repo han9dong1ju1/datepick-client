@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,7 +14,6 @@ import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.ui.screens.others.createCourse.info.CreateCourseInfoScreen
 import app.hdj.datepick.android.ui.screens.others.createCourse.info.CreateCourseSelectedPlacesDialog
-import app.hdj.datepick.android.ui.screens.others.createCourse.recommendedPlaces.CreateCourseRecommendedPlacesScreen
 import app.hdj.datepick.android.ui.screens.others.createCourse.tags.CreateCourseTagsScreen
 import app.hdj.datepick.ui.animation.materialTransitionXaxisIn
 import app.hdj.datepick.ui.animation.materialTransitionXaxisOut
@@ -43,10 +41,6 @@ fun CreateCourseScreen(
 
     val navBackStackEntry by createdCourseNavController.currentBackStackEntryAsState()
 
-    val currentRoute = remember(navBackStackEntry?.destination?.route) {
-        navBackStackEntry?.destination?.route
-    }
-
     ModalBottomSheetLayout(
         bottomSheetNavigator = bottomSheetNavigator,
         sheetBackgroundColor = Color.Unspecified,
@@ -67,7 +61,7 @@ fun CreateCourseScreen(
                     val initialRoute = initialState.destination.route
                     val targetRoute = targetState.destination.route
                     val slideToRight =
-                        (initialRoute == RecommendedPlaces.route && targetRoute == Tags.route) ||
+                        (initialRoute == Info.route && targetRoute == Tags.route) ||
                                 (initialRoute == Info.route)
 
                     materialTransitionXaxisIn(!slideToRight)
@@ -76,7 +70,7 @@ fun CreateCourseScreen(
                     val initialRoute = initialState.destination.route
                     val targetRoute = targetState.destination.route
                     val slideToRight =
-                        (initialRoute == RecommendedPlaces.route && targetRoute == Tags.route) ||
+                        (initialRoute == Info.route && targetRoute == Tags.route) ||
                                 (initialRoute == Info.route)
 
                     materialTransitionXaxisOut(!slideToRight)
@@ -85,15 +79,6 @@ fun CreateCourseScreen(
 
                 appNavigationComposable(Tags) {
                     CreateCourseTagsScreen(vm) {
-                        createdCourseNavController.navigateRoute(RecommendedPlaces)
-                    }
-                }
-
-                appNavigationComposable(RecommendedPlaces) {
-                    CreateCourseRecommendedPlacesScreen(
-                        createdCourseNavController,
-                        vm
-                    ) {
                         createdCourseNavController.navigateRoute(Info)
                     }
                 }
