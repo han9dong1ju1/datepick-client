@@ -13,14 +13,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.BottomSheetValue.Collapsed
 import androidx.compose.material.BottomSheetValue.Expanded
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.SearchBox
@@ -31,7 +29,6 @@ import app.hdj.datepick.ui.components.googlemap.GoogleMap
 import app.hdj.datepick.ui.components.googlemap.rememberCameraUpdateState
 import app.hdj.datepick.ui.components.googlemap.rememberMarkerOptionsState
 import app.hdj.datepick.ui.components.googlemap.rememberPolylineOptionsState
-import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.insets.statusBarsPadding
@@ -84,7 +81,7 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
 
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
-        sheetBackgroundColor = MaterialTheme.colorScheme.surface,
+        sheetBackgroundColor = MaterialTheme.colors.surface,
         sheetPeekHeight = 300.dp,
         sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
         sheetElevation = 0.dp,
@@ -120,8 +117,8 @@ fun MapScreen(vm: MapViewModelDelegate = hiltViewModel<MapViewModel>()) {
                 .background(
                     Brush.verticalGradient(
                         listOf(
-                            MaterialTheme.colorScheme.surface.copy(alpha = statusBarScrimStartAlpha),
-                            MaterialTheme.colorScheme.surface.copy(alpha = statusBarScrimEndAlpha)
+                            MaterialTheme.colors.surface.copy(alpha = statusBarScrimStartAlpha),
+                            MaterialTheme.colors.surface.copy(alpha = statusBarScrimEndAlpha)
                         )
                     )
                 )

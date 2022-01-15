@@ -2,9 +2,9 @@ package app.hdj.datepick.android.ui.dialog.exit
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -32,14 +32,14 @@ fun NavGraphBuilder.exitDialog() {
                     Column(modifier = Modifier.padding(start = 30.dp, end = 30.dp, top = 30.dp)) {
                         Text(
                             text = "앱을 종료하시겠습니까?",
-                            style = MaterialTheme.typography.titleLarge
+                            style = MaterialTheme.typography.h6
                         )
 
                         Spacer(modifier = Modifier.height(10.dp))
 
                         Text(
                             text = "종료버튼을 누르면 앱이 종료됩니다.",
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.body2
                         )
                     }
 

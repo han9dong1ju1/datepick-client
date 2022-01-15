@@ -29,7 +29,6 @@ fun fakeSettingListViewModel() = object : AppSettingsViewModelDelegate {
 interface AppSettingsViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
 
     class State(
-        val isDynamicColorEnabled : Boolean = false
     )
 
     sealed class Effect {
@@ -37,7 +36,6 @@ interface AppSettingsViewModelDelegate : ViewModelDelegate<State, Effect, Event>
     }
 
     sealed class Event {
-        class SetDynamicColor(val isEnabled : Boolean) : Event()
     }
 
 }
@@ -48,10 +46,9 @@ class AppSettingsViewModel @Inject constructor(
 ) : ViewModel(), AppSettingsViewModelDelegate {
 
     override val state: StateFlow<State> = combine(
-        appSettings.isDynamicThemeEnabled,
         flowOf(false)
-    ) { isDynamicThemeEnabled, _ ->
-        State(isDynamicThemeEnabled)
+    ) { _ ->
+        State()
     }.stateIn(
         viewModelScope,
         SharingStarted.Lazily,
@@ -65,7 +62,7 @@ class AppSettingsViewModel @Inject constructor(
     override fun event(event: Event) {
         viewModelScope.launch {
             when (event) {
-                is Event.SetDynamicColor -> appSettings.setDynamicThemeEnabled(event.isEnabled)
+
             }
         }
     }

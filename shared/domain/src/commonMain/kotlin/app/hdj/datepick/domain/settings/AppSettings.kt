@@ -11,7 +11,4 @@ interface AppSettings {
     val appTheme : Flow<AppTheme>
     suspend fun updateAppTheme(appTheme: AppTheme)
 
-    val isDynamicThemeEnabled : Flow<Boolean>
-    suspend fun setDynamicThemeEnabled(boolean: Boolean)
-
 }

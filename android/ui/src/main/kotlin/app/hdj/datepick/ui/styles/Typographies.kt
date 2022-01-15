@@ -1,6 +1,6 @@
 package app.hdj.datepick.ui.styles
 
-import androidx.compose.material3.Typography
+import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -172,20 +172,6 @@ private object AppTypography {
         lineHeight = TypeScale.LabelLargeLineHeight,
         letterSpacing = TypeScale.LabelLargeTracking,
     )
-    val LabelMedium = TextStyle(
-        fontFamily = TypeScale.LabelMediumFont,
-        fontWeight = TypeScale.LabelMediumWeight,
-        fontSize = TypeScale.LabelMediumSize,
-        lineHeight = TypeScale.LabelMediumLineHeight,
-        letterSpacing = TypeScale.LabelMediumTracking,
-    )
-    val LabelSmall = TextStyle(
-        fontFamily = TypeScale.LabelSmallFont,
-        fontWeight = TypeScale.LabelSmallWeight,
-        fontSize = TypeScale.LabelSmallSize,
-        lineHeight = TypeScale.LabelSmallLineHeight,
-        letterSpacing = TypeScale.LabelSmallTracking,
-    )
     val TitleLarge = TextStyle(
         fontFamily = TypeScale.TitleLargeFont,
         fontWeight = TypeScale.TitleLargeWeight,
@@ -210,19 +196,17 @@ private object AppTypography {
 }
 
 val Typographies = Typography(
-    displayLarge = AppTypography.DisplayLarge,
-    displayMedium = AppTypography.DisplayMedium,
-    displaySmall = AppTypography.DisplaySmall,
-    headlineLarge = AppTypography.HeadlineLarge,
-    headlineMedium = AppTypography.HeadlineMedium,
-    headlineSmall = AppTypography.HeadlineSmall,
-    titleLarge = AppTypography.TitleLarge,
-    titleMedium = AppTypography.TitleMedium,
-    titleSmall = AppTypography.TitleSmall,
-    bodyLarge = AppTypography.BodyLarge,
-    bodyMedium = AppTypography.BodyMedium,
-    bodySmall = AppTypography.BodySmall,
-    labelLarge = AppTypography.LabelLarge,
-    labelMedium = AppTypography.LabelMedium,
-    labelSmall = AppTypography.LabelSmall,
+    h1 = AppTypography.DisplayLarge,
+    h2 = AppTypography.DisplayMedium,
+    h3 = AppTypography.DisplaySmall,
+    h4 = AppTypography.HeadlineLarge,
+    h5 = AppTypography.HeadlineMedium,
+    h6 = AppTypography.HeadlineSmall,
+    subtitle1 = AppTypography.TitleLarge,
+    subtitle2 = AppTypography.TitleMedium,
+    body1 = AppTypography.TitleSmall,
+    body2 = AppTypography.BodyLarge,
+    button = AppTypography.BodyMedium,
+    caption = AppTypography.BodySmall,
+    overline = AppTypography.LabelLarge
 )

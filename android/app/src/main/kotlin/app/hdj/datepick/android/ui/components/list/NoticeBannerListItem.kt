@@ -2,13 +2,12 @@ package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.domain.model.notice.Notice
-import app.hdj.datepick.ui.components.ViewPager
 
 @Composable
 fun NoticeBannerListItem(

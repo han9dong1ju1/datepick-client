@@ -2,15 +2,13 @@ package app.hdj.datepick.android.ui.screens.others.createCourse.tags
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.ui.screens.others.createCourse.CreateCourseViewModelDelegate
 import app.hdj.datepick.android.ui.shimmer
 import app.hdj.datepick.android.utils.foldCrossfade
@@ -36,15 +34,15 @@ fun CreateCourseTagsScreen(
         ) {
             Text(
                 text = "나만의 코스를\n만들어보세요.",
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.h6
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = "아래 여러가지 태그들 중 해당되는 것을 선택해주세요.",
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colors.onBackground
                     .copy(0.5f)
-                    .compositeOver(MaterialTheme.colorScheme.background),
-                style = MaterialTheme.typography.bodyMedium
+                    .compositeOver(MaterialTheme.colors.background),
+                style = MaterialTheme.typography.body2
             )
             Spacer(modifier = Modifier.height(20.dp))
 

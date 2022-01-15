@@ -1,21 +1,18 @@
 package app.hdj.datepick.android.ui.screens.main.menu
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.badge.DatePickBadges
@@ -24,13 +21,16 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
-import app.hdj.datepick.ui.components.*
+import app.hdj.datepick.ui.components.BaseScaffold
+import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ListItem
+import app.hdj.datepick.ui.components.NetworkImage
 import app.hdj.datepick.ui.utils.extract
 import coil.transform.CircleCropTransformation
+import com.google.accompanist.insets.ui.TopAppBar
 
 @OptIn(
     ExperimentalAnimationApi::class, ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class
 )
 @Composable
 fun MenuScreen(
@@ -38,21 +38,14 @@ fun MenuScreen(
 ) {
     val (state, effect, event) = vm.extract()
 
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
-
     val navController = LocalAppNavController.current
 
     val me = LocalMe.current
 
     BaseScaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            InsetLargeTopAppBar(
-                title = { Text(text = "전체") },
-                scrollBehavior = scrollBehavior
+            TopAppBar(
+                title = { Text(text = "전체") }
             )
         }
     ) {
@@ -91,7 +84,6 @@ fun MenuScreen(
                             onFailed = {
                                 Surface(
                                     modifier = Modifier.size(60.dp),
-                                    tonalElevation = 10.dp,
                                     shape = CircleShape
                                 ) {
                                     Box(modifier = Modifier.fillMaxSize()) {
@@ -102,7 +94,7 @@ fun MenuScreen(
                                                 .align(Alignment.Center),
                                             imageVector = Icons.Rounded.Person,
                                             contentDescription = null,
-                                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface)
+                                            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onSurface)
                                         )
                                     }
                                 }
@@ -119,7 +111,7 @@ fun MenuScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)
-                    .background(MaterialTheme.colorScheme.onBackground.copy(0.1f))
+                    .background(MaterialTheme.colors.onBackground.copy(0.1f))
             )
 
             Header("내 계정")
@@ -186,7 +178,7 @@ fun MenuScreen(
                     Icon(
                         imageVector = Icons.Rounded.Code,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.secondary
+                        tint = MaterialTheme.colors.secondary
                     )
                 },
                 rightSideUi = DatePickBadges.update

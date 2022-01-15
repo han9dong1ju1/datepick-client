@@ -2,7 +2,7 @@ package app.hdj.datepick.android.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -17,7 +17,7 @@ import com.google.accompanist.placeholder.shimmer
 @Composable
 fun Modifier.shimmer(
     visible: Boolean = true,
-    color: Color = MaterialTheme.colorScheme.onBackground,
+    color: Color = MaterialTheme.colors.onBackground,
     shape: Shape = RoundedCornerShape(100.dp),
     alpha: Float = 0.1f
 ) =  placeholder(

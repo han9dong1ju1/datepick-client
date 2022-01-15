@@ -7,21 +7,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.glance.Image
-import app.hdj.datepick.android.R
 import app.hdj.datepick.android.utils.CreateQrCode
 import app.hdj.datepick.ui.components.NetworkImage
 import com.google.accompanist.insets.navigationBarsPadding
@@ -57,15 +53,15 @@ fun DiaryCoverPageContent() {
                 AnimateDiaryCoverItem(keyFrame1) {
                     Text(
                         text = "2021. 11. 1",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.secondary,
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.secondary,
                         fontFamily = FontFamily(Font(app.hdj.datepick.ui.R.font.nanummyeongjo))
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = "데이트 회고록",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.secondary.copy(0.5f),
+                        style = MaterialTheme.typography.body2,
+                        color = MaterialTheme.colors.secondary.copy(0.5f),
                         fontFamily = FontFamily(Font(app.hdj.datepick.ui.R.font.nanummyeongjo))
                     )
                     Spacer(modifier = Modifier.height(40.dp))
@@ -92,7 +88,7 @@ fun DiaryCoverPageContent() {
                     Text(
                         text = "안국동 데이트",
                         fontFamily = FontFamily(Font(app.hdj.datepick.ui.R.font.nanummyeongjo)),
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.subtitle1
                     )
                 }
             }
@@ -104,8 +100,8 @@ fun DiaryCoverPageContent() {
                     Text(
                         text = "박현기 지음",
                         fontFamily = FontFamily(Font(app.hdj.datepick.ui.R.font.nanummyeongjo)),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.onBackground.copy(0.5f)
+                        style = MaterialTheme.typography.subtitle2,
+                        color = MaterialTheme.colors.onBackground.copy(0.5f)
                     )
                 }
             }

@@ -10,33 +10,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.SearchBoxState.SearchBoxUiState
-import app.hdj.datepick.android.ui.screens.others.createCourse.CreateCourseViewModelDelegate
-import app.hdj.datepick.ui.animation.materialTransitionYaxisIn
-import app.hdj.datepick.ui.animation.materialTransitionYaxisOut
-import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
-import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
 import app.hdj.datepick.ui.components.Chip
 import app.hdj.datepick.ui.components.Header
-import com.google.accompanist.flowlayout.FlowColumn
 import com.google.accompanist.flowlayout.FlowRow
 
 @Stable
@@ -92,14 +79,12 @@ fun SearchBox(
             onClick = {
                 if (state.uiState == SearchBoxUiState.Collapsed) state.expand()
             },
-            indication = null,
             modifier = Modifier
                 .graphicsLayer {
                     scaleX *= scale
                     scaleY *= scale
                 },
             shape = RoundedCornerShape(cornerRadius),
-            shadowElevation = elevation,
         ) {
             AnimatedContent(
                 modifier = Modifier.animateContentSize(),
@@ -140,7 +125,7 @@ fun SearchBox(
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
                             text = "검색하기",
-                            style = MaterialTheme.typography.titleLarge
+                            style = MaterialTheme.typography.h6
                         )
                     }
                 }
@@ -187,7 +172,7 @@ private fun SearchBoxExpandedUi(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(MaterialTheme.colorScheme.onBackground.copy(0.05f))
+                .background(MaterialTheme.colors.onBackground.copy(0.05f))
         )
 
         Column(

@@ -29,7 +29,6 @@ interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event>
     data class State(
         val me: User? = null,
         val appTheme: AppSettings.AppTheme? = null,
-        val isDynamicThemeEnabled: Boolean = false,
     )
 
     sealed class Effect {
@@ -61,10 +60,9 @@ class DatePickAppViewModel @Inject constructor(
     override val state: StateFlow<State> =
         combine(
             me,
-            appSettings.appTheme,
-            appSettings.isDynamicThemeEnabled
-        ) { me, appTheme, isDynamicThemeEnabled ->
-            State(me, appTheme, isDynamicThemeEnabled)
+            appSettings.appTheme
+        ) { me, appTheme ->
+            State(me, appTheme)
         }.stateIn(viewModelScope, SharingStarted.Lazily, State())
 
     init {

@@ -4,10 +4,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,14 +67,14 @@ fun NavGraphBuilder.loginDialog() {
 
                 Text(
                     text = "로그인",
-                    style = MaterialTheme.typography.headlineSmall
+                    style = MaterialTheme.typography.h6
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = "더 많은 기능을 사용하기 위해 로그인해주세요.",
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.body1
                 )
 
                 Spacer(modifier = Modifier.height(40.dp))
@@ -85,12 +85,12 @@ fun NavGraphBuilder.loginDialog() {
                         .height(50.dp),
                     border = BorderStroke(
                         1.dp,
-                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
+                        MaterialTheme.colors.onSurface.copy(alpha = 0.1f)
                     ),
                     text = "구글로 시작하기",
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        contentColor = MaterialTheme.colorScheme.onSurface
+                        backgroundColor = MaterialTheme.colors.surface,
+                        contentColor = MaterialTheme.colors.onSurface
                     ),
                     icon = DatePickIcons.Google,
                     iconTint = Color.Unspecified
@@ -106,7 +106,7 @@ fun NavGraphBuilder.loginDialog() {
                         .height(50.dp),
                     text = "카카오로 시작하기",
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFFEE500),
+                        backgroundColor = Color(0xFFFEE500),
                         contentColor = Color(0xD9000000),
                     ),
                     icon = DatePickIcons.Kakao,

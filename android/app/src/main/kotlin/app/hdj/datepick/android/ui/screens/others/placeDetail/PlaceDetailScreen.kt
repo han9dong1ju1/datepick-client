@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -15,7 +15,6 @@ import app.hdj.datepick.android.ui.components.list.PlaceListWithHeader
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.openWebUrl
 import app.hdj.datepick.domain.mapOrNull
-import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.Header
 import app.hdj.datepick.ui.utils.extract
@@ -74,7 +73,7 @@ fun PlaceDetailScreen(
             Header(title = "이 장소가 포함된 코스")
             LazyRow(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surface)
+                    .background(MaterialTheme.colors.surface)
                     .fillMaxWidth()
                     .height(300.dp)
             ) {

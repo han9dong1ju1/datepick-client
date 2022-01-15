@@ -4,19 +4,18 @@ import android.graphics.Bitmap
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.launch
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,9 +31,10 @@ import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.providers.PreviewScope
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.utils.GetPhotoExceptGif
-import app.hdj.datepick.domain.model.user.UserGender.F
-import app.hdj.datepick.domain.model.user.UserGender.M
-import app.hdj.datepick.ui.components.*
+import app.hdj.datepick.ui.components.BaseButton
+import app.hdj.datepick.ui.components.BaseScaffold
+import app.hdj.datepick.ui.components.NetworkImage
+import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
 import app.hdj.datepick.ui.utils.extract
 import coil.compose.LocalImageLoader
@@ -86,7 +86,7 @@ fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel<U
 
     BaseScaffold(
         topBar = {
-            InsetSmallTopAppBar(
+            TopAppBar(
                 navigationIcon = { TopAppBarBackButton() },
                 title = {
 
@@ -153,7 +153,6 @@ fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel<U
                     onFailed = {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
-                            tonalElevation = 10.dp,
                             shape = CircleShape
                         ) {
                             Box(modifier = Modifier.fillMaxSize()) {
@@ -164,7 +163,7 @@ fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel<U
                                         .align(Alignment.Center),
                                     imageVector = Icons.Rounded.Person,
                                     contentDescription = null,
-                                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface)
+                                    colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onSurface)
                                 )
                             }
                         }
@@ -175,49 +174,12 @@ fun UserProfileEditScreen(vm: UserProfileEditViewModelDelegate = hiltViewModel<U
             Spacer(modifier = Modifier.height(20.dp))
 
             TextField(
-                textStyle = LocalTextStyle.current,
                 modifier = Modifier.fillMaxWidth(),
                 value = nickname,
-                onValueChange = { nickname = it },
-                colors = TextFieldDefaults.material3TextFieldColors()
+                onValueChange = { nickname = it }
             )
 
             Spacer(modifier = Modifier.height(10.dp))
-
-            HighSurface(modifier = Modifier.fillMaxWidth(), onClick = {
-                genderDropdownMenuOpenState = true
-            }) {
-
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    text = when (gender) {
-                        M -> "남자"
-                        F -> "여자"
-                        else -> "알리지 않음"
-                    }
-                )
-
-                DropdownMenu(
-                    modifier = Modifier.background(MaterialTheme.colorScheme.surface),
-                    expanded = genderDropdownMenuOpenState, onDismissRequest = {
-                        genderDropdownMenuOpenState = false
-                    }) {
-                    DropdownMenuItem(onClick = {
-                        gender = M
-                        genderDropdownMenuOpenState = false
-                    }) { Text(text = "남자") }
-                    DropdownMenuItem(onClick = {
-                        gender = F
-                        genderDropdownMenuOpenState = false
-                    }) { Text(text = "여자") }
-                    DropdownMenuItem(onClick = {
-                        gender = null
-                        genderDropdownMenuOpenState = false
-                    }) { Text(text = "알리지 않음") }
-                }
-            }
 
         }
 

@@ -1,7 +1,6 @@
 package app.hdj.datepick.android.ui.screens.others.createCourse
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -18,8 +17,8 @@ import app.hdj.datepick.android.ui.screens.others.createCourse.tags.CreateCourse
 import app.hdj.datepick.ui.animation.materialTransitionXaxisIn
 import app.hdj.datepick.ui.animation.materialTransitionXaxisOut
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.InsetSmallTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
+import com.google.accompanist.insets.ui.TopAppBar
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
@@ -27,7 +26,6 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
 @OptIn(
-    ExperimentalMaterial3Api::class,
     com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi::class
 )
 @Composable
@@ -49,7 +47,10 @@ fun CreateCourseScreen(
         BaseScaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                InsetSmallTopAppBar(navigationIcon = { TopAppBarBackButton() })
+                TopAppBar(
+                    navigationIcon = { TopAppBarBackButton() },
+                    title = {}
+                )
             }
         ) {
             AnimatedNavHost(

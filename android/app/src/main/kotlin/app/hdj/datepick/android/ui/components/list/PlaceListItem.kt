@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,16 +46,16 @@ fun PlaceVerticalListItem(place: Place, onPlaceClicked: (Place) -> Unit) {
             ) {
                 Text(
                     text = place.category.typeAsString,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(0.3f)
+                    style = MaterialTheme.typography.body2,
+                    color = MaterialTheme.colors.onSurface.copy(0.3f)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = place.name, style = MaterialTheme.typography.bodyLarge)
+                Text(text = place.name, style = MaterialTheme.typography.body1)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = place.address,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(0.5f)
+                    style = MaterialTheme.typography.body2,
+                    color = MaterialTheme.colors.onSurface.copy(0.5f)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 ImmutableRatingBar(starSize = 12.dp, rating = place.rating.toFloat())
@@ -151,7 +151,7 @@ fun PlaceHorizontalListItem(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(
-                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    color = MaterialTheme.colors.secondary.copy(
                                         0.8f
                                     )
                                 )
@@ -161,7 +161,7 @@ fun PlaceHorizontalListItem(
                                     .size(30.dp)
                                     .align(Alignment.Center),
                                 imageVector = Icons.Rounded.Done,
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                                tint = MaterialTheme.colors.onSecondary,
                                 contentDescription = null
                             )
                         }
@@ -173,16 +173,16 @@ fun PlaceHorizontalListItem(
 
             Text(
                 text = place.category.typeAsString,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(0.3f)
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colors.onSurface.copy(0.3f)
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = place.name, style = MaterialTheme.typography.bodyLarge)
+            Text(text = place.name, style = MaterialTheme.typography.body1)
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = place.address,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(0.5f)
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colors.onSurface.copy(0.5f)
             )
             Spacer(modifier = Modifier.height(8.dp))
             ImmutableRatingBar(starSize = 12.dp, rating = place.rating.toFloat())

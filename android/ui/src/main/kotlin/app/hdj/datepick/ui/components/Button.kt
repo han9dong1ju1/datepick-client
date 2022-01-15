@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +35,13 @@ fun BaseButton(
         enabled = enabled,
         colors = colors,
         border = border,
-        elevation = ButtonDefaults.buttonElevation(0.dp, 0.dp, 0.dp),
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp,
+            disabledElevation = 0.dp,
+            hoveredElevation = 0.dp,
+            focusedElevation = 0.dp,
+        ),
     ) {
 
         icon?.let {
@@ -75,7 +81,7 @@ fun UnAccentButton(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     text: String,
-    shape : Shape = RoundedCornerShape(8.dp),
+    shape: Shape = RoundedCornerShape(8.dp),
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
@@ -85,11 +91,11 @@ fun UnAccentButton(
         text = text,
         shape = shape,
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.06f)
-                .compositeOver(MaterialTheme.colorScheme.surface),
-            contentColor = MaterialTheme.colorScheme.onSurface
+            backgroundColor = MaterialTheme.colors.onSurface.copy(alpha = 0.06f)
+                .compositeOver(MaterialTheme.colors.surface),
+            contentColor = MaterialTheme.colors.onSurface
                 .copy(alpha = 0.8f)
-                .compositeOver(MaterialTheme.colorScheme.surface)
+                .compositeOver(MaterialTheme.colors.surface)
         ),
         enabled = enabled,
         onClick = onClick

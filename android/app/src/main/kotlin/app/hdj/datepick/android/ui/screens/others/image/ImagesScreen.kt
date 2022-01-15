@@ -4,16 +4,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
-import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate
 import app.hdj.datepick.android.ui.LocalDatePickAppViewModel
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.Images.ARGUMENT_IMAGES
@@ -58,12 +58,12 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
 
     BaseScaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Black,
+        backgroundColor = Color.Black,
         topBar = {
-            SmallTopAppBar(
+            TopAppBar(
                 title = { Text(imagesArg.title, color = Color.White) },
                 navigationIcon = { TopAppBarBackButton(contentColor = Color.White) },
-                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent)
+                backgroundColor = Color.Transparent
             )
         }
     ) {
@@ -93,7 +93,7 @@ fun ImagesScreen(imagesArg: ImagesScreenArgument) {
                     .navigationBarsPadding(bottom = true),
                 text = "${pagerState.currentPage + 1} / ${pagerState.pageCount}",
                 color = Color.White,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.body1
             )
         }
 

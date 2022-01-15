@@ -36,13 +36,6 @@ class AppSettingsImp @Inject constructor(
         )
     }
 
-    override val isDynamicThemeEnabled: Flow<Boolean> =
-        flowSettings.getBooleanFlow(KEY_IS_DYNAMIC_THEME_ENABLED)
-
-    override suspend fun setDynamicThemeEnabled(boolean: Boolean) {
-        flowSettings.putBoolean(KEY_IS_DYNAMIC_THEME_ENABLED, boolean)
-    }
-    
     companion object {
         private const val KEY_APP_THEME = "app_theme"
         private const val KEY_IS_DYNAMIC_THEME_ENABLED = "is_dynamic_theme_enabled"

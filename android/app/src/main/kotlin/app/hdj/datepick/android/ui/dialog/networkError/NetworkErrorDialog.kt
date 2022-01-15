@@ -2,9 +2,9 @@ package app.hdj.datepick.android.ui.dialog.networkError
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -38,14 +38,14 @@ fun NavGraphBuilder.networkErrorDialog() {
                     Column(modifier = Modifier.padding(start = 30.dp, end = 30.dp, top = 30.dp)) {
                         Text(
                             text = "네트워크에 문제가 발생했습니다.",
-                            style = MaterialTheme.typography.titleLarge
+                            style = MaterialTheme.typography.h6
                         )
 
                         Spacer(modifier = Modifier.height(10.dp))
 
                         Text(
                             text = "재시도 버튼을 눌러 다시 시도해보세요.",
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.body1
                         )
                     }
 

@@ -4,9 +4,12 @@ import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Share
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
@@ -23,17 +26,15 @@ import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.android.utils.onSucceedComposable
 import app.hdj.datepick.data.utils.res
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.InsetLargeTopAppBar
-import app.hdj.datepick.ui.components.InsetSmallTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
 import app.hdj.datepick.ui.utils.extract
+import com.google.accompanist.insets.ui.TopAppBar
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeaturedDetailScreen(
     id: Long,
@@ -65,16 +66,11 @@ fun FeaturedDetailScreen(
         }
     }
 
-    val scrollBehavior = remember {
-        TopAppBarDefaults.pinnedScrollBehavior()
-    }
-
     BaseScaffold(
         modifier = Modifier
-            .fillMaxWidth()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            .fillMaxWidth(),
         topBar = {
-            InsetSmallTopAppBar(
+            TopAppBar(
                 navigationIcon = { TopAppBarBackButton() },
                 title = {},
                 actions = {
@@ -83,8 +79,7 @@ fun FeaturedDetailScreen(
                     }) {
                         Icon(imageVector = Icons.Rounded.Share, null)
                     }
-                },
-                scrollBehavior = scrollBehavior
+                }
             )
         }
     ) {
@@ -94,7 +89,7 @@ fun FeaturedDetailScreen(
             content = {
 
                 item {
-                    InsetLargeTopAppBar(
+                    TopAppBar(
                         title = { state.featured.onSucceedComposable { Text(text = it.title) } }
                     )
                 }
@@ -104,11 +99,11 @@ fun FeaturedDetailScreen(
                         onSuccess = {
                             MarkdownText(
                                 markdown = it,
-                                color = MaterialTheme.colorScheme.onBackground,
+                                color = MaterialTheme.colors.onBackground,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(20.dp),
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.body1
                             )
                         },
                         onLoading = { FeaturedContentShimmer() }
@@ -141,12 +136,12 @@ private fun FeaturedContentShimmer() {
                     }
                     .placeholder(
                         visible = true,
-                        color = MaterialTheme.colorScheme.onBackground.copy(
+                        color = MaterialTheme.colors.onBackground.copy(
                             0.1f
                         ),
                         shape = RoundedCornerShape(4.dp),
                         highlight = PlaceholderHighlight.shimmer(
-                            highlightColor = MaterialTheme.colorScheme.onBackground.copy(
+                            highlightColor = MaterialTheme.colors.onBackground.copy(
                                 0.2f
                             )
                         )

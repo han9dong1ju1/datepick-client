@@ -88,8 +88,6 @@ class MainActivity : AppCompatActivity() {
                     else -> isSystemInDarkTheme
                 }
 
-                val isDynamicThemeEnabled = state.isDynamicThemeEnabled
-
                 val systemUiController = rememberSystemUiController()
 
                 LaunchedEffect(isDarkTheme) {
@@ -98,7 +96,6 @@ class MainActivity : AppCompatActivity() {
 
                 BaseTheme(
                     isDarkTheme = isDarkTheme,
-                    isDynamicColorSchemeEnabled = isDynamicThemeEnabled
                 ) {
                     DatePickApp()
                 }

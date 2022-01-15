@@ -1,10 +1,9 @@
 package app.hdj.datepick.android.ui.screens.others.diaryDetail
 
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.InsetSmallTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.utils.extract
@@ -19,8 +18,9 @@ fun DiaryDetailScreen(
 
     BaseScaffold(
         topBar = {
-            InsetSmallTopAppBar(
-                navigationIcon = { TopAppBarBackButton() }
+            TopAppBar(
+                navigationIcon = { TopAppBarBackButton() },
+                title = {}
             )
         }
     ) {

@@ -2,9 +2,9 @@ package app.hdj.datepick.android.ui.components.list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,15 +40,15 @@ fun DiaryListItem(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "안국동 데이트",
-                style = MaterialTheme.typography.titleSmall.copy(
+                style = MaterialTheme.typography.subtitle1.copy(
                     fontFamily = FontFamily.SansSerif
                 )
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = "2021. 11. 1",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colors.secondary
             )
 
         }

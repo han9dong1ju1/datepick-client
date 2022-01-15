@@ -2,10 +2,10 @@ package app.hdj.datepick.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.RadioButton
+import androidx.compose.material.RadioButtonDefaults
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,14 +27,14 @@ fun TextRadioButton(
                 selected = isSelected,
                 onClick = null,
                 colors = RadioButtonDefaults.colors(
-                    unselectedColor = MaterialTheme.colorScheme.onSurface.copy(0.7f)
+                    unselectedColor = MaterialTheme.colors.onSurface.copy(0.7f)
                 )
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(
                 text = text,
-                color = if (isSelected) MaterialTheme.colorScheme.secondary
-                else MaterialTheme.colorScheme.onSurface.copy(0.7f)
+                color = if (isSelected) MaterialTheme.colors.secondary
+                else MaterialTheme.colors.onSurface.copy(0.7f)
             )
         }
     }

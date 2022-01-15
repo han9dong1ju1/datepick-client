@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.compositeOver
@@ -89,7 +88,7 @@ fun WebScreen(url: String) {
 
     BaseScaffold(
         topBar = {
-            SmallTopAppBar(
+            TopAppBar(
                 navigationIcon = { TopAppBarBackButton(Icons.Rounded.Close) },
                 actions = {
 

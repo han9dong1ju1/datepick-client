@@ -10,7 +10,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -21,6 +20,7 @@ import app.hdj.datepick.android.ui.screens.openPlace
 import app.hdj.datepick.domain.onSucceed
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.utils.extract
+import com.google.accompanist.insets.ui.TopAppBar
 
 @Composable
 fun PlaceListScreen(
@@ -39,7 +39,7 @@ fun PlaceListScreen(
 
     BaseScaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            SmallTopAppBar(
+            TopAppBar(
                 title = {
                     // TODO Search Bar
                 },

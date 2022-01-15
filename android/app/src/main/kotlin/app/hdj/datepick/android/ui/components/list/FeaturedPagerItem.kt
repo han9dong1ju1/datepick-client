@@ -3,9 +3,9 @@ package app.hdj.datepick.android.ui.components.list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,9 +20,6 @@ import app.hdj.datepick.android.ui.shimmer
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.NetworkImage
 import app.hdj.datepick.ui.utils.*
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.placeholder
-import com.google.accompanist.placeholder.shimmer
 
 @Composable
 fun FeaturedPagerItem(
@@ -64,7 +61,7 @@ fun FeaturedPagerItem(
                         s2s(descriptionRef) + b2t(descriptionRef, 8.dp)
                     ),
                     text = featured.title,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.h6,
                     color = Color.White
                 )
 
@@ -76,7 +73,7 @@ fun FeaturedPagerItem(
                             s2s() + b2b()
                         ),
                     text = featured.description,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.body2,
                     color = Color.White
                 )
 
@@ -93,7 +90,7 @@ fun FeaturedPagerItemShimmer() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.onBackground.copy(0.05f))
+            .background(MaterialTheme.colors.onBackground.copy(0.05f))
             .height(450.dp),
     ) {
 

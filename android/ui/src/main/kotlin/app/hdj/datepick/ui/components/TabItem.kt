@@ -1,6 +1,6 @@
 package app.hdj.datepick.ui.components
 
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -54,7 +54,7 @@ fun Tab(
 ) {
     val styledText: @Composable (() -> Unit)? = text?.let {
         @Composable {
-            val style = MaterialTheme.typography.titleSmall.copy(textAlign = TextAlign.Center)
+            val style = MaterialTheme.typography.h6.copy(textAlign = TextAlign.Center)
             ProvideTextStyle(style, content = text)
         }
     }
@@ -138,7 +138,7 @@ fun LeadingIconTab(
         ) {
             icon()
             Spacer(Modifier.requiredWidth(TextDistanceFromLeadingIcon))
-            val style = MaterialTheme.typography.titleSmall.copy(textAlign = TextAlign.Center)
+            val style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Center)
             ProvideTextStyle(style, content = text)
         }
     }

@@ -1,9 +1,9 @@
 package app.hdj.datepick.ui.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,7 +34,7 @@ fun LargeTitle(
                 modifier = Modifier
                     .constrainAs(titleRef, b2b() + s2s()),
                 text = text,
-                style = MaterialTheme.typography.headlineLarge, maxLines = 2
+                style = MaterialTheme.typography.h4, maxLines = 2
             )
 
         }
@@ -58,7 +58,7 @@ fun LargeTitleAndSubtitle(
             modifier = Modifier.fillMaxWidth(),
             text = title,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.headlineLarge, maxLines = 1
+            style = MaterialTheme.typography.h4, maxLines = 1
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -67,7 +67,7 @@ fun LargeTitleAndSubtitle(
             modifier = Modifier.fillMaxWidth(),
             text = subtitle,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodyLarge, maxLines = 1,
+            style = MaterialTheme.typography.body1, maxLines = 1,
         )
 
     }

@@ -4,7 +4,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,7 +66,6 @@ private val mainNavigationRoutesWithIcon = listOf(
 @OptIn(
     ExperimentalAnimationApi::class,
     ExperimentalMaterialNavigationApi::class,
-    ExperimentalMaterial3Api::class
 )
 @Composable
 fun DatePickApp() {

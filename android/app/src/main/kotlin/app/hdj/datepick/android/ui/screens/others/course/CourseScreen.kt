@@ -1,30 +1,25 @@
 package app.hdj.datepick.android.ui.screens.others.course
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldColors
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.InsetSmallTopAppBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
-import app.hdj.datepick.ui.components.material3TextFieldColors
-import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
 
 @Composable
@@ -34,10 +29,6 @@ fun CourseScreen(
 ) {
 
     val (state, effect, event) = vm.extract()
-
-    val scrollBehavior = remember {
-        TopAppBarDefaults.pinnedScrollBehavior()
-    }
 
     SideEffect {
 
@@ -49,10 +40,9 @@ fun CourseScreen(
 
     BaseScaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            .fillMaxSize(),
         topBar = {
-            InsetSmallTopAppBar(
+            TopAppBar(
                 navigationIcon = { TopAppBarBackButton() },
                 actions = {
                     IconButton(onClick = {
@@ -66,7 +56,7 @@ fun CourseScreen(
                         }
                     }
                 },
-                scrollBehavior = scrollBehavior,
+                title = {}
             )
         }
     ) {

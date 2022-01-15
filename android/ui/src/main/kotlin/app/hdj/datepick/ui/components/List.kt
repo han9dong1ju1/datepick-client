@@ -1,9 +1,9 @@
 package app.hdj.datepick.ui.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,8 +20,8 @@ fun Header(
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = title,
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.secondary
+            style = MaterialTheme.typography.subtitle1,
+            color = MaterialTheme.colors.secondary
         )
         Spacer(modifier = Modifier.height(10.dp))
     }
@@ -90,7 +90,7 @@ fun ListItem(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.subtitle1
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
@@ -98,8 +98,8 @@ fun ListItem(
                 if (subtitle != null) {
                     Text(
                         text = subtitle,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                        style = MaterialTheme.typography.bodyMedium
+                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.4f),
+                        style = MaterialTheme.typography.body2
                     )
                 }
             }

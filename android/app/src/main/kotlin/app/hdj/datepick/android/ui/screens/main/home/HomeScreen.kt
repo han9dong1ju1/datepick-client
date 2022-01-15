@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Notifications
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,14 +22,12 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.ui.components.*
-import app.hdj.datepick.ui.styles.surfaceColorAtTonalElevation
 import app.hdj.datepick.ui.utils.extract
 import app.hdj.datepick.ui.utils.verticalMargin
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 private val TOP_FEATURED_PAGER_HEIGHT = 400.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     vm: HomeViewModelDelegate = hiltViewModel<HomeViewModel>()
@@ -40,10 +38,6 @@ fun HomeScreen(
     val navController = LocalAppNavController.current
     val appViewModel = LocalDatePickAppViewModel.current
 
-    val scrollBehavior = remember {
-        TopAppBarDefaults.pinnedScrollBehavior()
-    }
-
     BackHandler {
         navController.navigateRoute(AppNavigationGraph.ExitDialog)
     }
@@ -51,9 +45,23 @@ fun HomeScreen(
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = state.isContentLoading)
 
     BaseSwipeRefreshLayoutScaffold(
-        modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
         swipeRefreshState = swipeRefreshState,
+        topBar = {
+            TopAppBar(
+                actions = {
+                    IconButton(onClick = { }) {
+                        Icon(imageVector = Icons.Rounded.Notifications, null)
+                    }
+                },
+                title = {
+                    Image(
+                        imageVector = DatePickIcons.Logo,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                        contentDescription = null
+                    )
+                }
+            )
+        },
         onRefresh = { event(HomeViewModelDelegate.Event.ReloadContents) },
     ) {
         LazyColumn(
@@ -84,26 +92,6 @@ fun HomeScreen(
             }
         )
 
-        InsetSmallTopAppBar(
-            actions = {
-                IconButton(onClick = { }) {
-                    Icon(imageVector = Icons.Rounded.Notifications, null)
-                }
-            },
-            title = {
-                Image(
-                    imageVector = DatePickIcons.Logo,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                    contentDescription = null
-                )
-            },
-            scrollBehavior = scrollBehavior,
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = Color.Unspecified,
-                scrolledContainerColor = MaterialTheme.colorScheme
-                    .surfaceColorAtTonalElevation(3.0.dp)
-            )
-        )
 
     }
 

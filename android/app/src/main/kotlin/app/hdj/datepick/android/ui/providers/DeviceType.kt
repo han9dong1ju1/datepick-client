@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -48,7 +48,7 @@ private fun DeviceTypePreview() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(MaterialTheme.colors.background)
             ) {
                 Column(
                     modifier = Modifier
@@ -57,13 +57,13 @@ private fun DeviceTypePreview() {
                 ) {
                     Text(
                         text = "I'm ${deviceType.name}",
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.onBackground
+                        style = MaterialTheme.typography.h6,
+                        color = MaterialTheme.colors.onBackground
                     )
                     Text(
                         text = "Screen Width : ${configuration.screenWidthDp}",
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.onBackground
+                        style = MaterialTheme.typography.h6,
+                        color = MaterialTheme.colors.onBackground
                     )
                 }
             }
