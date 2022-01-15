@@ -12,7 +12,7 @@ import app.hdj.datepick.android.ui.shimmer
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.ui.animation.materialTransitionSpecYaxisPopFromBottom
-import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ListHeader
 
 @Composable
 fun PlaceListWithHeader(
@@ -45,7 +45,7 @@ fun PlaceListWithHeader(
 private fun PlaceListShimmerWithHeader(headerText: String) {
     Surface(Modifier.fillMaxWidth()) {
         Column(Modifier.fillMaxWidth()) {
-            Header(title = headerText)
+            ListHeader(title = headerText)
             Column(
                 Modifier
                     .fillMaxWidth()
@@ -69,7 +69,7 @@ private fun PlaceListWithHeader(
     if (!places.isNullOrEmpty()) {
         Surface(Modifier.fillMaxWidth()) {
             Column(Modifier.fillMaxWidth()) {
-                Header(title = headerText)
+                ListHeader(title = headerText)
                 Column {
                     places.forEach { place ->
                         PlaceVerticalListItem(place = place, onPlaceClicked = onPlaceClicked)

@@ -20,7 +20,6 @@ import app.hdj.datepick.android.ui.screens.AppNavigationGraph.AppSettings.List
 import app.hdj.datepick.android.ui.screens.appNavigationComposable
 import app.hdj.datepick.android.ui.screens.others.settings.setting_list.AppSettingsListScreen
 import app.hdj.datepick.domain.settings.AppSettings
-import app.hdj.datepick.ui.components.Header
 import app.hdj.datepick.ui.components.TextRadioButtonGroup
 import app.hdj.datepick.ui.components.rememberTextRadioButtonGroupState
 import app.hdj.datepick.ui.utils.extract

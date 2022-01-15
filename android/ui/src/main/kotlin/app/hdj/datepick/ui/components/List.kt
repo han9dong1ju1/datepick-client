@@ -12,15 +12,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import app.hdj.datepick.ui.utils.*
 
 @Composable
-fun Header(
+fun ListHeader(
     title: String,
     modifier : Modifier = Modifier,
 ) {
     Column(modifier = modifier.padding(horizontal = 20.dp)) {
         Spacer(modifier = Modifier.height(20.dp))
-        Text(
+        Title(
             text = title,
-            style = MaterialTheme.typography.subtitle1,
             color = MaterialTheme.colors.secondary
         )
         Spacer(modifier = Modifier.height(10.dp))

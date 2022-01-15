@@ -57,7 +57,7 @@ fun MapBottomSheetContent(
         }
 
         item {
-            Header(title = "이 주변 장소들")
+            ListHeader(title = "이 주변 장소들")
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -114,7 +114,7 @@ fun MapBottomSheetContent(
         }
 
         item {
-            Header(title = "이 주변 코스 추천")
+            ListHeader(title = "이 주변 코스 추천")
 
         }
 

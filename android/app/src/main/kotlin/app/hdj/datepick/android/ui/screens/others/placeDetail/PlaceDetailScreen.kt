@@ -16,7 +16,7 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.openWebUrl
 import app.hdj.datepick.domain.mapOrNull
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ListHeader
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.navigationBarsHeight
 
@@ -70,7 +70,7 @@ fun PlaceDetailScreen(
             PlaceListWithHeader("이 장소는 어때요?", state.similarPlaces)
             Spacer(Modifier.height(10.dp))
 
-            Header(title = "이 장소가 포함된 코스")
+            ListHeader(title = "이 장소가 포함된 코스")
             LazyRow(
                 modifier = Modifier
                     .background(MaterialTheme.colors.surface)

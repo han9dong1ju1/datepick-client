@@ -26,7 +26,7 @@ struct ContentView: View {
                     Text("My Date")
                 }
             
-            ProfileView()
+            MenuView()
             
                 .tabItem {
                     Image(systemName: "person.fill")

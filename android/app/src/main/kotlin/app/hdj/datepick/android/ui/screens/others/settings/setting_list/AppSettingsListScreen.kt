@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,12 +15,11 @@ import app.hdj.datepick.android.ui.providers.PreviewScope
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.AppSettings.AppThemeDialog
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ListHeader
 import app.hdj.datepick.ui.components.ListItem
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.ui.utils.extract
-import com.google.accompanist.insets.ui.TopAppBar
 
 @Composable
 fun AppSettingsListScreen(
@@ -49,7 +47,7 @@ fun AppSettingsListScreen(
                 .verticalScroll(rememberScrollState())
         ) {
 
-            Header(title = "앱 보기 설정")
+            ListHeader(title = "앱 보기 설정")
             ListItem(title = "앱 테마", subtitle = "앱의 테마를 설정합니다.") {
                 navController.navigateRoute(AppThemeDialog)
             }

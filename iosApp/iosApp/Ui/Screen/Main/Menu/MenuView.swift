@@ -8,12 +8,17 @@
 
 import SwiftUI
 
-struct ProfileView: View {
+struct MenuView: View {
     var body: some View {
         NavigationView {
-            VStack {
+            
+            List {
                 
-                Text("Profile")
+                SimpleListItem(title: "앱 설정")
+                
+                SimpleListItem(title: "알림 설정", subtitle: "앱에서 수신되는 알림을 설정합니다.")
+                
+                
                 
             }.navigationBarTitle("Profile")
                 .animation(.easeOut(duration: 0.3))
@@ -23,6 +28,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        MenuView()
     }
 }

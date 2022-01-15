@@ -22,7 +22,7 @@ import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ListHeader
 import app.hdj.datepick.ui.components.ListItem
 import app.hdj.datepick.ui.components.NetworkImage
 import app.hdj.datepick.ui.utils.extract
@@ -114,7 +114,7 @@ fun MenuScreen(
                     .background(MaterialTheme.colors.onBackground.copy(0.1f))
             )
 
-            Header("내 계정")
+            ListHeader("내 계정")
 
             ListItem(
                 title = "내 데이트 다이어리",
@@ -130,7 +130,7 @@ fun MenuScreen(
 
             }
 
-            Header("설정")
+            ListHeader("설정")
 
             ListItem(
                 title = "알림 설정",
@@ -159,7 +159,7 @@ fun MenuScreen(
                 navController.navigateRoute(AppNavigationGraph.AppSettings)
             }
 
-            Header("기타")
+            ListHeader("기타")
 
             ListItem(
                 title = "공지사항",

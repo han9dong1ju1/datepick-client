@@ -12,7 +12,6 @@ buildscript {
         classpath(Google.dagger.hilt.android.gradlePlugin)
         classpath(Square.sqlDelight.gradlePlugin)
         classpath(Firebase.crashlyticsGradlePlugin)
-        classpath(Utils.mokoResourcePlugins)
     }
 }
 

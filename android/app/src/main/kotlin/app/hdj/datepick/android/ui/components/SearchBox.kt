@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.SearchBoxState.SearchBoxUiState
 import app.hdj.datepick.ui.components.Chip
-import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ListHeader
 import com.google.accompanist.flowlayout.FlowRow
 
 @Stable
@@ -181,7 +181,7 @@ private fun SearchBoxExpandedUi(
                 .verticalScroll(rememberScrollState())
         ) {
 
-            Header("필터")
+            ListHeader("필터")
             FlowRow(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -202,7 +202,7 @@ private fun SearchBoxExpandedUi(
                 }
             }
 
-            Header("필터")
+            ListHeader("필터")
             FlowRow(
                 modifier = Modifier
                     .fillMaxWidth()

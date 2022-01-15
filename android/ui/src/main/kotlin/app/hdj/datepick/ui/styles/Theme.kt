@@ -12,11 +12,9 @@ fun BaseTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val context = LocalContext.current
-
     MaterialTheme(
         typography = Typographies,
-        colors =  if (isDarkTheme) darkColors() else lightColors()
+        colors =  if (isDarkTheme) darkColors else lightColors
     ) {
         content()
     }

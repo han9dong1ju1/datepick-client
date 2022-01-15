@@ -12,19 +12,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.MR
 import app.hdj.datepick.android.ui.MarkdownText
 import app.hdj.datepick.android.ui.screens.others.featuredDetail.FeaturedDetailViewModelDelegate.Event.FetchFeaturedById
 import app.hdj.datepick.android.utils.foldCrossfade
 import app.hdj.datepick.android.utils.onSucceedComposable
-import app.hdj.datepick.data.utils.res
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
@@ -56,12 +52,12 @@ fun FeaturedDetailScreen(
                     type = "text/plain"
                     putExtra(Intent.EXTRA_TEXT, it.link)
                 }
-                context.startActivity(
-                    Intent.createChooser(
-                        intent,
-                        context.res(MR.strings.title_share)
-                    )
-                )
+//                context.startActivity(
+//                    Intent.createChooser(
+//                        intent,
+//                        context.res(MR.strings.title_share)
+//                    )
+//                )
             }
         }
     }

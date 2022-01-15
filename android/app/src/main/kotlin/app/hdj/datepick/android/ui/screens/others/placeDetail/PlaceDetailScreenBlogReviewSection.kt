@@ -9,7 +9,7 @@ import app.hdj.datepick.android.ui.components.list.PlaceBlogReviewListItem
 import app.hdj.datepick.android.utils.foldComposable
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.BlogReview
-import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ListHeader
 
 @Composable
 fun PlaceDetailScreenBlogReviewSection(
@@ -22,7 +22,7 @@ fun PlaceDetailScreenBlogReviewSection(
                         
             },
             onSuccess = { list ->
-                Header(title = "블로그 리뷰")
+                ListHeader(title = "블로그 리뷰")
                 list.forEach { blogReview ->
                     PlaceBlogReviewListItem(blogReview) { clickedReview ->
                         onBlogReviewClicked(clickedReview)

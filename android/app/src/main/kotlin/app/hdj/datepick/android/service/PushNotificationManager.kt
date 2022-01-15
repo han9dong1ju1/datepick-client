@@ -12,8 +12,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.core.graphics.drawable.toBitmap
-import app.hdj.datepick.MR
-import app.hdj.datepick.data.utils.res
 import app.hdj.datepick.domain.model.pushNotification.PushNotificationData
 import app.hdj.datepick.domain.model.pushNotification.PushNotificationData.PushNotificationType
 import app.hdj.datepick.domain.model.pushNotification.PushNotificationData.PushNotificationType.*
@@ -55,23 +53,23 @@ class PushNotificationManagerImp @Inject constructor(
     }
 
     private fun createNotificationChannels() {
-        val notificationChannelData = PushNotificationType.values().map { type ->
-            val nameRes = when (type) {
-                NOTICE -> MR.strings.title_notice
-                EVENT -> MR.strings.title_event
-                COURSE_RECOMMENDATION -> MR.strings.title_course_recommendation
-                PICK -> MR.strings.title_pick
-            }
-            PushNotificationChannelData(type, context.res(nameRes))
-        }
-
-        val channels = notificationChannelData.map { (type, name) ->
-            NotificationChannelCompat.Builder(type.name, NotificationManager.IMPORTANCE_HIGH)
-                .setName(name)
-                .build()
-        }
-
-        notificationManager.createNotificationChannelsCompat(channels)
+//        val notificationChannelData = PushNotificationType.values().map { type ->
+////            val nameRes = when (type) {
+////                NOTICE -> MR.strings.title_notice
+////                EVENT -> MR.strings.title_event
+////                COURSE_RECOMMENDATION -> MR.strings.title_course_recommendation
+////                PICK -> MR.strings.title_pick
+////            }
+////            PushNotificationChannelData(type, context.res(nameRes))
+//        }
+//
+//        val channels = notificationChannelData.map { (type, name) ->
+//            NotificationChannelCompat.Builder(type.name, NotificationManager.IMPORTANCE_HIGH)
+//                .setName(name)
+//                .build()
+//        }
+//
+//        notificationManager.createNotificationChannelsCompat(channels)
     }
 
     override fun showNotification(pushNotificationData: PushNotificationData) {

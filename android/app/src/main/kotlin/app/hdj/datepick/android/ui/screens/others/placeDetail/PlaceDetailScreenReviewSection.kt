@@ -8,7 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ListHeader
 
 
 @Composable
@@ -17,7 +17,7 @@ fun PlaceDetailScreenReviewSection(
 ) {
 
 
-    Header(title = "리뷰")
+    ListHeader(title = "리뷰")
 
     LazyRow(
         modifier = Modifier

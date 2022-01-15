@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.domain.model.place.Place
-import app.hdj.datepick.ui.components.Header
+import app.hdj.datepick.ui.components.ListHeader
 import app.hdj.datepick.ui.components.googlemap.GoogleMapSnapshot
 import com.google.android.gms.maps.model.LatLng
 
@@ -18,7 +18,7 @@ fun PlaceDetailScreenMapLocationSection(
     onClicked: (String) -> Unit
 ) {
 
-    Header(title = "위치")
+    ListHeader(title = "위치")
     GoogleMapCard(place, onClicked)
 }
 
