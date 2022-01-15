@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		4A7558292792B1B5002C3617 /* SimpleListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7558282792B1B5002C3617 /* SimpleListItem.swift */; };
+		4A75582B2792B558002C3617 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A75582A2792B558002C3617 /* SettingsView.swift */; };
 		4ACA7427278ABE8E00F0D056 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7426278ABE8E00F0D056 /* HomeView.swift */; };
 		4ACA7429278ABEB600F0D056 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7428278ABEB600F0D056 /* MapView.swift */; };
 		4ACA742B278ABED400F0D056 /* MyDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA742A278ABED400F0D056 /* MyDateView.swift */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		4A7558282792B1B5002C3617 /* SimpleListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListItem.swift; sourceTree = "<group>"; };
+		4A75582A2792B558002C3617 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4ACA7426278ABE8E00F0D056 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4ACA7428278ABEB600F0D056 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		4ACA742A278ABED400F0D056 /* MyDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDateView.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				4ACA742C278ABEE500F0D056 /* MenuView.swift */,
+				4A75582A2792B558002C3617 /* SettingsView.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				4ACA7427278ABE8E00F0D056 /* HomeView.swift in Sources */,
 				4ACA7429278ABEB600F0D056 /* MapView.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				4A75582B2792B558002C3617 /* SettingsView.swift in Sources */,
 				4ACA742B278ABED400F0D056 /* MyDateView.swift in Sources */,
 				4A7558292792B1B5002C3617 /* SimpleListItem.swift in Sources */,
 				4ACA742D278ABEE500F0D056 /* MenuView.swift in Sources */,

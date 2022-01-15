@@ -10,7 +10,9 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            Text("테마 설정")
+        }.navigationTitle("설정")
     }
 }
 

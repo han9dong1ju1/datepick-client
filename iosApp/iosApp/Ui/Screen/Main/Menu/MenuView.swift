@@ -13,10 +13,17 @@ struct MenuView: View {
         NavigationView {
             
             List {
+                NavigationLink {
+                    SettingsView()
+                } label: {
+                    SimpleListItem(title: "앱 설정")
+                }
                 
-                SimpleListItem(title: "앱 설정")
-                
+                    NavigationLink {
+                        
+                    } label: {
                 SimpleListItem(title: "알림 설정", subtitle: "앱에서 수신되는 알림을 설정합니다.")
+                    }
                 
                 
                 
