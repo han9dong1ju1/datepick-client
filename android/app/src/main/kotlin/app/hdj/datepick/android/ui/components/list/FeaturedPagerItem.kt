@@ -30,7 +30,7 @@ fun FeaturedPagerItem(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(450.dp),
+            .height(300.dp),
         onClick = { onFeaturedClicked(featured) }
     ) {
 
@@ -61,7 +61,7 @@ fun FeaturedPagerItem(
                         s2s(descriptionRef) + b2t(descriptionRef, 8.dp)
                     ),
                     text = featured.title,
-                    style = MaterialTheme.typography.h6,
+                    style = MaterialTheme.typography.h5,
                     color = Color.White
                 )
 

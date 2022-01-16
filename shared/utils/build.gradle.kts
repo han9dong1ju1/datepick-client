@@ -81,3 +81,13 @@ android {
         targetSdk = Properties.androidTargetSDK
     }
 }
+
+kotlin {
+
+    targets.withType(KotlinNativeTarget::class.java) {
+        binaries.all {
+            binaryOptions["memoryModel"] = "experimental"
+        }
+    }
+
+}

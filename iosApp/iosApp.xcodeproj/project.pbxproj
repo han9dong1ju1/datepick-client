@@ -17,6 +17,8 @@
 		4ACA7431278ABFCB00F0D056 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA7430278ABFCB00F0D056 /* Colors.xcassets */; };
 		4ACA7433278AC04800F0D056 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7432278AC04800F0D056 /* Theme.swift */; };
 		4ACA7435278AC17A00F0D056 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA7434278AC17A00F0D056 /* AppIcon.xcassets */; };
+		4AFB125927941F7100AFD8A8 /* NotificationSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFB125827941F7100AFD8A8 /* NotificationSettingsScreen.swift */; };
+		4AFB125D2794221F00AFD8A8 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AFB125C2794221F00AFD8A8 /* Icons.xcassets */; };
 		66BBAC15A48BE3FB47641309 /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF80EF4CDE6744FF139AB569 /* Pods_iosApp.framework */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
@@ -32,6 +34,8 @@
 		4ACA7430278ABFCB00F0D056 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		4ACA7432278AC04800F0D056 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4ACA7434278AC17A00F0D056 /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
+		4AFB125827941F7100AFD8A8 /* NotificationSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsScreen.swift; sourceTree = "<group>"; };
+		4AFB125C2794221F00AFD8A8 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,8 +68,8 @@
 		4A7558242792B189002C3617 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				4AFB125727941F6000AFD8A8 /* Settings */,
 				4ACA742C278ABEE500F0D056 /* MenuView.swift */,
-				4A75582A2792B558002C3617 /* SettingsView.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -114,6 +118,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				4ACA7430278ABFCB00F0D056 /* Colors.xcassets */,
 				4ACA7434278AC17A00F0D056 /* AppIcon.xcassets */,
+				4AFB125C2794221F00AFD8A8 /* Icons.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -124,6 +129,15 @@
 				4ACA7432278AC04800F0D056 /* Theme.swift */,
 			);
 			path = Style;
+			sourceTree = "<group>";
+		};
+		4AFB125727941F6000AFD8A8 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4A75582A2792B558002C3617 /* SettingsView.swift */,
+				4AFB125827941F7100AFD8A8 /* NotificationSettingsScreen.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -223,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4ACA7435278AC17A00F0D056 /* AppIcon.xcassets in Resources */,
+				4AFB125D2794221F00AFD8A8 /* Icons.xcassets in Resources */,
 				4ACA7431278ABFCB00F0D056 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,6 +299,7 @@
 				4A7558292792B1B5002C3617 /* SimpleListItem.swift in Sources */,
 				4ACA742D278ABEE500F0D056 /* MenuView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				4AFB125927941F7100AFD8A8 /* NotificationSettingsScreen.swift in Sources */,
 				4ACA7433278AC04800F0D056 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

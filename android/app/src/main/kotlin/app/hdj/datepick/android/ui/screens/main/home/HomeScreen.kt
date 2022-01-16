@@ -56,8 +56,9 @@ fun HomeScreen(
                 },
                 title = {
                     Image(
+                        modifier = Modifier.height(18.dp),
                         imageVector = DatePickIcons.Logo,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
                         contentDescription = null
                     )
                 }

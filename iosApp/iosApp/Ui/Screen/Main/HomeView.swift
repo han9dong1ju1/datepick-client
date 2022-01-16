@@ -9,16 +9,26 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    init() {
+        UITableView.appearance().backgroundColor = UIColor.clear
+    }
+    
     var body: some View {
-        
-        NavigationView {
-            VStack {
-                
-                Text("Home")
-                
-            }.navigationBarTitle("Home")
-                .animation(.easeOut(duration: 0.3))
-        }.navigationViewStyle(DoubleColumnNavigationViewStyle())
+        VStack {
+            HStack() {
+                Image("datepick-logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width : 100, height: 20)
+            }.frame(height: 70)
+            
+            List {
+                ForEach((1...100), id: \.self) { i in
+                    Text("Item \(i)")
+                }
+            }.listStyle(.plain)
+        }
     }
 }
 
