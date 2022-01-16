@@ -115,11 +115,10 @@ fun BaseSwipeRefreshLayoutScaffold(
         contentPadding
     ) {
         SwipeRefresh(
-            modifier = Modifier.padding(it),
             state = swipeRefreshState,
             indicator = indicator,
             onRefresh = onRefresh,
-            indicatorPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.statusBars)
+            indicatorPadding = it
         ) {
             content(it)
         }

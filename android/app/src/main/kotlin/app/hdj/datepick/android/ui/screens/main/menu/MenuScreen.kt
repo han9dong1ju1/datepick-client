@@ -21,10 +21,7 @@ import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
-import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.ListHeader
-import app.hdj.datepick.ui.components.ListItem
-import app.hdj.datepick.ui.components.NetworkImage
+import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.utils.extract
 import coil.transform.CircleCropTransformation
 import com.google.accompanist.insets.ui.TopAppBar
@@ -44,7 +41,7 @@ fun MenuScreen(
 
     BaseScaffold(
         topBar = {
-            TopAppBar(
+            BaseTopBar(
                 title = { Text(text = "전체") }
             )
         }
@@ -53,6 +50,7 @@ fun MenuScreen(
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
+                .padding(it)
         ) {
 
             if (me == null) {

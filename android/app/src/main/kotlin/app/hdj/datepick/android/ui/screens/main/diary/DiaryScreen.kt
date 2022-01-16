@@ -18,6 +18,7 @@ import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.domain.model.diary.Diary
 import app.hdj.datepick.ui.components.BaseScaffold
+import app.hdj.datepick.ui.components.BaseTopBar
 import app.hdj.datepick.ui.utils.extract
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
@@ -44,7 +45,7 @@ fun DiaryScreen(vm: DiaryViewModelDelegate = hiltViewModel<DiaryViewModel>()) {
             ),
         topBar = {
             Column {
-                TopAppBar(
+                BaseTopBar(
                     title = {
                         Text("다이어리")
                     }
@@ -55,6 +56,7 @@ fun DiaryScreen(vm: DiaryViewModelDelegate = hiltViewModel<DiaryViewModel>()) {
     ) {
 
         LazyVerticalGrid(
+            modifier = Modifier.padding(it),
             cells = GridCells.Fixed(2),
             contentPadding = PaddingValues(10.dp)
         ) {

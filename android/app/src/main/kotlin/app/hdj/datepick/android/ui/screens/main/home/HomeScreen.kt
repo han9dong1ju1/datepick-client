@@ -47,7 +47,8 @@ fun HomeScreen(
     BaseSwipeRefreshLayoutScaffold(
         swipeRefreshState = swipeRefreshState,
         topBar = {
-            TopAppBar(
+            BaseTopBar(
+                backgroundColor = Color.Unspecified,
                 actions = {
                     IconButton(onClick = { }) {
                         Icon(imageVector = Icons.Rounded.Notifications, null)
@@ -66,7 +67,8 @@ fun HomeScreen(
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(it),
             content = {
 
                 item { HomeScreenFeaturedContents(state.featured) }

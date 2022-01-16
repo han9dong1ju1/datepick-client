@@ -56,7 +56,7 @@ fun PickScreen(vm: PickViewModelDelegate = hiltViewModel<PickViewModel>()) {
         ,
         topBar = {
             Column {
-                TopAppBar(
+                BaseTopBar(
                     title = {
                         Text("Pick")
                     }

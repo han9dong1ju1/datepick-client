@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
         setup()
 
-
         appViewModel.state.mapNotNull { it.appTheme }.onEach {
             AppCompatDelegate.setDefaultNightMode(
                 when (it) {

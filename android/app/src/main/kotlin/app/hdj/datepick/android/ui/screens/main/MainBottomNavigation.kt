@@ -1,11 +1,9 @@
 package app.hdj.datepick.android.ui.screens.main
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SignalWifiConnectedNoInternet4
 import androidx.compose.runtime.Composable
@@ -20,7 +18,10 @@ import app.hdj.datepick.android.utils.ConnectionState
 import app.hdj.datepick.android.utils.connectivityState
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
+import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -51,15 +52,16 @@ fun MainBottomNavigation(
                 .fillMaxWidth()
                 .animateContentSize()
         ) {
-            NavigationGraphBottomNavigation(
-                modifier = Modifier.height(56.dp),
-                navController,
-                mainNavigationRoutesWithIcon
-            )
 
-            if (connectivityState == ConnectionState.Available) {
-                Spacer(modifier = Modifier.navigationBarsHeight())
-            }
+            Divider(color = MaterialTheme.colors.onBackground.copy(0.02f))
+
+            NavigationGraphBottomNavigation(
+                navController = navController,
+                contentPaddingValues = if (connectivityState == ConnectionState.Available)
+                    rememberInsetsPaddingValues(LocalWindowInsets.current.navigationBars)
+                else PaddingValues(),
+                list = mainNavigationRoutesWithIcon
+            )
 
             AnimatedVisibility(connectivityState == ConnectionState.Unavailable) {
                 Surface(

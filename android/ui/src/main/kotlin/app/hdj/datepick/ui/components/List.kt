@@ -20,7 +20,7 @@ fun ListHeader(
         Spacer(modifier = Modifier.height(20.dp))
         Title(
             text = title,
-            color = MaterialTheme.colors.secondary
+            color = MaterialTheme.colors.onBackground
         )
         Spacer(modifier = Modifier.height(10.dp))
     }
@@ -89,7 +89,7 @@ fun ListItem(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.subtitle1
+                    style = MaterialTheme.typography.subtitle2
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
