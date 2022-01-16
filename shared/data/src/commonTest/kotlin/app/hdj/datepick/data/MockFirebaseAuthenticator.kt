@@ -17,4 +17,16 @@ class MockFirebaseAuthenticator : Authenticator {
         throw UnsupportedOperationException("Not Supported in Test")
     }
 
+    override suspend fun signInCustomToken(customToken: String) {
+
+    }
+
+    override suspend fun signOut() {
+
+    }
+
+    override suspend fun refreshIdToken() {
+
+    }
+
 }

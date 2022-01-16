@@ -73,6 +73,7 @@ kotlin {
             implementation(kotlin("test-common"))
             implementation(kotlin("test-annotations-common"))
             implementation(Mokk.common)
+            implementation(KotlinX.coroutines.test)
             implementation(Ktor.client.tests)
         }
         sourceSets["androidMain"].dependencies {

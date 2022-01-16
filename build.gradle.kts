@@ -34,6 +34,7 @@ allprojects {
             freeCompilerArgs = freeCompilerArgs + listOf(
                 "-Xopt-in=kotlin.RequiresOptIn",
                 "-Xopt-in=kotlin.OptIn",
+                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
                 "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
                 "-Xopt-in=com.google.accompanist.pager.ExperimentalPagerApi",
