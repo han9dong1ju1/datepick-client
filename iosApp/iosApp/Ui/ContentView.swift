@@ -1,11 +1,8 @@
 import SwiftUI
-import data
-import domain
-import utils
 
 struct ContentView: View {
     
-	var body: some View {
+    var body: some View {
         TabView {
             
             HomeView()
@@ -34,12 +31,12 @@ struct ContentView: View {
                 }
             
         }.accentColor(Color.primary)
-
-	}
+        
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
-	static var previews: some View {
-	ContentView()
-	}
+    static var previews: some View {
+        ContentView()
+    }
 }

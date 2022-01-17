@@ -9,7 +9,4 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 interface DomainModule {
 
-    @get:[Binds]
-    val FirebaseAuthenticator.authenticator: Authenticator
-
 }

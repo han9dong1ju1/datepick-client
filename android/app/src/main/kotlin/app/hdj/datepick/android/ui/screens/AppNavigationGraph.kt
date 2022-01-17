@@ -6,7 +6,6 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
-import app.hdj.datepick.android.ui.screens.others.image.ImagesScreenArgument
 import app.hdj.datepick.android.utils.datePickNavDeepLink
 import app.hdj.datepick.android.utils.externalDatePickNavDeepLink
 import app.hdj.datepick.domain.model.diary.Diary
@@ -111,10 +110,6 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
                 type = NavType.StringType
                 nullable = true
             }
-        )
-
-        fun graphWithArgument(argument: ImagesScreenArgument) = NavigationGraph(
-            "images?images=${Json.encodeToString(argument)}"
         )
     }
 

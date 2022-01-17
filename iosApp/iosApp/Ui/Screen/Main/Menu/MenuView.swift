@@ -19,11 +19,11 @@ struct MenuView: View {
                     SimpleListItem(title: "앱 설정")
                 }
                 
-                    NavigationLink {
-                        NotificationSettingsScreen()
-                    } label: {
-                SimpleListItem(title: "알림 설정", subtitle: "앱에서 수신되는 알림을 설정합니다.")
-                    }
+                NavigationLink {
+                    NotificationSettingsScreen()
+                } label: {
+                    SimpleListItem(title: "알림 설정", subtitle: "앱에서 수신되는 알림을 설정합니다.")
+                }
                 
                 
                 

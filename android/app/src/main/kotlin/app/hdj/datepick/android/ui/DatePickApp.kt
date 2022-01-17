@@ -4,37 +4,16 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.plusAssign
-import app.hdj.datepick.android.ui.dialog.appupdate.appUpdateDialog
-import app.hdj.datepick.android.ui.dialog.exit.exitDialog
-import app.hdj.datepick.android.ui.dialog.login.loginDialog
-import app.hdj.datepick.android.ui.dialog.networkError.networkErrorDialog
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.screens.main.MainBottomNavigation
-import app.hdj.datepick.android.ui.screens.main.MainFloatingActionButton
-import app.hdj.datepick.android.ui.screens.main.diary.DiaryViewModel
-import app.hdj.datepick.android.ui.screens.main.home.HomeViewModel
-import app.hdj.datepick.android.ui.screens.main.mainScreens
-import app.hdj.datepick.android.ui.screens.main.map.MapViewModel
-import app.hdj.datepick.android.ui.screens.main.menu.MenuViewModel
-import app.hdj.datepick.android.ui.screens.main.pick.PickViewModel
-import app.hdj.datepick.android.ui.screens.others.course.courseScreen
-import app.hdj.datepick.android.ui.screens.others.createCourse.createCourseScreen
-import app.hdj.datepick.android.ui.screens.others.diaryDetail.diaryDetailScreen
-import app.hdj.datepick.android.ui.screens.others.featuredDetail.featuredDetailScreen
-import app.hdj.datepick.android.ui.screens.others.image.imagesScreen
-import app.hdj.datepick.android.ui.screens.others.placeDetail.placeDetailScreen
-import app.hdj.datepick.android.ui.screens.others.placeList.placeListScreen
-import app.hdj.datepick.android.ui.screens.others.settings.appSettingsScreens
-import app.hdj.datepick.android.ui.screens.others.splash.splashScreenRoute
-import app.hdj.datepick.android.ui.screens.others.userProfileEdit.userProfileEditScreenRoute
-import app.hdj.datepick.android.ui.screens.others.web.webScreen
 import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
 import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
 import app.hdj.datepick.ui.components.BaseScaffold
@@ -82,19 +61,11 @@ fun DatePickApp() {
         navBackStackEntry?.destination?.route
     }
 
-    val homeViewModel = hiltViewModel<HomeViewModel>()
-    val mapViewModel = hiltViewModel<MapViewModel>()
-    val pickViewModel = hiltViewModel<PickViewModel>()
-    val menuViewModel = hiltViewModel<MenuViewModel>()
-    val diaryViewModel = hiltViewModel<DiaryViewModel>()
-
     CompositionLocalProvider(
         LocalAppNavController provides navController
     ) {
 
         BaseScaffold(
-            bottomBar = { MainBottomNavigation(mainNavigationRoutesWithIcon, currentRoute) },
-            floatingActionButton = { MainFloatingActionButton(currentRoute) },
         ) {
 
             ModalBottomSheetLayout(
@@ -110,39 +81,6 @@ fun DatePickApp() {
                     exitTransition = { materialTransitionZaxisOut }
                 ) {
 
-                    /* Main Screens */
-                    mainScreens(
-                        homeViewModel,
-                        mapViewModel,
-                        pickViewModel,
-                        menuViewModel,
-                        diaryViewModel
-                    )
-
-                    /* Other Screens */
-                    featuredDetailScreen()
-                    diaryDetailScreen()
-
-                    placeDetailScreen()
-                    placeListScreen()
-
-                    courseScreen()
-                    createCourseScreen()
-
-                    /* Setting Screens */
-                    appSettingsScreens()
-
-                    webScreen()
-                    imagesScreen()
-                    userProfileEditScreenRoute()
-
-                    /* Dialogs */
-                    appUpdateDialog()
-                    loginDialog()
-                    exitDialog()
-                    networkErrorDialog()
-
-                    splashScreenRoute()
                 }
 
             }

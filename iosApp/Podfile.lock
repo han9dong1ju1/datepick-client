@@ -1,6 +1,4 @@
 PODS:
-  - data (1.0)
-  - domain (1.0)
   - Firebase/Analytics (8.10.0):
     - Firebase/Core
   - Firebase/Auth (8.10.0):
@@ -113,21 +111,27 @@ PODS:
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.7.0)
+  - KMPNativeCoroutinesCombine (0.11.1):
+    - KMPNativeCoroutinesCore (= 0.11.1)
+  - KMPNativeCoroutinesCore (0.11.1)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
+  - presentation (1.0)
   - PromisesObjC (2.0.0)
+  - SwiftUIPager (2.3.2)
   - utils (1.0)
 
 DEPENDENCIES:
-  - data (from `../shared/data`)
-  - domain (from `../shared/domain`)
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Crashlytics
   - Firebase/RemoteConfig
+  - KMPNativeCoroutinesCombine
+  - presentation (from `../shared/presentation`)
+  - SwiftUIPager
   - utils (from `../shared/utils`)
 
 SPEC REPOS:
@@ -145,20 +149,19 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
+    - KMPNativeCoroutinesCombine
+    - KMPNativeCoroutinesCore
     - nanopb
     - PromisesObjC
+    - SwiftUIPager
 
 EXTERNAL SOURCES:
-  data:
-    :path: "../shared/data"
-  domain:
-    :path: "../shared/domain"
+  presentation:
+    :path: "../shared/presentation"
   utils:
     :path: "../shared/utils"
 
 SPEC CHECKSUMS:
-  data: 0ec837f4cfcdbd71840db278c4678fcf7ed67a27
-  domain: aadb882d8e1ae1029a83a4aed6f78469457cfd93
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: fc7255f7e96d3cf7a1131fd68636c47e312cef76
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -172,10 +175,14 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
+  KMPNativeCoroutinesCombine: 43a442a5e50ee8fcbb8633a361d12907fe933920
+  KMPNativeCoroutinesCore: ed98a12d8337f861088f6b79636ffb29ff9bb2ad
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  presentation: 08188ad9d5b1db91a072e0c57438e7c8ae7466da
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  SwiftUIPager: 994249cf7ee9a10ea1fcd8e6643962bb17742fc6
   utils: 07a666f8b882291074597daed8d401c1ac10d377
 
-PODFILE CHECKSUM: 54847fc8b9a204910576cba263aa659c1073518c
+PODFILE CHECKSUM: 03b18800ba3b1bbdcba063d42fa73d894ddb9751
 
 COCOAPODS: 1.11.2

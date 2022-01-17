@@ -21,6 +21,7 @@ dependencies {
     implementation(project(":shared:utils"))
     implementation(project(":shared:domain"))
     implementation(project(":shared:data"))
+    implementation(project(":shared:presentation"))
 
     implementation(Google.dagger.hilt.android)
     implementation(KotlinX.coroutines.playServices)

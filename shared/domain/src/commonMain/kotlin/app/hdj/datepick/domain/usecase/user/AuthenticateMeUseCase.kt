@@ -1,7 +1,7 @@
 package app.hdj.datepick.domain.usecase.user
 
+import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.domain.repository.MeRepository
-import app.hdj.datepick.domain.FirebaseAuthenticator
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.map
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.*
 @OptIn(FlowPreview::class)
 @Singleton
 class AuthenticateMeUseCase @Inject constructor(
-    private val authenticator: FirebaseAuthenticator,
+    private val authenticator: Authenticator,
     private val meRepository: MeRepository
 )  : UseCase<AuthCredential, Flow<LoadState<Unit>>> {
 

@@ -5,7 +5,8 @@ target 'iosApp' do
   pod 'Firebase/Auth'
   pod 'Firebase/RemoteConfig'
   pod 'Firebase/Crashlytics'
+  pod 'SwiftUIPager'
+  pod 'KMPNativeCoroutinesCombine'
   pod 'utils', :path => '../shared/utils'
-  pod 'data', :path => '../shared/data'
-  pod 'domain', :path => '../shared/domain'
+  pod 'presentation', :path => '../shared/presentation'
 end

@@ -1,10 +1,14 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    kotlin("native.cocoapods")
     kotlin("plugin.serialization")
+    id("com.android.library")
     id("kotlin-parcelize")
     kotlin("kapt")
     id("com.google.devtools.ksp")
+    id("com.rickclephas.kmp.nativecoroutines") version "0.11.1"
 }
 
 version = "1.0"
@@ -21,10 +25,9 @@ android {
 }
 
 kotlin {
-
     android()
 
-    val iosTarget: (String, org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget.() -> Unit) -> org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget = when {
+    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
         System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
         System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
         else -> ::iosX64
@@ -32,25 +35,35 @@ kotlin {
 
     iosTarget("ios") {}
 
+    cocoapods {
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
+        ios.deploymentTarget = "14.0"
+        framework {
+            baseName = "presentation"
+        }
+        podfile = project.file("../../iosApp/Podfile")
+    }
+
     sourceSets {
         sourceSets["commonMain"].dependencies {
+            implementation(project(":shared:data"))
             implementation(project(":shared:utils"))
+            implementation(project(":shared:domain"))
             implementation(KotlinX.coroutines.core)
-            implementation(KotlinX.serialization.json)
-            implementation(Ktor.client.core)
-            implementation(Utils.kotlinxDateTime)
-            implementation(Firebase.multiplatform.auth)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test-common"))
             implementation(kotlin("test-annotations-common"))
         }
         sourceSets["androidMain"].dependencies {
+            implementation(Google.dagger.hilt.android)
+            api(JakeWharton.timber)
+            implementation(AndroidX.lifecycle.viewModelKtx)
             kapt(AndroidX.paging.runtimeKtx)
             kapt(AndroidX.navigation.runtimeKtx)
             kapt(AndroidX.hilt.compiler)
             kapt(Google.dagger.hilt.compiler)
-            implementation(Google.dagger.hilt.android)
         }
         sourceSets["androidTest"].dependencies {
             implementation(kotlin("test-junit"))
@@ -59,9 +72,7 @@ kotlin {
         sourceSets["iosMain"].dependencies {
             implementation(Koin.core)
         }
-        sourceSets["iosTest"].dependencies {
-
-        }
+        sourceSets["iosTest"].dependencies { }
     }
 }
 
@@ -76,7 +87,7 @@ android {
 
 kotlin {
 
-    targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java) {
+    targets.withType(KotlinNativeTarget::class.java) {
         binaries.all {
             binaryOptions["memoryModel"] = "experimental"
         }

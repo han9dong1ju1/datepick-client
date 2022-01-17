@@ -10,6 +10,8 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		4A7558292792B1B5002C3617 /* SimpleListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7558282792B1B5002C3617 /* SimpleListItem.swift */; };
 		4A75582B2792B558002C3617 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A75582A2792B558002C3617 /* SettingsView.swift */; };
+		4A8FA90C279557DB004E55C6 /* Publisher+AnyCancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8FA90B279557DB004E55C6 /* Publisher+AnyCancellable.swift */; };
+		4A8FA90E27955ECD004E55C6 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8FA90D27955ECD004E55C6 /* SettingsViewModel.swift */; };
 		4ACA7427278ABE8E00F0D056 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7426278ABE8E00F0D056 /* HomeView.swift */; };
 		4ACA7429278ABEB600F0D056 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7428278ABEB600F0D056 /* MapView.swift */; };
 		4ACA742B278ABED400F0D056 /* MyDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA742A278ABED400F0D056 /* MyDateView.swift */; };
@@ -17,6 +19,10 @@
 		4ACA7431278ABFCB00F0D056 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA7430278ABFCB00F0D056 /* Colors.xcassets */; };
 		4ACA7433278AC04800F0D056 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7432278AC04800F0D056 /* Theme.swift */; };
 		4ACA7435278AC17A00F0D056 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA7434278AC17A00F0D056 /* AppIcon.xcassets */; };
+		4AD9D4DE27944D4500651E87 /* FeaturedListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD9D4DD27944D4500651E87 /* FeaturedListItem.swift */; };
+		4AFA6BAF27947C580002309B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA6BAE27947C580002309B /* HomeViewModel.swift */; };
+		4AFA6BB2279482850002309B /* KoinInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA6BB1279482850002309B /* KoinInit.swift */; };
+		4AFA6BB62794A4350002309B /* HomeFeaturedPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA6BB52794A4350002309B /* HomeFeaturedPagerView.swift */; };
 		4AFB125927941F7100AFD8A8 /* NotificationSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFB125827941F7100AFD8A8 /* NotificationSettingsScreen.swift */; };
 		4AFB125D2794221F00AFD8A8 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AFB125C2794221F00AFD8A8 /* Icons.xcassets */; };
 		66BBAC15A48BE3FB47641309 /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF80EF4CDE6744FF139AB569 /* Pods_iosApp.framework */; };
@@ -27,6 +33,8 @@
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		4A7558282792B1B5002C3617 /* SimpleListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListItem.swift; sourceTree = "<group>"; };
 		4A75582A2792B558002C3617 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4A8FA90B279557DB004E55C6 /* Publisher+AnyCancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+AnyCancellable.swift"; sourceTree = "<group>"; };
+		4A8FA90D27955ECD004E55C6 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		4ACA7426278ABE8E00F0D056 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4ACA7428278ABEB600F0D056 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		4ACA742A278ABED400F0D056 /* MyDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDateView.swift; sourceTree = "<group>"; };
@@ -34,6 +42,10 @@
 		4ACA7430278ABFCB00F0D056 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		4ACA7432278AC04800F0D056 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4ACA7434278AC17A00F0D056 /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
+		4AD9D4DD27944D4500651E87 /* FeaturedListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedListItem.swift; sourceTree = "<group>"; };
+		4AFA6BAE27947C580002309B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		4AFA6BB1279482850002309B /* KoinInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoinInit.swift; sourceTree = "<group>"; };
+		4AFA6BB52794A4350002309B /* HomeFeaturedPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeaturedPagerView.swift; sourceTree = "<group>"; };
 		4AFB125827941F7100AFD8A8 /* NotificationSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsScreen.swift; sourceTree = "<group>"; };
 		4AFB125C2794221F00AFD8A8 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,17 +90,34 @@
 			isa = PBXGroup;
 			children = (
 				4A7558282792B1B5002C3617 /* SimpleListItem.swift */,
+				4AD9D4DD27944D4500651E87 /* FeaturedListItem.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		4A8FA90F27955F1E004E55C6 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				4ACA7428278ABEB600F0D056 /* MapView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		4A8FA91027955F27004E55C6 /* MyDate */ = {
+			isa = PBXGroup;
+			children = (
+				4ACA742A278ABED400F0D056 /* MyDateView.swift */,
+			);
+			path = MyDate;
 			sourceTree = "<group>";
 		};
 		4ACA7436278AC34700F0D056 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				4A8FA91027955F27004E55C6 /* MyDate */,
+				4A8FA90F27955F1E004E55C6 /* Map */,
+				4AFA6BAD27947C150002309B /* Home */,
 				4A7558242792B189002C3617 /* Menu */,
-				4ACA7426278ABE8E00F0D056 /* HomeView.swift */,
-				4ACA7428278ABEB600F0D056 /* MapView.swift */,
-				4ACA742A278ABED400F0D056 /* MyDateView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -105,9 +134,9 @@
 			isa = PBXGroup;
 			children = (
 				4A7558272792B1AA002C3617 /* Components */,
-				7555FF82242A565900829871 /* ContentView.swift */,
 				4ACA743A278AC3B200F0D056 /* Style */,
 				4ACA7437278AC35100F0D056 /* Screen */,
+				7555FF82242A565900829871 /* ContentView.swift */,
 			);
 			path = Ui;
 			sourceTree = "<group>";
@@ -131,10 +160,30 @@
 			path = Style;
 			sourceTree = "<group>";
 		};
+		4AFA6BAD27947C150002309B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				4ACA7426278ABE8E00F0D056 /* HomeView.swift */,
+				4AFA6BAE27947C580002309B /* HomeViewModel.swift */,
+				4AFA6BB52794A4350002309B /* HomeFeaturedPagerView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		4AFA6BB0279482790002309B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4AFA6BB1279482850002309B /* KoinInit.swift */,
+				4A8FA90B279557DB004E55C6 /* Publisher+AnyCancellable.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		4AFB125727941F6000AFD8A8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				4A75582A2792B558002C3617 /* SettingsView.swift */,
+				4A8FA90D27955ECD004E55C6 /* SettingsViewModel.swift */,
 				4AFB125827941F7100AFD8A8 /* NotificationSettingsScreen.swift */,
 			);
 			path = Settings;
@@ -164,6 +213,7 @@
 				4ACA7439278AC38800F0D056 /* Resources */,
 				4ACA7438278AC35700F0D056 /* Ui */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
+				4AFA6BB0279482790002309B /* Utils */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -296,10 +346,16 @@
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				4A75582B2792B558002C3617 /* SettingsView.swift in Sources */,
 				4ACA742B278ABED400F0D056 /* MyDateView.swift in Sources */,
+				4A8FA90C279557DB004E55C6 /* Publisher+AnyCancellable.swift in Sources */,
 				4A7558292792B1B5002C3617 /* SimpleListItem.swift in Sources */,
 				4ACA742D278ABEE500F0D056 /* MenuView.swift in Sources */,
+				4AFA6BB62794A4350002309B /* HomeFeaturedPagerView.swift in Sources */,
+				4AFA6BAF27947C580002309B /* HomeViewModel.swift in Sources */,
+				4AFA6BB2279482850002309B /* KoinInit.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				4AFB125927941F7100AFD8A8 /* NotificationSettingsScreen.swift in Sources */,
+				4A8FA90E27955ECD004E55C6 /* SettingsViewModel.swift in Sources */,
+				4AD9D4DE27944D4500651E87 /* FeaturedListItem.swift in Sources */,
 				4ACA7433278AC04800F0D056 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

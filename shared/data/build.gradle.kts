@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
-    kotlin("native.cocoapods")
     kotlin("kapt")
     id("com.android.library")
     id("com.squareup.sqldelight")
@@ -43,16 +42,6 @@ kotlin {
 
     iosTarget("ios") {}
 
-    cocoapods {
-        summary = "DatePick Multiplatform"
-        homepage = "https://github.com/han9dong1ju1/DatePick"
-        ios.deploymentTarget = "14.0"
-        framework {
-            baseName = "data"
-        }
-        podfile = project.file("../../iosApp/Podfile")
-    }
-
     sourceSets {
         sourceSets["commonMain"].dependencies {
             implementation(project(":shared:utils"))
@@ -64,7 +53,7 @@ kotlin {
             api(Ktor.client.contentNegotiation)
             api(Ktor.client.json)
             api(Ktor.client.logging)
-            api(Square.sqlDelight.coroutinesExtensions)
+            api(Square.sqlDelight.extensions.coroutines)
             api(MultiplatformSettings.core)
             api(MultiplatformSettings.coroutines)
             api(MultiplatformSettings.serialization)
