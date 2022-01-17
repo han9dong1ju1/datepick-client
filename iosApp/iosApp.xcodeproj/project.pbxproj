@@ -111,6 +111,16 @@
 			path = MyDate;
 			sourceTree = "<group>";
 		};
+		4A8FA9112795E462004E55C6 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4ACA7438278AC35700F0D056 /* Ui */,
+				2152FB032600AC8F00CF470E /* iOSApp.swift */,
+				4AFA6BB0279482790002309B /* Utils */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
 		4ACA7436278AC34700F0D056 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,10 +220,8 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				4A8FA9112795E462004E55C6 /* Sources */,
 				4ACA7439278AC38800F0D056 /* Resources */,
-				4ACA7438278AC35700F0D056 /* Ui */,
-				2152FB032600AC8F00CF470E /* iOSApp.swift */,
-				4AFA6BB0279482790002309B /* Utils */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";

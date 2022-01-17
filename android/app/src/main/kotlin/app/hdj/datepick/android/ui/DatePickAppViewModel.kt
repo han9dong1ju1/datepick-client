@@ -10,7 +10,7 @@ import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.domain.usecase.invoke
 import app.hdj.datepick.domain.usecase.user.GetLatestMeUseCase
 import app.hdj.datepick.domain.usecase.user.ObserveMeUseCase
-import app.hdj.datepick.ui.utils.ViewModelDelegate
+import app.hdj.datepick.presentation.*
 import app.hdj.datepick.utils.PlatformLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -24,7 +24,7 @@ val LocalDatePickAppViewModel = staticCompositionLocalOf<DatePickAppViewModelDel
     error("Not Provided")
 }
 
-interface DatePickAppViewModelDelegate : ViewModelDelegate<State, Effect, Event> {
+interface DatePickAppViewModelDelegate : UnidirectionalViewModelDelegate<State, Effect, Event> {
 
     data class State(
         val me: User? = null,

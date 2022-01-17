@@ -12,7 +12,9 @@ struct SettingsView: View {
     var body: some View {
         List {
             Text("테마 설정")
-        }.navigationTitle("설정")
+        }
+        .listStyle(.plain)
+        .navigationTitle("설정")
     }
 }
 

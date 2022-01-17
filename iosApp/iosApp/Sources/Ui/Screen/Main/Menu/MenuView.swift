@@ -13,6 +13,7 @@ struct MenuView: View {
         NavigationView {
             
             List {
+                
                 NavigationLink {
                     SettingsView()
                 } label: {
@@ -25,9 +26,10 @@ struct MenuView: View {
                     SimpleListItem(title: "알림 설정", subtitle: "앱에서 수신되는 알림을 설정합니다.")
                 }
                 
-                
-                
-            }.navigationBarTitle("Profile")
+            }
+            .listStyle(.plain)
+            .navigationBarTitle("Profile")
+            
         }.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
 }
