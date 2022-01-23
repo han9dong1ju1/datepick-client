@@ -126,7 +126,7 @@ fun SearchBox(
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
                             text = "검색하기",
-                            style = MaterialTheme.typography.h6
+                            style = MaterialTheme.typography.subtitle1
                         )
                     }
                 }
