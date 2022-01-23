@@ -15,7 +15,7 @@ class HomeViewModel : ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
-    @Published private(set) var state = HomeScreenViewModelDelegateState(featuredList: [])
+    @Published private(set) var state = HomeScreenViewModelDelegateState(featuredList: [], showNearbyRecommendLocationPermissionBanner: false, showNearbyRecommendations: false)
     @Published private(set) var effect : HomeScreenViewModelDelegateEffect? = nil
     
     private let viewModel : HomeScreenViewModelWrapper

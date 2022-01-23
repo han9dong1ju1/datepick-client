@@ -5,6 +5,7 @@ plugins {
     id("kotlin-parcelize")
     kotlin("kapt")
     id("com.google.devtools.ksp")
+    id("dev.icerock.moko.kswift")
 }
 
 version = "1.0"

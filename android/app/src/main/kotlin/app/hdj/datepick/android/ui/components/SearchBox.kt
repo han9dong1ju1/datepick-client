@@ -85,6 +85,7 @@ fun SearchBox(
                     scaleY *= scale
                 },
             shape = RoundedCornerShape(cornerRadius),
+            elevation = elevation
         ) {
             AnimatedContent(
                 modifier = Modifier.animateContentSize(),
@@ -113,7 +114,7 @@ fun SearchBox(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(12.dp),
+                            .padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IconButton(onClick = state::expand) {
@@ -147,13 +148,11 @@ private fun SearchBoxExpandedUi(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = state::collapse) {
-                Icon(
-                    imageVector = Icons.Rounded.Close, contentDescription = null
-                )
+                Icon(imageVector = Icons.Rounded.Close, contentDescription = null)
             }
             OutlinedTextField(
                 value = "",

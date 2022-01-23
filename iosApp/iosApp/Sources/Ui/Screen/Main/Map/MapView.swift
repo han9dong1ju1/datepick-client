@@ -10,13 +10,11 @@ import SwiftUI
 
 struct MapView: View {
     var body: some View {
-        NavigationView {
-            VStack {
-                
-                Text("Map")
-                
-            }.navigationBarTitle("Map")
-        }.navigationViewStyle(DoubleColumnNavigationViewStyle())
+        VStack {
+            
+            Text("Map")
+            
+        }
     }
 }
 

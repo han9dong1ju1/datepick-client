@@ -5,17 +5,19 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.*
+import androidx.navigation.compose.dialog
 import app.hdj.datepick.android.utils.datePickNavDeepLink
 import app.hdj.datepick.android.utils.externalDatePickNavDeepLink
 import app.hdj.datepick.domain.model.diary.Diary
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
+import app.hdj.datepick.ui.utils.DialogGraph
 import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.NestedNavigationGraph
+import app.hdj.datepick.ui.utils.ScreenGraph
 import com.google.accompanist.navigation.animation.composable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 fun NavController.navigateRoute(
     navigationGraph: NavigationGraph,
@@ -67,7 +69,7 @@ fun <Graph : NavigationGraph> NavGraphBuilder.appNavigationComposable(
     enterTransition, exitTransition, popEnterTransition, popExitTransition, content
 )
 
-sealed class AppNavigationGraph(override val route: String) : NavigationGraph(route) {
+sealed class AppNavigationGraph(override val route: String) : ScreenGraph(route) {
 
     /* Main Start */
     sealed class Main(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
@@ -78,7 +80,7 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         object Pick : Main("pick")
         object Map : Main("map")
         object Profile : Main("profile")
-        object Diary : Main("diary")
+        object MyDate : Main("diary")
 
     }
     /* Main End */
@@ -113,13 +115,14 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
         )
     }
 
-    object ExitDialog : AppNavigationGraph("exit_dialog")
+    object LocationPermissionDeniedDialog : DialogGraph("location_permission_denied_dialog")
+    object ExitDialog : DialogGraph("exit_dialog")
 
-    object SearchPlace : AppNavigationGraph("search_place")
+    object SearchPlace : DialogGraph("search_place")
 
-    object AppUpdateDialog : AppNavigationGraph("app_update")
+    object AppUpdateDialog : DialogGraph("app_update")
 
-    object LoginDialog : AppNavigationGraph("login_dialog")
+    object LoginDialog : DialogGraph("login_dialog")
 
     sealed class CreateCourse(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
 
@@ -224,4 +227,35 @@ sealed class AppNavigationGraph(override val route: String) : NavigationGraph(ro
 
 
     object NetworkErrorDialog : AppNavigationGraph("network_error_dialog")
+
+}
+
+fun NavGraphBuilder.navGraphBuildScope(block: NavGraphBuilderScope.() -> Unit) {
+    val scope = NavGraphBuilderScope(this)
+    scope.block()
+}
+
+class NavGraphBuilderScope(private val navGraphBuilder: NavGraphBuilder) {
+
+    operator fun ScreenGraph.invoke(content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit) {
+        navGraphBuilder.appNavigationComposable(this, content = content)
+    }
+
+    operator fun DialogGraph.invoke(content: @Composable (NavBackStackEntry) -> Unit) {
+        navGraphBuilder.dialog(route, content = content)
+    }
+
+    fun nestedNavigation(
+        startDestination: NavigationGraph,
+        route: NavigationGraph,
+        scope: NavGraphBuilderScope.() -> Unit
+    ) {
+        navGraphBuilder.navigation(
+            startDestination.route,
+            route.route
+        ) {
+            navGraphBuildScope(scope)
+        }
+    }
+
 }

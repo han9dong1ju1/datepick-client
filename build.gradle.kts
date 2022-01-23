@@ -3,6 +3,7 @@ buildscript {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven("https://jitpack.io")
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
@@ -12,6 +13,7 @@ buildscript {
         classpath(Google.dagger.hilt.android.gradlePlugin)
         classpath(Square.sqlDelight.gradlePlugin)
         classpath(Firebase.crashlyticsGradlePlugin)
+        classpath("dev.icerock.moko:kswift-gradle-plugin:0.3.0")
     }
 }
 

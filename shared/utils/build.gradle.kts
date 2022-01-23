@@ -48,15 +48,19 @@ kotlin {
         sourceSets["commonMain"].dependencies {
             api(Firebase.multiplatform.auth)
             api(Utils.kotlinxDateTime)
+            implementation(KotlinX.coroutines.core)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test-common"))
             implementation(kotlin("test-annotations-common"))
         }
         sourceSets["androidMain"].dependencies {
+            implementation(KotlinX.coroutines.playServices)
+            implementation(AndroidX.lifecycle.common)
             implementation(Google.dagger.hilt.android)
             api(JakeWharton.timber)
             api(Utils.qrGenerator)
+            api(Google.android.playServices.location)
             kapt(AndroidX.paging.runtimeKtx)
             kapt(AndroidX.navigation.runtimeKtx)
             kapt(AndroidX.hilt.compiler)

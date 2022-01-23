@@ -25,7 +25,7 @@ fun <T> ViewPager(
 ) {
     val isAutoScrollEnabled = remember(autoScrollDelay) { autoScrollDelay != 0L }
 
-    if (isAutoScrollEnabled) {
+    if (isAutoScrollEnabled && pagerState.pageCount != 0) {
         LaunchedEffect(Unit) {
             while (true) {
                 yield()

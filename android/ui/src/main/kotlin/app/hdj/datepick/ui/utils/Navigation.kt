@@ -9,7 +9,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 abstract class NestedNavigationGraph(parentRoute: String, nestedRoute: String) :
-    NavigationGraph(parentRoute) {
+    ScreenGraph(parentRoute) {
     override val route = "$parentRoute/$nestedRoute"
 }
 
@@ -19,6 +19,9 @@ open class NavigationGraph(open val route: String) {
     open val deeplinks: List<NavDeepLink> = emptyList()
 
 }
+
+abstract class DialogGraph(route: String) : NavigationGraph(route)
+abstract class ScreenGraph(route: String) : NavigationGraph(route)
 
 @Composable
 fun NavController.currentScreenRoute(): String? {

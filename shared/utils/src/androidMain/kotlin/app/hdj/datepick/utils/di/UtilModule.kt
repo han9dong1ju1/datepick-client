@@ -3,6 +3,7 @@ package app.hdj.datepick.utils.di
 import android.content.Context
 import app.hdj.datepick.utils.AppInfo
 import app.hdj.datepick.utils.BuildConfig
+import app.hdj.datepick.utils.location.LocationTracker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +23,13 @@ interface UtilModule {
             BuildConfig.DEBUG,
             AppInfo.Os.Android
         )
+
+        @Provides
+        @Singleton
+        fun provideLocationTracker(
+            @ApplicationContext context: Context
+        ) = LocationTracker(context)
+
     }
 
 }

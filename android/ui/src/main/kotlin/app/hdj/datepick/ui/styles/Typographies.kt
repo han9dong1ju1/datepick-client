@@ -36,27 +36,27 @@ val Typographies = Typography(
         fontSize = 16.sp
     ),
     subtitle2 = TextStyle(
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
     body1 = TextStyle(
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Medium,
         fontSize = 14.sp
     ),
     body2 = TextStyle(
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
     ),
     button = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
     ),
     caption = TextStyle(
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Medium,
         fontSize = 12.sp
     ),
     overline = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+        fontSize = 10.sp
     )
 )

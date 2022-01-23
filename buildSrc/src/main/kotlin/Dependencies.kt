@@ -53,6 +53,8 @@ object Utils {
     const val mokoParcel = "dev.icerock.moko:parcelize:_"
 
     const val mokoResource = "dev.icerock.moko:resources:_"
+    const val mokoPermissions = "dev.icerock.moko:permissions:_"
+    const val mokoGeo = "dev.icerock.moko:geo:_"
 
     const val mokoResourcePlugins = "dev.icerock.moko:resources-generator:_"
 

@@ -1,6 +1,6 @@
 package app.hdj.datepick.ui.components
 
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,6 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.currentScreenRoute
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 
 data class BottomNavigationProperty(
     val icon: ImageVector,
@@ -21,37 +23,39 @@ data class BottomNavigationProperty(
 fun NavigationGraphBottomNavigation(
     modifier: Modifier = Modifier,
     navController: NavController,
-    contentPaddingValues: PaddingValues,
     list: List<BottomNavigationProperty>
 ) {
-    com.google.accompanist.insets.ui.BottomNavigation(
-        modifier = modifier,
-        contentPadding = contentPaddingValues,
-        backgroundColor = MaterialTheme.colors.background,
-        elevation = 0.dp,
-    ) {
-        list.forEach { (icon, label, nav, badgeEnabled) ->
-            BottomNavigationItem(
-                selected = nav.route == navController.currentScreenRoute(),
-                onClick = {
-                    navController.navigate(nav.route) {
-                        launchSingleTop = true
-                        popUpTo(list.first().navigation.route)
-                    }
-                },
-                icon = {
-                    if (badgeEnabled) {
+    Column {
+        Divider(color = MaterialTheme.colors.onBackground.copy(alpha = 0.03f))
+        com.google.accompanist.insets.ui.BottomNavigation(
+            modifier = Modifier.height(80.dp),
+            backgroundColor = MaterialTheme.colors.background,
+            elevation = 0.dp,
+            contentPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.navigationBars)
+        ) {
+            list.forEach { (icon, label, navigation, badgeEnabled) ->
+                BottomNavigationItem(
+                    navController.currentScreenRoute() == navigation.route,
+                    icon = {
                         BadgedBox(badge = {
-                            Badge()
-                        }) { Icon(icon, null) }
-                    } else {
-                        Icon(icon, null)
+                            if (badgeEnabled) Badge()
+                        }) {
+                            Column(modifier = Modifier.padding(bottom = 8.dp)) {
+                                Icon(icon, null, modifier = Modifier.size(20.dp))
+                            }
+                        }
+                    },
+                    label = { Text(label) },
+                    selectedContentColor = MaterialTheme.colors.onBackground,
+                    unselectedContentColor = MaterialTheme.colors.onBackground.copy(alpha = 0.15f),
+                    onClick = {
+                        navController.navigate(navigation.route) {
+                            launchSingleTop = true
+                            popUpTo(list.first().navigation.route)
+                        }
                     }
-                },
-                selectedContentColor = MaterialTheme.colors.onBackground,
-                unselectedContentColor = MaterialTheme.colors.onBackground.copy(0.1f),
-
                 )
+            }
         }
     }
 }

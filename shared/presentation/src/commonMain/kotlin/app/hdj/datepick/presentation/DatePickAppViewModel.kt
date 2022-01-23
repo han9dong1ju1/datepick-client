@@ -1,28 +1,20 @@
-package app.hdj.datepick.android.ui
+package app.hdj.datepick.presentation
 
-import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import app.hdj.datepick.android.ui.DatePickAppViewModelDelegate.*
 import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.domain.usecase.invoke
 import app.hdj.datepick.domain.usecase.user.GetLatestMeUseCase
 import app.hdj.datepick.domain.usecase.user.ObserveMeUseCase
-import app.hdj.datepick.presentation.*
+import app.hdj.datepick.presentation.DatePickAppViewModelDelegate.*
+import app.hdj.datepick.utils.HiltViewModel
+import app.hdj.datepick.utils.Inject
 import app.hdj.datepick.utils.PlatformLogger
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
-import javax.inject.Inject
-
-val LocalDatePickAppViewModel = staticCompositionLocalOf<DatePickAppViewModelDelegate> {
-    error("Not Provided")
-}
 
 interface DatePickAppViewModelDelegate : UnidirectionalViewModelDelegate<State, Effect, Event> {
 
@@ -53,7 +45,7 @@ class DatePickAppViewModel @Inject constructor(
     private val appSettings: AppSettings,
     private val getLatestMeUseCase: GetLatestMeUseCase,
     observeMeUseCase: ObserveMeUseCase
-) : ViewModel(), DatePickAppViewModelDelegate {
+) : PlatformViewModel(), DatePickAppViewModelDelegate {
 
     private val me = observeMeUseCase()
 
@@ -63,10 +55,10 @@ class DatePickAppViewModel @Inject constructor(
             appSettings.appTheme
         ) { me, appTheme ->
             State(me, appTheme)
-        }.stateIn(viewModelScope, SharingStarted.Lazily, State())
+        }.stateIn(platformViewModelScope, SharingStarted.Lazily, State())
 
     init {
-        viewModelScope.launch {
+        platformViewModelScope.launch {
             fetchMe()
         }
     }
@@ -88,7 +80,7 @@ class DatePickAppViewModel @Inject constructor(
     override val effect: Flow<Effect> = effectChannel.receiveAsFlow()
 
     override fun event(event: Event) {
-        viewModelScope.launch {
+        platformViewModelScope.launch {
             when (event) {
                 is Event.UpdateAppTheme -> appSettings.updateAppTheme(event.appTheme)
                 Event.TryFetchMe -> fetchMe()

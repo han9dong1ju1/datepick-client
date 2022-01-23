@@ -8,6 +8,7 @@ plugins {
     id("com.squareup.sqldelight")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+    id("dev.icerock.moko.kswift")
 }
 
 version = "1.0"

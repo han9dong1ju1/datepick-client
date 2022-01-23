@@ -15,7 +15,7 @@
 		4ACA7427278ABE8E00F0D056 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7426278ABE8E00F0D056 /* HomeView.swift */; };
 		4ACA7429278ABEB600F0D056 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7428278ABEB600F0D056 /* MapView.swift */; };
 		4ACA742B278ABED400F0D056 /* MyDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA742A278ABED400F0D056 /* MyDateView.swift */; };
-		4ACA742D278ABEE500F0D056 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA742C278ABEE500F0D056 /* MenuView.swift */; };
+		4ACA742D278ABEE500F0D056 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA742C278ABEE500F0D056 /* ProfileView.swift */; };
 		4ACA7431278ABFCB00F0D056 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA7430278ABFCB00F0D056 /* Colors.xcassets */; };
 		4ACA7433278AC04800F0D056 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7432278AC04800F0D056 /* Theme.swift */; };
 		4ACA7435278AC17A00F0D056 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA7434278AC17A00F0D056 /* AppIcon.xcassets */; };
@@ -31,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
+		4A4DB0872797489F001B5954 /* iosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosApp.entitlements; sourceTree = "<group>"; };
 		4A7558282792B1B5002C3617 /* SimpleListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListItem.swift; sourceTree = "<group>"; };
 		4A75582A2792B558002C3617 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4A8FA90B279557DB004E55C6 /* Publisher+AnyCancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+AnyCancellable.swift"; sourceTree = "<group>"; };
@@ -38,7 +39,7 @@
 		4ACA7426278ABE8E00F0D056 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4ACA7428278ABEB600F0D056 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		4ACA742A278ABED400F0D056 /* MyDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDateView.swift; sourceTree = "<group>"; };
-		4ACA742C278ABEE500F0D056 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		4ACA742C278ABEE500F0D056 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		4ACA7430278ABFCB00F0D056 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		4ACA7432278AC04800F0D056 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4ACA7434278AC17A00F0D056 /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
@@ -77,13 +78,13 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		4A7558242792B189002C3617 /* Menu */ = {
+		4A7558242792B189002C3617 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
 				4AFB125727941F6000AFD8A8 /* Settings */,
-				4ACA742C278ABEE500F0D056 /* MenuView.swift */,
+				4ACA742C278ABEE500F0D056 /* ProfileView.swift */,
 			);
-			path = Menu;
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		4A7558272792B1AA002C3617 /* Components */ = {
@@ -127,7 +128,7 @@
 				4A8FA91027955F27004E55C6 /* MyDate */,
 				4A8FA90F27955F1E004E55C6 /* Map */,
 				4AFA6BAD27947C150002309B /* Home */,
-				4A7558242792B189002C3617 /* Menu */,
+				4A7558242792B189002C3617 /* Profile */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -220,6 +221,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				4A4DB0872797489F001B5954 /* iosApp.entitlements */,
 				4A8FA9112795E462004E55C6 /* Sources */,
 				4ACA7439278AC38800F0D056 /* Resources */,
 			);
@@ -356,7 +358,7 @@
 				4ACA742B278ABED400F0D056 /* MyDateView.swift in Sources */,
 				4A8FA90C279557DB004E55C6 /* Publisher+AnyCancellable.swift in Sources */,
 				4A7558292792B1B5002C3617 /* SimpleListItem.swift in Sources */,
-				4ACA742D278ABEE500F0D056 /* MenuView.swift in Sources */,
+				4ACA742D278ABEE500F0D056 /* ProfileView.swift in Sources */,
 				4AFA6BB62794A4350002309B /* HomeFeaturedPagerView.swift in Sources */,
 				4AFA6BAF27947C580002309B /* HomeViewModel.swift in Sources */,
 				4AFA6BB2279482850002309B /* KoinInit.swift in Sources */,
@@ -492,6 +494,7 @@
 			baseConfigurationReference = C5D9F4748C1B01C092D7DC11 /* Pods-iosApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HFHA6YB7W3;
 				ENABLE_PREVIEWS = YES;
@@ -502,6 +505,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.hdj.datepick.iosApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -512,6 +516,7 @@
 			baseConfigurationReference = AE95D38072455B9473DF50D5 /* Pods-iosApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HFHA6YB7W3;
 				ENABLE_PREVIEWS = YES;
@@ -522,6 +527,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.hdj.datepick.iosApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

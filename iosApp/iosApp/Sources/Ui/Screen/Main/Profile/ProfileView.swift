@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MenuView: View {
+struct ProfileView: View {
     var body: some View {
         NavigationView {
             
@@ -28,7 +28,7 @@ struct MenuView: View {
                 
             }
             .listStyle(.plain)
-            .navigationBarTitle("Profile")
+            .navigationBarTitle("내 프로필")
             
         }.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
@@ -36,6 +36,6 @@ struct MenuView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView()
+        ProfileView()
     }
 }

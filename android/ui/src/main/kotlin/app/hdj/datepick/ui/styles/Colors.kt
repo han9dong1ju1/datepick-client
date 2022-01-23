@@ -1,5 +1,6 @@
 package app.hdj.datepick.ui.styles
 
+import androidx.compose.material.Colors
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
@@ -33,3 +34,5 @@ val lightColors = lightColors(
     onSurface = Color.Black,
     onError = Color.White
 )
+
+val Colors.tertiary get() = if (isLight) Color(0xFF9B2850) else Color(0xFF361621)

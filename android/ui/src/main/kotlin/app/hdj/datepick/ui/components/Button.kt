@@ -22,14 +22,14 @@ fun BaseButton(
     icon: ImageVector? = null,
     iconTint: Color? = null,
     text: String,
-    shape: Shape = RoundedCornerShape(25.dp),
+    shape: Shape = RoundedCornerShape(8.dp),
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     border: BorderStroke? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
     Button(
-        modifier = modifier.height(50.dp),
+        modifier = Modifier.height(50.dp).then(modifier),
         onClick = onClick,
         shape = shape,
         enabled = enabled,
@@ -94,8 +94,32 @@ fun UnAccentButton(
             backgroundColor = MaterialTheme.colors.onSurface.copy(alpha = 0.06f)
                 .compositeOver(MaterialTheme.colors.surface),
             contentColor = MaterialTheme.colors.onSurface
-                .copy(alpha = 0.8f)
+                .copy(alpha = 0.4f)
                 .compositeOver(MaterialTheme.colors.surface)
+        ),
+        enabled = enabled,
+        onClick = onClick
+    )
+}
+
+@Composable
+fun TextButton(
+    modifier: Modifier = Modifier,
+    icon: ImageVector? = null,
+    text: String,
+    textColor: Color = MaterialTheme.colors.secondary,
+    shape: Shape = RoundedCornerShape(8.dp),
+    enabled: Boolean = true,
+    onClick: () -> Unit = {},
+) {
+    BaseButton(
+        modifier,
+        icon,
+        text = text,
+        shape = shape,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color.Transparent,
+            contentColor = textColor
         ),
         enabled = enabled,
         onClick = onClick

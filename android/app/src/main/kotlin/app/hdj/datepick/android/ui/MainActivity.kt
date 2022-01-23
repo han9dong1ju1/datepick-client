@@ -5,17 +5,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.LaunchedEffect
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import app.hdj.datepick.android.service.PushNotificationManager
-import app.hdj.datepick.android.ui.providers.DatePickComposableProviderScope
-import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.domain.settings.AppSettings.AppTheme.*
-import app.hdj.datepick.ui.styles.BaseTheme
+import app.hdj.datepick.presentation.DatePickAppViewModel
+import app.hdj.datepick.utils.location.LocationTracker
 import coil.ImageLoader
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapNotNull
@@ -32,6 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var imageLoader: ImageLoader
+
+    @Inject
+    lateinit var locationTracker: LocationTracker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,31 +54,12 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
 
-            DatePickComposableProviderScope(appViewModel, imageLoader) {
-
-                val (state) = appViewModel.extract()
-
-                val isSystemInDarkTheme = isSystemInDarkTheme()
-
-                val isDarkTheme = when (state.appTheme) {
-                    Light -> false
-                    Dark -> true
-                    System -> isSystemInDarkTheme
-                    else -> isSystemInDarkTheme
-                }
-
-                val systemUiController = rememberSystemUiController()
-
-                LaunchedEffect(isDarkTheme) {
-                    systemUiController.systemBarsDarkContentEnabled = !isDarkTheme
-                }
-
-                BaseTheme(
-                    isDarkTheme = isDarkTheme,
-                ) {
-                    DatePickApp()
-                }
-            }
+            DatePickApp(
+                appViewModel,
+                imageLoader,
+                locationTracker,
+                supportFragmentManager
+            )
 
         }
     }
