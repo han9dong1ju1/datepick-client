@@ -1,7 +1,6 @@
 package app.hdj.datepick.android.utils
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

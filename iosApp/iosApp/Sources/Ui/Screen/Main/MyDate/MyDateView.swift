@@ -16,7 +16,7 @@ struct MyDateView: View {
                 Text("My Date")
                 
             }.navigationBarTitle("My Date")
-                .animation(.easeOut(duration: 0.3))
+            
         }.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
 }

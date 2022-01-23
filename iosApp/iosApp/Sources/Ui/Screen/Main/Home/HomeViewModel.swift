@@ -11,6 +11,7 @@ import presentation
 import Combine
 import KMPNativeCoroutinesCombine
 
+@MainActor
 class HomeViewModel : ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
@@ -37,6 +38,7 @@ class HomeViewModel : ObservableObject {
                 self?.effect = value
             }
             .store(in: &cancellables)
+        
     }
     
     func event(e : HomeScreenViewModelDelegateEvent) {

@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import SwiftUIPager
 
 struct HomeView: View {
     
@@ -27,17 +26,21 @@ struct HomeView: View {
                     .frame(width : 100, height: 20)
             }.frame(height: 50)
             
-            List {
-                HomeFeaturedPagerView(featuredList: viewModel.state.featuredList)
-                Text("다른 장소")
+            ScrollView {
+                
+                LazyVStack {
+                    
+                    Spacer().frame(height:20)
+                    
+                    HomeFeaturedListView(featuredList: viewModel.state.featuredList)
+                        
+                    Spacer().frame(height:20)
+                    
+                    
+                    
+                }
+                
             }
-            .listStyle(.plain)
         }
-    }
-}
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
     }
 }

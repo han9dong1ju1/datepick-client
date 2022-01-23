@@ -20,9 +20,10 @@
 		4ACA7433278AC04800F0D056 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA7432278AC04800F0D056 /* Theme.swift */; };
 		4ACA7435278AC17A00F0D056 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA7434278AC17A00F0D056 /* AppIcon.xcassets */; };
 		4AD9D4DE27944D4500651E87 /* FeaturedListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD9D4DD27944D4500651E87 /* FeaturedListItem.swift */; };
+		4ADB4230279DBF5A00AFA15A /* ScrollingHStackModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB422F279DBF5A00AFA15A /* ScrollingHStackModifier.swift */; };
+		4ADB4232279DD3F600AFA15A /* HomeFeaturedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB4231279DD3F600AFA15A /* HomeFeaturedListView.swift */; };
 		4AFA6BAF27947C580002309B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA6BAE27947C580002309B /* HomeViewModel.swift */; };
 		4AFA6BB2279482850002309B /* KoinInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA6BB1279482850002309B /* KoinInit.swift */; };
-		4AFA6BB62794A4350002309B /* HomeFeaturedPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA6BB52794A4350002309B /* HomeFeaturedPagerView.swift */; };
 		4AFB125927941F7100AFD8A8 /* NotificationSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFB125827941F7100AFD8A8 /* NotificationSettingsScreen.swift */; };
 		4AFB125D2794221F00AFD8A8 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AFB125C2794221F00AFD8A8 /* Icons.xcassets */; };
 		66BBAC15A48BE3FB47641309 /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF80EF4CDE6744FF139AB569 /* Pods_iosApp.framework */; };
@@ -44,9 +45,10 @@
 		4ACA7432278AC04800F0D056 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4ACA7434278AC17A00F0D056 /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
 		4AD9D4DD27944D4500651E87 /* FeaturedListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedListItem.swift; sourceTree = "<group>"; };
+		4ADB422F279DBF5A00AFA15A /* ScrollingHStackModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollingHStackModifier.swift; sourceTree = "<group>"; };
+		4ADB4231279DD3F600AFA15A /* HomeFeaturedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeaturedListView.swift; sourceTree = "<group>"; };
 		4AFA6BAE27947C580002309B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4AFA6BB1279482850002309B /* KoinInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoinInit.swift; sourceTree = "<group>"; };
-		4AFA6BB52794A4350002309B /* HomeFeaturedPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeaturedPagerView.swift; sourceTree = "<group>"; };
 		4AFB125827941F7100AFD8A8 /* NotificationSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsScreen.swift; sourceTree = "<group>"; };
 		4AFB125C2794221F00AFD8A8 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +146,7 @@
 		4ACA7438278AC35700F0D056 /* Ui */ = {
 			isa = PBXGroup;
 			children = (
+				4ADB422E279DBF4800AFA15A /* Modifier */,
 				4A7558272792B1AA002C3617 /* Components */,
 				4ACA743A278AC3B200F0D056 /* Style */,
 				4ACA7437278AC35100F0D056 /* Screen */,
@@ -171,12 +174,20 @@
 			path = Style;
 			sourceTree = "<group>";
 		};
+		4ADB422E279DBF4800AFA15A /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				4ADB422F279DBF5A00AFA15A /* ScrollingHStackModifier.swift */,
+			);
+			path = Modifier;
+			sourceTree = "<group>";
+		};
 		4AFA6BAD27947C150002309B /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				4ACA7426278ABE8E00F0D056 /* HomeView.swift */,
 				4AFA6BAE27947C580002309B /* HomeViewModel.swift */,
-				4AFA6BB52794A4350002309B /* HomeFeaturedPagerView.swift */,
+				4ADB4231279DD3F600AFA15A /* HomeFeaturedListView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -353,13 +364,14 @@
 			files = (
 				4ACA7427278ABE8E00F0D056 /* HomeView.swift in Sources */,
 				4ACA7429278ABEB600F0D056 /* MapView.swift in Sources */,
+				4ADB4230279DBF5A00AFA15A /* ScrollingHStackModifier.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				4A75582B2792B558002C3617 /* SettingsView.swift in Sources */,
 				4ACA742B278ABED400F0D056 /* MyDateView.swift in Sources */,
 				4A8FA90C279557DB004E55C6 /* Publisher+AnyCancellable.swift in Sources */,
+				4ADB4232279DD3F600AFA15A /* HomeFeaturedListView.swift in Sources */,
 				4A7558292792B1B5002C3617 /* SimpleListItem.swift in Sources */,
 				4ACA742D278ABEE500F0D056 /* ProfileView.swift in Sources */,
-				4AFA6BB62794A4350002309B /* HomeFeaturedPagerView.swift in Sources */,
 				4AFA6BAF27947C580002309B /* HomeViewModel.swift in Sources */,
 				4AFA6BB2279482850002309B /* KoinInit.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
@@ -424,7 +436,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -479,7 +491,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

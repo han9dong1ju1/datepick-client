@@ -9,7 +9,6 @@ plugins {
     kotlin("kapt")
     id("com.google.devtools.ksp")
     id("com.rickclephas.kmp.nativecoroutines") version "0.11.1"
-    id("dev.icerock.moko.kswift")
 }
 
 version = "1.0"
@@ -39,7 +38,7 @@ kotlin {
     cocoapods {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.0"
+        ios.deploymentTarget = "15.0"
         framework {
             baseName = "presentation"
         }
