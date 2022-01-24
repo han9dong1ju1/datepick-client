@@ -24,7 +24,7 @@ fun FeaturedListItem(
 
     Surface(
         onClick = { onFeaturedClicked(featured) },
-        modifier = Modifier.fillMaxWidth().height(400.dp),
+        modifier = Modifier.fillMaxWidth().height(300.dp),
         color = Color.Black,
         shape = RoundedCornerShape(20.dp)
     ) {

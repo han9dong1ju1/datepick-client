@@ -22,7 +22,7 @@ struct HomeFeaturedListView: View {
         }.modifier(
             ScrollingHStackModifier(items: featuredList.count, itemWidth: 380, itemSpacing: 10)
         ).listRowInsets(EdgeInsets())
-            .frame(height:450, alignment: .center)
+            .frame(height:380, alignment: .center)
     }
 }
 

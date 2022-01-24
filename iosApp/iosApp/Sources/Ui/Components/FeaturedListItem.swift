@@ -19,14 +19,14 @@ struct FeaturedListItem: View {
                 
                 Rectangle()
                     .fill(Color.black)
-                    .frame(maxWidth : 380, maxHeight : 450)
+                    .frame(maxWidth : 380, maxHeight : 380)
                     .cornerRadius(20)
                 
                 AsyncImage(url: URL(string: featured.photoUrl)){ image in
                     image.resizable()
                         .aspectRatio(contentMode: .fit)
                         .scaledToFill()
-                        .frame(maxWidth : 380, maxHeight : 450)
+                        .frame(maxWidth : 380, maxHeight : 380)
                         .clipped()
                 } placeholder: {
                     ProgressView()
@@ -47,7 +47,7 @@ struct FeaturedListItem: View {
                 }.padding(24).frame(maxWidth: .infinity,
                                     alignment: .leading)
                 
-            }.frame(width:380, height:450, alignment: .bottomLeading)
+            }.frame(width:380, height:380, alignment: .bottomLeading)
             .shadow(radius: 10)
         
     }

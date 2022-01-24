@@ -12,6 +12,8 @@ struct HomeView: View {
     
     @StateObject var viewModel = HomeViewModel()
     
+    @Environment(\.colorScheme) var colorScheme
+    
     init() {
         UITableView.appearance().backgroundColor = UIColor.clear
         UITableView.appearance().separatorColor = .clear
@@ -22,6 +24,8 @@ struct HomeView: View {
             HStack() {
                 Image("datepick-logo")
                     .resizable()
+                    .renderingMode(.template)
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
                     .scaledToFit()
                     .frame(width : 100, height: 20)
             }.frame(height: 50)

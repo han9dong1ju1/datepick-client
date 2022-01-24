@@ -91,7 +91,7 @@ fun HomeScreen(
         topBar = {
             BaseTopBar(
                 title = {
-                    Icon(DatePickIcons.Logo, null, modifier = Modifier.height(20.dp))
+                    Icon(DatePickIcons.Logo, null, modifier = Modifier.height(18.dp))
                 }
             )
         }
@@ -100,7 +100,7 @@ fun HomeScreen(
         LazyColumn(modifier = Modifier.padding(it)) {
 
             item {
-
+                Spacer(modifier = Modifier.height(20.dp))
                 ViewPager(
                     Modifier.fillMaxWidth(),
                     state.featuredList,
@@ -112,7 +112,6 @@ fun HomeScreen(
 
                     }
                 }
-
             }
 
             if (state.showNearbyRecommendations) {
@@ -156,7 +155,7 @@ fun HomeScreen(
 
 fun LazyListScope.mainHomePopularPlaces() {
     item {
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Header("전체 인기장소", "더보기") {
 
         }
@@ -169,7 +168,7 @@ fun LazyListScope.mainHomePopularPlaces() {
 
 fun LazyListScope.mainHomeNearbyRecommendedPlaces() {
     item {
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Header("주변 추천 인기장소", "더보기") {
 
         }
