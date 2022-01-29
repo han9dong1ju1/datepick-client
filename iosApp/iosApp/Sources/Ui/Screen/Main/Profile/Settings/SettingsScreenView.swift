@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SettingsView: View {
+struct SettingsScreenView: View {
     var body: some View {
         List {
             Text("테마 설정")
@@ -20,6 +20,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsScreenView()
     }
 }

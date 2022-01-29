@@ -22,8 +22,10 @@ class FakePlacePreviewProvider : PreviewParameterProvider<List<Place>> {
                     override val longitude: Double = 126.9818969
                     override val rating: Double = 4.3
                     override val isPicked: Boolean = false
-                    override val photo: String =
-                        "https://postfiles.pstatic.net/MjAyMTAyMjNfMjQ5/MDAxNjE0MDQ4NDEwMDYy.JCXTJWhG8eUrNQjRkKtJpB7C3fDc5wyMm66xiG7sCcIg.Dxlm9hUXzUgHSxq4e0bz40d3nxMthzXMffnvyDUCyD0g.JPEG.hyonikim/IMG_1835.jpg?type=w773"
+                    override val photo: String? =
+                        if (Random.nextBoolean())
+                            "https://postfiles.pstatic.net/MjAyMTAyMjNfMjQ5/MDAxNjE0MDQ4NDEwMDYy.JCXTJWhG8eUrNQjRkKtJpB7C3fDc5wyMm66xiG7sCcIg.Dxlm9hUXzUgHSxq4e0bz40d3nxMthzXMffnvyDUCyD0g.JPEG.hyonikim/IMG_1835.jpg?type=w773"
+                        else null
                 }
             }
         )

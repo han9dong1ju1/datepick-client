@@ -22,14 +22,14 @@ fun BaseButton(
     icon: ImageVector? = null,
     iconTint: Color? = null,
     text: String,
-    shape: Shape = RoundedCornerShape(8.dp),
+    shape: Shape = RoundedCornerShape(10.dp),
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     border: BorderStroke? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
     Button(
-        modifier = Modifier.height(50.dp).then(modifier),
+        modifier = Modifier.then(modifier),
         onClick = onClick,
         shape = shape,
         enabled = enabled,
@@ -51,7 +51,7 @@ fun BaseButton(
                 contentDescription = text,
                 tint = iconTint ?: LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             )
-            Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
+            Spacer(modifier = Modifier.width(10.dp))
         }
 
         Text(text)

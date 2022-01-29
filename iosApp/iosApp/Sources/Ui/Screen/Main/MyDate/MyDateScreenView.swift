@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MyDateView: View {
+struct MyDateScreenView: View {
     var body: some View {
         NavigationView {
             VStack {
@@ -23,6 +23,6 @@ struct MyDateView: View {
 
 struct MyDateView_Previews: PreviewProvider {
     static var previews: some View {
-        MyDateView()
+        MyDateScreenView()
     }
 }

@@ -1,6 +1,6 @@
 package app.hdj.datepick.android.ui
 
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Book
@@ -102,10 +102,21 @@ fun DatePickApp(
                 ) {
                     BaseScaffold(
                         bottomBar = {
-                            NavigationGraphBottomNavigation(
-                                list = mainNavigationRoutesWithIcon,
-                                navController = navController
-                            )
+                            AnimatedVisibility(
+                                listOf(
+                                    AppNavigationGraph.Main.Home.route,
+                                    AppNavigationGraph.Main.Map.route,
+                                    AppNavigationGraph.Main.MyDate.route,
+                                    AppNavigationGraph.Main.Profile.route,
+                                ).contains(currentRoute),
+                                enter = fadeIn(),
+                                exit = fadeOut()
+                            ) {
+                                NavigationGraphBottomNavigation(
+                                    list = mainNavigationRoutesWithIcon,
+                                    navController = navController
+                                )
+                            }
                         }
                     ) {
                         DatepickScreenNavHost()

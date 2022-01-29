@@ -75,16 +75,16 @@ fun PlaceHorizontalListItem(
                 }
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             Text(place.name, style = MaterialTheme.typography.subtitle1)
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(6.dp))
             Text(
                 modifier = Modifier.alpha(0.8f),
                 text = place.address,
                 style = MaterialTheme.typography.body2
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 modifier = Modifier.alpha(0.6f),
                 text = place.category.typeAsString,

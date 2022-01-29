@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.SearchBoxState.SearchBoxUiState
-import app.hdj.datepick.ui.components.Chip
+import app.hdj.datepick.ui.components.BaseChip
 import app.hdj.datepick.ui.components.ListHeader
 import com.google.accompanist.flowlayout.FlowRow
 
@@ -191,7 +191,7 @@ private fun SearchBoxExpandedUi(
                     "크리스마스", "기념일", "생일파티", "액티비티",
                     "맛있는 음식", "영화", "여행", "기념일"
                 ).forEach { tag ->
-                    Chip(
+                    BaseChip(
                         modifier = Modifier.height(40.dp),
                         text = tag,
                         isSelected = false
@@ -212,7 +212,7 @@ private fun SearchBoxExpandedUi(
                     "크리스마스", "기념일", "생일파티", "액티비티",
                     "맛있는 음식", "영화", "여행", "기념일"
                 ).forEach { tag ->
-                    Chip(
+                    BaseChip(
                         modifier = Modifier.height(40.dp),
                         text = tag,
                         isSelected = false

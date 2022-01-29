@@ -1,7 +1,6 @@
 package app.hdj.datepick.presentation.di
 
-import app.hdj.datepick.presentation.main.home.HomeScreenViewModel
-import app.hdj.datepick.presentation.home.HomeScreenViewModelWrapper
+import app.hdj.datepick.presentation.main.HomeScreenViewModel
 import org.koin.dsl.module
 
 val presentationModule = module {

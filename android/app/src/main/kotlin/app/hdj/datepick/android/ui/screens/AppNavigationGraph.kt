@@ -117,20 +117,16 @@ sealed class AppNavigationGraph(override val route: String) : ScreenGraph(route)
 
     object LocationPermissionDeniedDialog : DialogGraph("location_permission_denied_dialog")
     object ExitDialog : DialogGraph("exit_dialog")
-
     object SearchPlace : DialogGraph("search_place")
-
     object AppUpdateDialog : DialogGraph("app_update")
-
     object LoginDialog : DialogGraph("login_dialog")
 
     sealed class CreateCourse(nestedRoute: String) : NestedNavigationGraph(route, nestedRoute) {
 
         companion object : AppNavigationGraph("create_course")
 
-        object Tags : CreateCourse("select_tags")
-        object Info : CreateCourse("edit")
-        object ShowSelectedPlaces : CreateCourse("selected_places_dialog")
+        object CourseTheme : CreateCourse("course_theme")
+        object Info : CreateCourse("info")
 
     }
 
@@ -170,6 +166,8 @@ sealed class AppNavigationGraph(override val route: String) : ScreenGraph(route)
         )
 
     }
+
+    object Notifications : AppNavigationGraph("notifications")
 
     object UserProfileEdit : AppNavigationGraph("user_profile_edit")
 

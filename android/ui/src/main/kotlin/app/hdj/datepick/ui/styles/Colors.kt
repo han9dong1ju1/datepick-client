@@ -35,4 +35,4 @@ val lightColors = lightColors(
     onError = Color.White
 )
 
-val Colors.tertiary get() = if (isLight) Color(0xFF9B2850) else Color(0xFF361621)
+val Colors.tertiary get() = if (isLight) Color(0xFFe24b68) else Color(0xFF361621)

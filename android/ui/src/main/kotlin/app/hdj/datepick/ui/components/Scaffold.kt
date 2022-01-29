@@ -83,6 +83,7 @@ fun BaseSwipeRefreshLayoutScaffold(
     backgroundColor: Color = MaterialTheme.colors.background,
     contentColor: Color = contentColorFor(backgroundColor),
     contentPadding: PaddingValues = LocalScaffoldPadding.current,
+    indicatorPadding: PaddingValues = rememberInsetsPaddingValues(LocalWindowInsets.current.statusBars),
     swipeRefreshState: SwipeRefreshState = rememberSwipeRefreshState(isRefreshing = false),
     indicator: @Composable (state: SwipeRefreshState, refreshTrigger: Dp) -> Unit = { s, trigger ->
         SwipeRefreshIndicator(
@@ -118,7 +119,7 @@ fun BaseSwipeRefreshLayoutScaffold(
             state = swipeRefreshState,
             indicator = indicator,
             onRefresh = onRefresh,
-            indicatorPadding = it
+            indicatorPadding = indicatorPadding
         ) {
             content(it)
         }

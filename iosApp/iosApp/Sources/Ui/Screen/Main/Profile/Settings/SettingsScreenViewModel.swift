@@ -9,7 +9,7 @@
 import Combine
 import KMPNativeCoroutinesCombine
 
-class SettingsViewModel : ObservableObject {
+class SettingsScreenViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     

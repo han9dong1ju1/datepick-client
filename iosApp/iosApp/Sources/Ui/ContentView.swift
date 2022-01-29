@@ -1,40 +1,44 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+
     @Environment(\.colorScheme) var colorScheme
-    
+
     var body: some View {
         TabView {
-            
-            HomeView()
+
+            HomeScreenView()
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
-            
-            MapView()
+
+            MapScreenView()
                 .tabItem {
                     Image(systemName: "map.fill")
                     Text("Map")
                 }
-            
-            MyDateView()
+
+            MyDateScreenView()
                 .tabItem {
                     Image(systemName: "heart.fill")
                     Text("My Date")
                 }
-            
-            ProfileView()
-            
+
+            ProfileScreenView()
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
                 }
-            
-        }.accentColor(colorScheme == .dark ? .white : .black)
-        
+
+        }
+                .accentColor(colorScheme == .dark ? .white : .black)
+                .eraseToAnyView()
     }
+
+    #if DEBUG
+    @ObservedObject var iO = injectionObserver
+    #endif
 }
 
 struct ContentView_Previews: PreviewProvider {

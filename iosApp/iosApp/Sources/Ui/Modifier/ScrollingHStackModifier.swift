@@ -55,7 +55,7 @@ struct ScrollingHStackModifier: ViewModifier {
                     var index = (center - (screenWidth / 2.0)) / (itemWidth + itemSpacing)
                     
                     // Should we stay at current index or are we closer to the next item...
-                    if index.remainder(dividingBy: 1) > 0.5 {
+                    if index.remainder(dividingBy: 1) > 0.8 {
                         index += 1
                     } else {
                         index = CGFloat(Int(index))

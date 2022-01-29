@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import app.hdj.datepick.ui.utils.NavigationGraph
 import app.hdj.datepick.ui.utils.currentScreenRoute
 import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 
 data class BottomNavigationProperty(
@@ -28,7 +29,7 @@ fun NavigationGraphBottomNavigation(
     Column {
         Divider(color = MaterialTheme.colors.onBackground.copy(alpha = 0.03f))
         com.google.accompanist.insets.ui.BottomNavigation(
-            modifier = Modifier.height(80.dp),
+            modifier = Modifier.navigationBarsHeight(64.dp),
             backgroundColor = MaterialTheme.colors.background,
             elevation = 0.dp,
             contentPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.navigationBars)

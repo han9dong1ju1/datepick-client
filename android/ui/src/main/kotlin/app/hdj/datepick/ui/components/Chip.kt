@@ -12,12 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Chip(
+fun BaseChip(
     modifier: Modifier = Modifier,
     text: String,
+    textStyle: TextStyle = MaterialTheme.typography.body2,
     isSelected: Boolean = false,
     onClick: () -> Unit = {}
 ) {
@@ -28,7 +30,7 @@ fun Chip(
 
     val textColor by animateColorAsState(
         targetValue = if (isSelected) MaterialTheme.colors.onSecondary
-        else MaterialTheme.colors.surface
+        else MaterialTheme.colors.onSurface
     )
 
     val cornerRadius by animateDpAsState(targetValue = if (isSelected) 20.dp else 10.dp)
@@ -45,7 +47,8 @@ fun Chip(
                     .align(Alignment.Center)
                     .padding(horizontal = 14.dp, vertical = 7.dp),
                 text = text,
-                color = textColor
+                color = textColor,
+                style = textStyle
             )
         }
     }

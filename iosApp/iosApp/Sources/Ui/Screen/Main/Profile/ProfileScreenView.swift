@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct ProfileView: View {
+struct ProfileScreenView: View {
     var body: some View {
         NavigationView {
             
             List {
                 
                 NavigationLink {
-                    SettingsView()
+                    SettingsScreenView()
                 } label: {
                     SimpleListItem(title: "앱 설정")
                 }
@@ -36,6 +36,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileScreenView()
     }
 }

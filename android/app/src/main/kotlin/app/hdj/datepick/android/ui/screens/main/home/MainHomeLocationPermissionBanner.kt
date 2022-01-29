@@ -37,40 +37,46 @@ fun MainHomeLocationPermissionBanner(
         ) {
 
             Spacer(modifier = Modifier.height(20.dp))
-            Icon(imageVector = Icons.Rounded.Place, null)
-            Spacer(modifier = Modifier.height(12.dp))
-            Text("주변에 있는 추천 장소들을 알아보세요.", style = MaterialTheme.typography.subtitle1)
-            Spacer(modifier = Modifier.height(6.dp))
             Text(
-                "위치 권한을 허용하고 주변에 있는 추천 장소들을 알아보세요.",
+                "주변 추천 받기",
+                color = MaterialTheme.colors.onSecondary,
+                style = MaterialTheme.typography.subtitle1
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                "위치권한을 허용하여 주변에 있는 장소와 데이트 코스에 대한 정보를 알아보세요!",
                 color = MaterialTheme.colors.onSecondary.copy(0.5f),
                 style = MaterialTheme.typography.body2
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Row(modifier = Modifier.align(Alignment.End)) {
+            Row(modifier = Modifier.align(Alignment.Start)) {
 
                 BaseButton(
-                    text = "보지않음",
+                    modifier = Modifier.height(48.dp),
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent,
-                        contentColor = MaterialTheme.colors.onSecondary.copy(alpha = 0.4f),
+                        backgroundColor = MaterialTheme.colors.onSecondary.copy(alpha = 0.1f),
+                        contentColor = MaterialTheme.colors.onSecondary
                     ),
-                    border = BorderStroke(1.dp, MaterialTheme.colors.onSecondary.copy(alpha = 0.1f)),
-                    onClick = onIgnored
+                    text = "위치권한 허용",
+                    icon = Icons.Rounded.Place,
+                    onClick = onPermissionRequested
                 )
 
                 Spacer(modifier = Modifier.width(10.dp))
 
                 BaseButton(
+                    modifier = Modifier.height(48.dp),
+                    text = "보지않음",
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.White,
-                        contentColor = MaterialTheme.colors.tertiary
+                        backgroundColor = Color.Transparent,
+                        contentColor = MaterialTheme.colors.onSecondary.copy(alpha = 0.8f),
                     ),
-                    text = "위치 권한 받기",
-                    onClick = onPermissionRequested
+                    border = BorderStroke(1.dp, MaterialTheme.colors.onSecondary.copy(alpha = 0.2f)),
+                    onClick = onIgnored
                 )
+
             }
 
             Spacer(modifier = Modifier.height(16.dp))

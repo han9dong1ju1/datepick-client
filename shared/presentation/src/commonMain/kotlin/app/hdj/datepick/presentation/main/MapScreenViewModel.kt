@@ -1,4 +1,4 @@
-package app.hdj.datepick.presentation.main.map
+package app.hdj.datepick.presentation.main
 
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
