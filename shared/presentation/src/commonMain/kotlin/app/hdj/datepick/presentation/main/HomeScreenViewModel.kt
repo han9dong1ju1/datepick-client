@@ -71,7 +71,7 @@ class HomeScreenViewModel @Inject constructor(
             isRefreshing,
             featuredListState.getDataOrNull().orEmpty(),
             ignoreNearbyRecommend == null && isLocationPermissionGranted == false,
-            ignoreNearbyRecommend != true && isLocationPermissionGranted == true
+            isLocationPermissionGranted == true
         )
     }.asStateFlow(
         State(),

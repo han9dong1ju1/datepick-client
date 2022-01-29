@@ -159,20 +159,22 @@ private fun LazyListScope.mainHomeFeatured(
     navController: NavController
 ) {
     item {
-        Spacer(modifier = Modifier.height(20.dp))
-        ViewPager(
-            Modifier.fillMaxWidth(),
-            state.featuredList,
-            itemSpacing = 10.dp,
-            contentPadding = PaddingValues(horizontal = 20.dp),
-        ) { item, _ ->
-            FeaturedListItem(featured = item) { featured ->
-                navController.navigateRoute(
-                    AppNavigationGraph.FeaturedDetail.graphWithArgument(featured)
-                )
+        Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
+            Spacer(modifier = Modifier.height(20.dp))
+            ViewPager(
+                Modifier.fillMaxWidth(),
+                state.featuredList,
+                itemSpacing = 10.dp,
+                contentPadding = PaddingValues(horizontal = 20.dp),
+            ) { item, _ ->
+                FeaturedListItem(featured = item) { featured ->
+                    navController.navigateRoute(
+                        AppNavigationGraph.FeaturedDetail.graphWithArgument(featured)
+                    )
+                }
             }
+            Spacer(modifier = Modifier.height(20.dp))
         }
-        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
@@ -208,24 +210,28 @@ private fun LazyListScope.mainHomeLocationPermissionBanner(
 
 private fun LazyListScope.mainHomePopularPlaces(onPlaceClicked: (Place) -> Unit) {
     item {
-        val list = remember { FakePlacePreviewProvider().values.first() }
-        Spacer(modifier = Modifier.height(10.dp))
-        Header("전체 인기장소", "더보기") {
+        Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
+            val list = remember { FakePlacePreviewProvider().values.first() }
+            Spacer(modifier = Modifier.height(10.dp))
+            Header("전체 인기장소", "더보기") {
 
+            }
+            PlaceHorizontalList(list, onPlaceClicked)
+            Spacer(modifier = Modifier.height(20.dp))
         }
-        PlaceHorizontalList(list, onPlaceClicked)
-        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
 private fun LazyListScope.mainHomeNearbyRecommendedPlaces(onPlaceClicked: (Place) -> Unit) {
     item {
-        val list = remember { FakePlacePreviewProvider().values.first() }
-        Spacer(modifier = Modifier.height(10.dp))
-        Header("주변 추천 인기장소", "더보기") {
+        Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
+            val list = remember { FakePlacePreviewProvider().values.first() }
+            Spacer(modifier = Modifier.height(10.dp))
+            Header("주변 추천 인기장소", "더보기") {
 
+            }
+            PlaceHorizontalList(list, onPlaceClicked)
+            Spacer(modifier = Modifier.height(20.dp))
         }
-        PlaceHorizontalList(list, onPlaceClicked)
-        Spacer(modifier = Modifier.height(20.dp))
     }
 }
