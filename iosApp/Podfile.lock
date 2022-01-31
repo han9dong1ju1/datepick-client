@@ -12,6 +12,9 @@ PODS:
   - Firebase/Crashlytics (8.11.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 8.11.0)
+  - Firebase/DynamicLinks (8.11.0):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 8.11.0)
   - Firebase/RemoteConfig (8.11.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 8.11.0)
@@ -56,6 +59,8 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseDynamicLinks (8.11.0):
+    - FirebaseCore (~> 8.0)
   - FirebaseInstallations (8.11.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
@@ -127,6 +132,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Crashlytics
+  - Firebase/DynamicLinks
   - Firebase/RemoteConfig
   - KMPNativeCoroutinesCombine
   - presentation (from `../shared/presentation`)
@@ -141,6 +147,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
+    - FirebaseDynamicLinks
     - FirebaseInstallations
     - FirebaseRemoteConfig
     - GoogleAppMeasurement
@@ -166,6 +173,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
   FirebaseCoreDiagnostics: 64d9709d804a6c25bd77841371c1fcfd909d5601
   FirebaseCrashlytics: 62268addefae79601057818156e8bc69d71fee41
+  FirebaseDynamicLinks: f506c83eb7eba0f9861f84cd6b65c38b3bd5ff6f
   FirebaseInstallations: 044eede8a049bce71c4541ee68d6e4364fcbe774
   FirebaseRemoteConfig: a6a1ce9dabf404817ae2a44e8421d276660d9091
   GoogleAppMeasurement: aa3cb422fab2b05d2efac543a5720d1a85b9dea5
@@ -179,6 +187,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   utils: bcad1d8bafb8a4ff7d943116b7f28deaa14cc24e
 
-PODFILE CHECKSUM: d511f145b2427a87f64fd28c142d6530c5cc0c9f
+PODFILE CHECKSUM: 5bed186b5512bed48a4e99fba2846ffc0fe3b118
 
 COCOAPODS: 1.11.2

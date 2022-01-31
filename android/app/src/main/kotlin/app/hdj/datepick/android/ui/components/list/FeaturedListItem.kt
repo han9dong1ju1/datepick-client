@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import app.hdj.datepick.android.ui.shimmer
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.ui.components.NetworkImage
 
@@ -33,7 +34,7 @@ fun FeaturedListItem(
 
             NetworkImage(
                 modifier = Modifier.fillMaxSize().alpha(0.5f),
-                url = featured.photoUrl
+                url = featured.imageUrl
             )
 
             Column(
@@ -46,7 +47,7 @@ fun FeaturedListItem(
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         modifier = Modifier.alpha(0.8f),
-                        text = featured.description,
+                        text = featured.subtitle,
                         style = MaterialTheme.typography.body2
                     )
                 }
@@ -54,6 +55,38 @@ fun FeaturedListItem(
 
         }
 
+    }
+
+}
+
+@Composable
+fun FeaturedListItemShimmer() {
+
+    Box(
+        modifier = Modifier.fillMaxWidth().padding(20.dp)
+    ) {
+
+        Surface(
+            modifier = Modifier.fillMaxWidth().height(300.dp),
+            color = MaterialTheme.colors.surface,
+            shape = RoundedCornerShape(20.dp)
+        ) {
+
+            Box(modifier = Modifier.fillMaxSize()) {
+
+                Column(
+                    modifier = Modifier.padding(20.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.BottomStart)
+                ) {
+                    Spacer(modifier = Modifier.shimmer(color = MaterialTheme.colors.onSurface).size(200.dp, 26.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.shimmer(color = MaterialTheme.colors.onSurface).size(300.dp, 14.dp))
+                }
+
+            }
+
+        }
     }
 
 }

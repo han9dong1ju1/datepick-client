@@ -8,6 +8,8 @@ import kotlinx.serialization.Serializable
 data class FeaturedResponse(
     @SerialName("id") override val id : Long,
     @SerialName("title") override val title : String,
-    @SerialName("description") override val description : String,
-    @SerialName("photo_url") override val photoUrl : String
+    @SerialName("subtitle") override val subtitle : String,
+    @SerialName("content") override val content : String,
+    @SerialName("image_url") override val imageUrl : String,
+    @SerialName("is_pinned") override val isPinned: Boolean
 ) : Featured

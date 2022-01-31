@@ -12,6 +12,7 @@ interface FeaturedDataStore : DataStore<FeaturedEntity> {
 
     fun findAllCached(): List<FeaturedEntity>
     suspend fun saveAll(list: List<FeaturedEntity>)
+    suspend fun get(id: Long): FeaturedEntity?
 
 }
 
@@ -25,6 +26,9 @@ class FeaturedDataStoreImp @Inject constructor(
     override suspend fun save(data: FeaturedEntity) {
         queries.insert(data)
     }
+
+    override suspend fun get(id: Long): FeaturedEntity? =
+        queries.get(id).executeAsOneOrNull()
 
     override suspend fun saveAll(list: List<FeaturedEntity>) {
         queries.deleteAll()

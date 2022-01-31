@@ -16,7 +16,7 @@ val darkColors = darkColors(
     onPrimary = Color.White,
     onSecondary = Color.White,
     onBackground = Color.White,
-    onSurface = Color.White,
+    onSurface = Color(0xFFB4C0DE),
     onError = Color.White
 )
 
@@ -31,7 +31,7 @@ val lightColors = lightColors(
     onPrimary = Color.White,
     onSecondary = Color.White,
     onBackground = Color.Black,
-    onSurface = Color.Black,
+    onSurface = Color(0xFF172A58),
     onError = Color.White
 )
 

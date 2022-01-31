@@ -1,18 +1,21 @@
-import java.lang.Long;
-
 CREATE TABLE featuredEntity (
     id INTEGER AS Long NOT NULL PRIMARY KEY,
     title TEXT NOT NULL,
-    description TEXT NOT NULL,
-    photoUrl TEXT NOT NULL,
+    subtitle TEXT NOT NULL,
+    content TEXT NOT NULL,
+    imageUrl TEXT NOT NULL,
+    isPinned INTEGER AS Boolean DEFAULT 0 NOT NULL,
     cachedAt INTEGER AS Long NOT NULL
 );
 
 findAll:
 SELECT * FROM featuredEntity;
 
+get:
+SELECT * FROM featuredEntity WHERE id = :id;
+
 insert:
-INSERT INTO featuredEntity(id, title, description, photoUrl, cachedAt) VALUES ?;
+INSERT INTO featuredEntity(id, title, subtitle, content, imageUrl, isPinned, cachedAt) VALUES ?;
 
 deleteAll:
 DELETE FROM featuredEntity;

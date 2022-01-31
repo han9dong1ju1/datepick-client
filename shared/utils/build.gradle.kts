@@ -58,6 +58,7 @@ kotlin {
             implementation(KotlinX.coroutines.playServices)
             implementation(AndroidX.lifecycle.common)
             implementation(Google.dagger.hilt.android)
+            implementation(Firebase.dynamicLinksKtx)
             api(JakeWharton.timber)
             api(Utils.qrGenerator)
             api(Google.android.playServices.location)

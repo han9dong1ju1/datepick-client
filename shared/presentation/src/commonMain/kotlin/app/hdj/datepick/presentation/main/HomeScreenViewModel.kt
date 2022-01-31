@@ -3,6 +3,7 @@ package app.hdj.datepick.presentation.main
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateFailed
 import app.hdj.datepick.domain.isStateLoading
+import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
@@ -21,19 +22,35 @@ interface HomeScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, E
     val locationTracker: LocationTracker
 
     class State(
-        val isRefreshing: Boolean = false,
-        val featuredList: List<Featured> = emptyList(),
-        val showNearbyRecommendLocationPermissionBanner: Boolean = false,
-        val showNearbyRecommendations: Boolean = false
-    )
+        val isContentRefreshing: Boolean = false,
+
+        val featuredUiState: FeaturedUiState = FeaturedUiState(),
+        val nearbyRecommendationsUiState: NearbyRecommendationsUiState = NearbyRecommendationsUiState(),
+    ) {
+
+        class FeaturedUiState(
+            val showFeaturedList: Boolean = false,
+            val showFeaturedFailedBanner : Boolean = false,
+            val featuredList: List<Featured> = emptyList(),
+        )
+
+        class NearbyRecommendationsUiState(
+            val showNearbyRecommendLocationPermissionBanner: Boolean = false,
+            val showNearbyRecommendations: Boolean = false,
+
+        )
+
+    }
 
     sealed class Effect {
-        object FeaturedError : Effect()
         object LocationPermissionRevoked : Effect()
     }
 
     sealed class Event {
         object Refresh : Event()
+
+        object RetryFeaturedList : Event()
+
         object IgnoreNearbyRecommend : Event()
         class LocationPermissionResult(val isGranted: Boolean) : Event()
         class CurrentLocation(val latLng: LatLng) : Event()
@@ -65,13 +82,23 @@ class HomeScreenViewModel @Inject constructor(
         isLocationPermissionGranted,
         featuredListState ->
 
-        val isRefreshing = featuredListState.isStateLoading()
+        val isContentRefreshing = featuredListState.isStateLoading()
 
-        State(
-            isRefreshing,
-            featuredListState.getDataOrNull().orEmpty(),
+        val featuredUiState = State.FeaturedUiState(
+            featuredListState.isStateSucceed(),
+            featuredListState.isStateFailed(),
+            featuredListState.getDataOrNull().orEmpty()
+        )
+
+        val nearbyRecommendationsUiState = State.NearbyRecommendationsUiState(
             ignoreNearbyRecommend == null && isLocationPermissionGranted == false,
             isLocationPermissionGranted == true
+        )
+
+        State(
+            isContentRefreshing,
+            featuredUiState,
+            nearbyRecommendationsUiState
         )
     }.asStateFlow(
         State(),
@@ -83,12 +110,14 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     private fun loadHomeScreenData() {
-        platformViewModelScope.launch {
-            getFeaturedListUseCase(Unit).onEach {
-                if (it.isStateFailed()) effectChannel.send(Effect.FeaturedError)
-                featuredList.emit(it)
-            }.collect()
-        }
+        loadFeaturedList()
+
+    }
+
+    private fun loadFeaturedList() {
+        getFeaturedListUseCase(Unit)
+            .onEach { featuredList.emit(it) }
+            .launchIn(platformViewModelScope)
     }
 
     override fun event(e: Event) {
@@ -97,6 +126,9 @@ class HomeScreenViewModel @Inject constructor(
                 is Event.Refresh -> {
                     loadHomeScreenData()
                 }
+
+                is Event.RetryFeaturedList -> loadFeaturedList()
+
                 is Event.LocationPermissionResult -> {
                     isLocationPermissionGranted.emit(e.isGranted)
                 }

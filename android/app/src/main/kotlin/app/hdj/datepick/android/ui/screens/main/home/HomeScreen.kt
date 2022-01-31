@@ -6,10 +6,13 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.runtime.*
@@ -21,9 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
-import app.hdj.datepick.android.ui.components.list.FeaturedListItem
-import app.hdj.datepick.android.ui.components.list.Header
-import app.hdj.datepick.android.ui.components.list.PlaceHorizontalList
+import app.hdj.datepick.android.ui.components.list.*
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Logo
 import app.hdj.datepick.android.ui.providers.LocalAppNavController
@@ -33,6 +34,7 @@ import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.LocationPermissionDeniedDialog
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.utils.extract
+import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.presentation.main.HomeScreenViewModel
 import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate
@@ -45,6 +47,7 @@ import app.hdj.datepick.ui.utils.isPermissionGranted
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.google.maps.android.data.Feature
 
 @Composable
 fun HomeScreen(
@@ -62,14 +65,12 @@ fun HomeScreen(
         context.getActivity()?.finish()
     }
 
-    val swipeRefreshState = rememberSwipeRefreshState(state.isRefreshing)
+    val swipeRefreshState = rememberSwipeRefreshState(state.isContentRefreshing)
 
     val lazyListState = rememberLazyListState()
 
-    var isHeaderScrolled by remember { mutableStateOf(false) }
-
-    LaunchedEffect(lazyListState.firstVisibleItemIndex != 0) {
-        isHeaderScrolled = lazyListState.firstVisibleItemIndex != 0
+    val isHeaderScrolled = remember(lazyListState.firstVisibleItemIndex != 0) {
+        lazyListState.firstVisibleItemIndex != 0
     }
 
     val activity = remember { requireNotNull(context.getActivity()) }
@@ -105,8 +106,8 @@ fun HomeScreen(
         }
     }
 
-    LaunchedEffect(state.showNearbyRecommendations) {
-        if (state.showNearbyRecommendations) {
+    LaunchedEffect(state.nearbyRecommendationsUiState.showNearbyRecommendations) {
+        if (state.nearbyRecommendationsUiState.showNearbyRecommendations) {
             val currentLocation = locationTracker.getCurrentLocation()
             if (currentLocation != null) event(HomeScreenViewModelDelegate.Event.CurrentLocation(currentLocation))
         }
@@ -136,15 +137,19 @@ fun HomeScreen(
 
         LazyColumn(modifier = Modifier.padding(it), state = lazyListState) {
 
-            mainHomeFeatured(state, navController)
+            state.featuredUiState.apply {
+                mainHomeFeatured(this, event, navController)
+            }
 
-            if (state.showNearbyRecommendations) {
-                mainHomePopularPlaces(onPlaceClicked)
-                mainHomeNearbyRecommendedPlaces(onPlaceClicked)
-            } else {
-                mainHomePopularPlaces(onPlaceClicked)
-                if (state.showNearbyRecommendLocationPermissionBanner) {
-                    mainHomeLocationPermissionBanner(activity, navController, locationPermissionRequest, event)
+            state.nearbyRecommendationsUiState.apply {
+                if (showNearbyRecommendations) {
+                    mainHomePopularPlaces(onPlaceClicked)
+                    mainHomeNearbyRecommendedPlaces(onPlaceClicked)
+                } else {
+                    mainHomePopularPlaces(onPlaceClicked)
+                    if (showNearbyRecommendLocationPermissionBanner) {
+                        mainHomeLocationPermissionBanner(activity, navController, locationPermissionRequest, event)
+                    }
                 }
             }
 
@@ -155,25 +160,39 @@ fun HomeScreen(
 }
 
 private fun LazyListScope.mainHomeFeatured(
-    state: HomeScreenViewModelDelegate.State,
+    featuredUiState: HomeScreenViewModelDelegate.State.FeaturedUiState,
+    event: (HomeScreenViewModelDelegate.Event) -> Unit,
     navController: NavController
 ) {
     item {
-        Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
-            Spacer(modifier = Modifier.height(20.dp))
-            ViewPager(
-                Modifier.fillMaxWidth(),
-                state.featuredList,
-                itemSpacing = 10.dp,
-                contentPadding = PaddingValues(horizontal = 20.dp),
-            ) { item, _ ->
-                FeaturedListItem(featured = item) { featured ->
-                    navController.navigateRoute(
-                        AppNavigationGraph.FeaturedDetail.graphWithArgument(featured)
-                    )
+        Crossfade(
+            targetState = featuredUiState,
+            modifier = Modifier.fillMaxWidth().animateItemPlacement().animateContentSize()
+        ) {
+            if (it.showFeaturedFailedBanner) {
+                RetryBanner(modifier = Modifier.animateItemPlacement()) {
+                    event(HomeScreenViewModelDelegate.Event.RetryFeaturedList)
                 }
+            } else if (it.showFeaturedList) {
+                Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    ViewPager(
+                        Modifier.fillMaxWidth(),
+                        it.featuredList,
+                        itemSpacing = 10.dp,
+                        contentPadding = PaddingValues(horizontal = 20.dp),
+                    ) { item, _ ->
+                        FeaturedListItem(featured = item) { featured ->
+                            navController.navigateRoute(
+                                AppNavigationGraph.FeaturedDetail.graphWithArgument(featured)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
+            } else {
+                FeaturedListItemShimmer()
             }
-            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }

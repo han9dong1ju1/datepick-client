@@ -88,6 +88,8 @@ fun BaseSwipeRefreshLayoutScaffold(
     indicator: @Composable (state: SwipeRefreshState, refreshTrigger: Dp) -> Unit = { s, trigger ->
         SwipeRefreshIndicator(
             s, trigger,
+            scale = true,
+            fade = true,
             contentColor = MaterialTheme.colors.secondary,
             backgroundColor = MaterialTheme.colors.surface,
         )

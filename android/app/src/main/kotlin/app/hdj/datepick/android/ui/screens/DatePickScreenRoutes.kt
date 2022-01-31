@@ -93,7 +93,7 @@ fun DatepickScreenNavHost() {
 
             FeaturedDetail {
                 val featuredId = it.arguments?.getLong(FeaturedDetail.ARGUMENT_FEATURED_ID)
-                FeaturedDetailScreen(featuredId)
+                FeaturedDetailScreen(featuredId!!)
             }
 
             PlaceDetail {
