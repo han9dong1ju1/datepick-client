@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.android.ui.dialog.AppThemeDialog
 import app.hdj.datepick.android.ui.dialog.LocationPermissionDeniedDialog
 import app.hdj.datepick.android.ui.icons.DatePickIcon
 import app.hdj.datepick.android.ui.icons.DatePickIcons
@@ -32,6 +33,7 @@ import app.hdj.datepick.android.ui.screens.main.myDate.MyDateScreen
 import app.hdj.datepick.android.ui.screens.main.profile.ProfileScreen
 import app.hdj.datepick.android.ui.screens.notifications.NotificationsScreen
 import app.hdj.datepick.android.ui.screens.place.PlaceScreen
+import app.hdj.datepick.android.ui.screens.settings.SettingsScreen
 import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModel
 import app.hdj.datepick.presentation.main.HomeScreenViewModel
 import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
@@ -106,6 +108,10 @@ fun DatepickScreenNavHost() {
 //                CourseDetailScreen(courseId)
             }
 
+            AppSettings {
+                SettingsScreen()
+            }
+
             Notifications {
                 NotificationsScreen()
             }
@@ -116,6 +122,10 @@ fun DatepickScreenNavHost() {
 
             ExitDialog {
 
+            }
+
+            AppThemeDialog {
+                AppThemeDialog()
             }
 
             LocationPermissionDeniedDialog { LocationPermissionDeniedDialog() }

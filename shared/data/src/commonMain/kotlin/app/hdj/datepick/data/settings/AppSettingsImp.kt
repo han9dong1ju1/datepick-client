@@ -36,16 +36,16 @@ class AppSettingsImp @Inject constructor(
         )
     }
 
-    override val ignoreNearbyRecommend: Flow<Boolean?> =
-        flowSettings.getBooleanOrNullFlow(KEY_IGNORE_NEARBY_RECOMMEND)
+    override val isNearbyRecommendBannerIgnored: Flow<Boolean?> =
+        flowSettings.getBooleanOrNullFlow(KEY_IS_NEARBY_RECOMMEND_BANNER_IGNORED)
 
-    override suspend fun setIgnoreNearbyRecommend(isIgnored: Boolean) {
-        flowSettings.putBoolean(KEY_IGNORE_NEARBY_RECOMMEND, isIgnored)
+    override suspend fun setNearbyRecommendBannerIgnored(isIgnored: Boolean) {
+        flowSettings.putBoolean(KEY_IS_NEARBY_RECOMMEND_BANNER_IGNORED, isIgnored)
     }
 
     companion object {
         private const val KEY_APP_THEME = "app_theme"
-        private const val KEY_IGNORE_NEARBY_RECOMMEND = "ignore_nearby_recommend"
+        private const val KEY_IS_NEARBY_RECOMMEND_BANNER_IGNORED = "is_ignore_nearby_recommend"
     }
 
 }

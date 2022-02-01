@@ -16,13 +16,6 @@ import javax.inject.Singleton
 interface UtilModule {
 
     companion object {
-        @Provides
-        @Singleton
-        fun provideAppInfo(@ApplicationContext context: Context) = AppInfo(
-            context.packageName,
-            BuildConfig.DEBUG,
-            AppInfo.Os.Android
-        )
 
         @Provides
         @Singleton

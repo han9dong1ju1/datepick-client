@@ -1,5 +1,6 @@
 package app.hdj.datepick.android.ui.screens.main.myDate
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -101,7 +102,7 @@ fun MyDateScreen(vm: MyDateScreenViewModelDelegate = hiltViewModel<MyDateScreenV
                     }
 
                     item(key = currentItem?.id) {
-                        Box(modifier = Modifier.padding(start = 80.dp, end = 10.dp)) {
+                        Box(modifier = Modifier.padding(start = 80.dp, end = 10.dp).animateItemPlacement()) {
                             val item = lazyPagingItems.runCatching { get(index) }.getOrNull()
                             item?.let {
                                 MyDateListItem(modifier = Modifier.fillMaxWidth(), course = item) {
@@ -118,7 +119,7 @@ fun MyDateScreen(vm: MyDateScreenViewModelDelegate = hiltViewModel<MyDateScreenV
 
             if (swipeRefreshState.isRefreshing || appendState == LoadState.Loading) {
                 item {
-                    Box(modifier = Modifier.fillMaxWidth().padding(20.dp)) {
+                    Box(modifier = Modifier.fillMaxWidth().padding(20.dp).animateItemPlacement()) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(20.dp).align(Alignment.Center).animateItemPlacement()
                         )
@@ -130,7 +131,7 @@ fun MyDateScreen(vm: MyDateScreenViewModelDelegate = hiltViewModel<MyDateScreenV
             if (refreshState is LoadState.Error || appendState is LoadState.Error) {
                 item {
                     Column(
-                        modifier = Modifier.fillMaxWidth().padding(20.dp),
+                        modifier = Modifier.fillMaxWidth().padding(20.dp).animateItemPlacement(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text("목록을 가져오는데 오류가 발생했습니다.", style = MaterialTheme.typography.subtitle2)

@@ -21,28 +21,27 @@ fun DialogContent(
 
     Surface(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp)) {
 
-        Column(modifier = Modifier.padding(20.dp)) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(20.dp)) {
+                topContent?.let {
+                    it()
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
 
-            topContent?.let {
-                it()
-                Spacer(modifier = Modifier.height(20.dp))
+                title?.let {
+                    Text(it, style = MaterialTheme.typography.h6)
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+                message?.let {
+                    Text(it, style = MaterialTheme.typography.body2, color = MaterialTheme.colors.onSurface.copy(0.5f))
+                }
             }
-
-            title?.let {
-                Text(it, style = MaterialTheme.typography.h6)
-                Spacer(modifier = Modifier.height(10.dp))
-            }
-            message?.let {
-                Text(it, style = MaterialTheme.typography.body2, color = MaterialTheme.colors.onSurface.copy(0.5f))
-                Spacer(modifier = Modifier.height(20.dp))
-            }
-
+            
             bottomContent?.let {
-                it()
-                Spacer(modifier = Modifier.height(10.dp))
+                Column(modifier = Modifier.fillMaxWidth(), content = { it() })
             }
 
-            Row {
+            Row(modifier = Modifier.padding(20.dp)) {
                 negativeButton?.let {
                     Box(modifier = Modifier.weight(0.5f)) { negativeButton() }
                     Spacer(Modifier.width(10.dp))

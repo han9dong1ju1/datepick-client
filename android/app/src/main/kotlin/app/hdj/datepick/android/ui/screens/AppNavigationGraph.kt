@@ -181,8 +181,9 @@ sealed class AppNavigationGraph(override val route: String) : ScreenGraph(route)
 
         object List : AppSettings("general")
 
-        object AppThemeDialog : AppSettings("app_theme_dialog")
     }
+
+    object AppThemeDialog : DialogGraph("app_theme_dialog")
 
     object NotificationSettings : AppNavigationGraph("notification")
 

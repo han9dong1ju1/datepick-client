@@ -1,6 +1,8 @@
 package app.hdj.datepick.android.di
 
 import android.content.Context
+import app.hdj.datepick.utils.AppInfo
+import app.hdj.datepick.android.BuildConfig
 import coil.ImageLoader
 import coil.disk.DiskCache
 import dagger.Module
@@ -13,6 +15,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
+    @Provides
+    @Singleton
+    fun provideAppInfo(@ApplicationContext context: Context) = AppInfo(
+        context.packageName,
+        BuildConfig.DEBUG,
+        AppInfo.Os.Android,
+        BuildConfig.VERSION_NAME
+    )
 
     @Provides
     @Singleton

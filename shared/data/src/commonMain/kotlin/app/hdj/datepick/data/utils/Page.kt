@@ -27,8 +27,8 @@ fun <V : Any> createPagedDataFlow(
         PagingResult(
             items = apiResponse?.content ?: emptyList(),
             currentKey = currentKey,
-            nextKey = { if (apiResponse != null) currentKey + 1 else null },
-            prevKey = { if (apiResponse != null) currentKey - 1 else null }
+            nextKey = { if (apiResponse != null && !apiResponse.isLastPage) currentKey + 1 else null },
+            prevKey = { if (apiResponse != null && currentKey != 0L) currentKey - 1 else null }
         )
     }
 ).pagingData
