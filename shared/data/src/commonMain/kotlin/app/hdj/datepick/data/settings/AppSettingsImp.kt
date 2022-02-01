@@ -3,8 +3,8 @@
 package app.hdj.datepick.data.settings
 
 import app.hdj.datepick.domain.settings.AppSettings
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

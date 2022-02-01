@@ -4,14 +4,14 @@ import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateLoading
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.featured.Featured
-import app.hdj.datepick.domain.usecase.course.GetCoursesFromFeaturedUseCase
+import app.hdj.datepick.domain.usecase.course.GetFeaturedCoursesUseCase
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedDetailUseCase
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedDynamicLinkUseCase
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.featured.FeaturedDetailScreenViewModelDelegate.*
-import app.hdj.datepick.utils.HiltViewModel
-import app.hdj.datepick.utils.Inject
+import app.hdj.datepick.utils.di.HiltViewModel
+import app.hdj.datepick.utils.di.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -42,7 +42,7 @@ interface FeaturedDetailScreenViewModelDelegate : UnidirectionalViewModelDelegat
 @HiltViewModel
 class FeaturedDetailScreenViewModel @Inject constructor(
     private val getFeaturedDetailUseCase: GetFeaturedDetailUseCase,
-    private val getCoursesFromFeaturedUseCase: GetCoursesFromFeaturedUseCase,
+    private val getFeaturedCoursesUseCase: GetFeaturedCoursesUseCase,
     private val getFeaturedDynamicLinkUseCase: GetFeaturedDynamicLinkUseCase
 ) : FeaturedDetailScreenViewModelDelegate, PlatformViewModel() {
 
@@ -71,7 +71,7 @@ class FeaturedDetailScreenViewModel @Inject constructor(
     }
 
     private fun loadFeaturedCourses(id: Long) {
-        getCoursesFromFeaturedUseCase.invoke(id)
+        getFeaturedCoursesUseCase.invoke(id)
             .onEach { featuredCourses.value = it }
             .catch { featuredCourses.value = LoadState.failed(it) }
             .launchIn(platformViewModelScope)

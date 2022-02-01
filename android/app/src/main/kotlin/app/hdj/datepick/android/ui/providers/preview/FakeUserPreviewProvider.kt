@@ -12,7 +12,6 @@ class FakeUserPreviewProvider : PreviewParameterProvider<User?> {
                 override val id: Long = Random.nextLong()
                 override val nickname: String = "Harry"
                 override val gender: UserGender? = null
-                override val isMe: Boolean = true
                 override val imageUrl: String = "https://picsum.photos/200"
             },
             null

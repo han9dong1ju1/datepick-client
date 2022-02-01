@@ -9,9 +9,11 @@ import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.repository.PlaceRepository
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import app.hdj.datepick.utils.date.isPassedDay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlin.time.ExperimentalTime
 
@@ -23,8 +25,8 @@ class PlaceRepositoryImp @Inject constructor(
 ) : PlaceRepository, Mapper<PlaceEntity, Place> by PlaceMapper {
 
     override fun getById(id: Long) = flow {
-        emitState {
-            val cached = dataStore.getById(id)
+        val cached = dataStore.runCatching { get(id) }.getOrNull()
+        emitState(cached?.asDomain()) {
             if (cached != null && cached.cachedAt isPassedDay 30) cached.asDomain()
             else api.getById(id).data
         }.onSuccess {
@@ -32,12 +34,7 @@ class PlaceRepositoryImp @Inject constructor(
         }
     }
 
-    override fun search(query: String, sort: String) = flow<LoadState<List<Place>>> {
-        emitState {
-            val places = requireNotNull(api.search(query, sort).data)
-            dataStore.saveAll(places = places.mapTable())
-            places
-        }
+    override fun search(params: PlaceQueryParams): Flow<LoadState<List<Place>>> {
+        TODO("Not yet implemented")
     }
-
 }

@@ -2,8 +2,8 @@ package app.hdj.datepick.domain.usecase.featured
 
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.usecase.UseCase
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import app.hdj.datepick.utils.createDynamicLink
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

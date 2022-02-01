@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.runtime.*
@@ -34,7 +33,7 @@ import app.hdj.datepick.android.ui.screens.AppNavigationGraph
 import app.hdj.datepick.android.ui.screens.AppNavigationGraph.LocationPermissionDeniedDialog
 import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.utils.extract
-import app.hdj.datepick.domain.model.featured.Featured
+import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.presentation.main.HomeScreenViewModel
 import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate
@@ -47,7 +46,6 @@ import app.hdj.datepick.ui.utils.isPermissionGranted
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.google.maps.android.data.Feature
 
 @Composable
 fun HomeScreen(
@@ -69,10 +67,6 @@ fun HomeScreen(
 
     val lazyListState = rememberLazyListState()
 
-    val isHeaderScrolled = remember(lazyListState.firstVisibleItemIndex != 0) {
-        lazyListState.firstVisibleItemIndex != 0
-    }
-
     val activity = remember { requireNotNull(context.getActivity()) }
 
     val locationPermissionRequest = rememberLauncherForActivityResult(
@@ -84,6 +78,12 @@ fun HomeScreen(
     val onPlaceClicked = { place: Place ->
         navController.navigateRoute(
             AppNavigationGraph.PlaceDetail.graphWithArgument(place)
+        )
+    }
+
+    val onCourseClicked = { course: Course ->
+        navController.navigateRoute(
+            AppNavigationGraph.CourseDetail.graphWithArgument(course)
         )
     }
 
@@ -130,7 +130,7 @@ fun HomeScreen(
                         Icon(imageVector = Icons.Rounded.Notifications, null)
                     }
                 },
-                enableDivider = isHeaderScrolled
+                enableDivider = true
             )
         }
     ) {
@@ -141,15 +141,22 @@ fun HomeScreen(
                 mainHomeFeatured(this, event, navController)
             }
 
+
             state.nearbyRecommendationsUiState.apply {
                 if (showNearbyRecommendations) {
-                    mainHomePopularPlaces(onPlaceClicked)
                     mainHomeNearbyRecommendedPlaces(onPlaceClicked)
+                    mainHomePopularPlaces(onPlaceClicked)
                 } else {
                     mainHomePopularPlaces(onPlaceClicked)
                     if (showNearbyRecommendLocationPermissionBanner) {
                         mainHomeLocationPermissionBanner(activity, navController, locationPermissionRequest, event)
                     }
+                }
+            }
+
+            state.recommendedCoursesUiState.apply {
+                if (showRecommendedCourses) {
+                    mainRecommendedCourses(recommendedCourses, onCourseClicked)
                 }
             }
 
@@ -250,6 +257,27 @@ private fun LazyListScope.mainHomeNearbyRecommendedPlaces(onPlaceClicked: (Place
 
             }
             PlaceHorizontalList(list, onPlaceClicked)
+            Spacer(modifier = Modifier.height(20.dp))
+        }
+    }
+}
+
+private fun LazyListScope.mainRecommendedCourses(
+    recommendedCourses: List<Course>,
+    onCourseClicked: (Course) -> Unit
+) {
+    item {
+        Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Header("추천 인기코스", "더보기") {
+
+            }
+            LazyRow(contentPadding = PaddingValues(start = 20.dp)) {
+                items(recommendedCourses) { it ->
+                    CourseHorizontalListItem(it, onCourseClicked)
+                    Spacer(Modifier.width(20.dp))
+                }
+            }
             Spacer(modifier = Modifier.height(20.dp))
         }
     }

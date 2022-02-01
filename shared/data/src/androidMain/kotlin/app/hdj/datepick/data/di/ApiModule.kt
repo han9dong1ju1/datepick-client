@@ -26,6 +26,9 @@ interface ApiModule {
     val PlaceApiImp.placeApi : PlaceApi
 
     @get:[Binds]
+    val CourseApiImp.courseApi : CourseApi
+
+    @get:[Binds]
     val FirebaseAuthenticator.authenticator: Authenticator
 
     companion object {

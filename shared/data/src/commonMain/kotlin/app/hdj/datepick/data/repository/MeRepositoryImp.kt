@@ -10,8 +10,8 @@ import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.model.user.UserGender
 import app.hdj.datepick.domain.repository.MeRepository
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import io.ktor.utils.io.core.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

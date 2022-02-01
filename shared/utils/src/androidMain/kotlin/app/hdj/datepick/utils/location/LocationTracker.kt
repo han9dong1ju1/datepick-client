@@ -3,8 +3,8 @@ package app.hdj.datepick.utils.location
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Looper
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult

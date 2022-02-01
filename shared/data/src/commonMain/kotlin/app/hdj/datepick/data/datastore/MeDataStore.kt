@@ -2,8 +2,8 @@ package app.hdj.datepick.data.datastore
 
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.model.user.UserGender
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.flow.Flow
@@ -22,13 +22,12 @@ interface MeDataStore : DataStore<User> {
 data class MeEntity(
     override val id: Long,
     override val nickname: String,
-    override val isMe: Boolean,
     override val imageUrl: String?,
     override val gender: UserGender?
 ) : User {
     companion object {
         fun fromUser(user: User) = with(user) {
-            MeEntity(id, nickname, isMe, imageUrl, gender)
+            MeEntity(id, nickname, imageUrl, gender)
         }
     }
 

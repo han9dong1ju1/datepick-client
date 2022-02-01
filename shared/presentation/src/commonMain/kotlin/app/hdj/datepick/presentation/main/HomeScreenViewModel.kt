@@ -4,14 +4,16 @@ import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateFailed
 import app.hdj.datepick.domain.isStateLoading
 import app.hdj.datepick.domain.isStateSucceed
+import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.settings.AppSettings
+import app.hdj.datepick.domain.usecase.course.GetRecommendedCoursesUseCase
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate.*
-import app.hdj.datepick.utils.HiltViewModel
-import app.hdj.datepick.utils.Inject
+import app.hdj.datepick.utils.di.HiltViewModel
+import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.location.LatLng
 import app.hdj.datepick.utils.location.LocationTracker
 import kotlinx.coroutines.channels.Channel
@@ -26,6 +28,7 @@ interface HomeScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, E
 
         val featuredUiState: FeaturedUiState = FeaturedUiState(),
         val nearbyRecommendationsUiState: NearbyRecommendationsUiState = NearbyRecommendationsUiState(),
+        val recommendedCoursesUiState: RecommendedCoursesUiState = RecommendedCoursesUiState(),
     ) {
 
         class FeaturedUiState(
@@ -37,7 +40,12 @@ interface HomeScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, E
         class NearbyRecommendationsUiState(
             val showNearbyRecommendLocationPermissionBanner: Boolean = false,
             val showNearbyRecommendations: Boolean = false,
+        )
 
+        class RecommendedCoursesUiState(
+            val showRecommendedCourses: Boolean = false,
+            val showRecommendedCoursesFailedBanner: Boolean = false,
+            val recommendedCourses: List<Course> = emptyList(),
         )
 
     }
@@ -61,6 +69,7 @@ interface HomeScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, E
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val getFeaturedListUseCase: GetFeaturedListUseCase,
+    private val getRecommendedCoursesUseCase: GetRecommendedCoursesUseCase,
     override val locationTracker: LocationTracker,
     private val appSettings: AppSettings
 ) : PlatformViewModel(), HomeScreenViewModelDelegate {
@@ -69,6 +78,7 @@ class HomeScreenViewModel @Inject constructor(
     override val effect: Flow<Effect> = effectChannel.receiveAsFlow()
 
     private val featuredList = MutableStateFlow<LoadState<List<Featured>>>(LoadState.loading())
+    private val recommendedCourseList = MutableStateFlow<LoadState<List<Course>>>(LoadState.loading())
 
     private val currentLocation = MutableStateFlow<LatLng?>(null)
 
@@ -78,9 +88,11 @@ class HomeScreenViewModel @Inject constructor(
         appSettings.ignoreNearbyRecommend,
         isLocationPermissionGranted,
         featuredList,
+        recommendedCourseList,
     ) { ignoreNearbyRecommend,
         isLocationPermissionGranted,
-        featuredListState ->
+        featuredListState,
+        recommendedCourseListState->
 
         val isContentRefreshing = featuredListState.isStateLoading()
 
@@ -95,10 +107,17 @@ class HomeScreenViewModel @Inject constructor(
             isLocationPermissionGranted == true
         )
 
+        val recommendedCoursesUiState = State.RecommendedCoursesUiState(
+            recommendedCourseListState.isStateSucceed(),
+            recommendedCourseListState.isStateFailed(),
+            recommendedCourseListState.getDataOrNull().orEmpty()
+        )
+
         State(
             isContentRefreshing,
             featuredUiState,
-            nearbyRecommendationsUiState
+            nearbyRecommendationsUiState,
+            recommendedCoursesUiState
         )
     }.asStateFlow(
         State(),
@@ -111,12 +130,18 @@ class HomeScreenViewModel @Inject constructor(
 
     private fun loadHomeScreenData() {
         loadFeaturedList()
-
+        loadRecommendedCourses()
     }
 
     private fun loadFeaturedList() {
         getFeaturedListUseCase(Unit)
             .onEach { featuredList.emit(it) }
+            .launchIn(platformViewModelScope)
+    }
+
+    private fun loadRecommendedCourses() {
+        getRecommendedCoursesUseCase(Unit)
+            .onEach { recommendedCourseList.emit(it) }
             .launchIn(platformViewModelScope)
     }
 

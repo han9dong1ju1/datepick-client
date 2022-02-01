@@ -1,12 +1,18 @@
 package app.hdj.datepick.android.ui.screens.featured
 
 import android.content.Intent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Share
@@ -19,13 +25,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.hdj.datepick.android.ui.components.list.CourseHorizontalListItem
+import app.hdj.datepick.android.ui.components.list.Header
+import app.hdj.datepick.android.ui.providers.LocalAppNavController
+import app.hdj.datepick.android.ui.screens.AppNavigationGraph
+import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.ui.shimmer
 import app.hdj.datepick.android.utils.extract
+import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.presentation.featured.FeaturedDetailScreenViewModel
 import app.hdj.datepick.presentation.featured.FeaturedDetailScreenViewModelDelegate
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
+import app.hdj.datepick.ui.utils.itemSpacer
 import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -39,6 +53,8 @@ fun FeaturedDetailScreen(
     val (state, effect, event) = vm.extract()
 
     val context = LocalContext.current
+
+    val navController = LocalAppNavController.current
 
     effect.collectInLaunchedEffect {
         when (it) {
@@ -194,29 +210,71 @@ fun FeaturedDetailScreen(
             }
 
             item {
-                if (state.featured != null) {
-                    Text(
-                        modifier = Modifier.padding(20.dp),
-                        text = state.featured!!.content.trimIndent(),
-                        style = MaterialTheme.typography.body2.copy(
-                            lineHeight = 25.sp,
-                            letterSpacing = 1.sp
-                        )
-                    )
-                } else {
-                    Column(modifier = Modifier.padding(20.dp)) {
-                        repeat(Random.nextInt(3, 5)) {
-                            Spacer(
-                                modifier = Modifier.width(Random.nextInt(50, 300).dp).height(14.dp).shimmer()
+                Crossfade(!state.isContentRefreshing) { visible ->
+                    if (visible) {
+                        Text(
+                            modifier = Modifier.padding(20.dp),
+                            text = state.featured!!.content.trimIndent(),
+                            style = MaterialTheme.typography.body2.copy(
+                                lineHeight = 25.sp,
+                                letterSpacing = 1.sp
                             )
-                            Spacer(modifier = Modifier.fillMaxWidth().height(12.dp))
+                        )
+                    } else {
+                        FeaturedDetailScreenContentShimmer()
+                    }
+                }
+            }
+
+            item {
+                AnimatedVisibility(!state.isContentRefreshing) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Header("관련된 코스들")
+                        LazyRow(contentPadding = PaddingValues(start = 20.dp)) {
+                            items(state.courses) {
+                                CourseHorizontalListItem(it) { course: Course ->
+                                    navController.navigateRoute(
+                                        AppNavigationGraph.CourseDetail.graphWithArgument(course)
+                                    )
+                                }
+                                Spacer(Modifier.width(20.dp))
+                            }
                         }
                     }
                 }
+            }
+
+            item {
+                Spacer(modifier = Modifier.navigationBarsHeight(additional = 20.dp))
             }
 
         }
 
     }
 
+}
+
+@Composable
+private fun FeaturedDetailScreenContentShimmer() {
+    Column {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Spacer(modifier = Modifier.width(200.dp).height(18.dp).shimmer())
+            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.width(150.dp).height(18.dp).shimmer())
+            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.width(300.dp).height(18.dp).shimmer())
+            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.width(100.dp).height(18.dp).shimmer())
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Row(
+            modifier = Modifier.horizontalScroll(state = rememberScrollState(), enabled = false)
+        ) {
+            Spacer(modifier = Modifier.width(20.dp))
+            Spacer(modifier = Modifier.size(200.dp, 300.dp).shimmer(shape = RoundedCornerShape(20.dp)))
+            Spacer(modifier = Modifier.width(20.dp))
+            Spacer(modifier = Modifier.size(200.dp, 300.dp).shimmer(shape = RoundedCornerShape(20.dp)))
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+    }
 }

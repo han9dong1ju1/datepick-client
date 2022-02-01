@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.navigation.*
 import androidx.navigation.compose.dialog
 import app.hdj.datepick.android.utils.datePickNavDeepLink
@@ -152,7 +151,7 @@ sealed class AppNavigationGraph(override val route: String) : ScreenGraph(route)
         const val ARGUMENT_SORT = "sort"
     }
 
-    object Course : AppNavigationGraph("course/{courseId}") {
+    object CourseDetail : AppNavigationGraph("course/{courseId}") {
         const val ARGUMENT_COURSE_ID = "courseId"
 
         fun graphWithArgument(

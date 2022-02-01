@@ -48,6 +48,9 @@ dependencies {
     implementation(AndroidX.dataStore)
     implementation(AndroidX.dataStore.preferences)
 
+    implementation(AndroidX.paging.compose)
+    implementation(AndroidX.paging.runtimeKtx)
+
     implementation(AndroidX.hilt.navigationCompose)
 
     implementation(Google.dagger.hilt.android)

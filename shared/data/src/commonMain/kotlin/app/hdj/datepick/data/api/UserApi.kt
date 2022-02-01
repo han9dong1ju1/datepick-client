@@ -1,12 +1,12 @@
 package app.hdj.datepick.data.api
 
-import app.hdj.datepick.data.entity.user.UserResponse
+import app.hdj.datepick.data.entity.user.UserData
 import app.hdj.datepick.data.request.user.UserProfileRequest
 import app.hdj.datepick.data.request.user.UserRegisterRequest
 import app.hdj.datepick.data.request.user.UserUnregisterRequest
 import app.hdj.datepick.domain.Authenticator
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
@@ -15,10 +15,10 @@ import io.ktor.http.*
 interface UserApi : Api {
     override val basePath: String get() = "/api/v1/users"
 
-    suspend fun getMe(): ApiResponse<UserResponse>
-    suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse>
+    suspend fun getMe(): ApiResponse<UserData>
+    suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserData>
 
-    suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<UserResponse>
+    suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<UserData>
     suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String?>
 }
 
@@ -28,12 +28,12 @@ open class UserApiImp @Inject constructor(
     override val client: HttpClient
 ) : UserApi {
 
-    override suspend fun getMe(): ApiResponse<UserResponse> =
+    override suspend fun getMe(): ApiResponse<UserData> =
         get("me")
 
     override suspend fun updateMe(
         userProfileRequest: UserProfileRequest
-    ): ApiResponse<UserResponse> {
+    ): ApiResponse<UserData> {
 
         val uid = authenticator.getCurrentFirebaseUser()?.uid ?: "me"
 
@@ -62,7 +62,7 @@ open class UserApiImp @Inject constructor(
         }
     }
 
-    override suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<UserResponse> =
+    override suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<UserData> =
         post("register") { setBody(userRegisterRequest) }
 
     override suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String?> =

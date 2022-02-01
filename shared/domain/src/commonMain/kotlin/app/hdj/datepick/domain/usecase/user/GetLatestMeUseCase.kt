@@ -7,8 +7,8 @@ import app.hdj.datepick.domain.mapFailedState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.repository.MeRepository
 import app.hdj.datepick.domain.usecase.UseCase
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import io.ktor.client.plugins.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow

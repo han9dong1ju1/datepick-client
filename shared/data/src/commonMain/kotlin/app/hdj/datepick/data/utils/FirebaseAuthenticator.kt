@@ -1,9 +1,9 @@
 package app.hdj.datepick.data.utils
 
 import app.hdj.datepick.domain.Authenticator
-import app.hdj.datepick.utils.Inject
+import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.PlatformLogger
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Singleton
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.AuthCredential
 import dev.gitlive.firebase.auth.AuthResult

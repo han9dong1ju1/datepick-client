@@ -2,7 +2,10 @@
 
 package app.hdj.datepick.data.di
 
+import app.hdj.datepick.CourseEntity
 import app.hdj.datepick.DatePickDatabase
+import app.hdj.datepick.data.adapter.ListCourseTagColumnAdapter
+import app.hdj.datepick.data.adapter.UserColumnAdapter
 import app.hdj.datepick.data.api.*
 import app.hdj.datepick.data.datastore.FeaturedDataStore
 import app.hdj.datepick.data.datastore.FeaturedDataStoreImp
@@ -32,7 +35,15 @@ val dataModule = module {
     single<FeaturedDataStore> { FeaturedDataStoreImp(get()) }
     single<Authenticator> { FirebaseAuthenticator() }
 
-    single { DatePickDatabase(NativeSqliteDriver(DatePickDatabase.Schema, name = "datepick-database.db")) }
+    single {
+        DatePickDatabase(
+            NativeSqliteDriver(DatePickDatabase.Schema, name = "datepick-database.db"),
+            CourseEntity.Adapter(
+                UserColumnAdapter,
+                ListCourseTagColumnAdapter
+            )
+        )
+    }
     single { get<DatePickDatabase>().featuredEntityQueries }
     single { get<DatePickDatabase>().courseEntityQueries }
     single { get<DatePickDatabase>().placeEntityQueries }

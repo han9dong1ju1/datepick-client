@@ -101,6 +101,11 @@ fun DatepickScreenNavHost() {
                 PlaceScreen(placeId)
             }
 
+            CourseDetail {
+                val courseId = it.arguments?.getLong(CourseDetail.ARGUMENT_COURSE_ID)
+//                CourseDetailScreen(courseId)
+            }
+
             Notifications {
                 NotificationsScreen()
             }

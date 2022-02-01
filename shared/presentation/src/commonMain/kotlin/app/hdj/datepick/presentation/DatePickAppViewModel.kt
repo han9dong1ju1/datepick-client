@@ -7,8 +7,8 @@ import app.hdj.datepick.domain.usecase.invoke
 import app.hdj.datepick.domain.usecase.user.GetLatestMeUseCase
 import app.hdj.datepick.domain.usecase.user.ObserveMeUseCase
 import app.hdj.datepick.presentation.DatePickAppViewModelDelegate.*
-import app.hdj.datepick.utils.HiltViewModel
-import app.hdj.datepick.utils.Inject
+import app.hdj.datepick.utils.di.HiltViewModel
+import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.PlatformLogger
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel

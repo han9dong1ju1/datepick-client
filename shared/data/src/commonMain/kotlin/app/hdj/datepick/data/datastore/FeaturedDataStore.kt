@@ -2,8 +2,8 @@ package app.hdj.datepick.data.datastore
 
 import app.hdj.datepick.FeaturedEntity
 import app.hdj.datepick.FeaturedEntityQueries
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +31,6 @@ class FeaturedDataStoreImp @Inject constructor(
         queries.get(id).executeAsOneOrNull()
 
     override suspend fun saveAll(list: List<FeaturedEntity>) {
-        queries.deleteAll()
         list.forEach { save(data = it) }
     }
 

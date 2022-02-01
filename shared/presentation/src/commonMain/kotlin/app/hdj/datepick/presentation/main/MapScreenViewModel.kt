@@ -2,8 +2,8 @@ package app.hdj.datepick.presentation.main
 
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
-import app.hdj.datepick.utils.HiltViewModel
-import app.hdj.datepick.utils.Inject
+import app.hdj.datepick.utils.di.HiltViewModel
+import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.location.LocationTracker
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow

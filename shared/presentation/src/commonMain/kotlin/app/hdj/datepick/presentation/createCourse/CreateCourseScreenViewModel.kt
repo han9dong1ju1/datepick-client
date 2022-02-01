@@ -1,12 +1,11 @@
 package app.hdj.datepick.presentation.createCourse
 
-import app.hdj.datepick.domain.model.course.Course
-import app.hdj.datepick.domain.model.course.CourseTheme
+import app.hdj.datepick.domain.model.course.CourseTag
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModelDelegate.*
-import app.hdj.datepick.utils.HiltViewModel
-import app.hdj.datepick.utils.Inject
+import app.hdj.datepick.utils.di.HiltViewModel
+import app.hdj.datepick.utils.di.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -15,8 +14,8 @@ import kotlinx.coroutines.launch
 interface CreateCourseScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, Effect, Event> {
 
     class State(
-        val themes: List<CourseTheme>? = null,
-        val selectedThemes: List<CourseTheme>? = null,
+        val themes: List<CourseTag>? = null,
+        val selectedThemes: List<CourseTag>? = null,
     )
 
     sealed interface Effect {
@@ -25,7 +24,7 @@ interface CreateCourseScreenViewModelDelegate : UnidirectionalViewModelDelegate<
     }
 
     sealed interface Event {
-        data class SelectTheme(val theme: CourseTheme) : Event
+        data class SelectTheme(val theme: CourseTag) : Event
         data class CreateCourse(val name: String) : Event
     }
 
@@ -41,14 +40,14 @@ class CreateCourseScreenViewModel @Inject constructor() : PlatformViewModel(), C
     private val themes = flow {
         delay(1000)
         emit(listOf("크리스마스", "기념일", "먹거리", "액티비티", "생일", "깜짝 이벤트", "선물", "축제", "여행").mapIndexed { index, s ->
-            object : CourseTheme {
+            object : CourseTag {
                 override val id: Long get() = index.toLong()
                 override val name: String = s
             }
         })
     }
 
-    private val selectedThemes = MutableStateFlow(emptyList<CourseTheme>())
+    private val selectedThemes = MutableStateFlow(emptyList<CourseTag>())
 
     override val state: StateFlow<State> = combine(
         themes,

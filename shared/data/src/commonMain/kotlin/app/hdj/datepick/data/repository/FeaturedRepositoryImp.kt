@@ -10,8 +10,8 @@ import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.repository.FeaturedRepository
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import app.hdj.datepick.utils.date.isPassedDay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -32,8 +32,8 @@ class FeaturedRepositoryImp @Inject constructor(
     }
 
     override fun getById(id: Long) = flow {
-        emitState {
-            val cached = dataStore.runCatching { get(id) }.getOrNull()
+        val cached = dataStore.runCatching { get(id) }.getOrNull()
+        emitState(cached?.asDomain()) {
             if (cached != null && !(cached.cachedAt isPassedDay 7)) {
                 cached.asDomain()
             } else {

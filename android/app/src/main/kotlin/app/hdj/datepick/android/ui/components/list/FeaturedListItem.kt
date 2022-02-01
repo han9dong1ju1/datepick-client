@@ -42,15 +42,18 @@ fun FeaturedListItem(
                     .fillMaxWidth()
                     .align(Alignment.BottomStart)
             ) {
-                CompositionLocalProvider(LocalContentColor provides Color.White) {
-                    Text(featured.title, style = MaterialTheme.typography.h2)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        modifier = Modifier.alpha(0.8f),
-                        text = featured.subtitle,
-                        style = MaterialTheme.typography.body2
-                    )
-                }
+                Text(
+                    text = featured.title,
+                    style = MaterialTheme.typography.h2,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    modifier = Modifier.alpha(0.8f),
+                    text = featured.subtitle,
+                    style = MaterialTheme.typography.body2,
+                    color = Color.White
+                )
             }
 
         }

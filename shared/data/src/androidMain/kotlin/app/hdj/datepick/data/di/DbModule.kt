@@ -2,7 +2,9 @@ package app.hdj.datepick.data.di
 
 import android.content.Context
 import app.hdj.datepick.*
+import app.hdj.datepick.data.adapter.ListCourseTagColumnAdapter
 import app.hdj.datepick.data.adapter.ListStringColumnAdapter
+import app.hdj.datepick.data.adapter.UserColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
@@ -24,7 +26,13 @@ class DbModule {
     @Provides
     @Singleton
     fun provideDb(dbDriver: SqlDriver) =
-        DatePickDatabase(dbDriver)
+        DatePickDatabase(
+            dbDriver,
+            CourseEntity.Adapter(
+                UserColumnAdapter,
+                ListCourseTagColumnAdapter
+            )
+        )
 
     @Provides
     @Singleton

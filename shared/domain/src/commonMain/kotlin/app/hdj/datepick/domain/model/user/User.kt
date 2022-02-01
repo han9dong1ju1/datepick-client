@@ -11,5 +11,4 @@ interface User {
     val gender: UserGender?
     val imageUrl: String?
 
-    val isMe: Boolean
 }

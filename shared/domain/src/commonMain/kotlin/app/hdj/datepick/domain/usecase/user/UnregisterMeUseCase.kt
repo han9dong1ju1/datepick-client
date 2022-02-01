@@ -5,8 +5,8 @@ import app.hdj.datepick.domain.Authenticator
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.usecase.UseCase
-import app.hdj.datepick.utils.Inject
-import app.hdj.datepick.utils.Singleton
+import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 

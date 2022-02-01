@@ -35,6 +35,7 @@ kotlin {
     sourceSets {
         sourceSets["commonMain"].dependencies {
             implementation(project(":shared:utils"))
+            api(Utils.paging)
             implementation(KotlinX.coroutines.core)
             implementation(KotlinX.serialization.json)
             implementation(Ktor.client.core)

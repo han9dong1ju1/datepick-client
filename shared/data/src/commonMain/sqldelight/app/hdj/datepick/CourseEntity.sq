@@ -1,14 +1,18 @@
-import java.lang.Long;
+import kotlin.collections.List;
+import app.hdj.datepick.data.entity.user.UserData;
+import app.hdj.datepick.data.entity.course.CourseTagData;
 
 CREATE TABLE courseEntity (
     id INTEGER AS Long NOT NULL PRIMARY KEY,
     title TEXT NOT NULL,
-    region TEXT NOT NULL,
-    expectedAt TEXT NOT NULL,
-    pickCount INTEGER NOT NULL,
-    importCount INTEGER NOT NULL,
-    userId INTEGER AS Long NOT NULL,
-    thumbnailUrl TEXT
+    meetAt TEXT NOT NULL,
+    imageUrl TEXT,
+    isPrivate  INTEGER AS Boolean DEFAULT 0 NOT NULL,
+    viewCount INTEGER AS Long NOT NULL,
+    pickCount INTEGER AS Long NOT NULL,
+    isPicked INTEGER AS Boolean DEFAULT 0 NOT NULL,
+    user TEXT AS UserData NOT NULL,
+    tags TEXT AS List<CourseTagData> NOT NULL
 );
 
 getById:
@@ -18,12 +22,14 @@ insert:
 INSERT INTO courseEntity(
 id,
 title,
-region,
-expectedAt,
+meetAt,
+imageUrl,
+isPrivate,
+viewCount,
 pickCount,
-importCount,
-userId,
-thumbnailUrl
+isPicked,
+user,
+tags
 ) VALUES ?;
 
 deleteById:
