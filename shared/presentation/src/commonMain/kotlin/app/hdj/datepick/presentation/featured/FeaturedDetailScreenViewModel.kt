@@ -33,7 +33,9 @@ interface FeaturedDetailScreenViewModelDelegate : UnidirectionalViewModelDelegat
     sealed interface Event {
         object Refresh : Event
 
-        class Load(val id: Long) : Event
+        class LoadWithFeaturedId(val featuredId: Long) : Event
+        class LoadWithFeatured(val featured: Featured) : Event
+
         object OpenShareMenu : Event
     }
 
@@ -77,14 +79,16 @@ class FeaturedDetailScreenViewModel @Inject constructor(
             .launchIn(platformViewModelScope)
     }
 
-    private fun load(id: Long) {
-        loadFeatured(id)
-        loadFeaturedCourses(id)
-    }
-
     override fun event(e: Event) {
         when (e) {
-            is Event.Load -> load(e.id)
+            is Event.LoadWithFeaturedId -> {
+                loadFeatured(e.featuredId)
+                loadFeaturedCourses(e.featuredId)
+            }
+            is Event.LoadWithFeatured -> {
+                featured.tryEmit(LoadState.success(e.featured))
+                loadFeaturedCourses(e.featured.id)
+            }
             Event.OpenShareMenu -> {
                 platformViewModelScope.launch {
                     val featured = featured.first().getDataOrNull() ?: return@launch
@@ -97,7 +101,8 @@ class FeaturedDetailScreenViewModel @Inject constructor(
             }
             Event.Refresh -> {
                 val id = featured.value.getDataOrNull()?.id ?: return
-                load(id)
+                loadFeatured(id)
+                loadFeaturedCourses(id)
             }
         }
     }

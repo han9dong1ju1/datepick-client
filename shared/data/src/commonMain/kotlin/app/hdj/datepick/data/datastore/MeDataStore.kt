@@ -20,17 +20,19 @@ interface MeDataStore : DataStore<User> {
 
 @Serializable
 data class MeEntity(
-    override val id: Long,
-    override val nickname: String,
-    override val imageUrl: String?,
-    override val gender: UserGender?
-) : User {
+    val id: Long,
+    val nickname: String,
+    val imageUrl: String?,
+    val gender: UserGender?
+) {
+
+    fun toUser() = User(id, nickname, imageUrl, gender)
+
     companion object {
         fun fromUser(user: User) = with(user) {
             MeEntity(id, nickname, imageUrl, gender)
         }
     }
-
 
 }
 
@@ -50,13 +52,13 @@ class MeDataStoreImp @Inject constructor(
     }
 
     override val observableMe = settings.getStringOrNullFlow(KEY_ME).map { value ->
-        value?.let { json.decodeFromString(MeEntity.serializer(), it) }
+        value?.let { json.decodeFromString(MeEntity.serializer(), it) }?.toUser()
     }
 
     override suspend fun cachedMe(): User? {
         return settings.getStringOrNull(KEY_ME)?.let {
             json.decodeFromString(MeEntity.serializer(), it)
-        }
+        }?.toUser()
     }
 
     override suspend fun save(data: User) {

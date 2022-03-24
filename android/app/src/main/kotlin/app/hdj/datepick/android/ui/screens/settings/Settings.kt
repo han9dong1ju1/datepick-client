@@ -9,13 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavController
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.screens.navigateRoute
+import app.hdj.datepick.android.ui.destinations.AppThemeDialogDestination
+import app.hdj.datepick.android.ui.destinations.LocationPermissionDeniedDialogDestination
 import app.hdj.datepick.presentation.settings.SettingsScreenViewModelDelegate
-import app.hdj.datepick.presentation.settings.SettingsScreenViewModelDelegate.Event.IgnoreNearbyRecommendedBanner
+import app.hdj.datepick.presentation.settings.SettingsScreenViewModelDelegate.Event.SetNearbyRecommendationEnable
 import app.hdj.datepick.ui.utils.getActivity
 import app.hdj.datepick.ui.utils.isPermissionGranted
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 data class SettingGroup(
@@ -50,7 +50,7 @@ sealed class SettingItem(
 fun rememberSettingList(
     state: SettingsScreenViewModelDelegate.State,
     event: (SettingsScreenViewModelDelegate.Event) -> Unit,
-    navController: NavController
+    navigator: DestinationsNavigator
 ): List<SettingGroup> {
 
     val activity = LocalContext.current.getActivity()
@@ -58,7 +58,7 @@ fun rememberSettingList(
     val locationPermissionRequest = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) event(IgnoreNearbyRecommendedBanner(false))
+        if (granted) event(SetNearbyRecommendationEnable(false))
     }
 
     return remember(state) {
@@ -71,7 +71,7 @@ fun rememberSettingList(
                         title = "앱 테마 설정",
                         description = "앱의 테마를 설정합니다.",
                     ) {
-                        navController.navigateRoute(AppNavigationGraph.AppThemeDialog)
+                        navigator.navigate(AppThemeDialogDestination)
                     },
                     SettingItem.NormalItem(
                         icon = Icons.Rounded.Palette,
@@ -104,28 +104,28 @@ fun rememberSettingList(
                 listOf(
                     SettingItem.SwitchItem(
                         icon = Icons.Rounded.LocationOff,
-                        title = "주변에 있는 장소 보지않기",
-                        description = "현재 내 주변 위치 기반 정보를 추천받지 않습니다.",
-                        value = state.isNearbyRecommendBannerIgnored
+                        title = "주변에 있는 장소 보기",
+                        description = "현재 내 주변 위치 기반 정보를 추천합니다.",
+                        value = !state.isNearbyRecommendEnabled
                     ) {
-                        if (state.isNearbyRecommendBannerIgnored) {
-                            val isPermissionGranted =
-                                activity!!.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
+                        val isPermissionGranted =
+                            activity!!.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
 
+                        if (isPermissionGranted && state.isNearbyRecommendEnabled) {
+                            event(SetNearbyRecommendationEnable(false))
+                        } else {
                             if (isPermissionGranted) {
-                                event(IgnoreNearbyRecommendedBanner(false))
+                                event(SetNearbyRecommendationEnable(true))
                             } else {
                                 val shouldShowRequestPermissionRationale =
                                     activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
 
                                 if (shouldShowRequestPermissionRationale) {
-                                    navController.navigateRoute(AppNavigationGraph.LocationPermissionDeniedDialog)
+                                    navigator.navigate(LocationPermissionDeniedDialogDestination)
                                 } else {
                                     locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
                                 }
                             }
-                        } else {
-                            event(IgnoreNearbyRecommendedBanner(true))
                         }
 
                     },

@@ -19,7 +19,7 @@ data class CourseQueryParams(
 
     data class FilterParams(
         val keyword : String? = null,
-        val tags : List<String>? = null,
+        val tagIds : List<Int>? = null,
         val featuredId : Long? = null,
         val placeId : Long? = null,
         val userId : Long? = null

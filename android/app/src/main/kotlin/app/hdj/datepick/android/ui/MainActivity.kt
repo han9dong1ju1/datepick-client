@@ -9,8 +9,11 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import app.hdj.datepick.android.service.PushNotificationManager
 import app.hdj.datepick.domain.settings.AppSettings.AppTheme.*
+import app.hdj.datepick.domain.usecase.course.GetRecommendedCoursesUseCase
 import app.hdj.datepick.presentation.DatePickAppViewModel
+import app.hdj.datepick.utils.PlatformLogger
 import app.hdj.datepick.utils.location.LocationTracker
+import coil.Coil
 import coil.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -36,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        Coil.setImageLoader(imageLoader)
+
         setup()
 
         appViewModel.state.mapNotNull { it.appTheme }.onEach {
@@ -56,9 +61,7 @@ class MainActivity : AppCompatActivity() {
 
             DatePickApp(
                 appViewModel,
-                imageLoader,
-                locationTracker,
-                supportFragmentManager
+                locationTracker
             )
 
         }

@@ -7,9 +7,6 @@ import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.presentation.DatePickAppViewModel
 import app.hdj.datepick.presentation.DatePickAppViewModelDelegate
 import app.hdj.datepick.utils.location.LocationTracker
-import coil.ImageLoader
-import coil.compose.LocalImageLoader
-import com.google.accompanist.insets.ProvideWindowInsets
 
 val LocalDatePickAppViewModel = staticCompositionLocalOf<DatePickAppViewModelDelegate> {
     error("Not Provided")
@@ -18,7 +15,6 @@ val LocalDatePickAppViewModel = staticCompositionLocalOf<DatePickAppViewModelDel
 @Composable
 fun DatePickComposableProviderScope(
     appViewModel: DatePickAppViewModel,
-    imageLoader: ImageLoader,
     locationTracker: LocationTracker,
     content: @Composable () -> Unit
 ) {
@@ -26,14 +22,11 @@ fun DatePickComposableProviderScope(
     CompositionLocalProvider(
         LocalDatePickAppViewModel provides appViewModel,
         LocalMe provides state.me,
-        LocalImageLoader provides imageLoader,
         LocalLocationTracker provides locationTracker
     ) {
         ProvideToastPresenter {
-            ProvideWindowInsets {
-                ProvideDeviceType {
-                    content()
-                }
+            ProvideDeviceType {
+                content()
             }
         }
     }

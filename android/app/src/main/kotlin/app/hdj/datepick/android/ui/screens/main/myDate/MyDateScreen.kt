@@ -1,48 +1,69 @@
 package app.hdj.datepick.android.ui.screens.main.myDate
 
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import app.hdj.datepick.android.ui.components.list.MyDateListItem
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.screens.navigateRoute
+import app.hdj.datepick.android.ui.destinations.CreateCourseThemeScreenDestination
+import app.hdj.datepick.android.ui.destinations.MyDateScreenDestination
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.presentation.myDate.MyDateScreenViewModel
 import app.hdj.datepick.presentation.myDate.MyDateScreenViewModelDelegate
 import app.hdj.datepick.ui.components.BaseButton
 import app.hdj.datepick.ui.components.BaseSwipeRefreshLayoutScaffold
-import app.hdj.datepick.ui.components.BaseTopBar
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.navigationBarsHeight
-import com.google.accompanist.insets.rememberInsetsPaddingValues
+import app.hdj.datepick.ui.components.InsetTopBar
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 @Composable
-fun MyDateScreen(vm: MyDateScreenViewModelDelegate = hiltViewModel<MyDateScreenViewModel>()) {
+@Destination
+fun MyDateScreen(
+    navigator: DestinationsNavigator
+) {
+    MyDateScreenContent(
+        onCreateDateClicked = { navigator.navigate(CreateCourseThemeScreenDestination) },
+        onDateItemClicked = { navigator.navigate(MyDateScreenDestination) },
+        hiltViewModel<MyDateScreenViewModel>()
+    )
+}
+
+@Composable
+private fun MyDateScreenContent(
+    onCreateDateClicked: () -> Unit = {},
+    onDateItemClicked: (Course) -> Unit = {},
+    vm: MyDateScreenViewModelDelegate
+) {
 
     val (state, effect, event) = vm.extract()
 
-    val navController = LocalAppNavController.current
-
     val lazyListState = rememberLazyListState()
+
+    val coroutineScope = rememberCoroutineScope()
 
     val lazyPagingItems = state.myDateCourses.collectAsLazyPagingItems()
 
@@ -53,18 +74,15 @@ fun MyDateScreen(vm: MyDateScreenViewModelDelegate = hiltViewModel<MyDateScreenV
 
     BaseSwipeRefreshLayoutScaffold(
         swipeRefreshState = swipeRefreshState,
-        indicatorPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.statusBars, additionalTop = 56.dp),
         onRefresh = { lazyPagingItems.refresh() },
         topBar = {
             Column {
-                BaseTopBar(
+                InsetTopBar(
                     title = {
                         Text("내 데이트")
                     },
                     actions = {
-                        IconButton({
-                            navController.navigateRoute(AppNavigationGraph.CreateCourse)
-                        }) {
+                        IconButton(onCreateDateClicked) {
                             Icon(imageVector = Icons.Rounded.Add, null)
                         }
                     },
@@ -105,9 +123,7 @@ fun MyDateScreen(vm: MyDateScreenViewModelDelegate = hiltViewModel<MyDateScreenV
                         Box(modifier = Modifier.padding(start = 80.dp, end = 10.dp).animateItemPlacement()) {
                             val item = lazyPagingItems.runCatching { get(index) }.getOrNull()
                             item?.let {
-                                MyDateListItem(modifier = Modifier.fillMaxWidth(), course = item) {
-
-                                }
+                                MyDateListItem(modifier = Modifier.fillMaxWidth(), course = item, onDateItemClicked)
                             }
                         }
                     }
@@ -117,34 +133,12 @@ fun MyDateScreen(vm: MyDateScreenViewModelDelegate = hiltViewModel<MyDateScreenV
                 }
             }
 
-            if (swipeRefreshState.isRefreshing || appendState == LoadState.Loading) {
-                item {
-                    Box(modifier = Modifier.fillMaxWidth().padding(20.dp).animateItemPlacement()) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(20.dp).align(Alignment.Center).animateItemPlacement()
-                        )
-                    }
-                    Spacer(modifier = Modifier.navigationBarsHeight(20.dp))
-                }
+            if (refreshState == LoadState.Loading || appendState == LoadState.Loading) {
+                item { MyDateLoadLoadingBanner() }
             }
 
             if (refreshState is LoadState.Error || appendState is LoadState.Error) {
-                item {
-                    Column(
-                        modifier = Modifier.fillMaxWidth().padding(20.dp).animateItemPlacement(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text("목록을 가져오는데 오류가 발생했습니다.", style = MaterialTheme.typography.subtitle2)
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Text("아래 버튼을 눌러 다시 시도해주세요.", style = MaterialTheme.typography.body1)
-                        Spacer(modifier = Modifier.height(10.dp))
-                        BaseButton(
-                            onClick = { lazyPagingItems.retry() },
-                            text = "다시 시도"
-                        )
-                    }
-                    Spacer(modifier = Modifier.navigationBarsHeight(20.dp))
-                }
+                item { MyDateLoadFailedBanner { lazyPagingItems.retry() } }
             }
 
         }
@@ -154,9 +148,46 @@ fun MyDateScreen(vm: MyDateScreenViewModelDelegate = hiltViewModel<MyDateScreenV
 }
 
 @Composable
-private fun MyDateStickyHeader(currentItemDate: LocalDateTime?) {
+private fun LazyItemScope.MyDateLoadLoadingBanner() {
+    Box(modifier = Modifier.fillMaxWidth().padding(20.dp).animateItemPlacement()) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(20.dp).align(Alignment.Center).animateItemPlacement()
+        )
+    }
+    Spacer(modifier = Modifier.navigationBarsPadding())
+    Spacer(modifier = Modifier.height(100.dp))
+}
+
+@Composable
+private fun LazyItemScope.MyDateLoadFailedBanner(
+    onRetry: () -> Unit = {}
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(20.dp).animateItemPlacement(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("목록을 가져오는데 오류가 발생했습니다.", style = MaterialTheme.typography.subtitle1)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text("아래 버튼을 눌러 다시 시도해주세요.", style = MaterialTheme.typography.body2)
+        Spacer(modifier = Modifier.height(10.dp))
+        BaseButton(
+            onClick = onRetry,
+            text = "다시 시도"
+        )
+    }
+    Spacer(modifier = Modifier.navigationBarsPadding())
+    Spacer(modifier = Modifier.height(100.dp))
+}
+
+@Composable
+private fun LazyItemScope.MyDateStickyHeader(currentItemDate: LocalDateTime?) {
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().animateItemPlacement(
+            spring(
+                stiffness = Spring.StiffnessMedium,
+                visibilityThreshold = IntOffset.VisibilityThreshold
+            )
+        )
     ) {
 
         Column(

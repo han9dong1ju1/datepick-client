@@ -10,51 +10,87 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.list.CourseHorizontalListItem
 import app.hdj.datepick.android.ui.components.list.Header
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.ui.shimmer
 import app.hdj.datepick.android.utils.extract
+import app.hdj.datepick.android.utils.onCourseClicked
 import app.hdj.datepick.domain.model.course.Course
+import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.presentation.featured.FeaturedDetailScreenViewModel
 import app.hdj.datepick.presentation.featured.FeaturedDetailScreenViewModelDelegate
+import app.hdj.datepick.presentation.featured.FeaturedDetailScreenViewModelDelegate.Event.LoadWithFeatured
+import app.hdj.datepick.presentation.featured.FeaturedDetailScreenViewModelDelegate.Event.LoadWithFeaturedId
 import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
-import app.hdj.datepick.ui.utils.itemSpacer
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.navigationBarsHeight
-import com.google.accompanist.insets.rememberInsetsPaddingValues
+import app.hdj.datepick.utils.DEEPLINK_URL
+import app.hdj.datepick.utils.EXTERNAL_DEEPLINK_URL
+import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlin.random.Random
+import com.ramcosta.composedestinations.annotation.DeepLink
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
+@Destination
 fun FeaturedDetailScreen(
+    navigator: DestinationsNavigator,
+    featured: Featured
+) {
+    FeaturedDetailScreenContent(
+        featured = featured,
+        vm = hiltViewModel<FeaturedDetailScreenViewModel>(),
+        onCourseClicked = navigator.onCourseClicked
+    )
+}
+
+@Composable
+@Destination(
+    deepLinks = [
+        DeepLink(uriPattern = "$DEEPLINK_URL/featured/{featuredId}"),
+        DeepLink(uriPattern = "$EXTERNAL_DEEPLINK_URL/featured/{featuredId}"),
+    ]
+)
+fun FeaturedDetailScreenFromDeepLink(
+    navigator: DestinationsNavigator,
     featuredId: Long,
-    vm: FeaturedDetailScreenViewModelDelegate = hiltViewModel<FeaturedDetailScreenViewModel>()
+) {
+    FeaturedDetailScreenContent(
+        featuredId = featuredId,
+        vm = hiltViewModel<FeaturedDetailScreenViewModel>(),
+        onCourseClicked = navigator.onCourseClicked
+    )
+}
+
+@Composable
+private fun FeaturedDetailScreenContent(
+    featured: Featured? = null,
+    featuredId: Long? = null,
+    vm: FeaturedDetailScreenViewModelDelegate,
+    onCourseClicked: (Course) -> Unit = {},
 ) {
     val (state, effect, event) = vm.extract()
 
     val context = LocalContext.current
-
-    val navController = LocalAppNavController.current
 
     effect.collectInLaunchedEffect {
         when (it) {
@@ -70,33 +106,21 @@ fun FeaturedDetailScreen(
         }
     }
 
-    val lazyListState = rememberLazyListState()
+    LaunchedEffect(true) {
+        if (featuredId != null) event(LoadWithFeaturedId(featuredId))
+        else if (featured != null) event(LoadWithFeatured(featured))
+    }
+
+    val collapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
     val systemUiController = rememberSystemUiController()
 
-    val swipeRefreshState = rememberSwipeRefreshState(state.isContentRefreshing)
-
-
-    val isHeaderScrolled = remember(
-        lazyListState.firstVisibleItemIndex == 0 &&
-                lazyListState.firstVisibleItemScrollOffset > 350.dp.value.toInt()
-    ) {
-        if (lazyListState.firstVisibleItemIndex > 0) return@remember true
-        lazyListState.firstVisibleItemIndex == 0 && lazyListState.firstVisibleItemScrollOffset > 350.dp.value.toInt()
-    }
+    val isHeaderScrolled = collapsingToolbarScaffoldState.toolbarState.progress <= 0.8
 
     val showDarkForeground = remember(isHeaderScrolled, state.featured) {
         if (state.featured == null) true
         else isHeaderScrolled
     }
-
-    val topBarBackground by animateColorAsState(
-        targetValue = if (isHeaderScrolled) MaterialTheme.colors.background else Color.Transparent,
-    )
-
-    val topBarForeground by animateColorAsState(
-        targetValue = if (showDarkForeground) MaterialTheme.colors.onBackground else Color.White,
-    )
 
     val defaultStatusBarDarkContentEnabled = remember {
         systemUiController.statusBarDarkContentEnabled
@@ -111,80 +135,50 @@ fun FeaturedDetailScreen(
         }
     }
 
-    LaunchedEffect(true) {
-        event(FeaturedDetailScreenViewModelDelegate.Event.Load(featuredId))
-    }
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            InsetBottomBar {
 
-    BaseSwipeRefreshLayoutScaffold(
-        indicatorPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.statusBars, additionalTop = 56.dp),
-        swipeRefreshState = swipeRefreshState,
-        onRefresh = {
-            event(FeaturedDetailScreenViewModelDelegate.Event.Load(featuredId))
-        },
-        topBar = {
-            BaseTopBar(
-                backgroundColor = topBarBackground,
-                navigationIcon = {
-                    TopAppBarBackButton(contentColor = topBarForeground)
-                },
-                title = {
+                IconButton(onClick = {
+                    event(FeaturedDetailScreenViewModelDelegate.Event.OpenShareMenu)
+                }) {
+                    Icon(Icons.Rounded.Share, null)
+                }
 
-                },
-                actions = {
-                    if (state.featured != null) {
-                        IconButton(
-                            onClick = {
-                                event(FeaturedDetailScreenViewModelDelegate.Event.OpenShareMenu)
-                            },
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Rounded.Share,
-                                    null,
-                                    tint = topBarForeground
-                                )
-                            }
-                        )
-                    }
-                },
-                enableDivider = isHeaderScrolled
-            )
+                IconButton(onClick = {
+
+                }) {
+                    Icon(Icons.Rounded.Favorite, null)
+                }
+
+            }
         }
     ) {
-
-        LazyColumn(
-            state = lazyListState,
-        ) {
-
-            item {
+        BasicCollapsingToolbarScaffold(
+            state = collapsingToolbarScaffoldState,
+            background = {
+                val animatedToolbarBackgroundColor by animateColorAsState(
+                    MaterialTheme.colors.surface.copy(1 - collapsingToolbarScaffoldState.toolbarState.progress)
+                )
 
                 Crossfade(
                     state.featured
                 ) { featured ->
                     if (featured != null) {
-                        Box(modifier = Modifier.fillMaxWidth().height(400.dp)) {
-
-                            NetworkImage(
-                                modifier = Modifier.fillMaxSize().background(color = Color.Black).alpha(0.5f),
-                                url = featured.imageUrl
-                            )
-
-                            Column(
-                                modifier = Modifier.padding(20.dp)
+                        Surface(color = animatedToolbarBackgroundColor) {
+                            Box(
+                                modifier = Modifier
                                     .fillMaxWidth()
-                                    .align(Alignment.BottomStart)
+                                    .parallax()
+                                    .graphicsLayer { alpha = collapsingToolbarScaffoldState.toolbarState.progress }
+                                    .height(400.dp)
                             ) {
-
-                                CompositionLocalProvider(LocalContentColor provides Color.White) {
-                                    Text(featured.title, style = MaterialTheme.typography.h2)
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Text(
-                                        modifier = Modifier.alpha(0.8f),
-                                        text = featured!!.subtitle,
-                                        style = MaterialTheme.typography.body2
-                                    )
-                                }
+                                NetworkImage(
+                                    modifier = Modifier.fillMaxSize().background(color = Color.Black).alpha(0.5f),
+                                    url = featured.imageUrl
+                                )
                             }
-
                         }
                     } else {
                         Box(
@@ -206,52 +200,92 @@ fun FeaturedDetailScreen(
                     }
                 }
 
+            },
+            foreground = {
+                val titleSize = (16 + (30 - 16) * collapsingToolbarScaffoldState.toolbarState.progress).sp
+                val startMargin = (60 + (16 - 60) * collapsingToolbarScaffoldState.toolbarState.progress).dp
+                val bottomMargin = (16 * collapsingToolbarScaffoldState.toolbarState.progress).dp
 
-            }
+                val animatedToolbarContentColor by animateColorAsState(
+                    lerp(
+                        MaterialTheme.colors.onSurface,
+                        Color.White,
+                        collapsingToolbarScaffoldState.toolbarState.progress
+                    )
+                )
 
-            item {
-                Crossfade(!state.isContentRefreshing) { visible ->
-                    if (visible) {
-                        Text(
-                            modifier = Modifier.padding(20.dp),
-                            text = state.featured!!.content.trimIndent(),
-                            style = MaterialTheme.typography.body2.copy(
-                                lineHeight = 25.sp,
-                                letterSpacing = 1.sp
+                InsetTopBar(
+                    modifier = Modifier.pin(),
+                    backgroundColor = Color.Transparent,
+                    contentColor = animatedToolbarContentColor,
+                    navigationIcon = { TopAppBarBackButton(contentColor = animatedToolbarContentColor) },
+                    enableDivider = false
+                )
+
+                state.featured?.let {
+                    Column(
+                        modifier = Modifier
+                            .road(Alignment.CenterStart, Alignment.BottomStart)
+                            .padding(start = startMargin, end = 16.dp, bottom = bottomMargin)
+                    ) {
+                        Spacer(modifier = Modifier.statusBarsPadding())
+                        Box(modifier = Modifier.defaultMinSize(minHeight = 60.dp)) {
+                            Text(
+                                modifier = Modifier.align(Alignment.CenterStart),
+                                text = it.title,
+                                style = MaterialTheme.typography.h2,
+                                fontSize = titleSize,
+                                color = animatedToolbarContentColor
                             )
-                        )
-                    } else {
-                        FeaturedDetailScreenContentShimmer()
-                    }
-                }
-            }
-
-            item {
-                AnimatedVisibility(!state.isContentRefreshing) {
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        Header("관련된 코스들")
-                        LazyRow(contentPadding = PaddingValues(start = 20.dp)) {
-                            items(state.courses) {
-                                CourseHorizontalListItem(it) { course: Course ->
-                                    navController.navigateRoute(
-                                        AppNavigationGraph.CourseDetail.graphWithArgument(course)
-                                    )
-                                }
-                                Spacer(Modifier.width(20.dp))
-                            }
                         }
                     }
                 }
+            },
+            body = {
+                LazyColumn {
+
+                    item {
+                        Crossfade(!state.isContentRefreshing) { visible ->
+                            if (visible) {
+                                Text(
+                                    modifier = Modifier.padding(20.dp),
+                                    text = state.featured!!.content.trimIndent(),
+                                    style = MaterialTheme.typography.body2.copy(
+                                        lineHeight = 25.sp,
+                                        letterSpacing = 1.sp
+                                    )
+                                )
+                            } else {
+                                FeaturedDetailScreenContentShimmer()
+                            }
+                        }
+                    }
+
+                    item {
+                        AnimatedVisibility(!state.isContentRefreshing) {
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                Header("관련된 코스들")
+                                LazyRow(contentPadding = PaddingValues(start = 20.dp)) {
+                                    items(state.courses) {
+                                        CourseHorizontalListItem(it) { course: Course ->
+                                            onCourseClicked(course)
+                                        }
+                                        Spacer(Modifier.width(20.dp))
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    item {
+                        Spacer(modifier = Modifier.navigationBarsPadding())
+                        Spacer(modifier = Modifier.height(100.dp))
+                    }
+
+                }
             }
-
-            item {
-                Spacer(modifier = Modifier.navigationBarsHeight(additional = 20.dp))
-            }
-
-        }
-
+        )
     }
-
 }
 
 @Composable

@@ -3,15 +3,25 @@ package app.hdj.datepick.android.ui.screens.notifications
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.BaseTopBar
+import app.hdj.datepick.ui.components.InsetTopBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-fun NotificationsScreen() {
+@Destination
+fun NotificationScreen(
+    navigator: DestinationsNavigator
+) {
+    NotificationsScreenContent()
+}
+
+@Composable
+private fun NotificationsScreenContent() {
 
     BaseScaffold(
         topBar = {
-            BaseTopBar(
+            InsetTopBar(
                 title = { Text("알림") },
                 navigationIcon = { TopAppBarBackButton() }
             )

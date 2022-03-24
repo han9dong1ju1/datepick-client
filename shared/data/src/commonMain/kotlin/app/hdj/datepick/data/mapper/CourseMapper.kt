@@ -1,40 +1,64 @@
 package app.hdj.datepick.data.mapper
 
 import app.hdj.datepick.CourseEntity
-import app.hdj.datepick.data.entity.course.CourseTagData
-import app.hdj.datepick.data.entity.user.UserData
+import app.hdj.datepick.data.entity.course.CourseResponse
+import app.hdj.datepick.data.entity.course.CourseTagResponse
+import app.hdj.datepick.data.entity.user.UserResponse
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.course.CourseTag
 import app.hdj.datepick.domain.model.user.User
-import kotlinx.datetime.Instant
 
-object CourseMapper : Mapper<CourseEntity, Course> {
+object CourseMapper : Mapper<CourseEntity, CourseResponse, Course> {
 
-    override fun CourseEntity.asDomain() = object : Course {
-        override val id: Long = this@asDomain.id
-        override val title: String = this@asDomain.title
-        override val meetAt: String = this@asDomain.meetAt
-        override val imageUrl: String? = this@asDomain.imageUrl
-        override val isPrivate: Boolean = this@asDomain.isPrivate
-        override val viewCount: Long = this@asDomain.viewCount
-        override val pickCount: Long = this@asDomain.pickCount
-        override val isPicked: Boolean = this@asDomain.isPicked
-        override val user: User = this@asDomain.user
-        override val tags: List<CourseTag> = this@asDomain.tags
-    }
+    override fun CourseEntity.tableToDomain() = Course(
+        id = id,
+        title = title,
+        meetAt = meetAt,
+        imageUrl = imageUrl,
+        isPrivate = isPrivate,
+        viewCount = viewCount,
+        pickCount = pickCount,
+        isPicked = isPicked,
+        user = user.run { User(id, nickname, imageUrl, gender) },
+        tags = tags.map { it.run { CourseTag(id, name) } },
+    )
 
-    override fun Course.asTable(): CourseEntity =
-        CourseEntity(
-            id,
-            title,
-            meetAt,
-            imageUrl,
-            isPrivate,
-            viewCount,
-            pickCount,
-            isPicked,
-            user.run { UserData(id, nickname, imageUrl, gender) },
-            tags.map { CourseTagData(it.id, it.name) }
-        )
+    override fun CourseResponse.dataToDomain() = Course(
+        id = id,
+        title = title,
+        meetAt = meetAt,
+        imageUrl = imageUrl,
+        isPrivate = isPrivate,
+        viewCount = viewCount,
+        pickCount = pickCount,
+        isPicked = isPicked,
+        user = user.run { User(id, nickname, imageUrl, gender) },
+        tags = tags.map { it.run { CourseTag(id, name) } },
+    )
 
+    override fun Course.domainToTable() = CourseEntity(
+        id,
+        title,
+        meetAt,
+        imageUrl,
+        isPrivate,
+        viewCount,
+        pickCount,
+        isPicked,
+        user.run { UserResponse(id, nickname, imageUrl, gender) },
+        tags.map { CourseTagResponse(it.id, it.name) }
+    )
+
+    override fun CourseResponse.dataToTable(): CourseEntity = CourseEntity(
+        id,
+        title,
+        meetAt,
+        imageUrl,
+        isPrivate,
+        viewCount,
+        pickCount,
+        isPicked,
+        user.run { UserResponse(id, nickname, imageUrl, gender) },
+        tags.map { CourseTagResponse(it.id, it.name) }
+    )
 }

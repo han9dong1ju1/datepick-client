@@ -1,12 +1,14 @@
 package app.hdj.datepick.domain.model.featured
 
-interface Featured {
+import app.hdj.datepick.utils.Parcelable
+import app.hdj.datepick.utils.Parcelize
 
-    val id : Long
-    val title : String
-    val subtitle : String
-    val content : String
-    val imageUrl : String
-    val isPinned : Boolean
-
-}
+@Parcelize
+data class Featured(
+    val id: Long,
+    val title: String,
+    val subtitle: String,
+    val content: String,
+    val imageUrl: String,
+    val isPinned: Boolean
+) : Parcelable

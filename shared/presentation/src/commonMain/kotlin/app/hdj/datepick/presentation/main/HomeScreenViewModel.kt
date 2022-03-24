@@ -85,7 +85,7 @@ class HomeScreenViewModel @Inject constructor(
     private val isLocationPermissionGranted = MutableStateFlow<Boolean?>(null)
 
     override val state: StateFlow<State> = combine(
-        appSettings.isNearbyRecommendBannerIgnored,
+        appSettings.isNearbyRecommendEnabled,
         isLocationPermissionGranted,
         featuredList,
         recommendedCourseList,
@@ -158,7 +158,7 @@ class HomeScreenViewModel @Inject constructor(
                     isLocationPermissionGranted.emit(e.isGranted)
                 }
                 is Event.IgnoreNearbyRecommend -> {
-                    appSettings.setNearbyRecommendBannerIgnored(true)
+                    appSettings.setNearbyRecommendEnabled(true)
                 }
                 is Event.CurrentLocation -> {
                     currentLocation.emit(e.latLng)

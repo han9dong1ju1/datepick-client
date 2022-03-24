@@ -12,17 +12,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.ui.components.CallToActionButton
 import app.hdj.datepick.ui.components.UnAccentButton
 import app.hdj.datepick.ui.components.dialog.DialogContent
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.spec.DestinationStyle
 
 @Composable
-fun LocationPermissionDeniedDialog() {
-    val navController = LocalAppNavController.current
+@Destination(style = DestinationStyle.Dialog::class)
+fun LocationPermissionDeniedDialog(
+    navigator: DestinationsNavigator
+) {
+    LocationPermissionDeniedDialogContent {
+        navigator.popBackStack()
+    }
+}
+
+@Composable
+private fun LocationPermissionDeniedDialogContent(
+    popBackStack : () -> Unit
+) {
+
     val context = LocalContext.current
+
     Dialog(
-        onDismissRequest = { navController.popBackStack() },
+        onDismissRequest = { popBackStack() },
         properties = DialogProperties(
             dismissOnBackPress = false,
             dismissOnClickOutside = false
@@ -39,14 +54,14 @@ fun LocationPermissionDeniedDialog() {
                                 data = Uri.fromParts("package", context.packageName, null)
                             }
                         )
-                        navController.popBackStack()
+                        popBackStack()
                     }
                 },
                 negativeButton = {
                     UnAccentButton(
                         modifier = Modifier.fillMaxWidth(),
                         text = "취소"
-                    ) { navController.popBackStack() }
+                    ) { popBackStack() }
                 }
             )
         }

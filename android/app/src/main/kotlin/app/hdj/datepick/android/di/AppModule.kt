@@ -31,7 +31,7 @@ class AppModule {
         ImageLoader.Builder(context)
             .crossfade(true)
             .diskCache(
-                DiskCache.Builder(context)
+                DiskCache.Builder()
                     .directory(context.cacheDir)
                     .build()
             )

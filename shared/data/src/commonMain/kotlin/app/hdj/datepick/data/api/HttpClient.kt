@@ -40,7 +40,6 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
                     allowSpecialFloatingPointValues = true
                     useArrayPolymorphism = true
                     prettyPrint = true
-                    explicitNulls = false
                     allowStructuredMapKeys = true
                     coerceInputValues = true
                     useAlternativeNames = false
@@ -72,7 +71,7 @@ fun <T : HttpClientEngineConfig> DatePickHttpClient(
 
         url {
             protocol = URLProtocol.HTTPS
-            host = "datepick.app"
+            host = "3916-114-29-153-213.ngrok.io"
         }
     }
 

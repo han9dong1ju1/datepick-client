@@ -38,11 +38,11 @@ import kotlinx.datetime.toLocalDateTime
 fun MyDateListItem(
     modifier: Modifier,
     course: Course,
-    onClick: () -> Unit
+    onClick: (Course) -> Unit
 ) {
 
     Surface(
-        onClick,
+        { onClick(course) },
         modifier = modifier,
         color = Color.Unspecified,
         shape = RoundedCornerShape(10.dp)
@@ -101,13 +101,13 @@ fun MyDateListItem(
             Column {
                 Text(course.title, style = MaterialTheme.typography.subtitle2)
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    course.meetAtInstant.toLocalDateTime(TimeZone.currentSystemDefault()).run {
-                        "${monthNumber}월 ${dayOfMonth}일"
-                    },
-                    color = MaterialTheme.colors.onBackground.copy(0.5f),
-                    style = MaterialTheme.typography.body2
-                )
+                course.meetAtInstant?.toLocalDateTime(TimeZone.currentSystemDefault())?.run {
+                    Text(
+                        "${monthNumber}월 ${dayOfMonth}일",
+                        color = MaterialTheme.colors.onBackground.copy(0.5f),
+                        style = MaterialTheme.typography.body2
+                    )
+                }
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     color = MaterialTheme.colors.onBackground.copy(0.5f),

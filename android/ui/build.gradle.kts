@@ -31,8 +31,6 @@ dependencies {
     api(AndroidX.constraintLayout.compose)
     api(COIL.compose)
     api(COIL.composeBase)
-    api(Google.accompanist.insets)
-    api(Google.accompanist.insets.ui)
     api(Google.accompanist.pager)
     api(Google.accompanist.pager.indicators)
     api(Google.accompanist.systemuicontroller)
@@ -45,6 +43,7 @@ dependencies {
     api(Google.android.mapsUtils)
 
     api(AndroidX.core.splashscreen)
+    api(Utils.composeCollapsingToolbarLayout)
 
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)

@@ -1,5 +1,4 @@
 import de.fayard.refreshVersions.core.versionFor
-import java.io.ByteArrayOutputStream
 import java.util.Properties
 import Properties as AppProperties
 
@@ -14,6 +13,17 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+}
+
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
 }
 
 dependencies {
@@ -74,21 +84,27 @@ dependencies {
     implementation(Utils.markdownLinkify)
     implementation(Utils.qrGenerator)
 
+    implementation(ComposeDestination.core)
+    implementation(ComposeDestination.animationsCore)
+    ksp(ComposeDestination.ksp)
+
     kapt(AndroidX.paging.runtimeKtx)
     kapt(AndroidX.navigation.runtimeKtx)
     kapt(AndroidX.hilt.compiler)
     kapt(Google.dagger.hilt.compiler)
 }
 
-val gitDescribe: String by lazy {
-    val stdout = ByteArrayOutputStream()
-    rootProject.exec {
-        executable("/bin/sh")
-        args("-c", "git rev-parse --short HEAD")
-        standardOutput = stdout
-    }
-    val commit = stdout.toString().trim()
-    commit
+fun createDebugReleaseNote(): String {
+    val releaseNote = File("${project.rootDir}/fastlane/metadata/android/ko-KR/changelogs/debug-release-notes.txt")
+    releaseNote.writeText(
+        "Version: \tVer ${AppProperties.androidAppVersionName}-$gitDescribe-DEBUG\n\n" +
+                "Branch: \t$gitBranch\n\n" +
+                "Developer: \t$developer\n\n" +
+                "Project Development Overview\n" +
+                "\tTask\n\t\t$commitList"
+    )
+    releaseNote.createNewFile()
+    return releaseNote.absolutePath
 }
 
 android {
@@ -100,16 +116,6 @@ android {
         targetSdk = AppProperties.androidTargetSDK
         versionCode = AppProperties.androidAppVersionCode
         versionName = AppProperties.androidAppVersionName
-    }
-
-    buildTypes {
-        getByName("debug") {
-            versionNameSuffix = "-$gitDescribe-DEBUG"
-        }
-
-        getByName("release") {
-            isMinifyEnabled = true
-        }
     }
 
     signingConfigs {
@@ -128,6 +134,18 @@ android {
             keyPassword = keystoreProperties.getProperty("keyPassword")
             storeFile = file(keystoreProperties.getProperty("storeFile"))
             storePassword = keystoreProperties.getProperty("storePassword")
+        }
+    }
+
+    buildTypes {
+        getByName("debug") {
+            createDebugReleaseNote()
+            versionNameSuffix = "-$gitDescribe-DEBUG"
+        }
+
+        getByName("release") {
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 

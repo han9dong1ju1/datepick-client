@@ -1,9 +1,5 @@
 package app.hdj.datepick.android.ui.dialog
 
-import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.RadioButton
@@ -11,33 +7,40 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.presentation.settings.SettingsScreenViewModel
 import app.hdj.datepick.presentation.settings.SettingsScreenViewModelDelegate
 import app.hdj.datepick.ui.components.CallToActionButton
-import app.hdj.datepick.ui.components.ListItem
 import app.hdj.datepick.ui.components.UnAccentButton
 import app.hdj.datepick.ui.components.dialog.DialogContent
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.spec.DestinationStyle
 
 @Composable
+@Destination(style = DestinationStyle.Dialog::class)
 fun AppThemeDialog(
-    vm: SettingsScreenViewModelDelegate = hiltViewModel<SettingsScreenViewModel>()
+    navigator: DestinationsNavigator
+) {
+    AppThemeDialogContent(hiltViewModel<SettingsScreenViewModel>()) {
+        navigator.popBackStack()
+    }
+}
+
+@Composable
+private fun AppThemeDialogContent(
+    vm: SettingsScreenViewModelDelegate,
+    popBackStack : () -> Unit,
 ) {
 
     val (state, effect, event) = vm.extract()
-
-    val navController = LocalAppNavController.current
 
     val themes = listOf(
         AppSettings.AppTheme.Light to "밝음",
@@ -50,7 +53,7 @@ fun AppThemeDialog(
     }
 
     Dialog(
-        onDismissRequest = { navController.popBackStack() },
+        onDismissRequest = { popBackStack() },
         properties = DialogProperties(
             dismissOnBackPress = false,
             dismissOnClickOutside = false
@@ -82,14 +85,14 @@ fun AppThemeDialog(
                 positiveButton = {
                     CallToActionButton(modifier = Modifier.fillMaxWidth().height(50.dp), text = "확인") {
                         event(SettingsScreenViewModelDelegate.Event.SwitchTheme(selectedTheme))
-                        navController.popBackStack()
+                        popBackStack()
                     }
                 },
                 negativeButton = {
                     UnAccentButton(
                         modifier = Modifier.fillMaxWidth().height(50.dp),
                         text = "취소"
-                    ) { navController.popBackStack() }
+                    ) { popBackStack() }
                 }
             )
         }

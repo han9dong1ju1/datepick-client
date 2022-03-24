@@ -40,10 +40,7 @@ class CreateCourseScreenViewModel @Inject constructor() : PlatformViewModel(), C
     private val themes = flow {
         delay(1000)
         emit(listOf("크리스마스", "기념일", "먹거리", "액티비티", "생일", "깜짝 이벤트", "선물", "축제", "여행").mapIndexed { index, s ->
-            object : CourseTag {
-                override val id: Long get() = index.toLong()
-                override val name: String = s
-            }
+            CourseTag(index.toLong(), s)
         })
     }
 

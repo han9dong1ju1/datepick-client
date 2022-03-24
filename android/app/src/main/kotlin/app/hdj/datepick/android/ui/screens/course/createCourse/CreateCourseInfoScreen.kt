@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.screens.createCourse
+package app.hdj.datepick.android.ui.screens.course.createCourse
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
@@ -13,24 +13,35 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModel
 import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModelDelegate
 import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModelDelegate.Effect.CourseCreated
 import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModelDelegate.Event.CreateCourse
-import app.hdj.datepick.ui.components.*
+import app.hdj.datepick.ui.components.BaseButton
+import app.hdj.datepick.ui.components.BaseScaffold
+import app.hdj.datepick.ui.components.InsetTopBar
+import app.hdj.datepick.ui.components.TopAppBarBackButton
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
+@Composable
+@Destination
+fun CreateCourseInfoScreen(
+    navigator: DestinationsNavigator
+) {
+    CreateCourseInfoScreenContent(
+        hiltViewModel<CreateCourseScreenViewModel>()
+    )
+}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CreateCourseInfoScreen(
-    vm: CreateCourseScreenViewModelDelegate = hiltViewModel<CreateCourseScreenViewModel>()
+private fun CreateCourseInfoScreenContent(
+    vm: CreateCourseScreenViewModelDelegate
 ) {
 
-    val navController = LocalAppNavController.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val (state, effect, event) = vm.extract()
@@ -38,7 +49,7 @@ fun CreateCourseInfoScreen(
     effect.collectInLaunchedEffect {
         when (it) {
             is CourseCreated -> {
-//                navController.navigateRoute(AppNavigationGraph.CourseDetailsScreen(it.courseId))
+
             }
         }
     }
@@ -47,24 +58,14 @@ fun CreateCourseInfoScreen(
 
     BaseScaffold(
         topBar = {
-            BaseTopBar(
+            InsetTopBar(
                 navigationIcon = { TopAppBarBackButton() },
                 enableDivider = false
             )
         },
         bottomBar = {
             Box(
-                modifier = Modifier.padding(
-                    rememberInsetsPaddingValues(
-                        insets = LocalWindowInsets.current.navigationBars,
-                        applyStart = true,
-                        applyEnd = true,
-                        applyBottom = true,
-                        additionalBottom = 20.dp,
-                        additionalStart = 20.dp,
-                        additionalEnd = 20.dp
-                    )
-                )
+                modifier = Modifier.navigationBarsPadding()
             ) {
                 BaseButton(
                     modifier = Modifier.fillMaxWidth().height(50.dp),

@@ -8,13 +8,14 @@ import coil.compose.ImagePainter
 import coil.compose.LocalImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.imageLoader
 import coil.request.ImageRequest
 
 @ExperimentalCoilApi
 @Composable
 fun rememberUrlImagePainter(
     request: Any?,
-    imageLoader: ImageLoader = LocalImageLoader.current,
+    imageLoader: ImageLoader = LocalContext.current.imageLoader,
     builder: ImageRequest.Builder.() -> Unit = {},
 ) = rememberAsyncImagePainter(
     ImageRequest.Builder(LocalContext.current).data(request).apply(

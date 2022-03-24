@@ -1,6 +1,6 @@
 package app.hdj.datepick.data.api
 
-import app.hdj.datepick.data.entity.user.UserData
+import app.hdj.datepick.data.entity.user.UserResponse
 import app.hdj.datepick.data.request.user.UserProfileRequest
 import app.hdj.datepick.data.request.user.UserRegisterRequest
 import app.hdj.datepick.data.request.user.UserUnregisterRequest
@@ -15,10 +15,10 @@ import io.ktor.http.*
 interface UserApi : Api {
     override val basePath: String get() = "/api/v1/users"
 
-    suspend fun getMe(): ApiResponse<UserData>
-    suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserData>
+    suspend fun getMe(): ApiResponse<UserResponse>
+    suspend fun updateMe(userProfileRequest: UserProfileRequest): ApiResponse<UserResponse>
 
-    suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<UserData>
+    suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<UserResponse>
     suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String?>
 }
 
@@ -28,12 +28,12 @@ open class UserApiImp @Inject constructor(
     override val client: HttpClient
 ) : UserApi {
 
-    override suspend fun getMe(): ApiResponse<UserData> =
+    override suspend fun getMe(): ApiResponse<UserResponse> =
         get("me")
 
     override suspend fun updateMe(
         userProfileRequest: UserProfileRequest
-    ): ApiResponse<UserData> {
+    ): ApiResponse<UserResponse> {
 
         val uid = authenticator.getCurrentFirebaseUser()?.uid ?: "me"
 
@@ -62,7 +62,7 @@ open class UserApiImp @Inject constructor(
         }
     }
 
-    override suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<UserData> =
+    override suspend fun register(userRegisterRequest: UserRegisterRequest): ApiResponse<UserResponse> =
         post("register") { setBody(userRegisterRequest) }
 
     override suspend fun unregister(userUnregisterRequest: UserUnregisterRequest): ApiResponse<String?> =

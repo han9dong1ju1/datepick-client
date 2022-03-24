@@ -8,6 +8,7 @@ val presentationModule = module {
         HomeScreenViewModel(
             get(),
             get(),
+            get(),
             get()
         )
     }

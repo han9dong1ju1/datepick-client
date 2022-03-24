@@ -1,43 +1,68 @@
 package app.hdj.datepick.data.mapper
 
 import app.hdj.datepick.PlaceEntity
+import app.hdj.datepick.data.entity.place.PlaceResponse
 import app.hdj.datepick.domain.model.place.Place
 import kotlinx.datetime.Clock
 
-object PlaceMapper : Mapper<PlaceEntity, Place> {
+object PlaceMapper : Mapper<PlaceEntity, PlaceResponse, Place> {
 
-    override fun PlaceEntity.asDomain() = object : Place {
-        override val category: Place.Category = object : Place.Category {
-            override val category: String = this@asDomain.category
-            override val type: String = this@asDomain.type
-            override val subtype: String = this@asDomain.subtype
-        }
-        override val id: Long = this@asDomain.id
-        override val kakaoId: Long = this@asDomain.kakaoId
-        override val name: String = this@asDomain.name
-        override val address: String = this@asDomain.address
-        override val latitude: Double = this@asDomain.latitude
-        override val longitude: Double = this@asDomain.longitude
-        override val rating: Double = this@asDomain.rating
-        override val isPicked: Boolean = this@asDomain.isPicked
-        override val photo: String? = this@asDomain.photo
-    }
+    override fun PlaceEntity.tableToDomain() = Place(
+        category = Place.Category(category = category, type = type, subtype = subtype),
+        id = id,
+        kakaoId = kakaoId,
+        name = name,
+        address = address,
+        latitude = latitude,
+        longitude = longitude,
+        rating = rating,
+        isPicked = isPicked,
+        photo = photo
+    )
 
-    override fun Place.asTable(): PlaceEntity =
-        PlaceEntity(
-            id,
-            kakaoId,
-            name,
-            address,
-            category.category,
-            category.type,
-            category.subtype,
-            isPicked,
-            latitude,
-            longitude,
-            rating,
-            photo,
-            Clock.System.now().epochSeconds
-        )
+    override fun Place.domainToTable() = PlaceEntity(
+        id,
+        kakaoId,
+        name,
+        address,
+        category.category,
+        category.type,
+        category.subtype,
+        isPicked,
+        latitude,
+        longitude,
+        rating,
+        photo,
+        Clock.System.now().epochSeconds
+    )
+
+    override fun PlaceResponse.dataToDomain() = Place(
+        category = Place.Category(category = category.category, type = category.type, subtype = category.subtype),
+        id = id,
+        kakaoId = kakaoId,
+        name = name,
+        address = address,
+        latitude = latitude,
+        longitude = longitude,
+        rating = rating,
+        isPicked = isPicked,
+        photo = photo
+    )
+
+    override fun PlaceResponse.dataToTable() = PlaceEntity(
+        id,
+        kakaoId,
+        name,
+        address,
+        category.category,
+        category.type,
+        category.subtype,
+        isPicked,
+        latitude,
+        longitude,
+        rating,
+        photo,
+        Clock.System.now().epochSeconds
+    )
 
 }

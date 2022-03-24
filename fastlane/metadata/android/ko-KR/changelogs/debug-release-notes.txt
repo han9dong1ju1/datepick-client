@@ -1,3 +1,13 @@
-다이어리 탭, 표지 UI 제작
-인터넷 연결이 없을때 보이는 UI 개발
-Pick 쪽에 위에 TopBar 작업 (스크롤 안되는데 이부분은 구글 이슈라서 고쳐질때 까지 당분간 이렇게 냅둘거임)
+Version: 	Ver 1.00.00-b3c9acb-DEBUG
+
+Branch: 	feature:DATEPICK-210
+
+Developer: 	"Harry Park"
+
+Project Development Overview
+	Task
+		Harry Park(7 weeks ago)-[Android] 페이징 로직 수정 및 설정 쪽 화면 정렬
+		Harry Park(7 weeks ago)-[Android] 페이징 로직 적용
+		Harry Park(7 weeks ago)-[Android] Featured UI 수정, Shimmer 쪽 작업
+		Harry Park(8 weeks ago)-[Android] Ignore 과 무관하게 Nearby Recommendation 보여주게 설정
+		Harry Park(8 weeks ago)-[Android] Home-UI 개발

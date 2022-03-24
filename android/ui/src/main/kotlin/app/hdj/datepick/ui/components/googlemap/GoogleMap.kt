@@ -2,6 +2,7 @@ package app.hdj.datepick.ui.components.googlemap
 
 import android.graphics.Color
 import android.view.View
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -12,6 +13,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import app.hdj.datepick.ui.R
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.collections.MarkerManager
@@ -220,11 +222,20 @@ fun GoogleMap(
         }
     }
 
+    val isLight = MaterialTheme.colors.isLight
+
     LaunchedEffect(
         markerOptionsState.markerOptions,
         polylineOptionsState.polylineOptions
     ) {
         val googleMap = mapView.awaitMap()
+        if (isLight) googleMap.setMapStyle(null)
+        else googleMap.setMapStyle(
+            MapStyleOptions.loadRawResourceStyle(
+                mapView.context,
+                R.raw.google_map_style
+            )
+        )
         googleMap.clear()
         markerOptionsState.markerOptions.forEach { googleMap.addMarker(it) }
         polylineOptionsState.polylineOptions?.let { googleMap.addPolyline(it) }

@@ -1,8 +1,6 @@
 package app.hdj.datepick.ui.components
 
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,9 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.ui.LocalScaffoldPadding
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.SwipeRefreshState
@@ -37,10 +32,9 @@ fun BaseScaffold(
     drawerScrimColor: Color = DrawerDefaults.scrimColor,
     backgroundColor: Color = MaterialTheme.colors.background,
     contentColor: Color = contentColorFor(backgroundColor),
-    contentPadding: PaddingValues = LocalScaffoldPadding.current,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    com.google.accompanist.insets.ui.Scaffold(
+    Scaffold(
         modifier,
         scaffoldState,
         topBar,
@@ -58,7 +52,6 @@ fun BaseScaffold(
         drawerScrimColor,
         backgroundColor,
         contentColor,
-        contentPadding,
         content
     )
 }
@@ -82,8 +75,7 @@ fun BaseSwipeRefreshLayoutScaffold(
     drawerScrimColor: Color = DrawerDefaults.scrimColor,
     backgroundColor: Color = MaterialTheme.colors.background,
     contentColor: Color = contentColorFor(backgroundColor),
-    contentPadding: PaddingValues = LocalScaffoldPadding.current,
-    indicatorPadding: PaddingValues = rememberInsetsPaddingValues(LocalWindowInsets.current.statusBars),
+    indicatorPadding: PaddingValues =  PaddingValues(0.dp),
     swipeRefreshState: SwipeRefreshState = rememberSwipeRefreshState(isRefreshing = false),
     indicator: @Composable (state: SwipeRefreshState, refreshTrigger: Dp) -> Unit = { s, trigger ->
         SwipeRefreshIndicator(
@@ -114,8 +106,7 @@ fun BaseSwipeRefreshLayoutScaffold(
         drawerContentColor,
         drawerScrimColor,
         backgroundColor,
-        contentColor,
-        contentPadding
+        contentColor
     ) {
         SwipeRefresh(
             state = swipeRefreshState,

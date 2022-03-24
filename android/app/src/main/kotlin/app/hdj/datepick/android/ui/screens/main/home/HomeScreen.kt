@@ -14,7 +14,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Notifications
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -22,40 +25,58 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.navigation.NavController
 import app.hdj.datepick.android.ui.components.list.*
+import app.hdj.datepick.android.ui.destinations.*
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Logo
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
 import app.hdj.datepick.android.ui.providers.LocalLocationTracker
 import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph.LocationPermissionDeniedDialog
-import app.hdj.datepick.android.ui.screens.navigateRoute
 import app.hdj.datepick.android.utils.extract
+import app.hdj.datepick.android.utils.onCourseClicked
+import app.hdj.datepick.android.utils.onFeaturedClicked
+import app.hdj.datepick.android.utils.onPlaceClicked
 import app.hdj.datepick.domain.model.course.Course
+import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.presentation.main.HomeScreenViewModel
 import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate
 import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate.Event.LocationPermissionResult
 import app.hdj.datepick.ui.components.BaseSwipeRefreshLayoutScaffold
-import app.hdj.datepick.ui.components.BaseTopBar
+import app.hdj.datepick.ui.components.InsetTopBar
 import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.utils.getActivity
 import app.hdj.datepick.ui.utils.isPermissionGranted
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-fun HomeScreen(
-    vm: HomeScreenViewModelDelegate = hiltViewModel<HomeScreenViewModel>()
+@Destination(start = true)
+fun HomeScreen(navigator: DestinationsNavigator) {
+    HomeScreenContent(
+        onPlaceClicked = navigator.onPlaceClicked,
+        onCourseClicked = navigator.onCourseClicked,
+        onFeaturedClicked = navigator.onFeaturedClicked,
+        onNotificationClicked = { navigator.navigate(NotificationScreenDestination) },
+        onLocationPermissionDeniedDialogShown = { navigator.navigate(LocationPermissionDeniedDialogDestination) },
+        vm = hiltViewModel<HomeScreenViewModel>()
+    )
+}
+
+
+@Composable
+private fun HomeScreenContent(
+    onPlaceClicked: (Place) -> Unit = {},
+    onCourseClicked: (Course) -> Unit = {},
+    onNotificationClicked: () -> Unit = {},
+    onFeaturedClicked: (Featured) -> Unit = {},
+    onLocationPermissionDeniedDialogShown: () -> Unit = {},
+    vm: HomeScreenViewModelDelegate
 ) {
 
     val (state, effect, event) = vm.extract()
 
     val context = LocalContext.current
-    val navController = LocalAppNavController.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val locationTracker = LocalLocationTracker.current
 
@@ -73,18 +94,6 @@ fun HomeScreen(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         event(LocationPermissionResult(granted))
-    }
-
-    val onPlaceClicked = { place: Place ->
-        navController.navigateRoute(
-            AppNavigationGraph.PlaceDetail.graphWithArgument(place)
-        )
-    }
-
-    val onCourseClicked = { course: Course ->
-        navController.navigateRoute(
-            AppNavigationGraph.CourseDetail.graphWithArgument(course)
-        )
     }
 
     DisposableEffect(lifecycleOwner) {
@@ -116,21 +125,18 @@ fun HomeScreen(
     BaseSwipeRefreshLayoutScaffold(
         modifier = Modifier.fillMaxSize(),
         swipeRefreshState = swipeRefreshState,
-        indicatorPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.statusBars, additionalTop = 56.dp),
         onRefresh = { event(HomeScreenViewModelDelegate.Event.Refresh) },
         topBar = {
-            BaseTopBar(
+            InsetTopBar(
                 title = {
                     Icon(DatePickIcons.Logo, null, modifier = Modifier.height(18.dp))
                 },
                 actions = {
-                    IconButton({
-                        navController.navigateRoute(AppNavigationGraph.Notifications)
-                    }) {
+                    IconButton(onNotificationClicked) {
                         Icon(imageVector = Icons.Rounded.Notifications, null)
                     }
                 },
-                enableDivider = true
+                enableDivider = lazyListState.firstVisibleItemIndex != 0
             )
         }
     ) {
@@ -138,9 +144,8 @@ fun HomeScreen(
         LazyColumn(modifier = Modifier.padding(it), state = lazyListState) {
 
             state.featuredUiState.apply {
-                mainHomeFeatured(this, event, navController)
+                mainHomeFeatured(this, event, onFeaturedClicked)
             }
-
 
             state.nearbyRecommendationsUiState.apply {
                 if (showNearbyRecommendations) {
@@ -149,7 +154,12 @@ fun HomeScreen(
                 } else {
                     mainHomePopularPlaces(onPlaceClicked)
                     if (showNearbyRecommendLocationPermissionBanner) {
-                        mainHomeLocationPermissionBanner(activity, navController, locationPermissionRequest, event)
+                        mainHomeLocationPermissionBanner(
+                            activity,
+                            onLocationPermissionDeniedDialogShown,
+                            locationPermissionRequest,
+                            event
+                        )
                     }
                 }
             }
@@ -158,6 +168,17 @@ fun HomeScreen(
                 if (showRecommendedCourses) {
                     mainRecommendedCourses(recommendedCourses, onCourseClicked)
                 }
+            }
+
+            state.recommendedCoursesUiState.apply {
+                if (showRecommendedCourses) {
+                    mainRecommendedCourses(recommendedCourses, onCourseClicked)
+                }
+            }
+
+            item {
+                Spacer(modifier = Modifier.navigationBarsPadding())
+                Spacer(modifier = Modifier.height(100.dp))
             }
 
         }
@@ -169,7 +190,7 @@ fun HomeScreen(
 private fun LazyListScope.mainHomeFeatured(
     featuredUiState: HomeScreenViewModelDelegate.State.FeaturedUiState,
     event: (HomeScreenViewModelDelegate.Event) -> Unit,
-    navController: NavController
+    onFeaturedClicked: (Featured) -> Unit
 ) {
     item {
         Crossfade(
@@ -189,11 +210,7 @@ private fun LazyListScope.mainHomeFeatured(
                         itemSpacing = 10.dp,
                         contentPadding = PaddingValues(horizontal = 20.dp),
                     ) { item, _ ->
-                        FeaturedListItem(featured = item) { featured ->
-                            navController.navigateRoute(
-                                AppNavigationGraph.FeaturedDetail.graphWithArgument(featured)
-                            )
-                        }
+                        FeaturedListItem(featured = item, onFeaturedClicked)
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                 }
@@ -206,7 +223,7 @@ private fun LazyListScope.mainHomeFeatured(
 
 private fun LazyListScope.mainHomeLocationPermissionBanner(
     activity: Activity,
-    navController: NavController,
+    onLocationPermissionDeniedDialogShown: () -> Unit,
     locationPermissionRequest: ManagedActivityResultLauncher<String, Boolean>,
     event: (HomeScreenViewModelDelegate.Event) -> Unit
 ) {
@@ -223,11 +240,8 @@ private fun LazyListScope.mainHomeLocationPermissionBanner(
                 val showDeniedDialog =
                     (!isPermissionGranted && shouldShowRequestPermissionRationale)
 
-                if (showDeniedDialog) {
-                    navController.navigateRoute(LocationPermissionDeniedDialog)
-                } else {
-                    locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                }
+                if (showDeniedDialog) onLocationPermissionDeniedDialogShown()
+                else locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             },
             { event(HomeScreenViewModelDelegate.Event.IgnoreNearbyRecommend) },
         )

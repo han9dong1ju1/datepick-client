@@ -1,18 +1,18 @@
+import app.hdj.datepick.data.entity.course.CourseTagResponse;
+import app.hdj.datepick.data.entity.user.UserResponse;
 import kotlin.collections.List;
-import app.hdj.datepick.data.entity.user.UserData;
-import app.hdj.datepick.data.entity.course.CourseTagData;
 
 CREATE TABLE courseEntity (
     id INTEGER AS Long NOT NULL PRIMARY KEY,
     title TEXT NOT NULL,
-    meetAt TEXT NOT NULL,
+    meetAt TEXT,
     imageUrl TEXT,
     isPrivate  INTEGER AS Boolean DEFAULT 0 NOT NULL,
     viewCount INTEGER AS Long NOT NULL,
     pickCount INTEGER AS Long NOT NULL,
     isPicked INTEGER AS Boolean DEFAULT 0 NOT NULL,
-    user TEXT AS UserData NOT NULL,
-    tags TEXT AS List<CourseTagData> NOT NULL
+    user TEXT AS UserResponse NOT NULL,
+    tags TEXT AS List<CourseTagResponse> NOT NULL
 );
 
 getById:

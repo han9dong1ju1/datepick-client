@@ -6,32 +6,40 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.screens.navigateRoute
+import app.hdj.datepick.android.ui.destinations.SettingsScreenDestination
+import app.hdj.datepick.android.ui.screens.settings.SettingsScreen
 import app.hdj.datepick.ui.components.BaseScaffold
-import app.hdj.datepick.ui.components.BaseTopBar
+import app.hdj.datepick.ui.components.InsetTopBar
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 @Composable
-fun ProfileScreen() {
+@Destination
+fun ProfileScreen(
+    navigator: DestinationsNavigator
+) {
+    ProfileScreenContent(onSettingClicked = {
+        navigator.navigate(SettingsScreenDestination)
+    })
+}
 
-    val navController = LocalAppNavController.current
+@Composable
+private fun ProfileScreenContent(
+    onSettingClicked: () -> Unit = {}
+) {
 
     BaseScaffold(
         topBar = {
-            BaseTopBar(
+            InsetTopBar(
                 title = {
                     Text("프로필")
                 },
                 actions = {
-                    IconButton({
-                        navController.navigateRoute(AppNavigationGraph.AppSettings)
-                    }) {
+                    IconButton(onSettingClicked) {
                         Icon(imageVector = Icons.Rounded.Settings, null)
                     }
                 }

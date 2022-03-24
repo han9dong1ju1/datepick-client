@@ -36,10 +36,10 @@ class AppSettingsImp @Inject constructor(
         )
     }
 
-    override val isNearbyRecommendBannerIgnored: Flow<Boolean?> =
+    override val isNearbyRecommendEnabled: Flow<Boolean?> =
         flowSettings.getBooleanOrNullFlow(KEY_IS_NEARBY_RECOMMEND_BANNER_IGNORED)
 
-    override suspend fun setNearbyRecommendBannerIgnored(isIgnored: Boolean) {
+    override suspend fun setNearbyRecommendEnabled(isIgnored: Boolean) {
         flowSettings.putBoolean(KEY_IS_NEARBY_RECOMMEND_BANNER_IGNORED, isIgnored)
     }
 

@@ -7,12 +7,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserData(
-    @SerialName("id") override val id: Long,
-    @SerialName("nickname") override val nickname: String,
-    @SerialName("image_url") override var imageUrl: String?,
-    @SerialName("gender") override val gender: UserGender?
-) : User {
+data class UserResponse(
+    @SerialName("id") val id: Long,
+    @SerialName("nickname") val nickname: String,
+    @SerialName("image_url") var imageUrl: String?,
+    @SerialName("gender") val gender: UserGender?
+) {
 
     init {
         val image = imageUrl

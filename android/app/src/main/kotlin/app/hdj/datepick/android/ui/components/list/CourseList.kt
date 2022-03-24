@@ -50,9 +50,10 @@ fun CourseHorizontalListItem(
                     Brush.verticalGradient(
                         colors = listOf(
                             Color.Black.copy(alpha = 0f),
-                            Color.Black.copy(0.65f),
-                            Color.Black.copy(0.8f),
-                            Color.Black.copy(0.95f)
+                            Color.Black.copy(0.2f),
+                            Color.Black.copy(0.3f),
+                            Color.Black.copy(0.7f),
+                            Color.Black.copy(0.9f)
                         )
                     )
                 )
@@ -73,14 +74,14 @@ fun CourseHorizontalListItem(
 
                 Spacer(Modifier.height(6.dp))
 
-                Text(
-                    course.meetAtInstant.toLocalDateTime(TimeZone.currentSystemDefault()).run {
-                        "${year}년 ${monthNumber}월 ${dayOfMonth}일"
-                    },
-                    color = Color.White.copy(0.5f),
-                    style = MaterialTheme.typography.body2,
-                    textAlign = TextAlign.Center
-                )
+                course.meetAtInstant?.toLocalDateTime(TimeZone.currentSystemDefault())?.run {
+                    Text(
+                        "${year}년 ${monthNumber}월 ${dayOfMonth}일",
+                        color = Color.White.copy(0.5f),
+                        style = MaterialTheme.typography.body2,
+                        textAlign = TextAlign.Center
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(10.dp))
 

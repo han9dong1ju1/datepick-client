@@ -4,8 +4,8 @@ import app.hdj.datepick.CourseEntity
 import app.hdj.datepick.data.api.CourseApi
 import app.hdj.datepick.data.api.map
 import app.hdj.datepick.data.datastore.CourseDataStore
+import app.hdj.datepick.data.entity.course.CourseResponse
 import app.hdj.datepick.data.mapper.CourseMapper
-import app.hdj.datepick.data.mapper.CourseMapper.asTable
 import app.hdj.datepick.data.mapper.Mapper
 import app.hdj.datepick.data.utils.createPagedDataFlow
 import app.hdj.datepick.domain.LoadState
@@ -22,14 +22,14 @@ import kotlinx.coroutines.flow.flow
 class CourseRepositoryImp @Inject constructor(
     private val api: CourseApi,
     private val dataStore: CourseDataStore
-) : CourseRepository, Mapper<CourseEntity, Course> by CourseMapper {
+) : CourseRepository, Mapper<CourseEntity, CourseResponse, Course> by CourseMapper {
 
     override fun getById(id: Long) = flow {
         val cached = dataStore.runCatching { get(id) }.getOrNull()
-        emitState(cached?.asDomain()) {
+        emitState(cached?.tableToDomain()) {
             val data = api.getById(id).data
-            dataStore.save(data.asTable())
-            data
+            dataStore.save(data.dataToTable())
+            data.dataToDomain()
         }
     }
 
@@ -37,23 +37,23 @@ class CourseRepositoryImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getPagedMyDateCourses(courseQueryParams: CourseQueryParams) = createPagedDataFlow<Course> { page ->
+    override fun getPagedMyDateCourses(courseQueryParams: CourseQueryParams) = createPagedDataFlow { page ->
         val apiResponse = api.queryMyDateCourses(page, courseQueryParams).data
         dataStore.saveAll(apiResponse.content.mapTable())
-        apiResponse.map { it }
+        apiResponse.map { it.dataToDomain() }
     }
 
-    override fun queryPagedCourses(courseQueryParams: CourseQueryParams) = createPagedDataFlow<Course> { page ->
+    override fun queryPagedCourses(courseQueryParams: CourseQueryParams) = createPagedDataFlow { page ->
         val apiResponse = api.queryCourses(page, courseQueryParams).data
         dataStore.saveAll(apiResponse.content.mapTable())
-        apiResponse.map { it }
+        apiResponse.map { it.dataToDomain() }
     }
 
-    override fun queryTenCourses(courseQueryParams: CourseQueryParams) = flow<LoadState<List<Course>>> {
+    override fun queryTenCourses(courseQueryParams: CourseQueryParams) = flow {
         emitState {
             val apiResponse = api.queryCourses(0, courseQueryParams).data
             dataStore.saveAll(apiResponse.content.mapTable())
-            apiResponse.content
+            apiResponse.content.mapDomain()
         }
     }
 }

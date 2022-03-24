@@ -17,7 +17,7 @@ interface SettingsScreenViewModelDelegate : UnidirectionalViewModelDelegate<
     class State(
         val appInfo: AppInfo = AppInfo(),
         val appTheme: AppSettings.AppTheme = AppSettings.AppTheme.System,
-        val isNearbyRecommendBannerIgnored: Boolean = false,
+        val isNearbyRecommendEnabled: Boolean = false,
     ) {
 
         class AppInfo(
@@ -31,7 +31,7 @@ interface SettingsScreenViewModelDelegate : UnidirectionalViewModelDelegate<
 
     sealed interface Event {
         class SwitchTheme(val appTheme: AppSettings.AppTheme) : Event
-        class IgnoreNearbyRecommendedBanner(val value: Boolean) : Event
+        class SetNearbyRecommendationEnable(val enable: Boolean) : Event
     }
 
 }
@@ -47,17 +47,17 @@ class SettingsScreenViewModel @Inject constructor(
 
     private val appInfoFlow = MutableStateFlow(appInfo)
     private val appTheme = appSettings.appTheme
-    private val isNearbyRecommendBannerIgnored = appSettings.isNearbyRecommendBannerIgnored
+    private val isNearbyRecommendEnabled = appSettings.isNearbyRecommendEnabled
 
     override val state: StateFlow<State> = combine(
         appInfoFlow,
         appTheme,
-        isNearbyRecommendBannerIgnored
+        isNearbyRecommendEnabled
     ) { info, theme, isNearbyRecommendBannerIgnored ->
         State(
             appInfo = State.AppInfo(info.appVersion, info.debug),
             appTheme = theme,
-            isNearbyRecommendBannerIgnored = isNearbyRecommendBannerIgnored ?: false
+            isNearbyRecommendEnabled = isNearbyRecommendBannerIgnored ?: false
         )
     }.asStateFlow(State(), platformViewModelScope)
 
@@ -68,9 +68,9 @@ class SettingsScreenViewModel @Inject constructor(
                     appSettings.updateAppTheme(e.appTheme)
                 }
             }
-            is Event.IgnoreNearbyRecommendedBanner -> {
+            is Event.SetNearbyRecommendationEnable -> {
                 platformViewModelScope.launch {
-                    appSettings.setNearbyRecommendBannerIgnored(e.value)
+                    appSettings.setNearbyRecommendEnabled(e.enable)
                 }
             }
         }

@@ -1,6 +1,6 @@
 package app.hdj.datepick.data.api
 
-import app.hdj.datepick.data.entity.featured.FeaturedData
+import app.hdj.datepick.data.entity.featured.FeaturedResponse
 import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.di.Singleton
 import io.ktor.client.*
@@ -14,9 +14,9 @@ interface FeaturedApi : Api {
         size: Long,
         isPinned: Boolean,
         courseId: Long?
-    ): ApiResponse<PagingResponse<FeaturedData>>
+    ): ApiResponse<PagingResponse<FeaturedResponse>>
 
-    suspend fun getFeaturedDetail(id: Long): ApiResponse<FeaturedData>
+    suspend fun getFeaturedDetail(id: Long): ApiResponse<FeaturedResponse>
 
 }
 
@@ -30,13 +30,13 @@ class FeaturedApiImp @Inject constructor(
         size: Long,
         isPinned: Boolean,
         courseId: Long?
-    ) = get<ApiResponse<PagingResponse<FeaturedData>>> {
+    ) = get<ApiResponse<PagingResponse<FeaturedResponse>>> {
         parameter("page", page.toString())
         parameter("size", size.toString())
         parameter("is_pinned", isPinned.toString())
         parameter("course_id", courseId?.toString())
     }
 
-    override suspend fun getFeaturedDetail(id: Long) = get<ApiResponse<FeaturedData>>("$id/")
+    override suspend fun getFeaturedDetail(id: Long) = get<ApiResponse<FeaturedResponse>>("$id/")
 
 }

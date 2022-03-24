@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.ui.components.TextButton
 
@@ -13,6 +14,7 @@ import app.hdj.datepick.ui.components.TextButton
 fun Header(
     title: String,
     moreButton: String? = null,
+    color: Color = Color.Unspecified,
     onMoreButtonClicked: () -> Unit = {}
 ) {
 
@@ -25,6 +27,7 @@ fun Header(
             Spacer(Modifier.width(10.dp))
             Text(
                 title,
+                color = color,
                 style = MaterialTheme.typography.subtitle1
             )
         }

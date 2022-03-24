@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui.screens.createCourse
+package app.hdj.datepick.android.ui.screens.course.createCourse
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -7,54 +7,50 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.providers.LocalAppNavController
-import app.hdj.datepick.android.ui.screens.AppNavigationGraph
-import app.hdj.datepick.android.ui.screens.navigateRoute
+import app.hdj.datepick.android.ui.destinations.CreateCourseInfoScreenDestination
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModel
 import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModelDelegate
 import app.hdj.datepick.ui.components.*
 import com.google.accompanist.flowlayout.FlowRow
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
+@Destination
 fun CreateCourseThemeScreen(
-    vm: CreateCourseScreenViewModelDelegate = hiltViewModel<CreateCourseScreenViewModel>()
+    navigator: DestinationsNavigator
 ) {
+    CreateCourseThemeScreenContent(
+        onNextClicked = { navigator.navigate(CreateCourseInfoScreenDestination) },
+        hiltViewModel<CreateCourseScreenViewModel>()
+    )
+}
 
-    val navController = LocalAppNavController.current
+@Composable
+private fun CreateCourseThemeScreenContent(
+    onNextClicked: () -> Unit = {},
+    vm: CreateCourseScreenViewModelDelegate
+) {
 
     val (state, effect, event) = vm.extract()
 
     BaseScaffold(
         topBar = {
-            BaseTopBar(
+            InsetTopBar(
                 navigationIcon = { TopAppBarBackButton() },
                 enableDivider = false
             )
         },
         bottomBar = {
-            Box(
-                modifier = Modifier.padding(
-                    rememberInsetsPaddingValues(
-                        insets = LocalWindowInsets.current.navigationBars,
-                        applyStart = true,
-                        applyEnd = true,
-                        applyBottom = true,
-                        additionalBottom = 20.dp,
-                        additionalStart = 20.dp,
-                        additionalEnd = 20.dp
-                    )
-                )
-            ) {
+            Column(modifier = Modifier.padding(20.dp)) {
                 BaseButton(
                     modifier = Modifier.fillMaxWidth().height(50.dp),
                     enabled = !state.selectedThemes.isNullOrEmpty(),
                     text = "다음으로",
-                    onClick = { navController.navigateRoute(AppNavigationGraph.CreateCourse.Info) }
+                    onClick = onNextClicked
                 )
+                Spacer(modifier = Modifier.navigationBarsPadding())
             }
         }
     ) {
