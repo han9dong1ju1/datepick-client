@@ -26,13 +26,14 @@ class AuthenticateMeUseCase @Inject constructor(
             .flatMapConcat {
                 when (it) {
                     is LoadState.Success, is LoadState.Loading -> flowOf(it.map { })
-                    is LoadState.Failed ->
+                    is LoadState.Failed -> {
                         meRepository
-                            .register("firebase", authenticator.idToken!!)
+                            .register(authenticator.idToken!!)
                             .map { registerState ->
                                 if (registerState.isStateSucceed()) authenticator.refreshIdToken()
                                 registerState
                             }
+                    }
                 }
             }
         emitAll(flows)

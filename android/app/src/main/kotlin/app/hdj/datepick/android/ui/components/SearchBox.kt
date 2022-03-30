@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.SearchBoxState.SearchBoxUiState
@@ -64,73 +66,81 @@ fun rememberSearchBoxState(initialUiState: SearchBoxUiState = SearchBoxUiState.C
 @Composable
 fun SearchBox(
     modifier: Modifier = Modifier,
-    state: SearchBoxState = rememberSearchBoxState()
+    state: SearchBoxState = rememberSearchBoxState(),
+    onSelectRegionClicked : () -> Unit = {}
 ) {
 
     val elevation by animateDpAsState(targetValue = if (state.isExpanded) 0.dp else 10.dp)
     val cornerRadius by animateDpAsState(targetValue = if (state.isExpanded) 0.dp else 40.dp)
     val scale by animateFloatAsState(targetValue = if (state.isExpanded) 1f else 0.9f)
+    val statusBarColor by animateColorAsState(targetValue = if (state.isExpanded) MaterialTheme.colors.background else Color.Transparent)
 
-    Box(
+    Column(
         modifier = modifier
     ) {
+        Box(modifier = Modifier.fillMaxWidth().windowInsetsTopHeight(WindowInsets.statusBars).background(statusBarColor))
 
-        Surface(
-            onClick = {
-                if (state.uiState == SearchBoxUiState.Collapsed) state.expand()
-            },
-            modifier = Modifier
-                .graphicsLayer {
-                    scaleX *= scale
-                    scaleY *= scale
+        CompositionLocalProvider(LocalElevationOverlay provides null) {
+
+            Surface(
+                onClick = {
+                    if (state.uiState == SearchBoxUiState.Collapsed) state.expand()
                 },
-            shape = RoundedCornerShape(cornerRadius),
-            elevation = elevation
-        ) {
-            AnimatedContent(
-                modifier = Modifier.animateContentSize(),
-                targetState = state.isExpanded,
-                transitionSpec = {
-                    fadeIn(animationSpec = tween(150, 150)) with
-                            fadeOut(animationSpec = tween(150)) using
-                            SizeTransform { initialSize, targetSize ->
-                                if (targetState) {
-                                    keyframes {
-                                        IntSize(targetSize.width, initialSize.height) at 150
-                                        durationMillis = 300
-                                    }
-                                } else {
-                                    keyframes {
-                                        IntSize(initialSize.width, targetSize.height) at 150
-                                        durationMillis = 300
+                indication = null,
+                modifier = Modifier
+                    .graphicsLayer {
+                        scaleX *= scale
+                        scaleY *= scale
+                    },
+                shape = RoundedCornerShape(cornerRadius),
+                elevation = elevation
+            ) {
+                AnimatedContent(
+                    modifier = Modifier.animateContentSize(),
+                    targetState = state.isExpanded,
+                    transitionSpec = {
+                        fadeIn(animationSpec = tween(150, 150)) with
+                                fadeOut(animationSpec = tween(150)) using
+                                SizeTransform { initialSize, targetSize ->
+                                    if (targetState) {
+                                        keyframes {
+                                            IntSize(targetSize.width, initialSize.height) at 150
+                                            durationMillis = 300
+                                        }
+                                    } else {
+                                        keyframes {
+                                            IntSize(initialSize.width, targetSize.height) at 150
+                                            durationMillis = 300
+                                        }
                                     }
                                 }
+                    }
+                ) {
+                    if (it) {
+                        SearchBoxExpandedUi(state = state, onSelectRegionClicked)
+                    } else {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(onClick = state::expand) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Search,
+                                    contentDescription = null
+                                )
                             }
-                }
-            ) {
-                if (it) {
-                    SearchBoxExpandedUi(state = state)
-                } else {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = state::expand) {
-                            Icon(
-                                imageVector = Icons.Rounded.Search,
-                                contentDescription = null
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = "검색하기",
+                                style = MaterialTheme.typography.subtitle1
                             )
                         }
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(
-                            text = "검색하기",
-                            style = MaterialTheme.typography.subtitle1
-                        )
                     }
                 }
             }
+
         }
 
     }
@@ -139,10 +149,11 @@ fun SearchBox(
 
 @Composable
 private fun SearchBoxExpandedUi(
-    state: SearchBoxState
+    state: SearchBoxState,
+    onSelectRegionClicked : () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)
     ) {
 
         Row(
@@ -179,6 +190,8 @@ private fun SearchBoxExpandedUi(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
+
+            ListHeader("지역선택", modifier = Modifier.clickable { onSelectRegionClicked() })
 
             ListHeader("필터")
             FlowRow(

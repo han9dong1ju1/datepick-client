@@ -20,7 +20,7 @@ interface MeRepository {
         profileImageUrl: Input?,
     ): Flow<LoadState<User>>
 
-    fun register(provider: String, token: String): Flow<LoadState<Unit>>
+    fun register(token: String): Flow<LoadState<Unit>>
 
     fun unregister(reason: String): Flow<LoadState<Unit>>
 

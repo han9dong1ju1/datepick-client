@@ -50,11 +50,10 @@ class MeRepositoryImp @Inject constructor(
     }
 
     override fun register(
-        provider: String,
         token: String
     ) = flow {
         emitState {
-            val request = UserRegisterRequest(provider, token)
+            val request = UserRegisterRequest(token)
             meDataStore.save(userApi.register(request).data.run { User(id, nickname, imageUrl, gender) })
         }
     }

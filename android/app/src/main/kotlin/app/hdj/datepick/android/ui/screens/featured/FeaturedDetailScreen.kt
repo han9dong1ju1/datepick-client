@@ -163,19 +163,21 @@ private fun FeaturedDetailScreenContent(
                 )
 
                 Crossfade(
-                    state.featured
+                    targetState = state.featured,
+                    modifier = Modifier.parallax(),
                 ) { featured ->
                     if (featured != null) {
                         Surface(color = animatedToolbarBackgroundColor) {
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .parallax()
                                     .graphicsLayer { alpha = collapsingToolbarScaffoldState.toolbarState.progress }
-                                    .height(400.dp)
+
                             ) {
                                 NetworkImage(
-                                    modifier = Modifier.fillMaxSize().background(color = Color.Black).alpha(0.5f),
+                                    modifier = Modifier.fillMaxSize().background(color = Color.Black)
+                                        .alpha(0.5f)
+                                        .height(400.dp),
                                     url = featured.imageUrl
                                 )
                             }

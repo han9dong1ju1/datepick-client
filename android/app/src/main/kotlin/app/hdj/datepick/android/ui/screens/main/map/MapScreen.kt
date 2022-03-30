@@ -11,15 +11,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.BottomSheetValue.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.SearchBox
 import app.hdj.datepick.android.ui.components.rememberSearchBoxState
+import app.hdj.datepick.android.ui.destinations.RegionSelectScreenDestination
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.googlemap.*
 import com.ramcosta.composedestinations.annotation.Destination
@@ -46,15 +45,17 @@ private val BottomSheetState.currentFraction: Float
 fun MapScreen(
     navigator: DestinationsNavigator
 ) {
-    MapScreenContent(popBackStack = {
-        navigator.popBackStack()
-    })
+    MapScreenContent(
+        popBackStack = { navigator.popBackStack() },
+        onSelectRegionClicked = { navigator.navigate(RegionSelectScreenDestination) }
+    )
 }
 
 
 @Composable
 private fun MapScreenContent(
-    popBackStack: () -> Unit = {}
+    popBackStack: () -> Unit = {},
+    onSelectRegionClicked: () -> Unit = {}
 ) {
 
     val searchBoxState = rememberSearchBoxState()
@@ -140,10 +141,7 @@ private fun MapScreenContent(
                 enter = slideInVertically { -it },
                 exit = slideOutVertically { -it }
             ) {
-                SearchBox(
-                    modifier = Modifier.statusBarsPadding(),
-                    state = searchBoxState
-                )
+                SearchBox(state = searchBoxState, onSelectRegionClicked = onSelectRegionClicked)
             }
         }
     }
