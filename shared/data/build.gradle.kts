@@ -1,4 +1,6 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
@@ -8,6 +10,7 @@ plugins {
     id("com.squareup.sqldelight")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+    id("com.codingfeline.buildkonfig")
 }
 
 version = "1.0"
@@ -29,6 +32,12 @@ android {
     }
 }
 
+buildkonfig {
+    packageName = "app.hdj.datepick.android"
+    defaultConfigs {
+        buildConfigField(STRING, "kakaoApiKey", "71ee2c3a305758fff12755acedc14f36")
+    }
+}
 
 kotlin {
 
@@ -53,6 +62,7 @@ kotlin {
             api(Ktor.client.contentNegotiation)
             api(Ktor.client.json)
             api(Ktor.client.logging)
+            api(Ktor.client.auth)
             api(Square.sqlDelight.extensions.coroutines)
             api(MultiplatformSettings.core)
             api(MultiplatformSettings.coroutines)
@@ -73,19 +83,20 @@ kotlin {
             implementation(AndroidX.dataStore.core)
             implementation(AndroidX.dataStore.preferences)
             implementation(AndroidX.paging.commonKtx)
+            implementation(AndroidX.security.cryptoKtx)
             kapt(AndroidX.paging.runtimeKtx)
             kapt(AndroidX.navigation.runtimeKtx)
             kapt(AndroidX.hilt.compiler)
             kapt(Google.dagger.hilt.compiler)
         }
-        sourceSets["androidTest"].dependencies {
-            implementation(kotlin("test"))
-            implementation(kotlin("test-junit"))
-            implementation(Mokk.core)
-            implementation(Testing.junit4)
-            implementation(Testing.junit.jupiter.api)
-            implementation(Testing.junit.jupiter.engine)
-        }
+//        sourceSets["androidTest"].dependencies {
+//            implementation(kotlin("test"))
+//            implementation(kotlin("test-junit"))
+//            implementation(Mokk.core)
+//            implementation(Testing.junit4)
+//            implementation(Testing.junit.jupiter.api)
+//            implementation(Testing.junit.jupiter.engine)
+//        }
         sourceSets["iosMain"].dependencies {
             implementation(Koin.core)
             implementation(Ktor.client.darwin)
@@ -123,6 +134,24 @@ kotlin {
     targets.withType(KotlinNativeTarget::class.java) {
         binaries.all {
             binaryOptions["memoryModel"] = "experimental"
+        }
+    }
+
+    targets.all {
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs = freeCompilerArgs + listOf(
+                    "-Xopt-in=kotlin.RequiresOptIn",
+                    "-Xopt-in=kotlin.OptIn",
+                    "-Xopt-in=kotlinx.coroutines.FlowPreview",
+                    "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
+                    "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+                    "-Xopt-in=com.google.accompanist.pager.ExperimentalPagerApi",
+                    "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
+                    "-Xopt-in=coil.annotation.ExperimentalCoilApi",
+                )
+            }
         }
     }
 

@@ -52,7 +52,7 @@ actual class LocationTracker @Inject constructor(val context: Context) {
         }
     }
 
-    fun startObserving() {
+    actual fun startObserving() {
         fusedLocationProviderClient.requestLocationUpdates(
             LocationRequest.create().setInterval(1000),
             locationCallback,
@@ -60,7 +60,7 @@ actual class LocationTracker @Inject constructor(val context: Context) {
         )
     }
 
-    fun stopObserving() {
+    actual fun stopObserving() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         coroutineScope.cancel()
     }

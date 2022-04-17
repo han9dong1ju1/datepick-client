@@ -14,10 +14,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.utils.extract
-import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModel
-import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModelDelegate
-import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModelDelegate.Effect.CourseCreated
-import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModelDelegate.Event.CreateCourse
+import app.hdj.datepick.presentation.createcourse.CreateCourseScreenViewModel
+import app.hdj.datepick.presentation.createcourse.CreateCourseScreenViewModelDelegate
+import app.hdj.datepick.presentation.createcourse.CreateCourseScreenViewModelDelegate.Effect.CourseCreated
+import app.hdj.datepick.presentation.createcourse.CreateCourseScreenViewModelDelegate.Event.CreateCourse
 import app.hdj.datepick.ui.components.BaseButton
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.InsetTopBar

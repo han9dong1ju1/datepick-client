@@ -1,29 +1,53 @@
 package app.hdj.datepick.domain.usecase.course.params
 
+import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.model.course.Course
+
+@kotlinx.serialization.Serializable
 data class CourseQueryParams(
-    val pagingParams: PagingParams = PagingParams(),
-    val filterParams: FilterParams = FilterParams()
+    var pagingParams: PagingParams = PagingParams(),
+    var filterParams: FilterParams = FilterParams()
 ) {
-
-    companion object {
-
-    }
-
-    data class PagingParams(val sort : Sort = Sort.Latest) {
-        enum class Sort(val value : String) {
+    @kotlinx.serialization.Serializable
+    data class PagingParams(
+        var sort: Sort = Sort.Latest
+    ) {
+        enum class Sort(val value: String) {
             Latest("latest"),
             Pick("pick"),
             Popular("popular")
         }
     }
 
+    @kotlinx.serialization.Serializable
     data class FilterParams(
-        val keyword : String? = null,
-        val tagIds : List<Int>? = null,
-        val featuredId : Long? = null,
-        val placeId : Long? = null,
-        val userId : Long? = null
+        var keyword: String? = null,
+        var tagIds: List<Int>? = null,
+        var featuredId: Long? = null,
+        var placeId: Long? = null,
+        var userId: Long? = null
     )
 
 
 }
+
+fun courseQueryParams(
+    block: CourseQueryParams.() -> Unit
+) = CourseQueryParams().apply(block)
+
+fun CourseQueryParams.pagingParams(
+    block: CourseQueryParams.PagingParams.() -> Unit
+) {
+    pagingParams = CourseQueryParams.PagingParams().apply(block)
+}
+
+fun CourseQueryParams.filterParams(
+    block: CourseQueryParams.FilterParams.() -> Unit
+) {
+    filterParams = CourseQueryParams.FilterParams().apply(block)
+}
+
+data class CourseQueryResult(
+    val queryParams: CourseQueryParams = CourseQueryParams(),
+    val result: LoadState<List<Course>> = LoadState.idle()
+)

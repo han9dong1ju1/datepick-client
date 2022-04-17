@@ -39,7 +39,7 @@ dependencies {
     api(Google.accompanist.navigation.animation)
     api(Google.accompanist.navigation.material)
     api(Google.accompanist.flowlayout)
-    api(Google.android.maps)
+    api(Google.android.maps.compose)
     api(Google.android.mapsUtils)
 
     api(AndroidX.core.splashscreen)

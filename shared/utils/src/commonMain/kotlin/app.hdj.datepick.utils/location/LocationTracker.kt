@@ -8,4 +8,8 @@ expect class LocationTracker {
 
     val locationFlow : Flow<LatLng>
 
+    fun startObserving()
+
+    fun stopObserving()
+
 }

@@ -7,6 +7,7 @@ import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.location.LocationTracker
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -38,8 +39,7 @@ class MapScreenViewModel @Inject constructor(
 
     private val effectChannel = Channel<MapScreenViewModelDelegate.Effect>(Channel.BUFFERED)
     override val effect: Flow<MapScreenViewModelDelegate.Effect> = effectChannel.receiveAsFlow()
-    override val state: StateFlow<MapScreenViewModelDelegate.State>
-        get() = TODO("Not yet implemented")
+    override val state: StateFlow<MapScreenViewModelDelegate.State> = MutableStateFlow(MapScreenViewModelDelegate.State())
 
     override fun event(e: MapScreenViewModelDelegate.Event) {
         platformViewModelScope.launch {
@@ -48,4 +48,5 @@ class MapScreenViewModel @Inject constructor(
             }
         }
     }
+
 }

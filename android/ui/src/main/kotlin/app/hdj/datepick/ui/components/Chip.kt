@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BaseChip(
+    onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
     text: String,
     textStyle: TextStyle = MaterialTheme.typography.body2,
     isSelected: Boolean = false,
-    onClick: () -> Unit = {}
 ) {
     val color by animateColorAsState(
         targetValue = if (isSelected) MaterialTheme.colors.secondary

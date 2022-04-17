@@ -1,13 +1,13 @@
-Version: 	Ver 1.00.00-896ec84-DEBUG
+Version: 	Ver 1.00.00-fd0b1b8-DEBUG
 
-Branch: 	feature:DATEPICK-210
+Branch: 	main
 
 Developer: 	"Harry Park"
 
 Project Development Overview
 	Task
-		Harry Park(6 days ago)-[Android] UI 수정, Compose Destination 적용, WindowInsets 제거 및 Dependency Update
-		Harry Park(8 weeks ago)-[Android] 페이징 로직 수정 및 설정 쪽 화면 정렬
-		Harry Park(8 weeks ago)-[Android] 페이징 로직 적용
-		Harry Park(8 weeks ago)-[Android] Featured UI 수정, Shimmer 쪽 작업
-		Harry Park(8 weeks ago)-[Android] Ignore 과 무관하게 Nearby Recommendation 보여주게 설정
+		Harry Park(2 weeks ago)-[Android] UI 수정, Compose Destination 적용, WindowInsets 제거 및 Dependency Update
+		Harry Park(3 weeks ago)-[Android] UI 수정, Compose Destination 적용, WindowInsets 제거 및 Dependency Update
+		Harry Park(2 months ago)-[Android] 페이징 로직 수정 및 설정 쪽 화면 정렬
+		Harry Park(2 months ago)-[Android] 페이징 로직 적용
+		Harry Park(3 months ago)-[Android] Featured UI 수정, Shimmer 쪽 작업

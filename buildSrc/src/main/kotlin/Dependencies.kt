@@ -76,6 +76,7 @@ object Utils {
     const val qrGenerator = "com.google.zxing:zxingorg:_"
 
     const val mokoKSwift = "dev.icerock.moko:kswift-runtime:_"
+    const val composeReordable = "org.burnoutcrew.composereorderable:reorderable:_"
 
 }
 

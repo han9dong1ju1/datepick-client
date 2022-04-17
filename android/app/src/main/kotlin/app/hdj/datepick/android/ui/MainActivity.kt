@@ -1,27 +1,28 @@
 package app.hdj.datepick.android.ui
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.view.KeyEvent
+import android.view.View
+import android.view.ViewTreeObserver
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import app.hdj.datepick.android.service.PushNotificationManager
 import app.hdj.datepick.domain.settings.AppSettings.AppTheme.*
-import app.hdj.datepick.domain.usecase.course.GetRecommendedCoursesUseCase
 import app.hdj.datepick.presentation.DatePickAppViewModel
-import app.hdj.datepick.utils.PlatformLogger
 import app.hdj.datepick.utils.location.LocationTracker
 import coil.Coil
 import coil.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,11 +40,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var locationTracker: LocationTracker
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         Coil.setImageLoader(imageLoader)
 
+        setupSplashScreen(splashScreen)
         setup()
 
         appViewModel.state.mapNotNull { it.appTheme }.onEach {
@@ -68,6 +71,33 @@ class MainActivity : AppCompatActivity() {
             )
 
         }
+    }
+
+
+    private fun setupSplashScreen(splashScreen: SplashScreen) {
+
+        splashScreen.setOnExitAnimationListener { splashScreenView ->
+            with(ObjectAnimator.ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f)) {
+                duration = 450L
+                doOnEnd { splashScreenView.remove() }
+                start()
+            }
+        }
+
+        val content: View = findViewById(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener(
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    return if (!appViewModel.state.value.isLoading) {
+                        content.viewTreeObserver.removeOnPreDrawListener(this)
+                        true
+                    } else {
+                        false
+                    }
+                }
+            }
+        )
+
     }
 
 }

@@ -7,7 +7,7 @@
 
         <provider
             android:name="app.hdj.datepick.ui.fonts.FontsProvider"
-            android:authorities="app.hdj.datepick.provider.fonts"
+            android:authorities="${applicationId}.provider.fonts"
             android:exported="false" />
         <meta-data
             android:name="preloaded_fonts"

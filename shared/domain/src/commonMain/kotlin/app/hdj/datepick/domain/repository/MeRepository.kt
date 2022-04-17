@@ -20,8 +20,6 @@ interface MeRepository {
         profileImageUrl: Input?,
     ): Flow<LoadState<User>>
 
-    fun register(token: String): Flow<LoadState<Unit>>
-
-    fun unregister(reason: String): Flow<LoadState<Unit>>
+    suspend fun removeCache()
 
 }

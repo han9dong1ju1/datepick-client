@@ -15,9 +15,7 @@ import androidx.paging.compose.LazyPagingItems
 @Composable
 fun LazyListState.isFirstItemScrolled(limit: Dp): Boolean {
     return firstVisibleItemIndex != 0 ||
-            firstVisibleItemIndex == 0 && firstVisibleItemScrollOffset >= with(LocalDensity.current) {
-        limit.roundToPx()
-    }
+            (firstVisibleItemScrollOffset >= with(LocalDensity.current) { limit.roundToPx() })
 
 }
 

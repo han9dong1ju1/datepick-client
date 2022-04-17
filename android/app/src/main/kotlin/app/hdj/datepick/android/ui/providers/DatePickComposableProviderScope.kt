@@ -8,10 +8,6 @@ import app.hdj.datepick.presentation.DatePickAppViewModel
 import app.hdj.datepick.presentation.DatePickAppViewModelDelegate
 import app.hdj.datepick.utils.location.LocationTracker
 
-val LocalDatePickAppViewModel = staticCompositionLocalOf<DatePickAppViewModelDelegate> {
-    error("Not Provided")
-}
-
 @Composable
 fun DatePickComposableProviderScope(
     appViewModel: DatePickAppViewModel,
@@ -20,7 +16,6 @@ fun DatePickComposableProviderScope(
 ) {
     val (state) = appViewModel.extract()
     CompositionLocalProvider(
-        LocalDatePickAppViewModel provides appViewModel,
         LocalMe provides state.me,
         LocalLocationTracker provides locationTracker
     ) {

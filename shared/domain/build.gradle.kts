@@ -40,7 +40,6 @@ kotlin {
             implementation(KotlinX.serialization.json)
             implementation(Ktor.client.core)
             implementation(Utils.kotlinxDateTime)
-            implementation(Firebase.multiplatform.auth)
         }
         sourceSets["commonTest"].dependencies {
             implementation(kotlin("test-common"))
@@ -80,6 +79,24 @@ kotlin {
     targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java) {
         binaries.all {
             binaryOptions["memoryModel"] = "experimental"
+        }
+    }
+
+    targets.all {
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs = freeCompilerArgs + listOf(
+                    "-Xopt-in=kotlin.RequiresOptIn",
+                    "-Xopt-in=kotlin.OptIn",
+                    "-Xopt-in=kotlinx.coroutines.FlowPreview",
+                    "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
+                    "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+                    "-Xopt-in=com.google.accompanist.pager.ExperimentalPagerApi",
+                    "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
+                    "-Xopt-in=coil.annotation.ExperimentalCoilApi",
+                )
+            }
         }
     }
 

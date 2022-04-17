@@ -29,15 +29,16 @@ import app.hdj.datepick.android.ui.components.list.*
 import app.hdj.datepick.android.ui.destinations.*
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Logo
-import app.hdj.datepick.android.ui.providers.LocalLocationTracker
-import app.hdj.datepick.android.ui.providers.preview.FakePlacePreviewProvider
-import app.hdj.datepick.android.utils.extract
-import app.hdj.datepick.android.utils.onCourseClicked
-import app.hdj.datepick.android.utils.onFeaturedClicked
-import app.hdj.datepick.android.utils.onPlaceClicked
+import app.hdj.datepick.android.utils.*
+import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.isStateFailed
+import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
+import app.hdj.datepick.domain.onSucceed
+import app.hdj.datepick.domain.usecase.course.params.CourseQueryParams
+import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
 import app.hdj.datepick.presentation.main.HomeScreenViewModel
 import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate
 import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate.Event.LocationPermissionResult
@@ -57,16 +58,19 @@ fun HomeScreen(navigator: DestinationsNavigator) {
         onPlaceClicked = navigator.onPlaceClicked,
         onCourseClicked = navigator.onCourseClicked,
         onFeaturedClicked = navigator.onFeaturedClicked,
+        onMorePlaceListClicked = navigator.onMorePlaceListClicked,
+        onMoreCourseListClicked = navigator.onMoreCourseListClicked,
         onNotificationClicked = { navigator.navigate(NotificationScreenDestination) },
         onLocationPermissionDeniedDialogShown = { navigator.navigate(LocationPermissionDeniedDialogDestination) },
         vm = hiltViewModel<HomeScreenViewModel>()
     )
 }
 
-
 @Composable
 private fun HomeScreenContent(
     onPlaceClicked: (Place) -> Unit = {},
+    onMorePlaceListClicked: (PlaceQueryParams) -> Unit = {},
+    onMoreCourseListClicked: (CourseQueryParams) -> Unit = {},
     onCourseClicked: (Course) -> Unit = {},
     onNotificationClicked: () -> Unit = {},
     onFeaturedClicked: (Featured) -> Unit = {},
@@ -78,7 +82,6 @@ private fun HomeScreenContent(
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val locationTracker = LocalLocationTracker.current
 
     BackHandler {
         context.getActivity()?.finish()
@@ -115,13 +118,6 @@ private fun HomeScreenContent(
         }
     }
 
-    LaunchedEffect(state.nearbyRecommendationsUiState.showNearbyRecommendations) {
-        if (state.nearbyRecommendationsUiState.showNearbyRecommendations) {
-            val currentLocation = locationTracker.getCurrentLocation()
-            if (currentLocation != null) event(HomeScreenViewModelDelegate.Event.CurrentLocation(currentLocation))
-        }
-    }
-
     BaseSwipeRefreshLayoutScaffold(
         modifier = Modifier.fillMaxSize(),
         swipeRefreshState = swipeRefreshState,
@@ -143,36 +139,50 @@ private fun HomeScreenContent(
 
         LazyColumn(modifier = Modifier.padding(it), state = lazyListState) {
 
-            state.featuredUiState.apply {
-                mainHomeFeatured(this, event, onFeaturedClicked)
-            }
+            mainHomeFeatured(state.featured, event, onFeaturedClicked)
 
-            state.nearbyRecommendationsUiState.apply {
-                if (showNearbyRecommendations) {
-                    mainHomeNearbyRecommendedPlaces(onPlaceClicked)
-                    mainHomePopularPlaces(onPlaceClicked)
-                } else {
-                    mainHomePopularPlaces(onPlaceClicked)
-                    if (showNearbyRecommendLocationPermissionBanner) {
-                        mainHomeLocationPermissionBanner(
-                            activity,
-                            onLocationPermissionDeniedDialogShown,
-                            locationPermissionRequest,
-                            event
+            state.apply {
+
+                nearbyRecommendedPlacesQuery?.run {
+                    result.onSucceed { places ->
+                        itemHorizontalPlacesWithHeader("주변 인기 장소",
+                            places,
+                            onPlaceClicked,
+                            onMoreClicked = { onMorePlaceListClicked(queryParams) }
                         )
                     }
                 }
-            }
 
-            state.recommendedCoursesUiState.apply {
-                if (showRecommendedCourses) {
-                    mainRecommendedCourses(recommendedCourses, onCourseClicked)
+                recommendedPlacesQuery?.run {
+                    result.onSucceed { places ->
+                        itemHorizontalPlacesWithHeader(
+                            "추천 인기 장소",
+                            places,
+                            onPlaceClicked, onMoreClicked = { onMorePlaceListClicked(queryParams) }
+                        )
+                    }
                 }
+
+
+                if (showNearbyRecommendLocationPermissionBanner) {
+                    mainHomeLocationPermissionBanner(
+                        activity,
+                        onLocationPermissionDeniedDialogShown,
+                        locationPermissionRequest,
+                        event
+                    )
+                }
+
             }
 
-            state.recommendedCoursesUiState.apply {
-                if (showRecommendedCourses) {
-                    mainRecommendedCourses(recommendedCourses, onCourseClicked)
+            state.recommendedCoursesQuery?.run {
+                result.onSucceed { courses ->
+                    itemHorizontalCoursesWithHeader(
+                        "추천 코스",
+                        courses,
+                        onCourseClicked,
+                        onMoreClicked = { onMoreCourseListClicked(queryParams) }
+                    )
                 }
             }
 
@@ -188,25 +198,25 @@ private fun HomeScreenContent(
 }
 
 private fun LazyListScope.mainHomeFeatured(
-    featuredUiState: HomeScreenViewModelDelegate.State.FeaturedUiState,
+    featured: LoadState<List<Featured>>,
     event: (HomeScreenViewModelDelegate.Event) -> Unit,
     onFeaturedClicked: (Featured) -> Unit
 ) {
     item {
         Crossfade(
-            targetState = featuredUiState,
+            targetState = featured,
             modifier = Modifier.fillMaxWidth().animateItemPlacement().animateContentSize()
         ) {
-            if (it.showFeaturedFailedBanner) {
+            if (it.isStateFailed()) {
                 RetryBanner(modifier = Modifier.animateItemPlacement()) {
-                    event(HomeScreenViewModelDelegate.Event.RetryFeaturedList)
+                    event(HomeScreenViewModelDelegate.Event.RetryFeatured)
                 }
-            } else if (it.showFeaturedList) {
+            } else if (it.isStateSucceed()) {
                 Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
                     Spacer(modifier = Modifier.height(20.dp))
                     ViewPager(
                         Modifier.fillMaxWidth(),
-                        it.featuredList,
+                        it.data,
                         itemSpacing = 10.dp,
                         contentPadding = PaddingValues(horizontal = 20.dp),
                     ) { item, _ ->
@@ -245,54 +255,5 @@ private fun LazyListScope.mainHomeLocationPermissionBanner(
             },
             { event(HomeScreenViewModelDelegate.Event.IgnoreNearbyRecommend) },
         )
-    }
-}
-
-private fun LazyListScope.mainHomePopularPlaces(onPlaceClicked: (Place) -> Unit) {
-    item {
-        Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
-            val list = remember { FakePlacePreviewProvider().values.first() }
-            Spacer(modifier = Modifier.height(10.dp))
-            Header("전체 인기장소", "더보기") {
-
-            }
-            PlaceHorizontalList(list, onPlaceClicked)
-            Spacer(modifier = Modifier.height(20.dp))
-        }
-    }
-}
-
-private fun LazyListScope.mainHomeNearbyRecommendedPlaces(onPlaceClicked: (Place) -> Unit) {
-    item {
-        Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
-            val list = remember { FakePlacePreviewProvider().values.first() }
-            Spacer(modifier = Modifier.height(10.dp))
-            Header("주변 추천 인기장소", "더보기") {
-
-            }
-            PlaceHorizontalList(list, onPlaceClicked)
-            Spacer(modifier = Modifier.height(20.dp))
-        }
-    }
-}
-
-private fun LazyListScope.mainRecommendedCourses(
-    recommendedCourses: List<Course>,
-    onCourseClicked: (Course) -> Unit
-) {
-    item {
-        Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
-            Spacer(modifier = Modifier.height(10.dp))
-            Header("추천 인기코스", "더보기") {
-
-            }
-            LazyRow(contentPadding = PaddingValues(start = 20.dp)) {
-                items(recommendedCourses) { it ->
-                    CourseHorizontalListItem(it, onCourseClicked)
-                    Spacer(Modifier.width(20.dp))
-                }
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-        }
     }
 }

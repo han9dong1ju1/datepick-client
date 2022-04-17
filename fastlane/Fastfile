@@ -7,12 +7,12 @@ platform :android do
         gradle(task: "clean assembleDebug")
 
         version_name = get_version_name(
-              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/BuildConfig.java",
+              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/debug/BuildConfig.java",
               ext_constant_name:"VERSION_NAME"
         ).delete_suffix(";")
 
         version_code = get_version_name(
-              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/BuildConfig.java",
+              gradle_file_path:"android/app/build/generated/source/buildConfig/debug/app/hdj/datepick/android/debug/BuildConfig.java",
               ext_constant_name:"VERSION_CODE"
         ).delete_suffix(";")
 

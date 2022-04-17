@@ -1,11 +1,10 @@
 package app.hdj.datepick.data.repository
 
-import app.hdj.datepick.data.api.UserApi
-import app.hdj.datepick.data.datastore.MeDataStore
-import app.hdj.datepick.data.request.user.UserProfileRequest
-import app.hdj.datepick.data.request.user.UserRegisterRequest
-import app.hdj.datepick.data.request.user.UserUnregisterRequest
-import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.data.remote.api.UserApi
+import app.hdj.datepick.data.storage.datastore.MeDataStore
+import app.hdj.datepick.data.model.request.user.UserProfileRequest
+import app.hdj.datepick.data.model.request.user.UserRegisterRequest
+import app.hdj.datepick.data.model.request.user.UserUnregisterRequest
 import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.model.user.UserGender
@@ -49,21 +48,8 @@ class MeRepositoryImp @Inject constructor(
         }
     }
 
-    override fun register(
-        token: String
-    ) = flow {
-        emitState {
-            val request = UserRegisterRequest(token)
-            meDataStore.save(userApi.register(request).data.run { User(id, nickname, imageUrl, gender) })
-        }
+    override suspend fun removeCache() {
+        meDataStore.clearMe()
     }
-
-    override fun unregister(reason: String) =
-        flow {
-            emitState {
-                userApi.unregister(UserUnregisterRequest(reason))
-                meDataStore.clearMe()
-            }
-        }
 
 }

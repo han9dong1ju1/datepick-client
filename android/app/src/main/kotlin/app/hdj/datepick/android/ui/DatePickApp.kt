@@ -1,6 +1,9 @@
 package app.hdj.datepick.android.ui
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Book
@@ -11,20 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import app.hdj.datepick.android.ui.destinations.HomeScreenDestination
 import app.hdj.datepick.android.ui.destinations.MapScreenDestination
 import app.hdj.datepick.android.ui.destinations.MyDateScreenDestination
 import app.hdj.datepick.android.ui.destinations.ProfileScreenDestination
 import app.hdj.datepick.android.ui.providers.DatePickComposableProviderScope
-import app.hdj.datepick.android.ui.providers.LocalDatePickAppViewModel
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.presentation.DatePickAppViewModel
-import app.hdj.datepick.ui.animation.materialTransitionSpecYaxisPopFromBottom
-import app.hdj.datepick.ui.animation.materialTransitionXaxisIn
-import app.hdj.datepick.ui.animation.materialTransitionYaxisIn
-import app.hdj.datepick.ui.animation.materialTransitionYaxisOut
+import app.hdj.datepick.presentation.placelist.PlaceListScreenViewModel
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
@@ -36,6 +36,7 @@ import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.dependency
 
 
 private val mainNavigationRoutesWithIcon = listOf(
@@ -105,7 +106,10 @@ fun DatePickApp(
                 ) {
                     DestinationsNavHost(
                         navGraph = NavGraphs.root,
-                        navController = navController
+                        navController = navController,
+                        dependenciesContainerBuilder = {
+                            dependency(appViewModel)
+                        }
                     )
                 }
             }

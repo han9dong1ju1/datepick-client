@@ -83,6 +83,7 @@ dependencies {
     implementation(Utils.markdownCoil)
     implementation(Utils.markdownLinkify)
     implementation(Utils.qrGenerator)
+    implementation(Utils.composeReordable)
 
     implementation(ComposeDestination.core)
     implementation(ComposeDestination.animationsCore)
@@ -141,6 +142,7 @@ android {
         getByName("debug") {
             createDebugReleaseNote()
             versionNameSuffix = "-$gitDescribe-DEBUG"
+            applicationIdSuffix = ".debug"
         }
 
         getByName("release") {

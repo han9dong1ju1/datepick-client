@@ -11,7 +11,7 @@ interface AppSettings {
     val appTheme : Flow<AppTheme>
     suspend fun updateAppTheme(appTheme: AppTheme)
 
-    val isNearbyRecommendEnabled : Flow<Boolean?>
+    val isNearbyRecommendEnabled : Flow<Boolean>
     suspend fun setNearbyRecommendEnabled(isIgnored: Boolean)
 
 }

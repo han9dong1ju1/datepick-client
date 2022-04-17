@@ -1,7 +1,6 @@
 package app.hdj.datepick.data.utils
 
-import app.hdj.datepick.data.api.PagingResponse
-import app.hdj.datepick.domain.model.course.Course
+import app.hdj.datepick.data.remote.PagingResponse
 import app.hdj.datepick.utils.coroutines.IO
 import com.kuuurt.paging.multiplatform.Pager
 import com.kuuurt.paging.multiplatform.PagingConfig
@@ -9,7 +8,7 @@ import com.kuuurt.paging.multiplatform.PagingResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-fun <V : Any> createPagedDataFlow(
+fun <V : Any> createPager(
     initialKey: Long = 0L,
     pagingConfig : PagingConfig = PagingConfig(
         pageSize = 30,
@@ -31,4 +30,4 @@ fun <V : Any> createPagedDataFlow(
             prevKey = { if (apiResponse != null && currentKey != 0L) currentKey - 1 else null }
         )
     }
-).pagingData
+)

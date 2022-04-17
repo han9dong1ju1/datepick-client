@@ -1,12 +1,19 @@
 package app.hdj.datepick.domain.usecase.place.params
 
+import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.model.place.Place
+
+@kotlinx.serialization.Serializable
 data class PlaceQueryParams(
-    val pagingParams: PagingParams = PagingParams(),
-    val filterParams: FilterParams = FilterParams()
+    var pagingParams: PagingParams = PagingParams(),
+    var filterParams: FilterParams = FilterParams()
 ) {
 
-    data class PagingParams(val sort: Sort = Sort.Latest) {
-        enum class Sort(val value : String) {
+    @kotlinx.serialization.Serializable
+    data class PagingParams(
+        var sort: Sort = Sort.Latest
+    ) {
+        enum class Sort(val value: String) {
             Latest("latest"),
             Pick("pick"),
             Popular("popular"),
@@ -17,24 +24,37 @@ data class PlaceQueryParams(
         }
     }
 
+    @kotlinx.serialization.Serializable
     data class FilterParams(
-        val keyword : String? = null,
-        val category : String? = null,
-        val latitude : Double? = null,
-        val longitude : Double? = null,
-        val distance : Double? = null,
-        val courseId : Long? = null
+        var keyword: String? = null,
+        var categoryIds: List<Long>? = null,
+        var latitude: Double? = null,
+        var longitude: Double? = null,
+        var distance: Double? = null,
+        var courseId: Long? = null
     ) {
 
-        companion object {
-
-            fun withGeopoints(latitude: Double, longitude: Double) = FilterParams(
-                latitude = latitude,
-                longitude = longitude
-            )
-
+        fun nearby(latitude: Double, longitude: Double, distance: Double) {
+            this.latitude = latitude
+            this.longitude = longitude
+            this.distance = distance
         }
 
     }
 
 }
+
+fun placeQueryParams(block: PlaceQueryParams.() -> Unit) = PlaceQueryParams().apply(block)
+
+fun PlaceQueryParams.pagingParams(block: PlaceQueryParams.PagingParams.() -> Unit) {
+    pagingParams = PlaceQueryParams.PagingParams().apply(block)
+}
+
+fun PlaceQueryParams.filterParams(block: PlaceQueryParams.FilterParams.() -> Unit) {
+    filterParams = PlaceQueryParams.FilterParams().apply(block)
+}
+
+data class PlaceQueryResult(
+    val queryParams: PlaceQueryParams = PlaceQueryParams(),
+    val result: LoadState<List<Place>> = LoadState.idle()
+)

@@ -4,6 +4,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -15,12 +18,16 @@ import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import app.hdj.datepick.android.ui.icons.DatePickIcons
+import app.hdj.datepick.android.ui.icons.Logo
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.ui.components.NetworkImage
 import kotlinx.datetime.TimeZone
@@ -135,4 +142,46 @@ fun CourseHorizontalListItem(
 
     }
 
+}
+
+
+fun LazyListScope.itemHorizontalCoursesWithHeader(
+    title: String,
+    recommendedCourses: List<Course>,
+    onCourseClicked: (Course) -> Unit,
+    onMoreClicked: () -> Unit,
+) {
+    item {
+        Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Header(title, "더보기", onMoreButtonClicked = onMoreClicked)
+            LazyRow(contentPadding = PaddingValues(start = 20.dp)) {
+                items(recommendedCourses) { it ->
+                    CourseHorizontalListItem(it, onCourseClicked)
+                    Spacer(Modifier.width(20.dp))
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+        }
+    }
+}
+
+@Composable
+fun CourseVertialListItem(
+    course: Course,
+    onCourseClicked: (Course) -> Unit
+) {
+    app.hdj.datepick.ui.components.ListItem(
+        title = course.title,
+        subtitle = course.tags.joinToString { it.name },
+        rightSideUi = course.imageUrl?.let {
+            {
+                NetworkImage(
+                    url = it,
+                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8.dp)),
+                )
+            }
+        },
+        onClick = { onCourseClicked(course) }
+    )
 }

@@ -1,41 +1,78 @@
 {
   "project_info": {
-    "project_number": "4723840473",
-    "project_id": "datepick-74ce1",
-    "storage_bucket": "datepick-74ce1.appspot.com"
+    "project_number": "209984584953",
+    "project_id": "datepick-51933",
+    "storage_bucket": "datepick-51933.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:4723840473:android:9cecc8abe321cc4a9235c8",
+        "mobilesdk_app_id": "1:209984584953:android:00ff9a1a1365317d2cf628",
         "android_client_info": {
           "package_name": "app.hdj.datepick.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "4723840473-dbjt7rh7pq9r60grakv5o89cavlppj0v.apps.googleusercontent.com",
+          "client_id": "209984584953-1h370fnlh8tu1onlf9547pg7v51hn0qt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "app.hdj.datepick.android",
-            "certificate_hash": "a02eb8024561c4ba978f74eca590726161e72fa7"
+            "certificate_hash": "50f7190cc10933990d5913416c11fbbdb35b2d62"
           }
         },
         {
-          "client_id": "4723840473-dnjo7v761g4c60b1uc9s1to312v3hs6m.apps.googleusercontent.com",
+          "client_id": "209984584953-jk1h9k3taorrpcc2d5e98hintet1bj0u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDCtj-YRMYOJg93uaz9pjVgPyHt9IFFzQk"
+          "current_key": "AIzaSyBl7sf0uttWbT9z9j1vhfqj67uS5DOrg10"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "4723840473-dnjo7v761g4c60b1uc9s1to312v3hs6m.apps.googleusercontent.com",
+              "client_id": "209984584953-jk1h9k3taorrpcc2d5e98hintet1bj0u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209984584953:android:dd73f04a3dc3a21b2cf628",
+        "android_client_info": {
+          "package_name": "app.hdj.datepick.android.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209984584953-mfihcclhb3nte2abroj125s8jqh0p4in.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.hdj.datepick.android.debug",
+            "certificate_hash": "a02eb8024561c4ba978f74eca590726161e72fa7"
+          }
+        },
+        {
+          "client_id": "209984584953-jk1h9k3taorrpcc2d5e98hintet1bj0u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBl7sf0uttWbT9z9j1vhfqj67uS5DOrg10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209984584953-jk1h9k3taorrpcc2d5e98hintet1bj0u.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -10,7 +10,7 @@ interface UnidirectionalViewModelDelegate<S: Any, EF, E> {
         coroutineScope : CoroutineScope
     ) : StateFlow<S> = stateIn(
         coroutineScope,
-        SharingStarted.Lazily,
+        SharingStarted.Eagerly,
         defaultValue
     )
 

@@ -9,8 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.destinations.CreateCourseInfoScreenDestination
 import app.hdj.datepick.android.utils.extract
-import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModel
-import app.hdj.datepick.presentation.createCourse.CreateCourseScreenViewModelDelegate
+import app.hdj.datepick.presentation.createcourse.CreateCourseScreenViewModel
+import app.hdj.datepick.presentation.createcourse.CreateCourseScreenViewModelDelegate
 import app.hdj.datepick.ui.components.*
 import com.google.accompanist.flowlayout.FlowRow
 import com.ramcosta.composedestinations.annotation.Destination
@@ -69,11 +69,11 @@ private fun CreateCourseThemeScreenContent(
             ) {
                 state.themes?.forEach { theme ->
                     BaseChip(
-                        text = theme.name,
-                        isSelected = theme in (state.selectedThemes ?: emptyList()),
                         onClick = {
                             event(CreateCourseScreenViewModelDelegate.Event.SelectTheme(theme))
                         },
+                        text = theme.name,
+                        isSelected = theme in (state.selectedThemes ?: emptyList()),
                         textStyle = MaterialTheme.typography.subtitle2
                     )
                 }

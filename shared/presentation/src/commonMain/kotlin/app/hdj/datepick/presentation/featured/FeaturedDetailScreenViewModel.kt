@@ -5,6 +5,11 @@ import app.hdj.datepick.domain.isStateLoading
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.usecase.course.GetFeaturedCoursesUseCase
+import app.hdj.datepick.domain.usecase.course.GetFirstPageCoursesUseCase
+import app.hdj.datepick.domain.usecase.course.SearchCoursesUseCase
+import app.hdj.datepick.domain.usecase.course.params.courseQueryParams
+import app.hdj.datepick.domain.usecase.course.params.filterParams
+import app.hdj.datepick.domain.usecase.course.params.pagingParams
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedDetailUseCase
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedDynamicLinkUseCase
 import app.hdj.datepick.presentation.PlatformViewModel
@@ -44,7 +49,7 @@ interface FeaturedDetailScreenViewModelDelegate : UnidirectionalViewModelDelegat
 @HiltViewModel
 class FeaturedDetailScreenViewModel @Inject constructor(
     private val getFeaturedDetailUseCase: GetFeaturedDetailUseCase,
-    private val getFeaturedCoursesUseCase: GetFeaturedCoursesUseCase,
+    private val getFirstPageCoursesUseCase: GetFirstPageCoursesUseCase,
     private val getFeaturedDynamicLinkUseCase: GetFeaturedDynamicLinkUseCase
 ) : FeaturedDetailScreenViewModelDelegate, PlatformViewModel() {
 
@@ -73,7 +78,7 @@ class FeaturedDetailScreenViewModel @Inject constructor(
     }
 
     private fun loadFeaturedCourses(id: Long) {
-        getFeaturedCoursesUseCase.invoke(id)
+        getFirstPageCoursesUseCase(courseQueryParams { filterParams { featuredId = id } })
             .onEach { featuredCourses.value = it }
             .catch { featuredCourses.value = LoadState.failed(it) }
             .launchIn(platformViewModelScope)

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             app:fontProviderAuthority="app.hdj.datepick.android.debug.provider.fonts"
+             app:fontProviderCerts="@array/font_certs"
+             app:fontProviderPackage="app.hdj.datepick.ui.fonts"
+             app:fontProviderQuery="Mathpresso"
+             tools:ignore="FontValidation"/>

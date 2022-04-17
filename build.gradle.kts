@@ -13,6 +13,8 @@ buildscript {
         classpath(Google.dagger.hilt.android.gradlePlugin)
         classpath(Square.sqlDelight.gradlePlugin)
         classpath(Firebase.crashlyticsGradlePlugin)
+        classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+        classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.11.0")
     }
 }
 

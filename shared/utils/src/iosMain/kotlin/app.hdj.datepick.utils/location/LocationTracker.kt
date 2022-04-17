@@ -11,4 +11,10 @@ actual class LocationTracker {
 
     actual val locationFlow: Flow<LatLng> = flowOf(LatLng(0.0, 0.0))
 
+    actual fun startObserving() {
+    }
+
+    actual fun stopObserving() {
+    }
+
 }

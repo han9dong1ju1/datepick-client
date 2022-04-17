@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.SearchBoxState.SearchBoxUiState
@@ -57,9 +57,9 @@ class SearchBoxState(
 }
 
 @Composable
-fun rememberSearchBoxState(initialUiState: SearchBoxUiState = SearchBoxUiState.Collapsed) =
+fun rememberSearchBoxState() =
     remember {
-        SearchBoxState(initialUiState)
+        SearchBoxState()
     }
 
 
@@ -67,10 +67,10 @@ fun rememberSearchBoxState(initialUiState: SearchBoxUiState = SearchBoxUiState.C
 fun SearchBox(
     modifier: Modifier = Modifier,
     state: SearchBoxState = rememberSearchBoxState(),
-    onSelectRegionClicked : () -> Unit = {}
+    expandedContent: @Composable () -> Unit
 ) {
 
-    val elevation by animateDpAsState(targetValue = if (state.isExpanded) 0.dp else 10.dp)
+    val elevation by animateDpAsState(targetValue = if (state.isExpanded) 0.dp else 4.dp)
     val cornerRadius by animateDpAsState(targetValue = if (state.isExpanded) 0.dp else 40.dp)
     val scale by animateFloatAsState(targetValue = if (state.isExpanded) 1f else 0.9f)
     val statusBarColor by animateColorAsState(targetValue = if (state.isExpanded) MaterialTheme.colors.background else Color.Transparent)
@@ -78,79 +78,77 @@ fun SearchBox(
     Column(
         modifier = modifier
     ) {
-        Box(modifier = Modifier.fillMaxWidth().windowInsetsTopHeight(WindowInsets.statusBars).background(statusBarColor))
+        Box(
+            modifier = Modifier.fillMaxWidth().windowInsetsTopHeight(WindowInsets.statusBars).background(statusBarColor)
+        )
 
-        CompositionLocalProvider(LocalElevationOverlay provides null) {
-
-            Surface(
-                onClick = {
-                    if (state.uiState == SearchBoxUiState.Collapsed) state.expand()
+        Surface(
+            onClick = {
+                if (state.uiState == SearchBoxUiState.Collapsed) state.expand()
+            },
+            indication = null,
+            modifier = Modifier
+                .graphicsLayer {
+                    scaleX *= scale
+                    scaleY *= scale
                 },
-                indication = null,
-                modifier = Modifier
-                    .graphicsLayer {
-                        scaleX *= scale
-                        scaleY *= scale
-                    },
-                shape = RoundedCornerShape(cornerRadius),
-                elevation = elevation
-            ) {
-                AnimatedContent(
-                    modifier = Modifier.animateContentSize(),
-                    targetState = state.isExpanded,
-                    transitionSpec = {
-                        fadeIn(animationSpec = tween(150, 150)) with
-                                fadeOut(animationSpec = tween(150)) using
-                                SizeTransform { initialSize, targetSize ->
-                                    if (targetState) {
-                                        keyframes {
-                                            IntSize(targetSize.width, initialSize.height) at 150
-                                            durationMillis = 300
-                                        }
-                                    } else {
-                                        keyframes {
-                                            IntSize(initialSize.width, targetSize.height) at 150
-                                            durationMillis = 300
-                                        }
+            shape = RoundedCornerShape(cornerRadius),
+            elevation = elevation
+        ) {
+            AnimatedContent(
+                modifier = Modifier.animateContentSize(),
+                targetState = state.isExpanded,
+                transitionSpec = {
+                    fadeIn(animationSpec = tween(150, 150)) with
+                            fadeOut(animationSpec = tween(150)) using
+                            SizeTransform { initialSize, targetSize ->
+                                if (targetState) {
+                                    keyframes {
+                                        IntSize(targetSize.width, initialSize.height) at 150
+                                        durationMillis = 300
+                                    }
+                                } else {
+                                    keyframes {
+                                        IntSize(initialSize.width, targetSize.height) at 150
+                                        durationMillis = 300
                                     }
                                 }
-                    }
-                ) {
-                    if (it) {
-                        SearchBoxExpandedUi(state = state, onSelectRegionClicked)
-                    } else {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            IconButton(onClick = state::expand) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Search,
-                                    contentDescription = null
-                                )
                             }
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text(
-                                text = "검색하기",
-                                style = MaterialTheme.typography.subtitle1
+                }
+            ) {
+                if (it) {
+                    expandedContent()
+                } else {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = state::expand) {
+                            Icon(
+                                imageVector = Icons.Rounded.Search,
+                                contentDescription = null
                             )
                         }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = "검색하기",
+                            style = MaterialTheme.typography.subtitle1
+                        )
                     }
                 }
             }
-
         }
-
     }
 
 }
 
 @Composable
-private fun SearchBoxExpandedUi(
-    state: SearchBoxState,
-    onSelectRegionClicked : () -> Unit = {}
+fun SearchBoxExpandedContent(
+    onCollapse: () -> Unit,
+    onSearch: () -> Unit = {},
+    onSelectRegionClicked: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)
@@ -162,10 +160,12 @@ private fun SearchBoxExpandedUi(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = state::collapse) {
+            IconButton(onClick = onCollapse) {
                 Icon(imageVector = Icons.Rounded.Close, contentDescription = null)
             }
+
             OutlinedTextField(
+                modifier = Modifier.weight(1f),
                 value = "",
                 onValueChange = {},
                 placeholder = { Text(text = "검색어를 입력해주세요.") },
@@ -176,6 +176,11 @@ private fun SearchBoxExpandedUi(
                 )
             )
 
+            IconButton(onClick = {
+                onSearch()
+            }) {
+                Icon(imageVector = Icons.Rounded.Search, contentDescription = null)
+            }
         }
 
         Box(
@@ -205,12 +210,11 @@ private fun SearchBoxExpandedUi(
                     "맛있는 음식", "영화", "여행", "기념일"
                 ).forEach { tag ->
                     BaseChip(
+                        onClick = {},
                         modifier = Modifier.height(40.dp),
                         text = tag,
                         isSelected = false
-                    ) {
-
-                    }
+                    )
                 }
             }
 
@@ -226,12 +230,11 @@ private fun SearchBoxExpandedUi(
                     "맛있는 음식", "영화", "여행", "기념일"
                 ).forEach { tag ->
                     BaseChip(
+                        onClick = {},
                         modifier = Modifier.height(40.dp),
                         text = tag,
                         isSelected = false
-                    ) {
-
-                    }
+                    )
                 }
             }
 

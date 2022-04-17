@@ -1,49 +1,70 @@
 package app.hdj.datepick.data.di
 
-import app.hdj.datepick.data.api.*
-import app.hdj.datepick.data.utils.FirebaseAuthenticator
-import app.hdj.datepick.domain.Authenticator
+import app.hdj.datepick.data.remote.api.*
+import app.hdj.datepick.data.remote.client.DatepickApiHttpClient
+import app.hdj.datepick.data.remote.client.KakaoApiHttpClient
+import app.hdj.datepick.data.utils.AuthTokenManager
 import app.hdj.datepick.utils.AppInfo
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ApiModule {
+class ApiModule {
 
-    @get:[Binds]
-    val UserApiImp.userApi : UserApi
+    @Provides
+    @Singleton
+    fun provideAuthApi(@Named("datepick") client: HttpClient): AuthApi = AuthApiImp(client)
 
-    @get:[Binds]
-    val FeaturedApiImp.featuredApi : FeaturedApi
+    @Provides
+    @Singleton
+    fun provideUserApi(
+        @Named("datepick") client: HttpClient
+    ): UserApi = UserApiImp(client)
 
-    @get:[Binds]
-    val PlaceApiImp.placeApi : PlaceApi
+    @Provides
+    @Singleton
+    fun provideFeaturedApi(
+        @Named("datepick") client: HttpClient
+    ): FeaturedApi = FeaturedApiImp(client)
 
-    @get:[Binds]
-    val CourseApiImp.courseApi : CourseApi
+    @Provides
+    @Singleton
+    fun providePlaceApi(
+        @Named("datepick") client: HttpClient
+    ): PlaceApi = PlaceApiImp(client)
 
-    @get:[Binds]
-    val FirebaseAuthenticator.authenticator: Authenticator
+    @Provides
+    @Singleton
+    fun provideCourseApi(
+        @Named("datepick") client: HttpClient
+    ): CourseApi = CourseApiImp(client)
 
-    companion object {
+    @Provides
+    @Singleton
+    fun provideKakaoPlaceSearchApi(
+        @Named("kakao") client: HttpClient
+    ): KakaoPlaceSearchApi = KakaoPlaceSearchApiImp(client)
 
-        @Provides
-        @Singleton
-        fun provideHttpClient(
-            authenticator: Authenticator,
-            appInfo: AppInfo
-        ) = DatePickHttpClient(
-            OkHttp,
-            authenticator,
-            appInfo
-        )
+    @Provides
+    @Singleton
+    @Named("datepick")
+    fun provideDatepickApiHttpClient(
+        authTokenManager: AuthTokenManager,
+        appInfo: AppInfo
+    ): HttpClient = DatepickApiHttpClient(OkHttp, authTokenManager, appInfo)
 
-    }
+    @Provides
+    @Singleton
+    @Named("kakao")
+    fun provideKakaoApiHttpClient(
+        appInfo: AppInfo
+    ): HttpClient = KakaoApiHttpClient(OkHttp, appInfo)
 
 }

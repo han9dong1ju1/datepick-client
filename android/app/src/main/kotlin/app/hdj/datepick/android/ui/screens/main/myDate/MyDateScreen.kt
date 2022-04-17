@@ -12,7 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,19 +23,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import app.hdj.datepick.android.ui.components.list.MyDateListItem
+import app.hdj.datepick.android.ui.destinations.CourseDetailCommentScreenDestination
 import app.hdj.datepick.android.ui.destinations.CreateCourseThemeScreenDestination
 import app.hdj.datepick.android.ui.destinations.MyDateScreenDestination
 import app.hdj.datepick.android.utils.extract
+import app.hdj.datepick.android.utils.onCourseClicked
 import app.hdj.datepick.domain.model.course.Course
-import app.hdj.datepick.presentation.myDate.MyDateScreenViewModel
-import app.hdj.datepick.presentation.myDate.MyDateScreenViewModelDelegate
+import app.hdj.datepick.presentation.mydate.MyDateScreenViewModel
+import app.hdj.datepick.presentation.mydate.MyDateScreenViewModelDelegate
 import app.hdj.datepick.ui.components.BaseButton
 import app.hdj.datepick.ui.components.BaseSwipeRefreshLayoutScaffold
 import app.hdj.datepick.ui.components.InsetTopBar
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -47,7 +48,7 @@ fun MyDateScreen(
 ) {
     MyDateScreenContent(
         onCreateDateClicked = { navigator.navigate(CreateCourseThemeScreenDestination) },
-        onDateItemClicked = { navigator.navigate(MyDateScreenDestination) },
+        onDateItemClicked = navigator.onCourseClicked,
         hiltViewModel<MyDateScreenViewModel>()
     )
 }
@@ -63,14 +64,14 @@ private fun MyDateScreenContent(
 
     val lazyListState = rememberLazyListState()
 
-    val coroutineScope = rememberCoroutineScope()
-
     val lazyPagingItems = state.myDateCourses.collectAsLazyPagingItems()
 
     val refreshState = lazyPagingItems.loadState.refresh
     val appendState = lazyPagingItems.loadState.append
 
-    val swipeRefreshState = rememberSwipeRefreshState(refreshState == LoadState.Loading)
+    val isRefreshing = remember(refreshState) { refreshState is LoadState.Loading }
+
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing)
 
     BaseSwipeRefreshLayoutScaffold(
         swipeRefreshState = swipeRefreshState,

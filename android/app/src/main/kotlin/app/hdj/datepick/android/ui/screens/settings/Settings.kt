@@ -103,10 +103,10 @@ fun rememberSettingList(
                 "유용한 기능",
                 listOf(
                     SettingItem.SwitchItem(
-                        icon = Icons.Rounded.LocationOff,
+                        icon = Icons.Rounded.MyLocation,
                         title = "주변에 있는 장소 보기",
                         description = "현재 내 주변 위치 기반 정보를 추천합니다.",
-                        value = !state.isNearbyRecommendEnabled
+                        value = state.isNearbyRecommendEnabled
                     ) {
                         val isPermissionGranted =
                             activity!!.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)

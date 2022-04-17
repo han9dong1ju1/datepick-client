@@ -17,7 +17,6 @@ data class Course(
     val isPicked: Boolean,
     val user: User,
     val tags: List<CourseTag>
-
 ) : Parcelable{
 
     val meetAtInstant: Instant?
