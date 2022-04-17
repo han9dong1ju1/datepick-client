@@ -54,7 +54,7 @@ fun PlaceQueryParams.filterParams(block: PlaceQueryParams.FilterParams.() -> Uni
     filterParams = PlaceQueryParams.FilterParams().apply(block)
 }
 
-data class PlaceQueryResult(
+data class PlaceQueryWithResult(
     val queryParams: PlaceQueryParams = PlaceQueryParams(),
     val result: LoadState<List<Place>> = LoadState.idle()
 )

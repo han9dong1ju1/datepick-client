@@ -11,14 +11,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface CourseRepository {
 
-    fun getById(id: Long): Flow<LoadState<Course>>
+    fun getById(id: Long): Flow<Course>
 
-    fun create(title: String, region: String): Flow<LoadState<Course>>
+    fun create(title: String, region: String): Flow<Course>
 
     fun getPagedMyDateCourses(params: CourseQueryParams): Pager<Long, Course>
 
     fun queryPagedCourses(params: CourseQueryParams): Pager<Long, Course>
 
-    fun queryFirstPageCourses(params: CourseQueryParams): Flow<LoadState<List<Course>>>
+    fun queryFirstPageCourses(params: CourseQueryParams): Flow<List<Course>>
 
 }

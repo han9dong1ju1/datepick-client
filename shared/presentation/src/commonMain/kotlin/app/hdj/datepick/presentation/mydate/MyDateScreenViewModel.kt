@@ -3,6 +3,8 @@ package app.hdj.datepick.presentation.mydate
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.usecase.course.GetMyDateCoursesUseCase
 import app.hdj.datepick.domain.usecase.course.params.CourseQueryParams
+import app.hdj.datepick.domain.usecase.course.params.courseQueryParams
+import app.hdj.datepick.domain.usecase.course.params.filterParams
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.mydate.MyDateScreenViewModelDelegate.*
@@ -38,17 +40,14 @@ class MyDateScreenViewModel @Inject constructor(
 
     private val queryParams = MutableStateFlow(CourseQueryParams())
 
-    private val myDate = queryParams.map {
-        getMyDateCoursesUseCase(it).pagingData.cachedIn(platformViewModelScope)
-    }
+    private val myDate = queryParams
+        .filterNotNull()
+        .flatMapConcat { getMyDateCoursesUseCase(it) }
+        .map { it.pagingData.cachedIn(platformViewModelScope) }
 
     override val state: StateFlow<State> = myDate
         .map { State(it) }
         .asStateFlow(State(), platformViewModelScope)
-
-    init {
-        query(CourseQueryParams())
-    }
 
     private fun query(params: CourseQueryParams) {
         platformViewModelScope.launch {

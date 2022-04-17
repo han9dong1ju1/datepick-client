@@ -19,13 +19,14 @@ import app.hdj.datepick.ui.components.NetworkImage
 
 @Composable
 fun FeaturedListItem(
+    modifier: Modifier = Modifier,
     featured: Featured,
     onFeaturedClicked: (Featured) -> Unit
 ) {
 
     Surface(
         onClick = { onFeaturedClicked(featured) },
-        modifier = Modifier.fillMaxWidth().height(300.dp),
+        modifier = modifier.height(200.dp),
         color = Color.Black,
         shape = RoundedCornerShape(20.dp)
     ) {
@@ -38,13 +39,13 @@ fun FeaturedListItem(
             )
 
             Column(
-                modifier = Modifier.padding(20.dp)
+                modifier = Modifier.padding(30.dp)
                     .fillMaxWidth()
                     .align(Alignment.BottomStart)
             ) {
                 Text(
                     text = featured.title,
-                    style = MaterialTheme.typography.h2,
+                    style = MaterialTheme.typography.h5,
                     color = Color.White
                 )
                 Spacer(modifier = Modifier.height(8.dp))

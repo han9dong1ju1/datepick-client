@@ -6,7 +6,7 @@ import app.hdj.datepick.domain.model.course.CourseTag
 import app.hdj.datepick.domain.model.user.User
 
 object CourseMapper : Mapper<CourseResponse, Course> {
-    override fun CourseResponse.dataToDomain(): Course {
+    override fun CourseResponse.asDomain(): Course {
         return Course(
             id = id,
             title = title,

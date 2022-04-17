@@ -15,9 +15,68 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
+fun fakeCourseApi(): CourseApi = object : CourseApi {
+    override val client: HttpClient
+        get() = TODO("Not yet implemented")
+
+    override suspend fun getById(id: Long): ApiResponse<CourseResponse> {
+        delay(1000)
+        return ApiResponse(
+            data = MockResponses.course("2022", (10..12).random().toString(), (10..28).random().toString()),
+            error = null,
+            message = null
+        )
+    }
+
+    override suspend fun createCourse(courseCommitRequest: CourseCommitRequest): ApiResponse<CourseResponse> {
+        delay(1000)
+        return ApiResponse(
+            data = MockResponses.course("2022", (10..12).random().toString(), (10..28).random().toString()),
+            error = null,
+            message = null
+        )
+    }
+
+    override suspend fun queryMyDateCourses(
+        page: Long,
+        courseQueryParams: CourseQueryParams
+    ): ApiResponse<PagingResponse<CourseResponse>> {
+        delay(1000)
+        return ApiResponse(
+            data = MockResponses.coursePaged(page),
+            error = null,
+            message = null
+        )
+    }
+
+    override suspend fun queryCourses(
+        page: Long,
+        courseQueryParams: CourseQueryParams
+    ): ApiResponse<PagingResponse<CourseResponse>> {
+        delay(1000)
+        return ApiResponse(
+            data = MockResponses.coursePaged(page),
+            error = null,
+            message = null
+        )
+    }
+
+    override suspend fun queryPickedCourses(
+        page: Long,
+        courseQueryParams: CourseQueryParams
+    ): ApiResponse<PagingResponse<CourseResponse>> {
+        delay(1000)
+        return ApiResponse(
+            data = MockResponses.coursePaged(page),
+            error = null,
+            message = null
+        )
+    }
+}
+
 interface CourseApi : Api {
 
-    override val basePath: String get() = "/v1/courses"
+    override val basePath: String get() = "/v1/courses/"
 
     suspend fun getById(id: Long): ApiResponse<CourseResponse>
 
@@ -68,7 +127,7 @@ class CourseApiImp @Inject constructor(override val client: HttpClient) : Course
     override suspend fun queryCourses(
         page: Long,
         courseQueryParams: CourseQueryParams
-    ) = get<ApiResponse<PagingResponse<CourseResponse>>> {
+    ) = get<ApiResponse<PagingResponse<CourseResponse>>>() {
         parameter("page", page.toString())
         parameter("size", 10)
         parameter("featured_id", courseQueryParams.filterParams.featuredId)

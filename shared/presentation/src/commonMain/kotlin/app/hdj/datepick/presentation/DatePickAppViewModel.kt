@@ -6,10 +6,10 @@ import app.hdj.datepick.domain.isStateLoading
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.domain.usecase.auth.RefreshTokenUseCase
-import app.hdj.datepick.domain.usecase.invoke
 import app.hdj.datepick.domain.usecase.user.GetLatestMeUseCase
 import app.hdj.datepick.domain.usecase.user.ObserveMeUseCase
 import app.hdj.datepick.presentation.DatePickAppViewModelDelegate.*
+import app.hdj.datepick.presentation.utils.toLoadState
 import app.hdj.datepick.utils.di.HiltViewModel
 import app.hdj.datepick.utils.di.Inject
 import kotlinx.coroutines.channels.Channel
@@ -69,12 +69,15 @@ class DatePickAppViewModel @Inject constructor(
 
     private suspend fun refreshToken() {
         refreshTokenUseCase(forceRefresh = true)
+            .toLoadState()
             .onEach { refreshTokenState.emit(it) }
             .collect()
     }
 
     private suspend fun fetchMe() {
-        getLatestMeUseCase().collect()
+        getLatestMeUseCase()
+            .toLoadState()
+            .collect()
     }
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)

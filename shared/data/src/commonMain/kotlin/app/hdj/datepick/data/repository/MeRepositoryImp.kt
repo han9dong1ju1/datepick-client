@@ -10,6 +10,7 @@ import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.model.user.UserGender
 import app.hdj.datepick.domain.repository.MeRepository
 import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Named
 import app.hdj.datepick.utils.di.Singleton
 import io.ktor.utils.io.core.*
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +18,7 @@ import kotlinx.coroutines.flow.flow
 
 @Singleton
 class MeRepositoryImp @Inject constructor(
-    private val userApi: UserApi,
+    @Named("mocked") private val userApi: UserApi,
     private val meDataStore: MeDataStore
 ) : MeRepository {
 
@@ -26,12 +27,10 @@ class MeRepositoryImp @Inject constructor(
     override fun observableCache(): Flow<User?> = meDataStore.observableMe
 
     override fun fetch() = flow {
-        emitState(cache()) {
-            val response = userApi.getMe()
-            response.data.run { User(id, nickname, imageUrl, gender) }
-        }.onSuccess {
-            meDataStore.save(it)
-        }
+        val response = userApi.getMe()
+        val user = response.data.run { User(id, nickname, imageUrl, gender) }
+        meDataStore.save(user)
+        emit(user)
     }
 
     override fun update(
@@ -39,13 +38,11 @@ class MeRepositoryImp @Inject constructor(
         gender: UserGender?,
         profileImageUrl: Input?,
     ) = flow {
-        emitState {
-            val request = UserProfileRequest(nickname, gender, profileImageUrl)
-            val response = userApi.updateMe(request)
-            response.data.run { User(id, nickname, imageUrl, gender) }
-        }.onSuccess {
-            meDataStore.save(it)
-        }
+        val request = UserProfileRequest(nickname, gender, profileImageUrl)
+        val response = userApi.updateMe(request)
+        val user = response.data.run { User(id, nickname, imageUrl, gender) }
+        meDataStore.save(user)
+        emit(user)
     }
 
     override suspend fun removeCache() {

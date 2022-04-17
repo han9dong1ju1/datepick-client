@@ -47,7 +47,7 @@ fun CourseQueryParams.filterParams(
     filterParams = CourseQueryParams.FilterParams().apply(block)
 }
 
-data class CourseQueryResult(
+data class CourseQueryWithResult(
     val queryParams: CourseQueryParams = CourseQueryParams(),
     val result: LoadState<List<Course>> = LoadState.idle()
 )

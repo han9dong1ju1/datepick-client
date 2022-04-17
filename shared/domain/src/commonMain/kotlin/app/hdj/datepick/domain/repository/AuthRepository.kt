@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
-    fun signIn(token : String, provider : String) : Flow<LoadState<Unit>>
+    fun signIn(token : String, provider : String) : Flow<Unit>
 
-    fun refreshToken(forceRefresh : Boolean) : Flow<LoadState<Unit>>
+    fun refreshToken(forceRefresh : Boolean) : Flow<Unit>
 
-    fun unregister(reason : String) : Flow<LoadState<Unit>>
+    fun unregister(reason : String) : Flow<Unit>
 
 }

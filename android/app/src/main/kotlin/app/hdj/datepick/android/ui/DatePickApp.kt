@@ -1,10 +1,11 @@
 package app.hdj.datepick.android.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.*
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.NavigationRail
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Book
 import androidx.compose.material.icons.rounded.Home
@@ -13,7 +14,9 @@ import androidx.compose.material.icons.rounded.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import app.hdj.datepick.android.ui.destinations.HomeScreenDestination
@@ -21,6 +24,8 @@ import app.hdj.datepick.android.ui.destinations.MapScreenDestination
 import app.hdj.datepick.android.ui.destinations.MyDateScreenDestination
 import app.hdj.datepick.android.ui.destinations.ProfileScreenDestination
 import app.hdj.datepick.android.ui.providers.DatePickComposableProviderScope
+import app.hdj.datepick.android.ui.providers.DeviceType
+import app.hdj.datepick.android.ui.providers.LocalDeviceType
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.presentation.DatePickAppViewModel
@@ -28,6 +33,7 @@ import app.hdj.datepick.presentation.placelist.PlaceListScreenViewModel
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
+import app.hdj.datepick.ui.components.NavigationGraphNavigationRail
 import app.hdj.datepick.ui.styles.BaseTheme
 import app.hdj.datepick.utils.location.LocationTracker
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -71,6 +77,9 @@ fun DatePickApp(
             systemUiController.systemBarsDarkContentEnabled = !isDarkTheme
         }
 
+        val isTablet = LocalDeviceType.current == DeviceType.Tablet
+        val showNavigationRail = LocalDeviceType.current == DeviceType.LargeTablet || isTablet
+
         BaseTheme(isDarkTheme = isDarkTheme) {
 
             val bottomSheetNavigator = rememberBottomSheetNavigator()
@@ -86,31 +95,49 @@ fun DatePickApp(
             ) {
                 BaseScaffold(
                     bottomBar = {
-                        AnimatedVisibility(
-                            listOf(
-                                HomeScreenDestination,
-                                MapScreenDestination,
-                                ProfileScreenDestination,
-                                MyDateScreenDestination
-                            ).contains(currentDestination),
-                            enter = slideInVertically { it },
-                            exit = slideOutVertically { it }
-                        ) {
-                            NavigationGraphBottomNavigation(
+                        if (!showNavigationRail) {
+                            AnimatedVisibility(
+                                listOf(
+                                    HomeScreenDestination,
+                                    MapScreenDestination,
+                                    ProfileScreenDestination,
+                                    MyDateScreenDestination
+                                ).contains(currentDestination),
+                                enter = slideInVertically { it },
+                                exit = slideOutVertically { it }
+                            ) {
+                                NavigationGraphBottomNavigation(
+                                    list = mainNavigationRoutesWithIcon,
+                                    navController = navController,
+                                    currentRoute = currentDestination?.route.orEmpty()
+                                )
+                            }
+                        }
+                    }
+                ) {
+                    Box(modifier = Modifier.fillMaxSize()) {
+
+                        DestinationsNavHost(
+                            modifier = Modifier.run {
+                                if (showNavigationRail) padding(start = 64.dp) else this
+                            },
+                            navGraph = NavGraphs.root,
+                            navController = navController,
+                            dependenciesContainerBuilder = {
+                                dependency(appViewModel)
+                            }
+                        )
+
+                        if (showNavigationRail) {
+                            NavigationGraphNavigationRail(
                                 list = mainNavigationRoutesWithIcon,
                                 navController = navController,
                                 currentRoute = currentDestination?.route.orEmpty()
                             )
                         }
+
+
                     }
-                ) {
-                    DestinationsNavHost(
-                        navGraph = NavGraphs.root,
-                        navController = navController,
-                        dependenciesContainerBuilder = {
-                            dependency(appViewModel)
-                        }
-                    )
                 }
             }
 

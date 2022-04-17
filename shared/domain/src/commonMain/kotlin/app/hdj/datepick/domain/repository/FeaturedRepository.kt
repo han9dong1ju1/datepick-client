@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface FeaturedRepository {
 
-    fun getTopFeaturedList(): Flow<LoadState<List<Featured>>>
+    fun getTopFeaturedList(): Flow<List<Featured>>
 
-    fun getById(id: Long): Flow<LoadState<Featured>>
+    fun getById(id: Long): Flow<Featured>
 
 }

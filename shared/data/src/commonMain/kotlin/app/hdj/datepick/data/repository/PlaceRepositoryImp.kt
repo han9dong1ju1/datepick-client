@@ -21,66 +21,47 @@ import app.hdj.datepick.domain.usecase.place.params.KakaoPlaceSearchQueryParams
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
 import app.hdj.datepick.domain.usecase.place.params.filterParams
 import app.hdj.datepick.domain.usecase.place.params.placeQueryParams
-import app.hdj.datepick.utils.PlatformLogger
 import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Named
 import app.hdj.datepick.utils.di.Singleton
-import com.kuuurt.paging.multiplatform.PagingData
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 @Singleton
 class PlaceRepositoryImp @Inject constructor(
     private val kakaoPlaceSearchApi: KakaoPlaceSearchApi,
-    private val api: PlaceApi
+    @Named("mocked") private val api: PlaceApi
 ) : PlaceRepository,
     Mapper<PlaceResponse, Place> by PlaceMapper {
 
-    override fun getById(id: Long) = flow<LoadState<Place>> {
-        emit(loading())
-        api.runCatching { getById(id) }
-            .onFailure { emit(failed(it)) }
-            .onSuccess { emit(success(it.data.dataToDomain())) }
+    override fun getById(id: Long) = flow {
+        val response = api.getById(id)
+        emit(response.data.asDomain())
     }
 
     override fun queryPagedPlaces(params: PlaceQueryParams) = createPager { page ->
-//        val pagingResponse = api.queryPlaces(page, params).data
-//        pagingResponse.map { it.dataToDomain() }
-        delay(2000)
-        PagingResponse(
-            count = 1000,
-            currentPage = page,
-            isLastPage = false,
-            content = (0..20).map { MockResponses.place() }
-        ).map { it.dataToDomain() }
+        val pagingResponse = api.queryPlaces(page, params).data
+        pagingResponse.map { it.asDomain() }
     }
 
-    override fun queryFirstPagePlaces(params: PlaceQueryParams) = flow<LoadState<List<Place>>> {
-        emit(loading())
-        delay(2000)
-        emit(success((0..9).map { MockResponses.place().dataToDomain() }))
-//        api.runCatching { queryPlaces(0, params).data.content }
-//            .onFailure { emit(failed(it)) }
-//            .onSuccess { emit(success(it.mapDomain())) }
+    override fun queryFirstPagePlaces(params: PlaceQueryParams) = flow {
+        val response = api.queryPlaces(0, params)
+        emit(response.data.content.mapDomain())
     }
 
-    override fun queryPlacesFromCourse(courseId: Long) = flow<LoadState<List<Place>>> {
-        emit(loading())
-        delay(2000)
-        emit(success((0..5).map { MockResponses.place().dataToDomain() }))
-//        api.runCatching { queryPlaces(0, placeQueryParams { filterParams { this.courseId = courseId } }).data.content }
-//            .onFailure { emit(failed(it)) }
-//            .onSuccess { emit(success(it.mapDomain())) }
+    override fun queryPlacesFromCourse(courseId: Long) = flow {
+        val queryParams = placeQueryParams {
+            filterParams { this.courseId = courseId }
+        }
+        val response = api.queryPlaces(0, queryParams)
+        emit(response.data.content.mapDomain())
     }
 
     override fun queryFromKakao(params: KakaoPlaceSearchQueryParams) =
-        flow<LoadState<List<KakaoPlaceSearch.Document>>> {
-            emit(loading())
+        flow {
             with(KakaoPlaceMapper) {
-                kakaoPlaceSearchApi
-                    .runCatching { search(params) }
-                    .onFailure { emit(failed(it)) }
-                    .onSuccess { emit(success(it.dataToDomain().documents)) }
+                val response = kakaoPlaceSearchApi.search(params)
+                emit(response.asDomain().documents)
             }
         }
 

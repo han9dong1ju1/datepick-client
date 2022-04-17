@@ -182,14 +182,7 @@ private fun LazyItemScope.MyDateLoadFailedBanner(
 
 @Composable
 private fun LazyItemScope.MyDateStickyHeader(currentItemDate: LocalDateTime?) {
-    Box(
-        modifier = Modifier.fillMaxWidth().animateItemPlacement(
-            spring(
-                stiffness = Spring.StiffnessMedium,
-                visibilityThreshold = IntOffset.VisibilityThreshold
-            )
-        )
-    ) {
+    Box(modifier = Modifier.fillMaxWidth()) {
 
         Column(
             modifier = Modifier.width(80.dp)

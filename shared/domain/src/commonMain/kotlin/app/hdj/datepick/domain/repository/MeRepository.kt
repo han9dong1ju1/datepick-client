@@ -12,13 +12,13 @@ interface MeRepository {
 
     fun observableCache(): Flow<User?>
 
-    fun fetch(): Flow<LoadState<User>>
+    fun fetch(): Flow<User>
 
     fun update(
         nickname: String,
         gender: UserGender?,
         profileImageUrl: Input?,
-    ): Flow<LoadState<User>>
+    ): Flow<User>
 
     suspend fun removeCache()
 

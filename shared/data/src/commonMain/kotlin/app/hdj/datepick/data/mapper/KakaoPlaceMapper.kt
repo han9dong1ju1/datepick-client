@@ -6,7 +6,7 @@ import app.hdj.datepick.utils.location.LatLng
 
 object KakaoPlaceMapper : Mapper<KakaoPlaceSearchResponse, KakaoPlaceSearch> {
 
-    override fun KakaoPlaceSearchResponse.dataToDomain() = KakaoPlaceSearch(
+    override fun KakaoPlaceSearchResponse.asDomain() = KakaoPlaceSearch(
         meta = KakaoPlaceSearch.Meta(
             sameName = KakaoPlaceSearch.Meta.SameName(
                 region = meta.sameName.region,

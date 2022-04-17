@@ -4,17 +4,15 @@ import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateLoading
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.featured.Featured
-import app.hdj.datepick.domain.usecase.course.GetFeaturedCoursesUseCase
 import app.hdj.datepick.domain.usecase.course.GetFirstPageCoursesUseCase
-import app.hdj.datepick.domain.usecase.course.SearchCoursesUseCase
 import app.hdj.datepick.domain.usecase.course.params.courseQueryParams
 import app.hdj.datepick.domain.usecase.course.params.filterParams
-import app.hdj.datepick.domain.usecase.course.params.pagingParams
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedDetailUseCase
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedDynamicLinkUseCase
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.featured.FeaturedDetailScreenViewModelDelegate.*
+import app.hdj.datepick.presentation.utils.toLoadState
 import app.hdj.datepick.utils.di.HiltViewModel
 import app.hdj.datepick.utils.di.Inject
 import kotlinx.coroutines.channels.Channel
@@ -65,22 +63,22 @@ class FeaturedDetailScreenViewModel @Inject constructor(
     ) { featured, featuredCourses ->
         State(
             isContentRefreshing = featured.isStateLoading() || featuredCourses.isStateLoading(),
-            featured = featured.getDataOrNull(),
-            courses = featuredCourses.getDataOrNull() ?: emptyList()
+            featured = featured.dataOrNull,
+            courses = featuredCourses.dataOrNull ?: emptyList()
         )
     }.asStateFlow(State(), platformViewModelScope)
 
     private fun loadFeatured(id: Long) {
         getFeaturedDetailUseCase.invoke(id)
-            .onEach { featured.value = it }
-            .catch { featured.value = LoadState.failed(it) }
+            .toLoadState()
+            .onEach { featured.emit(it) }
             .launchIn(platformViewModelScope)
     }
 
     private fun loadFeaturedCourses(id: Long) {
         getFirstPageCoursesUseCase(courseQueryParams { filterParams { featuredId = id } })
-            .onEach { featuredCourses.value = it }
-            .catch { featuredCourses.value = LoadState.failed(it) }
+            .toLoadState()
+            .onEach { featuredCourses.emit(it) }
             .launchIn(platformViewModelScope)
     }
 
@@ -96,7 +94,7 @@ class FeaturedDetailScreenViewModel @Inject constructor(
             }
             Event.OpenShareMenu -> {
                 platformViewModelScope.launch {
-                    val featured = featured.first().getDataOrNull() ?: return@launch
+                    val featured = featured.first().dataOrNull ?: return@launch
                     effectChannel.send(
                         Effect.ShowShareMenu(
                             getFeaturedDynamicLinkUseCase.invoke(featured).first()
@@ -105,7 +103,7 @@ class FeaturedDetailScreenViewModel @Inject constructor(
                 }
             }
             Event.Refresh -> {
-                val id = featured.value.getDataOrNull()?.id ?: return
+                val id = featured.value.dataOrNull?.id ?: return
                 loadFeatured(id)
                 loadFeaturedCourses(id)
             }

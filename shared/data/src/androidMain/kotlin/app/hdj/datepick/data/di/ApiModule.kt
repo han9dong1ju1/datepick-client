@@ -20,31 +20,43 @@ class ApiModule {
 
     @Provides
     @Singleton
+    @Named("real")
     fun provideAuthApi(@Named("datepick") client: HttpClient): AuthApi = AuthApiImp(client)
 
     @Provides
     @Singleton
+    @Named("real")
     fun provideUserApi(
         @Named("datepick") client: HttpClient
     ): UserApi = UserApiImp(client)
 
     @Provides
     @Singleton
+    @Named("real")
     fun provideFeaturedApi(
         @Named("datepick") client: HttpClient
     ): FeaturedApi = FeaturedApiImp(client)
 
     @Provides
     @Singleton
+    @Named("real")
     fun providePlaceApi(
         @Named("datepick") client: HttpClient
     ): PlaceApi = PlaceApiImp(client)
 
     @Provides
     @Singleton
+    @Named("real")
     fun provideCourseApi(
         @Named("datepick") client: HttpClient
     ): CourseApi = CourseApiImp(client)
+
+    @Provides
+    @Singleton
+    @Named("real")
+    fun provideDistrictApi(
+        @Named("datepick") client: HttpClient
+    ): DistrictApi = DistrictApiImp(client)
 
     @Provides
     @Singleton

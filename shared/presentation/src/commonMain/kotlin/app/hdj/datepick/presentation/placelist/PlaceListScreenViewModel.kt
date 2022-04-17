@@ -7,7 +7,6 @@ import app.hdj.datepick.domain.usecase.place.params.placeQueryParams
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.placelist.PlaceListScreenViewModelDelegate.*
-import app.hdj.datepick.utils.PlatformLogger
 import app.hdj.datepick.utils.di.HiltViewModel
 import app.hdj.datepick.utils.di.Inject
 import com.kuuurt.paging.multiplatform.PagingData
@@ -45,14 +44,14 @@ class PlaceListScreenViewModel @Inject constructor(
 
     private val temp = MutableStateFlow(false)
 
-    private val places = searchPlacesUseCase(placeQueryParams {})
-        .pagingData
-        .cachedIn(platformViewModelScope)
+    private val places = placeQueryParams
+        .filterNotNull()
+        .map { searchPlacesUseCase(it).pagingData.cachedIn(platformViewModelScope) }
 
     override val state: StateFlow<State> = combine(
-        placeQueryParams,
+        places,
         temp
-    ) { _, _ ->
+    ) { places, _ ->
         State(places)
     }.asStateFlow(State(), platformViewModelScope)
 

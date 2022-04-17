@@ -4,7 +4,7 @@ import app.hdj.datepick.data.model.response.place.PlaceResponse
 import app.hdj.datepick.domain.model.place.Place
 
 object PlaceMapper : Mapper<PlaceResponse, Place> {
-    override fun PlaceResponse.dataToDomain(): Place {
+    override fun PlaceResponse.asDomain(): Place {
         return Place(
             id = id,
             kakaoId = kakaoId,

@@ -1,6 +1,5 @@
 package app.hdj.datepick.android.ui.screens.place
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
@@ -13,18 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.list.itemHorizontalPlacesWithHeader
 import app.hdj.datepick.android.utils.*
-import app.hdj.datepick.domain.LoadState
-import app.hdj.datepick.domain.fold
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.onSucceed
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
-import app.hdj.datepick.domain.usecase.place.params.PlaceQueryResult
 import app.hdj.datepick.presentation.place.PlaceDetailScreenViewModel
 import app.hdj.datepick.presentation.place.PlaceDetailScreenViewModelDelegate
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.InsetTopBar
 import app.hdj.datepick.ui.components.TopAppBarBackButton
-import app.hdj.datepick.ui.utils.isFirstItemScrolled
 import app.hdj.datepick.utils.DEEPLINK_URL
 import app.hdj.datepick.utils.EXTERNAL_DEEPLINK_URL
 import com.ramcosta.composedestinations.annotation.DeepLink

@@ -15,8 +15,7 @@ typealias EmptyLoadState = LoadState<Unit>
 
 sealed interface LoadState<T> {
 
-    fun getDataOrNull() =
-        if (this is Success) data else if (this is Failed) cachedData else null
+    val dataOrNull get() = if (this is Success) data else if (this is Failed) cachedData else null
 
     class Idle<T> : LoadState<T>
     data class Success<T>(val data: T) : LoadState<T>
@@ -51,7 +50,7 @@ fun <T, R> LoadState<T>.flatMap(mapper: (T) -> LoadState<R>): LoadState<R> {
     return when (this) {
         is LoadState.Success -> mapper(data)
         is LoadState.Loading -> loading()
-        is LoadState.Failed -> failed(throwable, cachedData?.let { mapper(it) }?.getDataOrNull())
+        is LoadState.Failed -> failed(throwable, cachedData?.let { mapper(it) }?.dataOrNull)
         is LoadState.Idle -> idle()
     }
 }
@@ -86,6 +85,10 @@ fun <T, R> LoadState<T>.mapOrNull(block: (T) -> R): R? {
 
 fun <T> LoadState<T>.onSucceed(block: (T) -> Unit) {
     if (isStateSucceed()) block(data)
+}
+
+fun <T> LoadState<T>.onLoading(block: () -> Unit) {
+    if (isStateLoading()) block()
 }
 
 fun <T> LoadState<T>.onFailed(block: (T?, Throwable) -> Unit) {

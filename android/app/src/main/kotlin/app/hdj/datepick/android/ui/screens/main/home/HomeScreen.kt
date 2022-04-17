@@ -1,9 +1,7 @@
 package app.hdj.datepick.android.ui.screens.main.home
 
 import android.Manifest
-import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
@@ -12,11 +10,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -29,13 +28,16 @@ import app.hdj.datepick.android.ui.components.list.*
 import app.hdj.datepick.android.ui.destinations.*
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Logo
+import app.hdj.datepick.android.ui.providers.DeviceType
+import app.hdj.datepick.android.ui.providers.LocalDeviceType
 import app.hdj.datepick.android.utils.*
 import app.hdj.datepick.domain.LoadState
-import app.hdj.datepick.domain.isStateFailed
 import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.course.Course
+import app.hdj.datepick.domain.model.district.District
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
+import app.hdj.datepick.domain.onLoading
 import app.hdj.datepick.domain.onSucceed
 import app.hdj.datepick.domain.usecase.course.params.CourseQueryParams
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
@@ -44,7 +46,6 @@ import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate
 import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate.Event.LocationPermissionResult
 import app.hdj.datepick.ui.components.BaseSwipeRefreshLayoutScaffold
 import app.hdj.datepick.ui.components.InsetTopBar
-import app.hdj.datepick.ui.components.ViewPager
 import app.hdj.datepick.ui.utils.getActivity
 import app.hdj.datepick.ui.utils.isPermissionGranted
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -74,6 +75,7 @@ private fun HomeScreenContent(
     onCourseClicked: (Course) -> Unit = {},
     onNotificationClicked: () -> Unit = {},
     onFeaturedClicked: (Featured) -> Unit = {},
+    onDistrictClicked: (District) -> Unit = {},
     onLocationPermissionDeniedDialogShown: () -> Unit = {},
     vm: HomeScreenViewModelDelegate
 ) {
@@ -87,7 +89,7 @@ private fun HomeScreenContent(
         context.getActivity()?.finish()
     }
 
-    val swipeRefreshState = rememberSwipeRefreshState(state.isContentRefreshing)
+    val swipeRefreshState = rememberSwipeRefreshState(state.isContentLoading)
 
     val lazyListState = rememberLazyListState()
 
@@ -107,9 +109,7 @@ private fun HomeScreenContent(
                 }
                 Lifecycle.Event.ON_PAUSE -> {
                 }
-                else -> {
-
-                }
+                else -> Unit
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -137,11 +137,23 @@ private fun HomeScreenContent(
         }
     ) {
 
-        LazyColumn(modifier = Modifier.padding(it), state = lazyListState) {
-
-            mainHomeFeatured(state.featured, event, onFeaturedClicked)
-
+        LazyColumn(modifier = Modifier.padding(it).fillMaxSize(), state = lazyListState) {
             state.apply {
+
+                if (!isContentLoading) {
+                    item {
+                        Spacer(Modifier.height(40.dp))
+                        Text(
+                            modifier = Modifier.padding(20.dp).animateItemPlacement(),
+                            text = "오늘 당신의\n데이트 장소를 찾아보세요!",
+                            style = MaterialTheme.typography.h1,
+                        )
+                    }
+                }
+
+                districts.onSucceed { districts ->
+                    itemHorizontalDistrictList(districts, onDistrictClicked)
+                }
 
                 nearbyRecommendedPlacesQuery?.run {
                     result.onSucceed { places ->
@@ -163,27 +175,46 @@ private fun HomeScreenContent(
                     }
                 }
 
+                if (showLocationPermissionBanner) {
+                    item {
+                        MainHomeLocationPermissionBanner(
+                            Modifier.animateItemPlacement().fillMaxWidth(),
+                            {
+                                val shouldShowRequestPermissionRationale =
+                                    activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
 
-                if (showNearbyRecommendLocationPermissionBanner) {
-                    mainHomeLocationPermissionBanner(
-                        activity,
-                        onLocationPermissionDeniedDialogShown,
-                        locationPermissionRequest,
-                        event
-                    )
+                                val isPermissionGranted =
+                                    activity.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
+
+                                val showDeniedDialog =
+                                    (!isPermissionGranted && shouldShowRequestPermissionRationale)
+
+                                if (showDeniedDialog) onLocationPermissionDeniedDialogShown()
+                                else locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                            },
+                            { event(HomeScreenViewModelDelegate.Event.IgnoreNearbyRecommend) },
+                        )
+                    }
                 }
 
-            }
-
-            state.recommendedCoursesQuery?.run {
-                result.onSucceed { courses ->
-                    itemHorizontalCoursesWithHeader(
-                        "추천 코스",
-                        courses,
-                        onCourseClicked,
-                        onMoreClicked = { onMoreCourseListClicked(queryParams) }
-                    )
+                recommendedCoursesQuery?.run {
+                    result.onSucceed { courses ->
+                        itemHorizontalCoursesWithHeader(
+                            "추천 코스",
+                            courses,
+                            onCourseClicked,
+                            onMoreClicked = { onMoreCourseListClicked(queryParams) }
+                        )
+                    }
                 }
+
+                featured.run {
+                    onSucceed {
+                        itemHomeFeaturedList(it, onFeaturedClicked)
+                    }
+                }
+
+
             }
 
             item {
@@ -197,63 +228,40 @@ private fun HomeScreenContent(
 
 }
 
-private fun LazyListScope.mainHomeFeatured(
-    featured: LoadState<List<Featured>>,
-    event: (HomeScreenViewModelDelegate.Event) -> Unit,
+private fun LazyListScope.itemHomeFeaturedList(
+    featuredList: List<Featured>,
     onFeaturedClicked: (Featured) -> Unit
 ) {
     item {
-        Crossfade(
-            targetState = featured,
-            modifier = Modifier.fillMaxWidth().animateItemPlacement().animateContentSize()
-        ) {
-            if (it.isStateFailed()) {
-                RetryBanner(modifier = Modifier.animateItemPlacement()) {
-                    event(HomeScreenViewModelDelegate.Event.RetryFeatured)
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.height(20.dp))
+
+            val isTablet = LocalDeviceType.current == DeviceType.Tablet
+
+            featuredList.chunked(
+                when (LocalDeviceType.current) {
+                    DeviceType.LargeTablet -> 4
+                    DeviceType.Tablet -> 2
+                    else -> 1
                 }
-            } else if (it.isStateSucceed()) {
-                Column(modifier = Modifier.fillMaxWidth().animateItemPlacement()) {
-                    Spacer(modifier = Modifier.height(20.dp))
-                    ViewPager(
-                        Modifier.fillMaxWidth(),
-                        it.data,
-                        itemSpacing = 10.dp,
-                        contentPadding = PaddingValues(horizontal = 20.dp),
-                    ) { item, _ ->
-                        FeaturedListItem(featured = item, onFeaturedClicked)
+            ).forEach {
+                Row(modifier = Modifier.run { if (!isTablet) padding(horizontal = 30.dp) else this }) {
+                    it.forEachIndexed { index, featured ->
+                        if (index == 0) Spacer(modifier = Modifier.width(20.dp))
+                        FeaturedListItem(
+                            modifier = Modifier.weight(1f).run {
+                                if (!isTablet) height(350.dp) else height(400.dp)
+                            },
+                            featured = featured,
+                            onFeaturedClicked = onFeaturedClicked
+                        )
+                        Spacer(modifier = Modifier.width(if (index == it.lastIndex) 20.dp else 20.dp))
                     }
-                    Spacer(modifier = Modifier.height(20.dp))
                 }
-            } else {
-                FeaturedListItemShimmer()
+                Spacer(modifier = Modifier.height(20.dp))
             }
+
+            Spacer(modifier = Modifier.height(10.dp))
         }
-    }
-}
-
-private fun LazyListScope.mainHomeLocationPermissionBanner(
-    activity: Activity,
-    onLocationPermissionDeniedDialogShown: () -> Unit,
-    locationPermissionRequest: ManagedActivityResultLauncher<String, Boolean>,
-    event: (HomeScreenViewModelDelegate.Event) -> Unit
-) {
-    item {
-        MainHomeLocationPermissionBanner(
-            Modifier.animateItemPlacement().fillMaxWidth(),
-            {
-                val shouldShowRequestPermissionRationale =
-                    activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
-
-                val isPermissionGranted =
-                    activity.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
-
-                val showDeniedDialog =
-                    (!isPermissionGranted && shouldShowRequestPermissionRationale)
-
-                if (showDeniedDialog) onLocationPermissionDeniedDialogShown()
-                else locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-            },
-            { event(HomeScreenViewModelDelegate.Event.IgnoreNearbyRecommend) },
-        )
     }
 }

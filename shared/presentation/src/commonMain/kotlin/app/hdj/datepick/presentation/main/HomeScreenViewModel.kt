@@ -1,26 +1,28 @@
 package app.hdj.datepick.presentation.main
 
 import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.model.district.District
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.domain.usecase.course.GetFirstPageCoursesUseCase
 import app.hdj.datepick.domain.usecase.course.params.CourseQueryParams
-import app.hdj.datepick.domain.usecase.course.params.CourseQueryResult
+import app.hdj.datepick.domain.usecase.course.params.CourseQueryWithResult
 import app.hdj.datepick.domain.usecase.course.params.courseQueryParams
 import app.hdj.datepick.domain.usecase.course.params.pagingParams
+import app.hdj.datepick.domain.usecase.district.GetDistrictsUseCase
 import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
 import app.hdj.datepick.domain.usecase.place.GetFirstPagePlacesUseCase
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams.PagingParams
-import app.hdj.datepick.domain.usecase.place.params.PlaceQueryResult
+import app.hdj.datepick.domain.usecase.place.params.PlaceQueryWithResult
 import app.hdj.datepick.domain.usecase.place.params.filterParams
 import app.hdj.datepick.domain.usecase.place.params.pagingParams
 import app.hdj.datepick.domain.usecase.place.params.placeQueryParams
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.main.HomeScreenViewModelDelegate.*
+import app.hdj.datepick.presentation.utils.toLoadState
 import app.hdj.datepick.utils.di.HiltViewModel
 import app.hdj.datepick.utils.di.Inject
-import app.hdj.datepick.utils.location.LatLng
 import app.hdj.datepick.utils.location.LocationTracker
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -31,29 +33,26 @@ interface HomeScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, E
     val locationTracker: LocationTracker
 
     data class State(
-        val showNearbyRecommendLocationPermissionBanner: Boolean = false,
+        val showLocationPermissionBanner: Boolean = false,
 
+        val districts: LoadState<List<District>> = LoadState.idle(),
         val featured: LoadState<List<Featured>> = LoadState.idle(),
-        val recommendedCoursesQuery: CourseQueryResult? = null,
-        val nearbyRecommendedPlacesQuery: PlaceQueryResult? = null,
-        val recommendedPlacesQuery: PlaceQueryResult? = null,
+        val recommendedCoursesQuery: CourseQueryWithResult? = null,
+        val nearbyRecommendedPlacesQuery: PlaceQueryWithResult? = null,
+        val recommendedPlacesQuery: PlaceQueryWithResult? = null,
     ) {
-
-        val isContentRefreshing: Boolean
-            get() = featured is LoadState.Loading
+        val isContentLoading: Boolean
+            get() = districts is LoadState.Loading
+                    || featured is LoadState.Loading
                     || recommendedCoursesQuery?.result is LoadState.Loading
                     || recommendedPlacesQuery?.result is LoadState.Loading
                     || nearbyRecommendedPlacesQuery?.result is LoadState.Loading
     }
 
-    sealed class Effect {
-        object LocationPermissionRevoked : Effect()
-    }
+    sealed class Effect
 
     sealed class Event {
         object Refresh : Event()
-
-        object RetryFeatured : Event()
 
         object IgnoreNearbyRecommend : Event()
         class LocationPermissionResult(val isGranted: Boolean) : Event()
@@ -68,35 +67,40 @@ class HomeScreenViewModel @Inject constructor(
     private val getFeaturedListUseCase: GetFeaturedListUseCase,
     private val getFirstPageCoursesUseCase: GetFirstPageCoursesUseCase,
     private val getFirstPagePlacesUseCase: GetFirstPagePlacesUseCase,
+    private val getDistrictsUseCase: GetDistrictsUseCase,
     override val locationTracker: LocationTracker,
 ) : PlatformViewModel(), HomeScreenViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.BUFFERED)
     override val effect: Flow<Effect> = effectChannel.receiveAsFlow()
 
+    private val districts = MutableStateFlow<LoadState<List<District>>>(LoadState.idle())
     private val featuredList = MutableStateFlow<LoadState<List<Featured>>>(LoadState.idle())
-    private val recommendedCourseList = MutableStateFlow<CourseQueryResult?>(null)
-    private val recommendedPlaces = MutableStateFlow<PlaceQueryResult?>(null)
-    private val nearbyRecommendedPlaces = MutableStateFlow<PlaceQueryResult?>(null)
+
+    private val recommendedCourseList = MutableStateFlow<CourseQueryWithResult?>(null)
+    private val recommendedPlaces = MutableStateFlow<PlaceQueryWithResult?>(null)
+    private val nearbyRecommendedPlaces = MutableStateFlow<PlaceQueryWithResult?>(null)
 
     private val isLocationPermissionGranted = MutableStateFlow<Boolean?>(null)
 
-    private val showNearbyRecommendLocationPermissionBanner = MutableStateFlow(false)
+    private val showLocationPermissionBanner = MutableStateFlow(false)
 
-    override val state: StateFlow<State> = combine(
-        showNearbyRecommendLocationPermissionBanner,
+    override val state: StateFlow<State> = app.hdj.datepick.utils.coroutines.combine(
+        showLocationPermissionBanner,
+        districts,
         featuredList,
         recommendedCourseList,
         recommendedPlaces,
         nearbyRecommendedPlaces
-    ) { showNearbyRecommendLocationPermissionBanner,
+    ) { showLocationPermissionBanner,
+        districts,
         featuredListState,
         recommendedCourses,
         recommendedPlacesLoaded,
         nearbyRecommendedPlacesLoaded ->
-
         State(
-            showNearbyRecommendLocationPermissionBanner,
+            showLocationPermissionBanner,
+            districts,
             featuredListState,
             recommendedCourses,
             recommendedPlacesLoaded,
@@ -115,6 +119,7 @@ class HomeScreenViewModel @Inject constructor(
         loadFeaturedList()
         loadRecommendedCourses()
         loadRecommendedPlaces()
+        loadDistrictList()
 
         combine(
             appSettings.isNearbyRecommendEnabled,
@@ -129,14 +134,22 @@ class HomeScreenViewModel @Inject constructor(
             if (canShowNearbyRecommendations) loadNearbyRecommendedPlaces()
             else nearbyRecommendedPlaces.emit(null)
 
-            showNearbyRecommendLocationPermissionBanner.emit(shouldShowNearbyRecommendLocationPermissionBanner)
+            showLocationPermissionBanner.emit(shouldShowNearbyRecommendLocationPermissionBanner)
 
         }.launchIn(platformViewModelScope)
 
     }
 
+    private fun loadDistrictList() {
+        getDistrictsUseCase()
+            .toLoadState()
+            .onEach { districts.emit(it) }
+            .launchIn(platformViewModelScope)
+    }
+
     private fun loadFeaturedList() {
-        getFeaturedListUseCase(Unit)
+        getFeaturedListUseCase()
+            .toLoadState()
             .onEach { featuredList.emit(it) }
             .launchIn(platformViewModelScope)
     }
@@ -149,7 +162,8 @@ class HomeScreenViewModel @Inject constructor(
         }
 
         getFirstPageCoursesUseCase(query)
-            .onEach { recommendedCourseList.emit(CourseQueryResult(query, it)) }
+            .toLoadState()
+            .onEach { recommendedCourseList.emit(CourseQueryWithResult(query, it)) }
             .launchIn(platformViewModelScope)
     }
 
@@ -159,7 +173,8 @@ class HomeScreenViewModel @Inject constructor(
         }
 
         getFirstPagePlacesUseCase(query)
-            .onEach { recommendedPlaces.emit(PlaceQueryResult(query, it)) }
+            .toLoadState()
+            .onEach { recommendedPlaces.emit(PlaceQueryWithResult(query, it)) }
             .launchIn(platformViewModelScope)
     }
 
@@ -168,7 +183,7 @@ class HomeScreenViewModel @Inject constructor(
             val location = locationTracker.getCurrentLocation()
 
             if (location == null) {
-                nearbyRecommendedPlaces.emit(PlaceQueryResult(result = LoadState.idle()))
+                nearbyRecommendedPlaces.emit(PlaceQueryWithResult(result = LoadState.idle()))
                 return@launch
             }
 
@@ -176,24 +191,19 @@ class HomeScreenViewModel @Inject constructor(
                 filterParams { nearby(location.latitude, location.longitude, 1000.0) }
                 pagingParams { sort = PagingParams.Sort.Popular }
             }
+
             getFirstPagePlacesUseCase(query)
-                .onEach { nearbyRecommendedPlaces.emit(PlaceQueryResult(query, it)) }
-                .launchIn(platformViewModelScope)
+                .toLoadState()
+                .onEach { nearbyRecommendedPlaces.emit(PlaceQueryWithResult(query, it)) }
+                .launchIn(this)
         }
     }
 
     override fun event(e: Event) {
-        platformViewModelScope.launch {
-            when (e) {
-
-                is Event.Refresh -> loadHomeScreenData()
-
-                is Event.RetryFeatured -> loadFeaturedList()
-
-                is Event.LocationPermissionResult -> isLocationPermissionGranted.emit(e.isGranted)
-
-                is Event.IgnoreNearbyRecommend -> appSettings.setNearbyRecommendEnabled(true)
-            }
+        when (e) {
+            is Event.Refresh -> loadHomeScreenData()
+            is Event.LocationPermissionResult -> platformViewModelScope.launch { isLocationPermissionGranted.emit(e.isGranted) }
+            is Event.IgnoreNearbyRecommend -> platformViewModelScope.launch { appSettings.setNearbyRecommendEnabled(true) }
         }
     }
 }

@@ -23,6 +23,9 @@ sqldelight {
 
 android {
     configurations {
+        create("mockImplementation")
+        create("mockCompileOnly")
+        create("mockRuntimeOnly")
         create("androidTestApi")
         create("androidTestDebugApi")
         create("androidTestReleaseApi")
@@ -63,6 +66,7 @@ kotlin {
             api(Ktor.client.json)
             api(Ktor.client.logging)
             api(Ktor.client.auth)
+            api(Ktor.client.mock)
             api(Square.sqlDelight.extensions.coroutines)
             api(MultiplatformSettings.core)
             api(MultiplatformSettings.coroutines)

@@ -8,6 +8,7 @@ import app.hdj.datepick.domain.usecase.place.params.KakaoPlaceSearchQueryParams
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.kakaoplacesearch.KakaoPlaceSearchScreenViewModelDelegate.*
+import app.hdj.datepick.presentation.utils.toLoadState
 import app.hdj.datepick.utils.AppInfo
 import app.hdj.datepick.utils.PlatformLogger
 import app.hdj.datepick.utils.di.HiltViewModel
@@ -63,13 +64,16 @@ class KakaoPlaceSearchScreenViewModel @Inject constructor(
             is Event.Search -> {
                 platformViewModelScope.launch {
                     val location = locationTracker.getCurrentLocation()
+
                     val params = KakaoPlaceSearchQueryParams(
                         query = e.query,
                         latLng = location
                     )
-                    getKakaoPlaceSearchUseCase(params).collect {
-                        kakaoPlaceSearchResult.emit(it)
-                    }
+
+                    getKakaoPlaceSearchUseCase(params)
+                        .toLoadState()
+                        .onEach { kakaoPlaceSearchResult.emit(it)  }
+                        .launchIn(this)
                 }
             }
             is Event.Select -> {

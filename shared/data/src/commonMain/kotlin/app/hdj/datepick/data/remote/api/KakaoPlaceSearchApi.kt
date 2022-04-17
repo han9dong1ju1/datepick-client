@@ -11,7 +11,7 @@ import io.ktor.client.request.*
 
 interface KakaoPlaceSearchApi : Api {
 
-    override val basePath: String get() = "/v2/local/search/keyword.json"
+    override val basePath: String get() = "/v2/local/search/keyword.json/"
 
     suspend fun search(
         params: KakaoPlaceSearchQueryParams

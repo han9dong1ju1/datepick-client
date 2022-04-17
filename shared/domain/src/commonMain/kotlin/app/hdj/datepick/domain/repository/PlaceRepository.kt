@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface PlaceRepository {
 
-    fun getById(id: Long): Flow<LoadState<Place>>
+    fun getById(id: Long): Flow<Place>
 
     fun queryPagedPlaces(params: PlaceQueryParams): Pager<Long, Place>
 
-    fun queryFirstPagePlaces(params: PlaceQueryParams): Flow<LoadState<List<Place>>>
+    fun queryFirstPagePlaces(params: PlaceQueryParams): Flow<List<Place>>
 
-    fun queryPlacesFromCourse(courseId: Long): Flow<LoadState<List<Place>>>
+    fun queryPlacesFromCourse(courseId: Long): Flow<List<Place>>
 
-    fun queryFromKakao(params: KakaoPlaceSearchQueryParams): Flow<LoadState<List<KakaoPlaceSearch.Document>>>
+    fun queryFromKakao(params: KakaoPlaceSearchQueryParams): Flow<List<KakaoPlaceSearch.Document>>
 
 }

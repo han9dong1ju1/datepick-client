@@ -1,17 +1,16 @@
 package app.hdj.datepick.domain.usecase.featured
 
 import app.hdj.datepick.domain.model.featured.Featured
-import app.hdj.datepick.domain.usecase.UseCase
+import app.hdj.datepick.utils.createDynamicLink
 import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.di.Singleton
-import app.hdj.datepick.utils.createDynamicLink
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withTimeout
 
 @Singleton
-class GetFeaturedDynamicLinkUseCase @Inject constructor() : UseCase<Featured, Flow<String>> {
-    override fun invoke(input: Featured): Flow<String> = flow {
+class GetFeaturedDynamicLinkUseCase @Inject constructor() {
+    operator fun invoke(input: Featured): Flow<String> = flow {
         val link = createDynamicLink(
             "featured/${input.id}",
             input.title,

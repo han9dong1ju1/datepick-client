@@ -2,29 +2,28 @@ package app.hdj.datepick.presentation.place
 
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.isStateLoading
-import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.usecase.place.GetFirstPagePlacesUseCase
 import app.hdj.datepick.domain.usecase.place.GetPlaceDetailUseCase
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
-import app.hdj.datepick.domain.usecase.place.params.PlaceQueryResult
+import app.hdj.datepick.domain.usecase.place.params.PlaceQueryWithResult
 import app.hdj.datepick.domain.usecase.place.params.filterParams
 import app.hdj.datepick.domain.usecase.place.params.placeQueryParams
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.place.PlaceDetailScreenViewModelDelegate.*
+import app.hdj.datepick.presentation.utils.toLoadState
 import app.hdj.datepick.utils.di.HiltViewModel
 import app.hdj.datepick.utils.di.Inject
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 interface PlaceDetailScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, Effect, Event> {
 
     data class State(
         val placeState: LoadState<Place> = LoadState.idle(),
-        val recommendedPlacesQueryResult: PlaceQueryResult = PlaceQueryResult(),
+        val recommendedPlacesQueryResult: PlaceQueryWithResult = PlaceQueryWithResult(),
     ) {
         val isLoading: Boolean
             get() = placeState.isStateLoading() || recommendedPlacesQueryResult.result.isStateLoading()
@@ -56,8 +55,8 @@ class PlaceDetailScreenViewModel @Inject constructor(
     private val recommendedPlacesQuery = MutableStateFlow<PlaceQueryParams?>(null)
     private val recommendedPlacesQueryResult = recommendedPlacesQuery
         .filterNotNull()
-        .flatMapConcat { getFirstPagePlacesUseCase(it) }
-        .map { PlaceQueryResult(queryParams = requireNotNull(recommendedPlacesQuery.value), result = it) }
+        .flatMapConcat { getFirstPagePlacesUseCase(it).toLoadState() }
+        .map { PlaceQueryWithResult(queryParams = requireNotNull(recommendedPlacesQuery.value), result = it) }
 
     override val state = combine(
         placeState, recommendedPlacesQueryResult
@@ -70,7 +69,7 @@ class PlaceDetailScreenViewModel @Inject constructor(
 
     init {
         placeState.onEach {
-            val place = it.getDataOrNull()
+            val place = it.dataOrNull
             if (place != null) {
                 recommendedPlacesQuery.emit(
                     placeQueryParams {
@@ -86,13 +85,14 @@ class PlaceDetailScreenViewModel @Inject constructor(
 
     private fun load(placeId: Long) {
         getPlaceDetailUseCase(placeId)
+            .toLoadState()
             .onEach { placeState.emit(it) }
             .launchIn(platformViewModelScope)
     }
 
     override fun event(e: Event) {
         when (e) {
-            is Event.Refresh -> placeState.value.getDataOrNull()?.id?.let { load(placeId = it) }
+            is Event.Refresh -> placeState.value.dataOrNull?.id?.let { load(placeId = it) }
             is Event.SetPlace -> placeState.tryEmit(LoadState.success(e.place))
             is Event.LoadPlaceWithId -> load(e.id)
         }

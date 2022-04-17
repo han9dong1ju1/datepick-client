@@ -13,9 +13,7 @@ import kotlinx.coroutines.flow.*
 
 interface CourseDetailPlacesScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, Effect, Event> {
 
-    data class State(
-        val placesState: LoadState<List<Place>> = LoadState.idle()
-    )
+    class State
 
     sealed interface Effect {
     }
@@ -28,7 +26,6 @@ interface CourseDetailPlacesScreenViewModelDelegate : UnidirectionalViewModelDel
 
 @HiltViewModel
 class CourseDetailPlacesScreenViewModel @Inject constructor(
-    private val getPlacesByCourseIdUseCase: GetPlacesByCourseIdUseCase,
 ) : PlatformViewModel(), CourseDetailPlacesScreenViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
@@ -36,13 +33,7 @@ class CourseDetailPlacesScreenViewModel @Inject constructor(
 
     private val courseId = MutableStateFlow<Long?>(null)
 
-    private val places = courseId
-        .filterNotNull()
-        .flatMapConcat { getPlacesByCourseIdUseCase(it) }
-
-    override val state: StateFlow<State> = places.map {
-        State(it)
-    }.asStateFlow(State(), platformViewModelScope)
+    override val state: StateFlow<State> = MutableStateFlow(State())
 
     override fun event(e: Event) {
         when (e) {

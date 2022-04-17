@@ -20,7 +20,8 @@ import androidx.compose.ui.unit.dp
 enum class DeviceType {
     SmallPhone,
     LargePhone,
-    Tablet
+    Tablet,
+    LargeTablet,
 }
 
 val LocalDeviceType = compositionLocalOf { DeviceType.SmallPhone }
@@ -32,7 +33,8 @@ fun ProvideDeviceType(content: @Composable () -> Unit) {
     val deviceType = when (configuration.screenWidthDp) {
         in 0..360 -> DeviceType.SmallPhone
         in 360 until 600 -> DeviceType.LargePhone
-        else -> DeviceType.Tablet
+        in 600 until 900 -> DeviceType.Tablet
+        else -> DeviceType.LargeTablet
     }
 
     CompositionLocalProvider(LocalDeviceType provides deviceType, content = content)

@@ -12,18 +12,21 @@ import dagger.hilt.components.SingletonComponent
 interface RepositoryModule {
 
     @get:[Binds]
-    val PlaceRepositoryImp.providePlaceRepository : PlaceRepository
+    val PlaceRepositoryImp.providePlaceRepository: PlaceRepository
 
     @get:[Binds]
-    val CourseRepositoryImp.provideCourseRepository : CourseRepository
+    val CourseRepositoryImp.provideCourseRepository: CourseRepository
 
     @get:[Binds]
-    val MeRepositoryImp.provideMeRepository : MeRepository
+    val MeRepositoryImp.provideMeRepository: MeRepository
 
     @get:[Binds]
-    val FeaturedRepositoryImp.provideFeaturedRepository : FeaturedRepository
+    val FeaturedRepositoryImp.provideFeaturedRepository: FeaturedRepository
 
     @get:[Binds]
-    val AuthRepositoryImp.provideAuthRepository : AuthRepository
+    val AuthRepositoryImp.provideAuthRepository: AuthRepository
+
+    @get:[Binds]
+    val DistrictRepositoryImp.provideDistrictRepository: DistrictRepository
 
 }

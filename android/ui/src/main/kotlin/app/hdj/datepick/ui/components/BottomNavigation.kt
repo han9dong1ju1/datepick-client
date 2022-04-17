@@ -1,5 +1,6 @@
 package app.hdj.datepick.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -59,6 +60,57 @@ fun NavigationGraphBottomNavigation(
                     )
                 }
             }
+        }
+    }
+
+}
+
+@Composable
+fun NavigationGraphNavigationRail(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    currentRoute: String,
+    list: List<BottomNavigationProperty>
+) {
+
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colors.background
+    ) {
+        Box(modifier = Modifier.statusBarsPadding()) {
+            NavigationRail(
+                modifier = Modifier.width(64.dp).fillMaxHeight(),
+                backgroundColor = Color.Transparent,
+                elevation = 0.dp
+            ) {
+                list.forEach { (icon, label, navigation, badgeEnabled) ->
+                    NavigationRailItem(
+                        currentRoute == navigation,
+                        icon = {
+                            BadgedBox(badge = {
+                                if (badgeEnabled) Badge()
+                            }) {
+                                Column(modifier = Modifier.padding(bottom = 8.dp)) {
+                                    Icon(icon, null, modifier = Modifier.size(20.dp))
+                                }
+                            }
+                        },
+                        label = { Text(label) },
+                        selectedContentColor = MaterialTheme.colors.onBackground,
+                        unselectedContentColor = MaterialTheme.colors.onBackground.copy(alpha = 0.15f),
+                        onClick = {
+                            navController.navigate(navigation) {
+                                launchSingleTop = true
+                                popUpTo(list.first().navigation)
+                            }
+                        }
+                    )
+                }
+            }
+            Box(
+                modifier = Modifier.height(1.dp).fillMaxHeight()
+                    .background(MaterialTheme.colors.onBackground.copy(alpha = 0.1f))
+            )
         }
     }
 

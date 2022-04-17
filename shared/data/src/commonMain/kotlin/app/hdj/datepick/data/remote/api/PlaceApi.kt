@@ -5,15 +5,43 @@ import app.hdj.datepick.data.remote.Api
 import app.hdj.datepick.data.remote.ApiResponse
 import app.hdj.datepick.data.remote.PagingResponse
 import app.hdj.datepick.data.remote.get
+import app.hdj.datepick.data.utils.MockResponses
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
 import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.di.Singleton
 import io.ktor.client.*
 import io.ktor.client.request.*
+import kotlinx.coroutines.delay
+
+fun fakePlaceApi(): PlaceApi = object : PlaceApi {
+    override val client: HttpClient
+        get() = TODO("Not yet implemented")
+
+    override suspend fun getById(id: Long): ApiResponse<PlaceResponse> {
+        delay(1000)
+        return ApiResponse(
+            data = MockResponses.place(),
+            error = null,
+            message = null
+        )
+    }
+
+    override suspend fun queryPlaces(
+        page: Long,
+        placeQueryParams: PlaceQueryParams
+    ): ApiResponse<PagingResponse<PlaceResponse>> {
+        delay(1000)
+        return ApiResponse(
+            data = MockResponses.placePaged(page),
+            error = null,
+            message = null
+        )
+    }
+}
 
 interface PlaceApi : Api {
 
-    override val basePath: String get() = "/v1/places"
+    override val basePath: String get() = "/v1/places/"
 
     suspend fun getById(id: Long): ApiResponse<PlaceResponse>
 

@@ -9,36 +9,35 @@ import app.hdj.datepick.domain.LoadState.Companion.loading
 import app.hdj.datepick.domain.LoadState.Companion.success
 import app.hdj.datepick.domain.repository.AuthRepository
 import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Named
 import app.hdj.datepick.utils.di.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 @Singleton
 class AuthRepositoryImp @Inject constructor(
-    private val authApi: AuthApi,
+    @Named("mocked") private val authApi: AuthApi,
     private val authTokenManager: AuthTokenManager
 ) : AuthRepository {
 
-    override fun signIn(token: String, provider: String) = flow<LoadState<Unit>> {
-        emit(loading())
-        authApi.runCatching { signIn(token, provider) }
-            .onFailure { emit(failed(it)) }
-            .onSuccess { emit(success(Unit)) }
+    override fun signIn(token: String, provider: String) = flow {
+        val response = authApi.signIn(token, provider)
+        authTokenManager.setToken(response.data)
+        emit(Unit)
     }
 
-    override fun refreshToken(forceRefresh: Boolean) = flow<LoadState<Unit>> {
+    override fun refreshToken(forceRefresh: Boolean) = flow {
         val refreshToken = authTokenManager.getRefreshToken()
         if ((!authTokenManager.isTokenExpired() && !forceRefresh) || refreshToken == null) {
-            emit(success(Unit))
+            emit(Unit)
         } else {
-            emit(loading())
-            authApi.runCatching { refreshToken(AuthRefreshTokenRequest(refreshToken = refreshToken)) }
-                .onFailure { emit(failed(it)) }
-                .onSuccess { emit(success(Unit)) }
+            val response = authApi.refreshToken(AuthRefreshTokenRequest(refreshToken))
+            authTokenManager.setToken(response.data)
+            emit(Unit)
         }
     }
 
-    override fun unregister(reason: String): Flow<LoadState<Unit>> {
+    override fun unregister(reason: String): Flow<Unit> {
         TODO("Not yet implemented")
     }
 

@@ -10,10 +10,52 @@ import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.di.Singleton
 import io.ktor.client.*
 import io.ktor.client.request.*
+import kotlinx.coroutines.delay
+
+fun fakeAuthApi(): AuthApi = object : AuthApi {
+    override val client: HttpClient
+        get() = TODO("Not yet implemented")
+
+    override suspend fun signIn(token: String, provider: String): ApiResponse<AuthToken> {
+        delay(1000)
+        return ApiResponse(
+            data = AuthToken(
+                accessToken = "token",
+                refreshToken = "refreshToken",
+                expiredIn = 120
+            ),
+            error = null,
+            message = null
+        )
+    }
+
+    override suspend fun unregister(reason: String): ApiResponse<Unit> {
+        delay(1000)
+        return ApiResponse(
+            data = Unit,
+            error = null,
+            message = null
+        )
+    }
+
+    override suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthToken> {
+        delay(1000)
+        return ApiResponse(
+            data = AuthToken(
+                accessToken = "token",
+                refreshToken = "refreshToken",
+                expiredIn = 120
+            ),
+            error = null,
+            message = null
+        )
+    }
+
+}
 
 interface AuthApi : Api {
 
-    override val basePath: String get() = "/v1/auth"
+    override val basePath: String get() = "/v1/auth/"
 
     suspend fun signIn(token: String, provider: String): ApiResponse<AuthToken>
 
@@ -26,16 +68,16 @@ interface AuthApi : Api {
 @Singleton
 class AuthApiImp @Inject constructor(override val client: HttpClient) : AuthApi {
 
-    override suspend fun signIn(token: String, provider: String): ApiResponse<AuthToken> = post("/signin") {
+    override suspend fun signIn(token: String, provider: String): ApiResponse<AuthToken> = post("signin") {
         parameter("token", token)
         parameter("provider", provider)
     }
 
-    override suspend fun unregister(reason: String): ApiResponse<Unit> = post("/unregister") {
+    override suspend fun unregister(reason: String): ApiResponse<Unit> = post("unregister") {
         parameter("reason", reason)
     }
 
-    override suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthToken> = post("/refresh") {
+    override suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthToken> = post("refresh") {
         setBody(tokenRequest)
     }
 
