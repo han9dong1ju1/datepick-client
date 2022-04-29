@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import app.hdj.datepick.android.ui.destination.CourseDetailGraph
 import app.hdj.datepick.ui.components.BaseScaffold
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -22,9 +23,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 internal val SEOUL_LAT_LNG = LatLng(37.56, 126.97)
 
 @Composable
-@Destination(
-    navGraph = COURSE_SCREEN_NAV_GRAPH
-)
+@Destination
+@CourseDetailGraph
 fun CourseDetailMapScreen(
     navigator: DestinationsNavigator
 ) {

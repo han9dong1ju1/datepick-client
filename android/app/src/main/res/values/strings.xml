@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DatePick</string>
+    <string name="gcp_android_client_id">209984584953-il20ica4j0mlqjcu4n2o7sopg5o5fgki.apps.googleusercontent.com</string>
+    <string name="gcp_dev_server_client_id">209984584953-il20ica4j0mlqjcu4n2o7sopg5o5fgki.apps.googleusercontent.com</string>
 </resources>

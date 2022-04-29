@@ -55,20 +55,6 @@ fun <T, R> LoadState<T>.flatMap(mapper: (T) -> LoadState<R>): LoadState<R> {
     }
 }
 
-suspend fun <T : Any?> FlowCollector<LoadState<T>>.emitState(
-    defaultValue: T? = null,
-    executor: suspend () -> T,
-): Result<T> {
-    emit(loading())
-    return runCatching {
-        executor()
-    }.onSuccess {
-        emit(success(it))
-    }.onFailure {
-        emit(failed(it, defaultValue))
-    }
-}
-
 fun <T, R> LoadState<T>.fold(
     onSuccess: (T) -> R,
     onFailed: (T?, Throwable) -> R? = { _, _ -> null },

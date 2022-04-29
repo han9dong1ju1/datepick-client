@@ -142,6 +142,10 @@ private fun MyDateScreenContent(
                 item { MyDateLoadFailedBanner { lazyPagingItems.retry() } }
             }
 
+            item {
+                Spacer(modifier = Modifier.height(100.dp))
+                Spacer(modifier = Modifier.navigationBarsPadding())
+            }
         }
 
     }

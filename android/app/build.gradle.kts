@@ -42,6 +42,7 @@ dependencies {
 
     implementation(AndroidX.glanceAppWidget)
 
+    implementation(AndroidX.window)
     implementation(AndroidX.appCompat)
 
     implementation(AndroidX.paging.commonKtx)

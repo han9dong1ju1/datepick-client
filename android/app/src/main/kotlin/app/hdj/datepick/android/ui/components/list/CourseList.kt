@@ -98,7 +98,8 @@ fun CourseHorizontalListItem(
                 ) {
 
                     NetworkImage(
-                        modifier = Modifier.size(14.dp).clip(CircleShape)
+                        shape = CircleShape,
+                        modifier = Modifier.size(14.dp)
                             .border(BorderStroke(1.dp, Color.White.copy(0.5f)), shape = CircleShape),
                         url = course.user.imageUrl,
                         onFailed = {

@@ -10,7 +10,7 @@ import app.hdj.datepick.domain.usecase.course.params.CourseQueryWithResult
 import app.hdj.datepick.domain.usecase.course.params.courseQueryParams
 import app.hdj.datepick.domain.usecase.course.params.pagingParams
 import app.hdj.datepick.domain.usecase.district.GetDistrictsUseCase
-import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
+import app.hdj.datepick.domain.usecase.featured.GetTopFeaturedListUseCase
 import app.hdj.datepick.domain.usecase.place.GetFirstPagePlacesUseCase
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams.PagingParams
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryWithResult
@@ -38,8 +38,8 @@ interface HomeScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, E
         val districts: LoadState<List<District>> = LoadState.idle(),
         val featured: LoadState<List<Featured>> = LoadState.idle(),
         val recommendedCoursesQuery: CourseQueryWithResult? = null,
-        val nearbyRecommendedPlacesQuery: PlaceQueryWithResult? = null,
         val recommendedPlacesQuery: PlaceQueryWithResult? = null,
+        val nearbyRecommendedPlacesQuery: PlaceQueryWithResult? = null,
     ) {
         val isContentLoading: Boolean
             get() = districts is LoadState.Loading
@@ -64,7 +64,7 @@ interface HomeScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, E
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val appSettings: AppSettings,
-    private val getFeaturedListUseCase: GetFeaturedListUseCase,
+    private val getFeaturedListUseCase: GetTopFeaturedListUseCase,
     private val getFirstPageCoursesUseCase: GetFirstPageCoursesUseCase,
     private val getFirstPagePlacesUseCase: GetFirstPagePlacesUseCase,
     private val getDistrictsUseCase: GetDistrictsUseCase,
@@ -96,15 +96,15 @@ class HomeScreenViewModel @Inject constructor(
         districts,
         featuredListState,
         recommendedCourses,
-        recommendedPlacesLoaded,
+        recommendedPlaces,
         nearbyRecommendedPlacesLoaded ->
         State(
             showLocationPermissionBanner,
             districts,
             featuredListState,
             recommendedCourses,
-            recommendedPlacesLoaded,
-            nearbyRecommendedPlacesLoaded
+            recommendedPlaces,
+            nearbyRecommendedPlacesLoaded,
         )
     }.asStateFlow(
         State(),

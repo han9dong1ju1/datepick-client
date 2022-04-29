@@ -19,7 +19,7 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
 import kotlinx.serialization.json.Json
 
-private const val URL = "api.datepick.app"
+private const val URL = "api-dev.datepick.app"
 
 @Suppress("FunctionName")
 fun <T : HttpClientEngineConfig> DatepickApiHttpClient(

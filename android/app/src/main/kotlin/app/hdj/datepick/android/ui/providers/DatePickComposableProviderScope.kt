@@ -19,10 +19,6 @@ fun DatePickComposableProviderScope(
         LocalMe provides state.me,
         LocalLocationTracker provides locationTracker
     ) {
-        ProvideToastPresenter {
-            ProvideDeviceType {
-                content()
-            }
-        }
+        ProvideToastPresenter(content)
     }
 }

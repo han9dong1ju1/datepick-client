@@ -1,8 +1,8 @@
 package app.hdj.datepick.data.di
 
-import app.hdj.datepick.domain.usecase.featured.GetFeaturedListUseCase
+import app.hdj.datepick.domain.usecase.featured.GetTopFeaturedListUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
-    single { GetFeaturedListUseCase(get()) }
+    single { GetTopFeaturedListUseCase(get()) }
 }

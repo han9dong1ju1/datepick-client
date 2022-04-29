@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.list.CoursePlaceListItem
 import app.hdj.datepick.android.ui.components.list.CoursePlaceListItemType
+import app.hdj.datepick.android.ui.destination.CourseDetailGraph
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.Place
@@ -32,9 +33,8 @@ import kotlinx.coroutines.flow.onEach
 import org.burnoutcrew.reorderable.*
 
 @Composable
-@Destination(
-    navGraph = COURSE_SCREEN_NAV_GRAPH,
-)
+@Destination
+@CourseDetailGraph
 fun CourseDetailPlacesScreen(
     navigator: DestinationsNavigator,
     parentVm: CourseDetailScreenViewModel

@@ -183,9 +183,9 @@ SPEC CHECKSUMS:
   KMPNativeCoroutinesCombine: 43a442a5e50ee8fcbb8633a361d12907fe933920
   KMPNativeCoroutinesCore: ed98a12d8337f861088f6b79636ffb29ff9bb2ad
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  presentation: 41571d968817e1e453fd91e5902fa26f9d15450b
+  presentation: 8e88189f7bd0cd41c6a1e51d1c6dd7fae226166b
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
-  utils: bcad1d8bafb8a4ff7d943116b7f28deaa14cc24e
+  utils: f1a3267c654043c1617e872b4a51e0b7757c17c2
 
 PODFILE CHECKSUM: 5bed186b5512bed48a4e99fba2846ffc0fe3b118
 

@@ -1,4 +1,4 @@
-Version: 	Ver 1.00.00-b7e30d0-DEBUG
+Version: 	Ver 1.00.00-3134aee-DEBUG
 
 Branch: 	main
 
@@ -6,8 +6,8 @@ Developer: 	"Harry Park"
 
 Project Development Overview
 	Task
-		Harry Park(7 hours ago)-다이어리, 코스 상세 페이지 작업
-		Harry Park(3 weeks ago)-[Android] UI 수정, Compose Destination 적용, WindowInsets 제거 및 Dependency Update
-		Harry Park(3 weeks ago)-[Android] UI 수정, Compose Destination 적용, WindowInsets 제거 및 Dependency Update
+		Harry Park(12 days ago)-다이어리, 코스 상세 페이지 작업
+		Harry Park(13 days ago)-다이어리, 코스 상세 페이지 작업
+		Harry Park(4 weeks ago)-[Android] UI 수정, Compose Destination 적용, WindowInsets 제거 및 Dependency Update
+		Harry Park(5 weeks ago)-[Android] UI 수정, Compose Destination 적용, WindowInsets 제거 및 Dependency Update
 		Harry Park(3 months ago)-[Android] 페이징 로직 수정 및 설정 쪽 화면 정렬
-		Harry Park(3 months ago)-[Android] 페이징 로직 적용

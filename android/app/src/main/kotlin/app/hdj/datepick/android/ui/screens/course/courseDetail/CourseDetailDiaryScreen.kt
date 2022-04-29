@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.hdj.datepick.android.ui.destination.CourseDetailGraph
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.android.utils.onSucceedComposable
 import app.hdj.datepick.presentation.coursedetail.CourseDetailScreenViewModelDelegate
@@ -46,10 +47,8 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 @Composable
-@Destination(
-    navGraph = COURSE_SCREEN_NAV_GRAPH,
-    start = true
-)
+@CourseDetailGraph(start = true)
+@Destination
 fun CourseDetailDiaryScreen(
     navigator: DestinationsNavigator,
     parentVm: CourseDetailScreenViewModelDelegate
@@ -146,9 +145,10 @@ fun CourseDetailDiaryScreen(
                                 Spacer(Modifier.height(40.dp))
 
                                 NetworkImage(
-                                    modifier = Modifier.clip(RoundedCornerShape(20.dp))
+                                    modifier = Modifier
                                         .width(200.dp)
                                         .heightIn(max = 300.dp),
+                                    shape = RoundedCornerShape(20.dp),
                                     url = it.imageUrl
                                 )
 

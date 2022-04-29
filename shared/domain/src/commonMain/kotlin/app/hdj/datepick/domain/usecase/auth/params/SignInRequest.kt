@@ -1,7 +1,7 @@
 package app.hdj.datepick.domain.usecase.auth.params
 
 data class SignInRequest(
-    val token : String,
+    val code : String,
     val provider : Provider
 ) {
 

@@ -26,17 +26,25 @@ object MockResponses {
         isPicked = false,
         imageUrl =
         if (Random.nextBoolean())
-            "https://postfiles.pstatic.net/MjAyMTAyMjNfMjQ5/MDAxNjE0MDQ4NDEwMDYy.JCXTJWhG8eUrNQjRkKtJpB7C3fDc5wyMm66xiG7sCcIg.Dxlm9hUXzUgHSxq4e0bz40d3nxMthzXMffnvyDUCyD0g.JPEG.hyonikim/IMG_1835.jpg?type=w773"
+            "https://picsum.photos/${Random.nextInt(200, 500)}/${Random.nextInt(200, 500)}"
         else null
     )
 
-    fun user() = UserResponse(0, "Harry", "https://picsum.photos/200/300", UserGender.M)
+    fun user() =
+        UserResponse(
+            0,
+            "Harry",
+            "https://picsum.photos/${Random.nextInt(200, 500)}/${Random.nextInt(200, 500)}",
+            UserGender.M
+        )
 
     fun course(year: String, monthString: String, dayString: String) = CourseResponse(
         id = Random.nextLong(),
         title = listOf("1주년 기념 이벤트", "기념일 데이트", "소소한 데이트", "여자친구 생일!!!").random(),
         meetAt = "${year}-${monthString}-${dayString}T00:00:00Z",
-        imageUrl = if (Random.nextBoolean()) "https://picsum.photos/200/300" else null,
+        imageUrl = if (Random.nextBoolean()) "https://picsum.photos/${
+            Random.nextInt(200, 500)
+        }/${Random.nextInt(200, 500)}" else null,
         isPrivate = Random.nextBoolean(),
         viewCount = Random.nextLong(),
         pickCount = Random.nextLong(),
@@ -73,7 +81,7 @@ object MockResponses {
         id = Random.nextLong(),
         title = "서울 종로구 재밌는 데이트 코스 10선",
         subtitle = "서울 종로구에서 한옥마을을 포함한 정갈한 데이트 코스들을 만나보세요!",
-        imageUrl = "https://picsum.photos/200/300",
+        imageUrl = "https://picsum.photos/${Random.nextInt(200, 500)}/${Random.nextInt(200, 500)}",
         content = """
                     국회의 정기회는 법률이 정하는 바에 의하여 매년 1회 집회되며, 국회의 임시회는 대통령 또는 국회재적의원 4분의 1 이상의 요구에 의하여 집회된다. 모든 국민은 근로의 권리를 가진다. 국가는 사회적·경제적 방법으로 근로자의 고용의 증진과 적정임금의 보장에 노력하여야 하며, 법률이 정하는 바에 의하여 최저임금제를 시행하여야 한다.
 
@@ -100,7 +108,7 @@ object MockResponses {
         currentPage = page,
         count = 50,
         isLastPage = page == 10L,
-        content = (1..10).map { featured() }
+        content = (1..5).map { featured() }
     )
 
 

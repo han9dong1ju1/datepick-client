@@ -69,8 +69,8 @@ fun PlaceHorizontalListItem(
         Column(modifier = Modifier.fillMaxWidth()) {
 
             NetworkImage(
-                modifier = Modifier.fillMaxWidth().height(140.dp)
-                    .clip(RoundedCornerShape(10.dp)),
+                modifier = Modifier.fillMaxWidth().height(140.dp),
+                shape = RoundedCornerShape(10.dp),
                 url = place.imageUrl,
                 onFailed = {
                     Box(

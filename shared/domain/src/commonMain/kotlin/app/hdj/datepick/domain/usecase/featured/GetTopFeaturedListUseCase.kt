@@ -5,10 +5,10 @@ import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.di.Singleton
 
 @Singleton
-class GetFeaturedListUseCase @Inject constructor(
+class GetTopFeaturedListUseCase @Inject constructor(
     private val featuredRepository: FeaturedRepository
 ) {
 
-    operator fun invoke() = featuredRepository.getFeaturedPage()
+    operator fun invoke() = featuredRepository.getTopFeaturedList()
 
 }

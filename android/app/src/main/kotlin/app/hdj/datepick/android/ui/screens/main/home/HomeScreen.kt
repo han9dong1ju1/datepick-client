@@ -4,8 +4,6 @@ import android.Manifest
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Icon
@@ -25,19 +23,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import app.hdj.datepick.android.ui.components.list.*
-import app.hdj.datepick.android.ui.destinations.*
+import app.hdj.datepick.android.ui.destinations.LocationPermissionDeniedDialogDestination
+import app.hdj.datepick.android.ui.destinations.NotificationScreenDestination
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Logo
-import app.hdj.datepick.android.ui.providers.DeviceType
-import app.hdj.datepick.android.ui.providers.LocalDeviceType
 import app.hdj.datepick.android.utils.*
-import app.hdj.datepick.domain.LoadState
-import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.district.District
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
-import app.hdj.datepick.domain.onLoading
 import app.hdj.datepick.domain.onSucceed
 import app.hdj.datepick.domain.usecase.course.params.CourseQueryParams
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
@@ -50,10 +44,12 @@ import app.hdj.datepick.ui.utils.getActivity
 import app.hdj.datepick.ui.utils.isPermissionGranted
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@RootNavGraph(start = true)
+@Destination
 @Composable
-@Destination(start = true)
 fun HomeScreen(navigator: DestinationsNavigator) {
     HomeScreenContent(
         onPlaceClicked = navigator.onPlaceClicked,
@@ -61,6 +57,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
         onFeaturedClicked = navigator.onFeaturedClicked,
         onMorePlaceListClicked = navigator.onMorePlaceListClicked,
         onMoreCourseListClicked = navigator.onMoreCourseListClicked,
+        onMoreFeaturedListClicked = navigator.onMoreFeaturedListClicked,
         onNotificationClicked = { navigator.navigate(NotificationScreenDestination) },
         onLocationPermissionDeniedDialogShown = { navigator.navigate(LocationPermissionDeniedDialogDestination) },
         vm = hiltViewModel<HomeScreenViewModel>()
@@ -72,6 +69,7 @@ private fun HomeScreenContent(
     onPlaceClicked: (Place) -> Unit = {},
     onMorePlaceListClicked: (PlaceQueryParams) -> Unit = {},
     onMoreCourseListClicked: (CourseQueryParams) -> Unit = {},
+    onMoreFeaturedListClicked : () -> Unit = {},
     onCourseClicked: (Course) -> Unit = {},
     onNotificationClicked: () -> Unit = {},
     onFeaturedClicked: (Featured) -> Unit = {},
@@ -148,6 +146,7 @@ private fun HomeScreenContent(
                             text = "오늘 당신의\n데이트 장소를 찾아보세요!",
                             style = MaterialTheme.typography.h1,
                         )
+                        Spacer(Modifier.height(20.dp))
                     }
                 }
 
@@ -210,10 +209,9 @@ private fun HomeScreenContent(
 
                 featured.run {
                     onSucceed {
-                        itemHomeFeaturedList(it, onFeaturedClicked)
+                        itemHomeFeaturedList(it, onFeaturedClicked, onMoreFeaturedListClicked)
                     }
                 }
-
 
             }
 
@@ -224,42 +222,51 @@ private fun HomeScreenContent(
 
         }
 
-    }
 
+    }
 }
 
 private fun LazyListScope.itemHomeFeaturedList(
     featuredList: List<Featured>,
-    onFeaturedClicked: (Featured) -> Unit
+    onFeaturedClicked: (Featured) -> Unit,
+    onMoreFeaturedClicked : () -> Unit
 ) {
     item {
         Column(modifier = Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.height(20.dp))
 
-            val isTablet = LocalDeviceType.current == DeviceType.Tablet
+            Header("읽을 거리", "더보기", onMoreButtonClicked = onMoreFeaturedClicked)
 
-            featuredList.chunked(
-                when (LocalDeviceType.current) {
-                    DeviceType.LargeTablet -> 4
-                    DeviceType.Tablet -> 2
-                    else -> 1
-                }
-            ).forEach {
-                Row(modifier = Modifier.run { if (!isTablet) padding(horizontal = 30.dp) else this }) {
-                    it.forEachIndexed { index, featured ->
-                        if (index == 0) Spacer(modifier = Modifier.width(20.dp))
-                        FeaturedListItem(
-                            modifier = Modifier.weight(1f).run {
-                                if (!isTablet) height(350.dp) else height(400.dp)
-                            },
-                            featured = featured,
-                            onFeaturedClicked = onFeaturedClicked
-                        )
-                        Spacer(modifier = Modifier.width(if (index == it.lastIndex) 20.dp else 20.dp))
-                    }
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-            }
+//            val isMedium = LocalDeviceType.current == WindowSize.Medium
+//
+//            val column = when (LocalDeviceType.current) {
+//                WindowSize.Expanded -> 4
+//                WindowSize.Medium -> 2
+//                else -> 1
+//            }
+
+//            featuredList.chunked(column).forEach {
+//                Row(modifier = Modifier.run { if (!isMedium) padding(horizontal = 30.dp) else this }) {
+//                    it.forEachIndexed { index, featured ->
+//                        if (index == 0) Spacer(modifier = Modifier.width(20.dp))
+//                        FeaturedListItem(
+//                            modifier = Modifier.weight(1f).run {
+//                                if (!isMedium) height(350.dp) else height(400.dp)
+//                            },
+//                            featured = featured,
+//                            onFeaturedClicked = onFeaturedClicked
+//                        )
+//                        Spacer(modifier = Modifier.width(if (index == it.lastIndex) 20.dp else 20.dp))
+//                    }
+//
+//                    if (it.size < column) {
+//                        repeat(column - it.size) {
+//                            Spacer(modifier = Modifier.weight(1f))
+//                        }
+//                    }
+//                }
+//                Spacer(modifier = Modifier.height(20.dp))
+//            }
 
             Spacer(modifier = Modifier.height(10.dp))
         }

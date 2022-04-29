@@ -16,7 +16,7 @@ fun fakeAuthApi(): AuthApi = object : AuthApi {
     override val client: HttpClient
         get() = TODO("Not yet implemented")
 
-    override suspend fun signIn(token: String, provider: String): ApiResponse<AuthToken> {
+    override suspend fun signIn(code: String, provider: String): ApiResponse<AuthToken> {
         delay(1000)
         return ApiResponse(
             data = AuthToken(
@@ -57,7 +57,7 @@ interface AuthApi : Api {
 
     override val basePath: String get() = "/v1/auth/"
 
-    suspend fun signIn(token: String, provider: String): ApiResponse<AuthToken>
+    suspend fun signIn(code: String, provider: String): ApiResponse<AuthToken>
 
     suspend fun unregister(reason: String): ApiResponse<Unit>
 
@@ -68,17 +68,18 @@ interface AuthApi : Api {
 @Singleton
 class AuthApiImp @Inject constructor(override val client: HttpClient) : AuthApi {
 
-    override suspend fun signIn(token: String, provider: String): ApiResponse<AuthToken> = post("signin") {
-        parameter("token", token)
-        parameter("provider", provider)
-    }
+    override suspend fun signIn(code: String, provider: String): ApiResponse<AuthToken> =
+        get("signin/$provider") {
+            parameter("code", code)
+        }
 
     override suspend fun unregister(reason: String): ApiResponse<Unit> = post("unregister") {
         parameter("reason", reason)
     }
 
-    override suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthToken> = post("refresh") {
-        setBody(tokenRequest)
-    }
+    override suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthToken> =
+        post("refresh") {
+            setBody(tokenRequest)
+        }
 
 }

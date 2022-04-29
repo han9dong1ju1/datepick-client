@@ -1,4 +1,4 @@
-package app.hdj.datepick.android.ui
+package app.hdj.datepick.ui.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.shape.RoundedCornerShape

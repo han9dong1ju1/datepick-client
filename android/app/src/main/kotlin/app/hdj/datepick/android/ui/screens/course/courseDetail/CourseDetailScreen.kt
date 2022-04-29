@@ -2,7 +2,6 @@
 
 package app.hdj.datepick.android.ui.screens.course.courseDetail
 
-import android.graphics.drawable.Icon
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -18,7 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import app.hdj.datepick.android.ui.NavGraphs
-import app.hdj.datepick.android.ui.destinations.*
+import app.hdj.datepick.android.ui.destinations.CourseDetailCommentScreenDestination
+import app.hdj.datepick.android.ui.destinations.CourseDetailDiaryScreenDestination
+import app.hdj.datepick.android.ui.destinations.CourseDetailMapScreenDestination
+import app.hdj.datepick.android.ui.destinations.CourseDetailPlacesScreenDestination
 import app.hdj.datepick.android.ui.navDestination
 import app.hdj.datepick.android.ui.providers.LocalMe
 import app.hdj.datepick.android.utils.extract
@@ -30,7 +32,6 @@ import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.InsetTopBar
 import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
 import app.hdj.datepick.ui.components.TopAppBarBackButton
-import app.hdj.datepick.ui.utils.collectInLaunchedEffect
 import app.hdj.datepick.utils.DEEPLINK_URL
 import app.hdj.datepick.utils.EXTERNAL_DEEPLINK_URL
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -154,7 +155,7 @@ private fun CourseDetailScreenContent(
             }
         ) {
             DestinationsNavHost(
-                navGraph = NavGraphs.courseScreenNavGraphRoot,
+                navGraph = NavGraphs.courseDetailGraph,
                 navController = navController,
                 dependenciesContainerBuilder = {
                     dependency(vm)

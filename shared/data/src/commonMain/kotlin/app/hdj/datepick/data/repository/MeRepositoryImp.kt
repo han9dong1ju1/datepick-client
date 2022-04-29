@@ -1,11 +1,8 @@
 package app.hdj.datepick.data.repository
 
+import app.hdj.datepick.data.model.request.user.UserProfileRequest
 import app.hdj.datepick.data.remote.api.UserApi
 import app.hdj.datepick.data.storage.datastore.MeDataStore
-import app.hdj.datepick.data.model.request.user.UserProfileRequest
-import app.hdj.datepick.data.model.request.user.UserRegisterRequest
-import app.hdj.datepick.data.model.request.user.UserUnregisterRequest
-import app.hdj.datepick.domain.emitState
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.model.user.UserGender
 import app.hdj.datepick.domain.repository.MeRepository
@@ -18,7 +15,7 @@ import kotlinx.coroutines.flow.flow
 
 @Singleton
 class MeRepositoryImp @Inject constructor(
-    @Named("mocked") private val userApi: UserApi,
+    @Named("real") private val userApi: UserApi,
     private val meDataStore: MeDataStore
 ) : MeRepository {
 

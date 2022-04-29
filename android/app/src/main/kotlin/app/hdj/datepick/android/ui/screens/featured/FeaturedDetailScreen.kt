@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.list.CourseHorizontalListItem
 import app.hdj.datepick.android.ui.components.list.Header
-import app.hdj.datepick.android.ui.shimmer
+import app.hdj.datepick.ui.components.shimmer
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.android.utils.onCourseClicked
 import app.hdj.datepick.domain.model.course.Course
@@ -42,8 +42,6 @@ import app.hdj.datepick.ui.components.*
 import app.hdj.datepick.ui.utils.collectInLaunchedEffect
 import app.hdj.datepick.utils.DEEPLINK_URL
 import app.hdj.datepick.utils.EXTERNAL_DEEPLINK_URL
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
