@@ -12,7 +12,7 @@ data class PlaceResponse(
     @SerialName("address") val address: String,
     @SerialName("latitude") val latitude: Double,
     @SerialName("longitude") val longitude: Double,
-    @SerialName("rating") val rating: Double,
+    @SerialName("rating") val rating: Double?,
     @SerialName("is_picked") val isPicked: Boolean,
     @SerialName("image_url") val imageUrl: String? = null
 )

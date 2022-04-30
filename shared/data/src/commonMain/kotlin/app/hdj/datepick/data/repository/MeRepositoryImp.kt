@@ -25,7 +25,10 @@ class MeRepositoryImp @Inject constructor(
 
     override fun fetch() = flow {
         val response = userApi.getMe()
-        val user = response.data.run { User(id, nickname, imageUrl, gender) }
+        val user = response.data.run {
+            User(id, nickname, imageUrl,
+                gender?.let { UserGender.valueOf(it) })
+        }
         meDataStore.save(user)
         emit(user)
     }

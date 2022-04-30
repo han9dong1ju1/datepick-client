@@ -75,7 +75,7 @@ class DatePickAppViewModel @Inject constructor(
     }
 
     private suspend fun load() {
-        refreshTokenUseCase(forceRefresh = true)
+        refreshTokenUseCase(forceRefresh = false)
             .catch { effectChannel.send(Effect.Error) }
             .toLoadState()
             .onlyAtSuccess()

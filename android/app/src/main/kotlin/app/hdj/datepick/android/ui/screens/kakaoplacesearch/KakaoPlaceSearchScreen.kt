@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -76,9 +77,12 @@ private fun KakaoPlaceSearchScreenContent(
 
             stickyHeader {
                 Surface(
-                    modifier = Modifier.fillMaxWidth().padding(10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
                     shape = RoundedCornerShape(100.dp),
-                    color = MaterialTheme.colors.onSurface.copy(0.01f).compositeOver(MaterialTheme.colors.background)
+                    color = MaterialTheme.colors.onSurface.copy(0.01f)
+                        .compositeOver(MaterialTheme.colors.background)
                 ) {
                     Row(
                         modifier = Modifier
@@ -93,6 +97,12 @@ private fun KakaoPlaceSearchScreenContent(
                             onValueChange = { searchText = it },
                             placeholder = { Text(text = "검색어를 입력해주세요.") },
                             maxLines = 1,
+                            singleLine = true,
+                            keyboardActions = KeyboardActions(
+                                onSearch = {
+                                    event(Event.Search(searchText))
+                                }
+                            ),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
                                 disabledBorderColor = Color.Unspecified,
                                 focusedBorderColor = Color.Unspecified,
@@ -113,7 +123,7 @@ private fun KakaoPlaceSearchScreenContent(
 
             state.results?.onSucceed { results ->
                 kakaoPlaceList(results) {
-
+                    event(Event.AddPlace(it))
                 }
             }
         }

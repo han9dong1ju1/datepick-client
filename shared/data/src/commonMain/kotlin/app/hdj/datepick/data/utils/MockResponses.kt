@@ -6,6 +6,7 @@ import app.hdj.datepick.data.model.response.course.CourseTagResponse
 import app.hdj.datepick.data.model.response.featured.FeaturedResponse
 import app.hdj.datepick.data.model.response.place.PlaceCategoryResponse
 import app.hdj.datepick.data.model.response.place.PlaceResponse
+import app.hdj.datepick.data.model.response.user.PublicUserResponse
 import app.hdj.datepick.data.model.response.user.UserResponse
 import app.hdj.datepick.domain.model.featured.Featured
 import app.hdj.datepick.domain.model.place.Place
@@ -32,10 +33,22 @@ object MockResponses {
 
     fun user() =
         UserResponse(
-            0,
-            "Harry",
-            "https://picsum.photos/${Random.nextInt(200, 500)}/${Random.nextInt(200, 500)}",
-            UserGender.M
+            10007,
+            "2022-04-30T16:23:48.231916",
+            "2022-04-30T16:23:48.231916",
+            "103897723461882838477",
+            "GOOGLE",
+            "TYLENOL21474836",
+            "jungsanmango@gmail.com",
+            UserGender.M.toString(),
+            isBanned = false,
+            isDeleted = false,
+            imageUrl = "https://picsum.photos/${Random.nextInt(200, 500)}/${
+                Random.nextInt(
+                    200,
+                    500
+                )
+            }",
         )
 
     fun course(year: String, monthString: String, dayString: String) = CourseResponse(
@@ -49,7 +62,14 @@ object MockResponses {
         viewCount = Random.nextLong(),
         pickCount = Random.nextLong(),
         isPicked = false,
-        user = user(),
+        user = with(user()) {
+            PublicUserResponse(
+                id = id,
+                nickname = nickname,
+                gender = gender?.let { UserGender.valueOf(it) },
+                imageUrl = imageUrl
+            )
+        },
         tags = listOf(
             CourseTagResponse(1, "크리스마스"),
             CourseTagResponse(2, "여행"),

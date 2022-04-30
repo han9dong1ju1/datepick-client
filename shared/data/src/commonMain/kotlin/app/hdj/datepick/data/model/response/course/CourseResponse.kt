@@ -1,5 +1,6 @@
 package app.hdj.datepick.data.model.response.course
 
+import app.hdj.datepick.data.model.response.user.PublicUserResponse
 import app.hdj.datepick.data.model.response.user.UserResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,7 +17,7 @@ data class CourseResponse(
     @SerialName("view_count") val viewCount: Long,
     @SerialName("pick_count") val pickCount: Long,
     @SerialName("is_picked") val isPicked: Boolean,
-    @SerialName("user") val user: UserResponse,
+    @SerialName("user") val user: PublicUserResponse,
     @SerialName("tags") val tags: List<CourseTagResponse>
 )
 

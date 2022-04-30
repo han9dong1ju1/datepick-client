@@ -1,7 +1,7 @@
 package app.hdj.datepick.data.remote.api
 
 import app.hdj.datepick.data.model.request.auth.AuthRefreshTokenRequest
-import app.hdj.datepick.data.model.response.auth.AuthToken
+import app.hdj.datepick.data.model.response.auth.AuthTokenResponse
 import app.hdj.datepick.data.remote.Api
 import app.hdj.datepick.data.remote.ApiResponse
 import app.hdj.datepick.data.remote.get
@@ -16,13 +16,13 @@ fun fakeAuthApi(): AuthApi = object : AuthApi {
     override val client: HttpClient
         get() = TODO("Not yet implemented")
 
-    override suspend fun signIn(code: String, provider: String): ApiResponse<AuthToken> {
+    override suspend fun signIn(code: String, provider: String): ApiResponse<AuthTokenResponse> {
         delay(1000)
         return ApiResponse(
-            data = AuthToken(
+            data = AuthTokenResponse(
                 accessToken = "token",
                 refreshToken = "refreshToken",
-                expiredIn = 120
+                expireIn = 120
             ),
             error = null,
             message = null
@@ -38,13 +38,13 @@ fun fakeAuthApi(): AuthApi = object : AuthApi {
         )
     }
 
-    override suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthToken> {
+    override suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthTokenResponse> {
         delay(1000)
         return ApiResponse(
-            data = AuthToken(
+            data = AuthTokenResponse(
                 accessToken = "token",
                 refreshToken = "refreshToken",
-                expiredIn = 120
+                expireIn = 120
             ),
             error = null,
             message = null
@@ -57,18 +57,18 @@ interface AuthApi : Api {
 
     override val basePath: String get() = "/v1/auth/"
 
-    suspend fun signIn(code: String, provider: String): ApiResponse<AuthToken>
+    suspend fun signIn(code: String, provider: String): ApiResponse<AuthTokenResponse>
 
     suspend fun unregister(reason: String): ApiResponse<Unit>
 
-    suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthToken>
+    suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthTokenResponse>
 
 }
 
 @Singleton
 class AuthApiImp @Inject constructor(override val client: HttpClient) : AuthApi {
 
-    override suspend fun signIn(code: String, provider: String): ApiResponse<AuthToken> =
+    override suspend fun signIn(code: String, provider: String): ApiResponse<AuthTokenResponse> =
         get("signin/$provider") {
             parameter("code", code)
         }
@@ -77,7 +77,7 @@ class AuthApiImp @Inject constructor(override val client: HttpClient) : AuthApi 
         parameter("reason", reason)
     }
 
-    override suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthToken> =
+    override suspend fun refreshToken(tokenRequest: AuthRefreshTokenRequest): ApiResponse<AuthTokenResponse> =
         post("refresh") {
             setBody(tokenRequest)
         }

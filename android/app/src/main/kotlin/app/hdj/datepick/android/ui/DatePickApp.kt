@@ -32,6 +32,8 @@ import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.presentation.DatePickAppViewModel
 import app.hdj.datepick.presentation.DatePickAppViewModelDelegate
+import app.hdj.datepick.ui.animation.materialTransitionZaxisIn
+import app.hdj.datepick.ui.animation.materialTransitionZaxisOut
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.BottomNavigationProperty
 import app.hdj.datepick.ui.components.NavigationGraphBottomNavigation
@@ -48,6 +50,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.animations.defaults.DestinationEnterTransition
+import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.navigation.dependency
 
@@ -86,7 +90,12 @@ fun DatePickApp(
 
         val bottomSheetNavigator = rememberBottomSheetNavigator()
         val navController = rememberAnimatedNavController(bottomSheetNavigator)
-        val navHostEngine = rememberAnimatedNavHostEngine()
+        val navHostEngine = rememberAnimatedNavHostEngine(
+            rootDefaultAnimations = RootNavGraphDefaultAnimations(
+                enterTransition = { materialTransitionZaxisIn },
+                exitTransition = { materialTransitionZaxisOut }
+            )
+        )
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
 

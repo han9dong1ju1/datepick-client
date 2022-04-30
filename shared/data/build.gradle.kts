@@ -93,14 +93,14 @@ kotlin {
             kapt(AndroidX.hilt.compiler)
             kapt(Google.dagger.hilt.compiler)
         }
-//        sourceSets["androidTest"].dependencies {
-//            implementation(kotlin("test"))
-//            implementation(kotlin("test-junit"))
-//            implementation(Mokk.core)
-//            implementation(Testing.junit4)
-//            implementation(Testing.junit.jupiter.api)
-//            implementation(Testing.junit.jupiter.engine)
-//        }
+        sourceSets["androidTest"].dependencies {
+            implementation(kotlin("test"))
+            implementation(kotlin("test-junit"))
+            implementation(Mokk.core)
+            implementation(Testing.junit4)
+            implementation(Testing.junit.jupiter.api)
+            implementation(Testing.junit.jupiter.engine)
+        }
         sourceSets["iosMain"].dependencies {
             implementation(Koin.core)
             implementation(Ktor.client.darwin)

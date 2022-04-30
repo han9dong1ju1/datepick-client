@@ -1,7 +1,7 @@
 package app.hdj.datepick.data.remote.client
 
 import app.hdj.datepick.data.model.request.auth.AuthRefreshTokenRequest
-import app.hdj.datepick.data.model.response.auth.AuthToken
+import app.hdj.datepick.data.model.response.auth.AuthTokenResponse
 import app.hdj.datepick.data.utils.AuthTokenManager
 import app.hdj.datepick.utils.AppInfo
 import app.hdj.datepick.utils.PlatformLogger
@@ -21,6 +21,14 @@ import kotlinx.serialization.json.Json
 
 private const val URL = "api-dev.datepick.app"
 
+private val responseKotlinSerializationJson =
+    Json {
+        ignoreUnknownKeys = true
+        allowSpecialFloatingPointValues = true
+        useArrayPolymorphism = true
+        prettyPrint = true
+    }
+
 @Suppress("FunctionName")
 fun <T : HttpClientEngineConfig> DatepickApiHttpClient(
     engineFactory: HttpClientEngineFactory<T>,
@@ -30,22 +38,12 @@ fun <T : HttpClientEngineConfig> DatepickApiHttpClient(
 ) = HttpClient(engineFactory) {
 
     developmentMode = appInfo.debug
-    expectSuccess = false
+    expectSuccess = true
 
     install(ContentNegotiation) {
         register(
             contentType = ContentType.Application.Json,
-            converter = KotlinxSerializationConverter(
-                Json {
-                    ignoreUnknownKeys = true
-                    allowSpecialFloatingPointValues = true
-                    useArrayPolymorphism = true
-                    prettyPrint = true
-                    allowStructuredMapKeys = true
-                    coerceInputValues = true
-                    useAlternativeNames = false
-                }
-            )
+            converter = KotlinxSerializationConverter(responseKotlinSerializationJson)
         )
     }
 
@@ -54,14 +52,17 @@ fun <T : HttpClientEngineConfig> DatepickApiHttpClient(
             loadTokens {
                 val accessToken = authTokenManager.getAccessToken()
                 val refreshToken = authTokenManager.getRefreshToken()
-                if (accessToken != null && refreshToken != null) BearerTokens(accessToken, refreshToken)
+                PlatformLogger.d("Auth | accessToken: $accessToken")
+                PlatformLogger.d("Auth | refreshToken: $refreshToken")
+                if (accessToken != null && refreshToken != null)
+                    BearerTokens(accessToken, refreshToken)
                 else null
             }
             refreshTokens {
                 val refreshToken = authTokenManager.getRefreshToken()
-                val response = client.post("https://$URL/refresh") {
+                val response = client.post("https://$URL/v1/auth/refresh") {
                     setBody(AuthRefreshTokenRequest(refreshToken!!))
-                }.body<AuthToken>()
+                }.body<AuthTokenResponse>()
                 authTokenManager.setToken(response)
                 BearerTokens(
                     accessToken = response.accessToken,

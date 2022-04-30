@@ -2,7 +2,6 @@
 
 package app.hdj.datepick.domain.repository
 
-import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.KakaoPlaceSearch
 import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.usecase.place.params.KakaoPlaceSearchQueryParams
@@ -23,5 +22,7 @@ interface PlaceRepository {
     fun queryPlacesFromCourse(courseId: Long): Flow<List<Place>>
 
     fun queryFromKakao(params: KakaoPlaceSearchQueryParams): Flow<List<KakaoPlaceSearch.Document>>
+
+    fun addPlace(kakaoPlace : KakaoPlaceSearch.Document): Flow<Place>
 
 }

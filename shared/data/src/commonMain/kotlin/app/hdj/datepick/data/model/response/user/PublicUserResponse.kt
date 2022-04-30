@@ -6,11 +6,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserResponse(
+data class PublicUserResponse(
     @SerialName("id") val id: Long,
-    @SerialName("nickname") val nickname: String,
+    @SerialName("nickname") val nickname : String,
+    @SerialName("gender") val gender: UserGender?,
     @SerialName("image_url") var imageUrl: String?,
-    @SerialName("gender") val gender: UserGender?
 ) {
 
     init {

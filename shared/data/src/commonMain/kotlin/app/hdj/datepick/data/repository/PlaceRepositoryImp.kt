@@ -3,6 +3,7 @@ package app.hdj.datepick.data.repository
 import app.hdj.datepick.data.mapper.KakaoPlaceMapper
 import app.hdj.datepick.data.mapper.Mapper
 import app.hdj.datepick.data.mapper.PlaceMapper
+import app.hdj.datepick.data.model.request.place.PlaceAddRequest
 import app.hdj.datepick.data.model.response.place.PlaceResponse
 import app.hdj.datepick.data.remote.PagingResponse
 import app.hdj.datepick.data.remote.api.KakaoPlaceSearchApi
@@ -25,12 +26,13 @@ import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.di.Named
 import app.hdj.datepick.utils.di.Singleton
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 @Singleton
 class PlaceRepositoryImp @Inject constructor(
     private val kakaoPlaceSearchApi: KakaoPlaceSearchApi,
-    @Named("mocked") private val api: PlaceApi
+    @Named("real") private val api: PlaceApi
 ) : PlaceRepository,
     Mapper<PlaceResponse, Place> by PlaceMapper {
 
@@ -64,5 +66,19 @@ class PlaceRepositoryImp @Inject constructor(
                 emit(response.asDomain().documents)
             }
         }
+
+    override fun addPlace(kakaoPlace: KakaoPlaceSearch.Document) = flow {
+        val response = api.addPlace(
+            PlaceAddRequest(
+                kakaoId = kakaoPlace.id,
+                name = kakaoPlace.placeName,
+                address = kakaoPlace.addressName,
+                latitude = kakaoPlace.latLng.latitude,
+                longitude = kakaoPlace.latLng.longitude,
+                categories = kakaoPlace.categoryName
+            )
+        )
+        emit(response.data.asDomain())
+    }
 
 }

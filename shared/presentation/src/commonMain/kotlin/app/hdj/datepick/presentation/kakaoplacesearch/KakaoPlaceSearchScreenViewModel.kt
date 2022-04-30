@@ -1,8 +1,10 @@
 package app.hdj.datepick.presentation.kakaoplacesearch
 
 import app.hdj.datepick.domain.LoadState
+import app.hdj.datepick.domain.isStateSucceed
 import app.hdj.datepick.domain.model.place.KakaoPlaceSearch
 import app.hdj.datepick.domain.settings.AppSettings
+import app.hdj.datepick.domain.usecase.place.AddPlaceUseCase
 import app.hdj.datepick.domain.usecase.place.GetKakaoPlaceSearchUseCase
 import app.hdj.datepick.domain.usecase.place.params.KakaoPlaceSearchQueryParams
 import app.hdj.datepick.presentation.PlatformViewModel
@@ -18,7 +20,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-interface KakaoPlaceSearchScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, Effect, Event> {
+interface KakaoPlaceSearchScreenViewModelDelegate :
+    UnidirectionalViewModelDelegate<State, Effect, Event> {
 
     data class State(
         val results: LoadState<List<KakaoPlaceSearch.Document>>? = null,
@@ -31,6 +34,7 @@ interface KakaoPlaceSearchScreenViewModelDelegate : UnidirectionalViewModelDeleg
     sealed interface Event {
         data class Search(val query: String) : Event
         data class Select(val place: KakaoPlaceSearch.Document) : Event
+        data class AddPlace(val place: KakaoPlaceSearch.Document) : Event
     }
 
 }
@@ -38,13 +42,15 @@ interface KakaoPlaceSearchScreenViewModelDelegate : UnidirectionalViewModelDeleg
 @HiltViewModel
 class KakaoPlaceSearchScreenViewModel @Inject constructor(
     private val getKakaoPlaceSearchUseCase: GetKakaoPlaceSearchUseCase,
+    private val addPlaceUseCase: AddPlaceUseCase,
     private val locationTracker: LocationTracker
 ) : PlatformViewModel(), KakaoPlaceSearchScreenViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
     override val effect: Flow<Effect> = effectChannel.receiveAsFlow()
 
-    private val kakaoPlaceSearchResult = MutableStateFlow<LoadState<List<KakaoPlaceSearch.Document>>?>(null)
+    private val kakaoPlaceSearchResult =
+        MutableStateFlow<LoadState<List<KakaoPlaceSearch.Document>>?>(null)
 
     override val state: StateFlow<State> = kakaoPlaceSearchResult.map {
         State(results = it)
@@ -72,13 +78,23 @@ class KakaoPlaceSearchScreenViewModel @Inject constructor(
 
                     getKakaoPlaceSearchUseCase(params)
                         .toLoadState()
-                        .onEach { kakaoPlaceSearchResult.emit(it)  }
+                        .onEach { kakaoPlaceSearchResult.emit(it) }
                         .launchIn(this)
                 }
             }
             is Event.Select -> {
                 platformViewModelScope.launch {
 
+                }
+            }
+            is Event.AddPlace -> {
+                platformViewModelScope.launch {
+                    addPlaceUseCase(e.place)
+                        .toLoadState()
+                        .onEach {
+                            if (it.isStateSucceed()) effectChannel.send(Effect.PlaceAdded)
+                        }
+                        .launchIn(this)
                 }
             }
         }

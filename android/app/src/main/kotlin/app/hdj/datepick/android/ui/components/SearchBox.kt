@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import app.hdj.datepick.android.ui.components.SearchBoxState.SearchBoxUiState
@@ -86,7 +85,6 @@ fun SearchBox(
             onClick = {
                 if (state.uiState == SearchBoxUiState.Collapsed) state.expand()
             },
-            indication = null,
             modifier = Modifier
                 .graphicsLayer {
                     scaleX *= scale

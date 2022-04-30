@@ -11,7 +11,7 @@ import io.ktor.client.request.*
 
 interface KakaoPlaceSearchApi : Api {
 
-    override val basePath: String get() = "/v2/local/search/keyword.json/"
+    override val basePath: String get() = "/v2/local/search/keyword.json"
 
     suspend fun search(
         params: KakaoPlaceSearchQueryParams
@@ -23,15 +23,16 @@ interface KakaoPlaceSearchApi : Api {
 class KakaoPlaceSearchApiImp @Inject constructor(override val client: HttpClient) :
     KakaoPlaceSearchApi {
 
-    override suspend fun search(params: KakaoPlaceSearchQueryParams): KakaoPlaceSearchResponse = get {
-        with(params) {
-            parameter("query", query)
-            latLng?.let {
-                parameter("sort", "distance")
-                parameter("x", it.longitude)
-                parameter("y", it.latitude)
+    override suspend fun search(params: KakaoPlaceSearchQueryParams): KakaoPlaceSearchResponse =
+        get {
+            with(params) {
+                parameter("query", query)
+                latLng?.let {
+                    parameter("sort", "distance")
+                    parameter("x", it.longitude)
+                    parameter("y", it.latitude)
+                }
             }
         }
-    }
 
 }

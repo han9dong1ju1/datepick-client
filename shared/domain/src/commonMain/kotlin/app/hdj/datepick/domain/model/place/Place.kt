@@ -12,7 +12,7 @@ data class Place(
     val address: String,
     val latitude: Double,
     val longitude: Double,
-    val rating: Double,
+    val rating: Double?,
     val isPicked: Boolean,
     val imageUrl: String?
 ) : Parcelable {

@@ -1,11 +1,10 @@
 package app.hdj.datepick.data.remote.api
 
+import app.hdj.datepick.data.model.request.place.PlaceAddRequest
 import app.hdj.datepick.data.model.response.place.PlaceResponse
-import app.hdj.datepick.data.remote.Api
-import app.hdj.datepick.data.remote.ApiResponse
-import app.hdj.datepick.data.remote.PagingResponse
-import app.hdj.datepick.data.remote.get
+import app.hdj.datepick.data.remote.*
 import app.hdj.datepick.data.utils.MockResponses
+import app.hdj.datepick.domain.model.place.Place
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
 import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.di.Singleton
@@ -37,6 +36,16 @@ fun fakePlaceApi(): PlaceApi = object : PlaceApi {
             message = null
         )
     }
+
+    override suspend fun addPlace(request: PlaceAddRequest): ApiResponse<PlaceResponse> {
+        delay(1000)
+        return ApiResponse(
+            data = MockResponses.place(),
+            error = null,
+            message = null
+        )
+    }
+
 }
 
 interface PlaceApi : Api {
@@ -45,7 +54,12 @@ interface PlaceApi : Api {
 
     suspend fun getById(id: Long): ApiResponse<PlaceResponse>
 
-    suspend fun queryPlaces(page: Long, placeQueryParams: PlaceQueryParams): ApiResponse<PagingResponse<PlaceResponse>>
+    suspend fun queryPlaces(
+        page: Long,
+        placeQueryParams: PlaceQueryParams
+    ): ApiResponse<PagingResponse<PlaceResponse>>
+
+    suspend fun addPlace(request: PlaceAddRequest): ApiResponse<PlaceResponse>
 
 }
 
@@ -66,4 +80,7 @@ class PlaceApiImp @Inject constructor(override val client: HttpClient) : PlaceAp
             parameter("courseId", placeQueryParams.filterParams.courseId)
         }
 
+    override suspend fun addPlace(request: PlaceAddRequest): ApiResponse<PlaceResponse> = post {
+        setBody(request)
+    }
 }

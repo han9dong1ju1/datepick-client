@@ -29,7 +29,7 @@ object KakaoPlaceMapper : Mapper<KakaoPlaceSearchResponse, KakaoPlaceSearch> {
                 phone = it.phone,
                 categoryGroupCode = it.categoryGroupCode,
                 categoryGroupName = it.categoryGroupName,
-                latLng = LatLng(it.x.toDouble(), it.y.toDouble()),
+                latLng = LatLng(it.y.toDouble(), it.x.toDouble()),
             )
         }
     )
