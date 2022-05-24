@@ -20,7 +20,7 @@ interface KakaoPlaceSearchApi : Api {
 }
 
 @Singleton
-class KakaoPlaceSearchApiImp @Inject constructor(override val client: HttpClient) :
+class KakaoPlaceSearchApiImp @Inject constructor(val client: HttpClient) :
     KakaoPlaceSearchApi {
 
     override suspend fun search(params: KakaoPlaceSearchQueryParams): KakaoPlaceSearchResponse =

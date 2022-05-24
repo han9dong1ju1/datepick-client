@@ -16,10 +16,10 @@ import kotlinx.coroutines.flow.flow
 
 @Singleton
 class FeaturedRepositoryImp @Inject constructor(
-    @Named("mocked") private val api: FeaturedApi
+    @Named("real") private val api: FeaturedApi
 ) : FeaturedRepository, Mapper<FeaturedResponse, Featured> by FeaturedMapper {
 
-    override fun getFeaturedPage() : Pager<Long, Featured> = createPager { page ->
+    override fun getFeaturedPage(): Pager<Long, Featured> = createPager { page ->
         val response = api.getPagedFeatured(page = page, size = 10, false, null)
         response.data.map { it.asDomain() }
     }

@@ -9,6 +9,7 @@ import app.hdj.datepick.domain.model.auth.RefreshTokenResult.*
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.settings.AppSettings
 import app.hdj.datepick.domain.usecase.auth.RefreshTokenUseCase
+import app.hdj.datepick.domain.usecase.place.GetPlaceCategoriesUseCase
 import app.hdj.datepick.domain.usecase.user.GetLatestMeUseCase
 import app.hdj.datepick.domain.usecase.user.ObserveMeUseCase
 import app.hdj.datepick.presentation.DatePickAppViewModelDelegate.*
@@ -75,7 +76,7 @@ class DatePickAppViewModel @Inject constructor(
     }
 
     private suspend fun load() {
-        refreshTokenUseCase(forceRefresh = false)
+        refreshTokenUseCase(forceRefresh = true)
             .catch { effectChannel.send(Effect.Error) }
             .toLoadState()
             .onlyAtSuccess()

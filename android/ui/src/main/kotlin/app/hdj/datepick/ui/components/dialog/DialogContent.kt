@@ -29,7 +29,8 @@ fun DialogContent(
                 }
 
                 title?.let {
-                    Text(it, style = MaterialTheme.typography.h6)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(it, style = MaterialTheme.typography.h5)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
                 message?.let {

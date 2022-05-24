@@ -6,8 +6,8 @@ buildscript {
         maven("https://jitpack.io")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
-        classpath("com.android.tools.build:gradle:7.0.4")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
+        classpath("com.android.tools.build:gradle:7.4.0-alpha02")
         classpath(Google.playServicesGradlePlugin)
         classpath(Google.dagger.hilt.android.gradlePlugin)
         classpath(Square.sqlDelight.gradlePlugin)
@@ -18,7 +18,7 @@ buildscript {
 }
 
 plugins {
-    id("com.google.devtools.ksp") version "1.6.20-1.0.5"
+    id("com.google.devtools.ksp") version "1.6.21-1.0.5"
 }
 
 allprojects {

@@ -15,6 +15,8 @@ interface PlaceRepository {
 
     fun getById(id: Long): Flow<Place>
 
+    fun getPlaceCategories(): Flow<List<Place.Category>>
+
     fun queryPagedPlaces(params: PlaceQueryParams): Pager<Long, Place>
 
     fun queryFirstPagePlaces(params: PlaceQueryParams): Flow<List<Place>>

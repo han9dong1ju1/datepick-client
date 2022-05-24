@@ -6,6 +6,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -27,6 +29,8 @@ import app.hdj.datepick.android.ui.destinations.LocationPermissionDeniedDialogDe
 import app.hdj.datepick.android.ui.destinations.NotificationScreenDestination
 import app.hdj.datepick.android.ui.icons.DatePickIcons
 import app.hdj.datepick.android.ui.icons.Logo
+import app.hdj.datepick.android.ui.providers.WindowSize
+import app.hdj.datepick.android.ui.providers.rememberWindowSizeClass
 import app.hdj.datepick.android.utils.*
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.district.District
@@ -59,7 +63,9 @@ fun HomeScreen(navigator: DestinationsNavigator) {
         onMoreCourseListClicked = navigator.onMoreCourseListClicked,
         onMoreFeaturedListClicked = navigator.onMoreFeaturedListClicked,
         onNotificationClicked = { navigator.navigate(NotificationScreenDestination) },
-        onLocationPermissionDeniedDialogShown = { navigator.navigate(LocationPermissionDeniedDialogDestination) },
+        onLocationPermissionDeniedDialogShown = {
+            navigator.navigate(LocationPermissionDeniedDialogDestination)
+        },
         vm = hiltViewModel<HomeScreenViewModel>()
     )
 }
@@ -69,7 +75,7 @@ private fun HomeScreenContent(
     onPlaceClicked: (Place) -> Unit = {},
     onMorePlaceListClicked: (PlaceQueryParams) -> Unit = {},
     onMoreCourseListClicked: (CourseQueryParams) -> Unit = {},
-    onMoreFeaturedListClicked : () -> Unit = {},
+    onMoreFeaturedListClicked: () -> Unit = {},
     onCourseClicked: (Course) -> Unit = {},
     onNotificationClicked: () -> Unit = {},
     onFeaturedClicked: (Featured) -> Unit = {},
@@ -135,90 +141,87 @@ private fun HomeScreenContent(
         }
     ) {
 
-        LazyColumn(modifier = Modifier.padding(it).fillMaxSize(), state = lazyListState) {
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+        ) {
             state.apply {
 
-                if (!isContentLoading) {
-                    item {
-                        Spacer(Modifier.height(40.dp))
-                        Text(
-                            modifier = Modifier.padding(20.dp).animateItemPlacement(),
-                            text = "오늘 당신의\n데이트 장소를 찾아보세요!",
-                            style = MaterialTheme.typography.h1,
-                        )
-                        Spacer(Modifier.height(20.dp))
-                    }
-                }
+                Spacer(Modifier.height(40.dp))
+                Text(
+                    modifier = Modifier
+                        .padding(20.dp),
+                    text = "오늘 당신의\n데이트 장소를 찾아보세요!",
+                    style = MaterialTheme.typography.h1,
+                )
+                Spacer(Modifier.height(20.dp))
 
-                districts.onSucceed { districts ->
-                    itemHorizontalDistrictList(districts, onDistrictClicked)
-                }
+                LoadStateAnimatedContent(
+                    modifier = Modifier.fillMaxWidth(),
+                    loadState = districts,
+                    onSuccess = { DistrictCarousel(it, onDistrictClicked) },
+                    onLoading = { DistrictCarouselShimmer() }
+                )
 
                 nearbyRecommendedPlacesQuery?.run {
-                    result.onSucceed { places ->
-                        itemHorizontalPlacesWithHeader("주변 인기 장소",
-                            places,
-                            onPlaceClicked,
-                            onMoreClicked = { onMorePlaceListClicked(queryParams) }
-                        )
-                    }
+                    PlacesCardHeaderCarousel(
+                        "주변 인기 장소",
+                        result,
+                        onPlaceClicked,
+                        onMoreClicked = { onMorePlaceListClicked(queryParams) }
+                    )
                 }
 
                 recommendedPlacesQuery?.run {
-                    result.onSucceed { places ->
-                        itemHorizontalPlacesWithHeader(
-                            "추천 인기 장소",
-                            places,
-                            onPlaceClicked, onMoreClicked = { onMorePlaceListClicked(queryParams) }
-                        )
-                    }
+                    PlacesCardHeaderCarousel(
+                        "추천 인기 장소",
+                        result,
+                        onPlaceClicked, onMoreClicked = { onMorePlaceListClicked(queryParams) }
+                    )
                 }
 
                 if (showLocationPermissionBanner) {
-                    item {
-                        MainHomeLocationPermissionBanner(
-                            Modifier.animateItemPlacement().fillMaxWidth(),
-                            {
-                                val shouldShowRequestPermissionRationale =
-                                    activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+                    MainHomeLocationPermissionBanner(
+                        Modifier.fillMaxWidth(),
+                        {
+                            val shouldShowRequestPermissionRationale =
+                                activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
 
-                                val isPermissionGranted =
-                                    activity.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
+                            val isPermissionGranted =
+                                activity.isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
 
-                                val showDeniedDialog =
-                                    (!isPermissionGranted && shouldShowRequestPermissionRationale)
+                            val showDeniedDialog =
+                                (!isPermissionGranted && shouldShowRequestPermissionRationale)
 
-                                if (showDeniedDialog) onLocationPermissionDeniedDialogShown()
-                                else locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                            },
-                            { event(HomeScreenViewModelDelegate.Event.IgnoreNearbyRecommend) },
-                        )
-                    }
+                            if (showDeniedDialog) onLocationPermissionDeniedDialogShown()
+                            else locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                        },
+                        { event(HomeScreenViewModelDelegate.Event.IgnoreNearbyRecommend) },
+                    )
                 }
 
                 recommendedCoursesQuery?.run {
-                    result.onSucceed { courses ->
-                        itemHorizontalCoursesWithHeader(
-                            "추천 코스",
-                            courses,
-                            onCourseClicked,
-                            onMoreClicked = { onMoreCourseListClicked(queryParams) }
-                        )
-                    }
+                    CourseCardHeaderCarousel(
+                        "추천 코스",
+                        result,
+                        onCourseClicked,
+                        onMoreClicked = { onMoreCourseListClicked(queryParams) }
+                    )
                 }
 
-                featured.run {
-                    onSucceed {
-                        itemHomeFeaturedList(it, onFeaturedClicked, onMoreFeaturedListClicked)
+                LoadStateAnimatedContent(
+                    loadState = featured,
+                    onSuccess = {
+                        FeaturedList(it, onFeaturedClicked, onMoreFeaturedListClicked)
                     }
-                }
+                )
 
             }
 
-            item {
-                Spacer(modifier = Modifier.navigationBarsPadding())
-                Spacer(modifier = Modifier.height(100.dp))
-            }
+            Spacer(modifier = Modifier.navigationBarsPadding())
+            Spacer(modifier = Modifier.height(100.dp))
 
         }
 
@@ -226,49 +229,50 @@ private fun HomeScreenContent(
     }
 }
 
-private fun LazyListScope.itemHomeFeaturedList(
+@Composable
+fun FeaturedList(
     featuredList: List<Featured>,
     onFeaturedClicked: (Featured) -> Unit,
-    onMoreFeaturedClicked : () -> Unit
+    onMoreFeaturedClicked: () -> Unit
 ) {
-    item {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Spacer(modifier = Modifier.height(20.dp))
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Spacer(modifier = Modifier.height(20.dp))
 
-            Header("읽을 거리", "더보기", onMoreButtonClicked = onMoreFeaturedClicked)
+        Header("읽을 거리", "더보기", onMoreButtonClicked = onMoreFeaturedClicked)
 
-//            val isMedium = LocalDeviceType.current == WindowSize.Medium
-//
-//            val column = when (LocalDeviceType.current) {
-//                WindowSize.Expanded -> 4
-//                WindowSize.Medium -> 2
-//                else -> 1
-//            }
+        val windowSize = rememberWindowSizeClass()
+        val isMedium = windowSize == WindowSize.Medium
 
-//            featuredList.chunked(column).forEach {
-//                Row(modifier = Modifier.run { if (!isMedium) padding(horizontal = 30.dp) else this }) {
-//                    it.forEachIndexed { index, featured ->
-//                        if (index == 0) Spacer(modifier = Modifier.width(20.dp))
-//                        FeaturedListItem(
-//                            modifier = Modifier.weight(1f).run {
-//                                if (!isMedium) height(350.dp) else height(400.dp)
-//                            },
-//                            featured = featured,
-//                            onFeaturedClicked = onFeaturedClicked
-//                        )
-//                        Spacer(modifier = Modifier.width(if (index == it.lastIndex) 20.dp else 20.dp))
-//                    }
-//
-//                    if (it.size < column) {
-//                        repeat(column - it.size) {
-//                            Spacer(modifier = Modifier.weight(1f))
-//                        }
-//                    }
-//                }
-//                Spacer(modifier = Modifier.height(20.dp))
-//            }
-
-            Spacer(modifier = Modifier.height(10.dp))
+        val column = when (windowSize) {
+            WindowSize.Expanded -> 3
+            WindowSize.Medium -> 2
+            else -> 1
         }
+
+        featuredList.chunked(column).forEach {
+            Row(modifier = Modifier.run { if (!isMedium) padding(horizontal = 30.dp) else this }) {
+                it.forEachIndexed { index, featured ->
+                    if (index == 0) Spacer(modifier = Modifier.width(20.dp))
+                    FeaturedListItem(
+                        modifier = Modifier.weight(1f).run {
+                            if (!isMedium) height(350.dp) else height(400.dp)
+                        },
+                        featured = featured,
+                        onFeaturedClicked = onFeaturedClicked
+                    )
+                    Spacer(modifier = Modifier.width(if (index == it.lastIndex) 20.dp else 20.dp))
+                }
+
+                if (it.size < column) {
+                    repeat(column - it.size) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
     }
 }

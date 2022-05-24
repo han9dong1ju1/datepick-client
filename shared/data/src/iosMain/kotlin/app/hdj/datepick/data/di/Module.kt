@@ -25,11 +25,10 @@ private val Scope.kakaoApiClient get() = get<HttpClient>(named("kakao"))
 val dataModule = module {
     single { AppleSettings(NSUserDefaults()).toFlowSettings() }
     single<AppSettings> { AppSettingsImp(get()) }
-    single(qualifier = named("datepick")) { DatepickApiHttpClient(Darwin, get(), get()) }
     single(qualifier = named("kakao")) { KakaoApiHttpClient(Darwin, get()) }
 
-    single<UserApi> { UserApiImp(datepickApiClient) }
-    single<FeaturedApi> { FeaturedApiImp(datepickApiClient) }
+    single<UserApi> { UserApiImp() }
+    single<FeaturedApi> { FeaturedApiImp() }
     single<PlaceApi> { PlaceApiImp(datepickApiClient) }
     single<KakaoPlaceSearchApi> { KakaoPlaceSearchApiImp(kakaoApiClient) }
 

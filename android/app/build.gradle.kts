@@ -110,15 +110,8 @@ fun createDebugReleaseNote(): String {
 }
 
 android {
-    compileSdk = AppProperties.androidCompileSDK
 
-    defaultConfig {
-        applicationId = AppProperties.androidPackageName
-        minSdk = AppProperties.androidMinSDK
-        targetSdk = AppProperties.androidTargetSDK
-        versionCode = AppProperties.androidAppVersionCode
-        versionName = AppProperties.androidAppVersionName
-    }
+    baseDefaultConfig()
 
     signingConfigs {
         getByName("debug") {

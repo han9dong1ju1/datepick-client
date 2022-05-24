@@ -21,42 +21,37 @@ class ApiModule {
     @Provides
     @Singleton
     @Named("real")
-    fun provideAuthApi(@Named("datepick") client: HttpClient): AuthApi = AuthApiImp(client)
+    fun provideCategoryApi(): CategoryApi = CategoryApiImp()
 
     @Provides
     @Singleton
     @Named("real")
-    fun provideUserApi(
-        @Named("datepick") client: HttpClient
-    ): UserApi = UserApiImp(client)
+    fun provideAuthApi(): AuthApi = AuthApiImp()
 
     @Provides
     @Singleton
     @Named("real")
-    fun provideFeaturedApi(
-        @Named("datepick") client: HttpClient
-    ): FeaturedApi = FeaturedApiImp(client)
+    fun provideUserApi(): UserApi = UserApiImp()
 
     @Provides
     @Singleton
     @Named("real")
-    fun providePlaceApi(
-        @Named("datepick") client: HttpClient
-    ): PlaceApi = PlaceApiImp(client)
+    fun provideFeaturedApi(): FeaturedApi = FeaturedApiImp()
 
     @Provides
     @Singleton
     @Named("real")
-    fun provideCourseApi(
-        @Named("datepick") client: HttpClient
-    ): CourseApi = CourseApiImp(client)
+    fun providePlaceApi(): PlaceApi = PlaceApiImp()
 
     @Provides
     @Singleton
     @Named("real")
-    fun provideDistrictApi(
-        @Named("datepick") client: HttpClient
-    ): DistrictApi = DistrictApiImp(client)
+    fun provideCourseApi(): CourseApi = CourseApiImp()
+
+    @Provides
+    @Singleton
+    @Named("real")
+    fun provideDistrictApi(): DistrictApi = DistrictApiImp()
 
     @Provides
     @Singleton
@@ -64,19 +59,10 @@ class ApiModule {
         @Named("kakao") client: HttpClient
     ): KakaoPlaceSearchApi = KakaoPlaceSearchApiImp(client)
 
-    @Provides
-    @Singleton
-    @Named("datepick")
-    fun provideDatepickApiHttpClient(
-        authTokenManager: AuthTokenManager,
-        appInfo: AppInfo
-    ): HttpClient = DatepickApiHttpClient(OkHttp, authTokenManager, appInfo)
 
     @Provides
     @Singleton
     @Named("kakao")
-    fun provideKakaoApiHttpClient(
-        appInfo: AppInfo
-    ): HttpClient = KakaoApiHttpClient(OkHttp, appInfo)
+    fun provideKakaoApiHttpClient(): HttpClient = KakaoApiHttpClient(OkHttp)
 
 }

@@ -14,7 +14,7 @@ import app.hdj.datepick.presentation.settings.SettingsScreenViewModel
 import app.hdj.datepick.presentation.settings.SettingsScreenViewModelDelegate
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.ui.components.InsetTopBar
-import app.hdj.datepick.ui.components.ListItem
+import app.hdj.datepick.ui.components.BasicListItem
 import app.hdj.datepick.ui.components.TopAppBarBackButton
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -72,7 +72,7 @@ private fun SettingsScreenContent(
 
                     when (item) {
                         is SettingItem.NormalItem -> {
-                            ListItem(
+                            BasicListItem(
                                 leftSideUi =
                                 item.icon?.let {
                                     { Icon(it, null) }
@@ -83,7 +83,7 @@ private fun SettingsScreenContent(
                             )
                         }
                         is SettingItem.SwitchItem -> {
-                            ListItem(
+                            BasicListItem(
                                 leftSideUi = item.icon?.let {
                                     { Icon(it, null) }
                                 },

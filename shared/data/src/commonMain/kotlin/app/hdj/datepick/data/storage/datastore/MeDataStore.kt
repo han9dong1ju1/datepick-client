@@ -3,11 +3,11 @@ package app.hdj.datepick.data.storage.datastore
 import app.hdj.datepick.domain.model.user.User
 import app.hdj.datepick.domain.model.user.UserGender
 import app.hdj.datepick.utils.di.Inject
+import app.hdj.datepick.utils.di.Named
 import app.hdj.datepick.utils.di.Singleton
-import com.russhwolf.settings.ExperimentalSettingsApi
-import com.russhwolf.settings.coroutines.FlowSettings
+import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -36,10 +36,10 @@ data class MeEntity(
 
 }
 
-@OptIn(ExperimentalSerializationApi::class, ExperimentalSettingsApi::class)
+@OptIn(ExperimentalSerializationApi::class)
 @Singleton
 class MeDataStoreImp @Inject constructor(
-    private val settings: FlowSettings
+    @Named("encrypted") private val settings: Settings
 ) : MeDataStore {
 
     private val json = Json {
@@ -51,9 +51,9 @@ class MeDataStoreImp @Inject constructor(
         allowStructuredMapKeys = true
     }
 
-    override val observableMe = settings.getStringOrNullFlow(KEY_ME).map { value ->
-        value?.let { json.decodeFromString(MeEntity.serializer(), it) }?.toUser()
-    }
+    private val meFlow = MutableStateFlow<User?>(null)
+
+    override val observableMe get() = meFlow
 
     override suspend fun cachedMe(): User? {
         return settings.getStringOrNull(KEY_ME)?.let {
@@ -63,10 +63,12 @@ class MeDataStoreImp @Inject constructor(
 
     override suspend fun save(data: User) {
         settings.putString(KEY_ME, json.encodeToString(MeEntity.serializer(), MeEntity.fromUser(data)))
+        meFlow.emit(data)
     }
 
     override suspend fun clearMe() {
         settings.remove(KEY_ME)
+        meFlow.emit(null)
     }
 
     companion object {

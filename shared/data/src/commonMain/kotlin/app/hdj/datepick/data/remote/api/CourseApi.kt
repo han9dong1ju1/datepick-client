@@ -16,8 +16,6 @@ import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 fun fakeCourseApi(): CourseApi = object : CourseApi {
-    override val client: HttpClient
-        get() = TODO("Not yet implemented")
 
     override suspend fun getById(id: Long): ApiResponse<CourseResponse> {
         delay(1000)
@@ -100,7 +98,7 @@ interface CourseApi : Api {
 }
 
 @Singleton
-class CourseApiImp @Inject constructor(override val client: HttpClient) : CourseApi {
+class CourseApiImp @Inject constructor() : CourseApi {
 
     override suspend fun getById(id: Long) = get<ApiResponse<CourseResponse>>("/$id")
 

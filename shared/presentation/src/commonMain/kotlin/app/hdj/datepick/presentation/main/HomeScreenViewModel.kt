@@ -169,7 +169,7 @@ class HomeScreenViewModel @Inject constructor(
 
     private fun loadRecommendedPlaces() {
         val query = placeQueryParams {
-            pagingParams { sort = PagingParams.Sort.Popular }
+//            pagingParams { sort = PagingParams.Sort.Popular }
         }
 
         getFirstPagePlacesUseCase(query)
@@ -188,7 +188,7 @@ class HomeScreenViewModel @Inject constructor(
             }
 
             val query = placeQueryParams {
-                filterParams { nearby(location.latitude, location.longitude, 1000.0) }
+                filterParams { nearby(location.latitude, location.longitude) }
                 pagingParams { sort = PagingParams.Sort.Popular }
             }
 

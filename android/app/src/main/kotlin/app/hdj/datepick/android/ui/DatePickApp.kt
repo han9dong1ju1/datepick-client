@@ -13,9 +13,7 @@ import androidx.compose.material.icons.rounded.Book
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -70,16 +68,22 @@ internal val mainNavigationRoutesWithIcon = listOf(
 @Composable
 fun DatePickApp(
     appViewModel: DatePickAppViewModel,
-    locationTracker: LocationTracker
+    locationTracker: LocationTracker,
 ) {
+
     DatePickComposableProviderScope(appViewModel, locationTracker) {
 
         val (state, effect) = appViewModel.extract()
 
-        val isDarkTheme = when (state.appTheme) {
-            AppSettings.AppTheme.Light -> false
-            AppSettings.AppTheme.Dark -> true
-            else -> isSystemInDarkTheme()
+        val isSystemInDarkTheme = isSystemInDarkTheme()
+        val isDarkTheme by remember {
+            derivedStateOf {
+                when (state.appTheme) {
+                    AppSettings.AppTheme.Light -> false
+                    AppSettings.AppTheme.Dark -> true
+                    else -> isSystemInDarkTheme
+                }
+            }
         }
 
         val systemUiController = rememberSystemUiController()
@@ -99,7 +103,25 @@ fun DatePickApp(
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-        val currentDestination = navBackStackEntry?.appDestination()
+        val currentDestination by remember {
+            derivedStateOf {
+                navBackStackEntry?.appDestination()
+            }
+        }
+
+        val bottomBarAllowedDestinations = remember {
+            listOf(
+                HomeScreenDestination,
+                MapScreenDestination,
+                ProfileScreenDestination,
+                MyDateScreenDestination
+            )
+        }
+
+        val isBottomBarShown by remember {
+            derivedStateOf { bottomBarAllowedDestinations.contains(currentDestination) }
+        }
+
 
         effect.collectInLaunchedEffect {
             when (it) {
@@ -128,12 +150,7 @@ fun DatePickApp(
                     bottomBar = {
                         if (!showNavigationRail) {
                             AnimatedVisibility(
-                                listOf(
-                                    HomeScreenDestination,
-                                    MapScreenDestination,
-                                    ProfileScreenDestination,
-                                    MyDateScreenDestination
-                                ).contains(currentDestination),
+                                isBottomBarShown,
                                 enter = slideInVertically { it },
                                 exit = slideOutVertically { it }
                             ) {

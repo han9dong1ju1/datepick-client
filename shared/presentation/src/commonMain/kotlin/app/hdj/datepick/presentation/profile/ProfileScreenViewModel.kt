@@ -29,7 +29,7 @@ interface ProfileScreenViewModelDelegate : UnidirectionalViewModelDelegate<State
 
 @HiltViewModel
 class ProfileScreenViewModel @Inject constructor(
-    private val observeMeUseCase: ObserveMeUseCase
+    observeMeUseCase: ObserveMeUseCase
 ) : PlatformViewModel(), ProfileScreenViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)

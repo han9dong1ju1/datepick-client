@@ -11,8 +11,6 @@ import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 fun fakeDistrictApi(): DistrictApi = object : DistrictApi {
-    override val client: HttpClient
-        get() = TODO("Not yet implemented")
 
     override suspend fun getDistricts(): ApiResponse<List<DistrictResponse>> {
         delay(1000)
@@ -45,7 +43,7 @@ interface DistrictApi : Api {
 }
 
 @Singleton
-class DistrictApiImp @Inject constructor(override val client: HttpClient) : DistrictApi {
+class DistrictApiImp @Inject constructor() : DistrictApi {
 
     override suspend fun getDistricts(): ApiResponse<List<DistrictResponse>> = get()
 

@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
@@ -27,7 +28,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.components.list.CourseHorizontalListItem
+import app.hdj.datepick.android.ui.components.list.CourseCardListItem
+import app.hdj.datepick.android.ui.components.list.CourseHorizontalList
 import app.hdj.datepick.android.ui.components.list.Header
 import app.hdj.datepick.ui.components.shimmer
 import app.hdj.datepick.android.utils.extract
@@ -169,11 +171,15 @@ private fun FeaturedDetailScreenContent(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .graphicsLayer { alpha = collapsingToolbarScaffoldState.toolbarState.progress }
+                                    .graphicsLayer {
+                                        alpha = collapsingToolbarScaffoldState.toolbarState.progress
+                                    }
 
                             ) {
                                 NetworkImage(
-                                    modifier = Modifier.fillMaxSize().background(color = Color.Black)
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(color = Color.Black)
                                         .alpha(0.5f)
                                         .height(400.dp),
                                     url = featured.imageUrl
@@ -182,17 +188,26 @@ private fun FeaturedDetailScreenContent(
                         }
                     } else {
                         Box(
-                            modifier = Modifier.fillMaxWidth().height(400.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(400.dp)
                                 .background(color = MaterialTheme.colors.surface)
                         ) {
-                            Column(modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter).padding(20.dp)) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.BottomCenter)
+                                    .padding(20.dp)
+                            ) {
                                 Spacer(
-                                    modifier = Modifier.shimmer(color = MaterialTheme.colors.onSurface.copy(0.5f))
+                                    modifier = Modifier
+                                        .shimmer(color = MaterialTheme.colors.onSurface.copy(0.5f))
                                         .size(200.dp, 26.dp)
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Spacer(
-                                    modifier = Modifier.shimmer(color = MaterialTheme.colors.onSurface.copy(0.5f))
+                                    modifier = Modifier
+                                        .shimmer(color = MaterialTheme.colors.onSurface.copy(0.5f))
                                         .size(300.dp, 14.dp)
                                 )
                             }
@@ -202,8 +217,10 @@ private fun FeaturedDetailScreenContent(
 
             },
             foreground = {
-                val titleSize = (16 + (30 - 16) * collapsingToolbarScaffoldState.toolbarState.progress).sp
-                val startMargin = (60 + (16 - 60) * collapsingToolbarScaffoldState.toolbarState.progress).dp
+                val titleSize =
+                    (16 + (30 - 16) * collapsingToolbarScaffoldState.toolbarState.progress).sp
+                val startMargin =
+                    (60 + (16 - 60) * collapsingToolbarScaffoldState.toolbarState.progress).dp
                 val bottomMargin = (16 * collapsingToolbarScaffoldState.toolbarState.progress).dp
 
                 val animatedToolbarContentColor by animateColorAsState(
@@ -242,45 +259,40 @@ private fun FeaturedDetailScreenContent(
                 }
             },
             body = {
-                LazyColumn {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(it)
+                        .verticalScroll(rememberScrollState())
+                ) {
 
-                    item {
-                        Crossfade(!state.isContentRefreshing) { visible ->
-                            if (visible) {
-                                Text(
-                                    modifier = Modifier.padding(20.dp),
-                                    text = state.featured!!.content.trimIndent(),
-                                    style = MaterialTheme.typography.body2.copy(
-                                        lineHeight = 25.sp,
-                                        letterSpacing = 1.sp
-                                    )
+                    Crossfade(!state.isContentRefreshing) { visible ->
+                        if (visible) {
+                            Text(
+                                modifier = Modifier.padding(20.dp),
+                                text = state.featured!!.content.trimIndent(),
+                                style = MaterialTheme.typography.body2.copy(
+                                    lineHeight = 25.sp,
+                                    letterSpacing = 1.sp
                                 )
-                            } else {
-                                FeaturedDetailScreenContentShimmer()
-                            }
+                            )
+                        } else {
+                            FeaturedDetailScreenContentShimmer()
                         }
                     }
 
-                    item {
-                        AnimatedVisibility(!state.isContentRefreshing) {
-                            Column(modifier = Modifier.fillMaxWidth()) {
-                                Header("관련된 코스들")
-                                LazyRow(contentPadding = PaddingValues(start = 20.dp)) {
-                                    items(state.courses) {
-                                        CourseHorizontalListItem(it) { course: Course ->
-                                            onCourseClicked(course)
-                                        }
-                                        Spacer(Modifier.width(20.dp))
-                                    }
-                                }
-                            }
+                    AnimatedVisibility(!state.isContentRefreshing) {
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            Header("관련된 코스들")
+                            CourseHorizontalList(
+                                list = state.courses,
+                                onCourseClicked = onCourseClicked
+                            )
                         }
                     }
 
-                    item {
-                        Spacer(modifier = Modifier.navigationBarsPadding())
-                        Spacer(modifier = Modifier.height(100.dp))
-                    }
+                    Spacer(modifier = Modifier.navigationBarsPadding())
+                    Spacer(modifier = Modifier.height(100.dp))
 
                 }
             }
@@ -292,22 +304,50 @@ private fun FeaturedDetailScreenContent(
 private fun FeaturedDetailScreenContentShimmer() {
     Column {
         Column(modifier = Modifier.padding(20.dp)) {
-            Spacer(modifier = Modifier.width(200.dp).height(18.dp).shimmer())
+            Spacer(
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(18.dp)
+                    .shimmer()
+            )
             Spacer(modifier = Modifier.height(12.dp))
-            Spacer(modifier = Modifier.width(150.dp).height(18.dp).shimmer())
+            Spacer(
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(18.dp)
+                    .shimmer()
+            )
             Spacer(modifier = Modifier.height(12.dp))
-            Spacer(modifier = Modifier.width(300.dp).height(18.dp).shimmer())
+            Spacer(
+                modifier = Modifier
+                    .width(300.dp)
+                    .height(18.dp)
+                    .shimmer()
+            )
             Spacer(modifier = Modifier.height(30.dp))
-            Spacer(modifier = Modifier.width(100.dp).height(18.dp).shimmer())
+            Spacer(
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(18.dp)
+                    .shimmer()
+            )
         }
         Spacer(modifier = Modifier.height(10.dp))
         Row(
             modifier = Modifier.horizontalScroll(state = rememberScrollState(), enabled = false)
         ) {
             Spacer(modifier = Modifier.width(20.dp))
-            Spacer(modifier = Modifier.size(200.dp, 300.dp).shimmer(shape = RoundedCornerShape(20.dp)))
+            Spacer(
+                modifier = Modifier
+                    .size(200.dp, 300.dp)
+                    .shimmer(shape = RoundedCornerShape(20.dp))
+            )
             Spacer(modifier = Modifier.width(20.dp))
-            Spacer(modifier = Modifier.size(200.dp, 300.dp).shimmer(shape = RoundedCornerShape(20.dp)))
+            Spacer(
+                modifier = Modifier
+                    .size(200.dp, 300.dp)
+                    .shimmer(shape = RoundedCornerShape(20.dp))
+            )
         }
         Spacer(modifier = Modifier.height(12.dp))
     }

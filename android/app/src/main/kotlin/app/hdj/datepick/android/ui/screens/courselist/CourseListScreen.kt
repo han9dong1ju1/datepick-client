@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -15,7 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import app.hdj.datepick.android.ui.components.list.CourseVertialListItem
+import app.hdj.datepick.android.ui.components.list.CourseVerticalListItem
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.android.utils.onCourseClicked
 import app.hdj.datepick.domain.model.course.Course
@@ -91,7 +89,7 @@ private fun CourseListScreenContent(
             if (itemCount != 0) {
                 items(lazyPagingItems) { course ->
                     course?.let {
-                        CourseVertialListItem(course, onCourseClicked)
+                        CourseVerticalListItem(course, onCourseClicked)
                     }
                 }
             }

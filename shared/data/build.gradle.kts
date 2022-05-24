@@ -113,12 +113,8 @@ kotlin {
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
 
-    defaultConfig {
-        minSdk = Properties.androidMinSDK
-        targetSdk = Properties.androidTargetSDK
-    }
+    baseDefaultConfig()
 
     sourceSets {
         getByName("main") {

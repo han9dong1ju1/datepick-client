@@ -53,12 +53,8 @@ dependencies {
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
 
-    defaultConfig {
-        minSdk = Properties.androidMinSDK
-        targetSdk = Properties.androidTargetSDK
-    }
+    baseDefaultConfig()
 
     buildTypes {
         getByName("release") {

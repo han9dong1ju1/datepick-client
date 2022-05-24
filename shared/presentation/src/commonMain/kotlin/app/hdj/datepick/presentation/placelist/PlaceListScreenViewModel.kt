@@ -1,15 +1,17 @@
 package app.hdj.datepick.presentation.placelist
 
+import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.Place
+import app.hdj.datepick.domain.usecase.place.GetPlaceCategoriesUseCase
 import app.hdj.datepick.domain.usecase.place.SearchPlacesUseCase
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
-import app.hdj.datepick.domain.usecase.place.params.placeQueryParams
+import app.hdj.datepick.domain.usecase.place.params.PlaceQueryWithPagingResult
 import app.hdj.datepick.presentation.PlatformViewModel
 import app.hdj.datepick.presentation.UnidirectionalViewModelDelegate
 import app.hdj.datepick.presentation.placelist.PlaceListScreenViewModelDelegate.*
+import app.hdj.datepick.presentation.utils.toLoadState
 import app.hdj.datepick.utils.di.HiltViewModel
 import app.hdj.datepick.utils.di.Inject
-import com.kuuurt.paging.multiplatform.PagingData
 import com.kuuurt.paging.multiplatform.helpers.cachedIn
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -18,7 +20,8 @@ import kotlinx.coroutines.launch
 interface PlaceListScreenViewModelDelegate : UnidirectionalViewModelDelegate<State, Effect, Event> {
 
     data class State(
-        val places: Flow<PagingData<Place>> = flowOf(),
+        val placeCategoriesState : LoadState<List<Place.Category>> = LoadState.idle(),
+        val placesQueryResult: PlaceQueryWithPagingResult = PlaceQueryWithPagingResult(),
     )
 
     sealed interface Effect {
@@ -34,7 +37,8 @@ interface PlaceListScreenViewModelDelegate : UnidirectionalViewModelDelegate<Sta
 
 @HiltViewModel
 class PlaceListScreenViewModel @Inject constructor(
-    searchPlacesUseCase: SearchPlacesUseCase
+    searchPlacesUseCase: SearchPlacesUseCase,
+    getPlaceCategoriesUseCase: GetPlaceCategoriesUseCase,
 ) : PlatformViewModel(), PlaceListScreenViewModelDelegate {
 
     private val effectChannel = Channel<Effect>(Channel.UNLIMITED)
@@ -42,17 +46,20 @@ class PlaceListScreenViewModel @Inject constructor(
 
     private val placeQueryParams = MutableStateFlow<PlaceQueryParams?>(null)
 
-    private val temp = MutableStateFlow(false)
-
-    private val places = placeQueryParams
+    private val placesQueryResult = placeQueryParams
         .filterNotNull()
-        .map { searchPlacesUseCase(it).pagingData.cachedIn(platformViewModelScope) }
+        .map {
+            PlaceQueryWithPagingResult(
+                it,
+                searchPlacesUseCase(it).pagingData.cachedIn(platformViewModelScope),
+            )
+        }
 
     override val state: StateFlow<State> = combine(
-        places,
-        temp
-    ) { places, _ ->
-        State(places)
+        getPlaceCategoriesUseCase().toLoadState(),
+        placesQueryResult,
+    ) { categoriesState, placesQueryResult ->
+        State(categoriesState, placesQueryResult)
     }.asStateFlow(State(), platformViewModelScope)
 
     private suspend fun load(params: PlaceQueryParams?) {

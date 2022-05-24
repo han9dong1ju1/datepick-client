@@ -3,17 +3,20 @@ package app.hdj.datepick.android.ui.screens.place
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.components.list.itemHorizontalPlacesWithHeader
+import app.hdj.datepick.android.ui.components.list.PlacesCardHeaderCarousel
 import app.hdj.datepick.android.utils.*
 import app.hdj.datepick.domain.model.place.Place
-import app.hdj.datepick.domain.onSucceed
 import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
 import app.hdj.datepick.presentation.place.PlaceDetailScreenViewModel
 import app.hdj.datepick.presentation.place.PlaceDetailScreenViewModelDelegate
@@ -91,41 +94,43 @@ private fun PlaceDetailScreenContent(
             )
         }
     ) {
-        LazyColumn(
-            state = lazyListState
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .verticalScroll(rememberScrollState())
         ) {
 
-            item {
-                LoadStateAnimatedContent(
-                    modifier = Modifier.fillMaxWidth(),
-                    loadState = state.placeState,
-                    transitionSpec = { fadeIn() with fadeOut() },
-                    onLoading = {
+            LoadStateAnimatedContent(
+                modifier = Modifier.fillMaxWidth(),
+                loadState = state.placeState,
+                transitionSpec = { fadeIn() with fadeOut() },
+                onLoading = {
 
-                    },
-                    onSuccess = {
+                },
+                onSuccess = { place ->
+                    PlaceDetailScreenHeader(place = place)
+                },
+                onFailed = { data, throwable ->
 
-                    },
-                    onFailed = { data, throwable ->
+                }
+            )
 
-                    }
+            with(state.recommendedPlacesQueryResult) {
+                PlacesCardHeaderCarousel(
+                    "비슷한 장소",
+                    result,
+                    onPlaceClicked = onPlaceClicked,
+                    onMoreClicked = { onMorePlaceListClicked(queryParams) }
                 )
             }
 
-            with(state.recommendedPlacesQueryResult) {
-                result.onSucceed {
-                    itemHorizontalPlacesWithHeader(
-                        "비슷한 장소",
-                        it,
-                        onPlaceClicked = onPlaceClicked,
-                        onMoreClicked = { onMorePlaceListClicked(queryParams) }
-                    )
-                }
-            }
-
-            item {
-
-            }
         }
     }
+}
+
+@Composable
+private fun PlaceDetailScreenHeader(place: Place) {
+
+
+
 }

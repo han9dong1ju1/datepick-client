@@ -4,17 +4,17 @@ import app.hdj.datepick.data.model.request.auth.AuthRefreshTokenRequest
 import app.hdj.datepick.data.model.response.auth.AuthTokenResponse
 import app.hdj.datepick.data.remote.Api
 import app.hdj.datepick.data.remote.ApiResponse
+import app.hdj.datepick.data.remote.client.DatepickApiHttpClient
 import app.hdj.datepick.data.remote.get
 import app.hdj.datepick.data.remote.post
 import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.di.Singleton
 import io.ktor.client.*
+import io.ktor.client.engine.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.delay
 
 fun fakeAuthApi(): AuthApi = object : AuthApi {
-    override val client: HttpClient
-        get() = TODO("Not yet implemented")
 
     override suspend fun signIn(code: String, provider: String): ApiResponse<AuthTokenResponse> {
         delay(1000)
@@ -66,7 +66,7 @@ interface AuthApi : Api {
 }
 
 @Singleton
-class AuthApiImp @Inject constructor(override val client: HttpClient) : AuthApi {
+class AuthApiImp @Inject constructor() : AuthApi {
 
     override suspend fun signIn(code: String, provider: String): ApiResponse<AuthTokenResponse> =
         get("signin/$provider") {

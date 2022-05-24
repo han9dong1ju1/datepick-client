@@ -9,11 +9,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -26,35 +28,38 @@ fun BaseButton(
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     border: BorderStroke? = null,
     enabled: Boolean = true,
+    elevation : Dp = 0.dp,
     onClick: () -> Unit = {},
 ) {
-    Button(
-        modifier = Modifier.then(modifier),
-        onClick = onClick,
-        shape = shape,
-        enabled = enabled,
-        colors = colors,
-        border = border,
-        elevation = ButtonDefaults.elevation(
-            defaultElevation = 0.dp,
-            pressedElevation = 0.dp,
-            disabledElevation = 0.dp,
-            hoveredElevation = 0.dp,
-            focusedElevation = 0.dp,
-        ),
-    ) {
+    CompositionLocalProvider(LocalElevationOverlay provides null) {
+        Button(
+            modifier = Modifier.then(modifier),
+            onClick = onClick,
+            shape = shape,
+            enabled = enabled,
+            colors = colors,
+            border = border,
+            elevation = ButtonDefaults.elevation(
+                defaultElevation = elevation,
+                pressedElevation = elevation,
+                disabledElevation = elevation,
+                hoveredElevation = elevation,
+                focusedElevation = elevation,
+            ),
+        ) {
 
-        icon?.let {
-            Icon(
-                modifier = Modifier.size(ButtonDefaults.IconSize),
-                imageVector = it,
-                contentDescription = text,
-                tint = iconTint ?: LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
-            )
-            Spacer(modifier = Modifier.width(10.dp))
+            icon?.let {
+                Icon(
+                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                    imageVector = it,
+                    contentDescription = text,
+                    tint = iconTint ?: LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+            }
+
+            Text(text)
         }
-
-        Text(text)
     }
 }
 
@@ -70,7 +75,6 @@ fun CallToActionButton(
         modifier,
         icon,
         text = text,
-        colors = ButtonDefaults.buttonColors(),
         enabled = enabled,
         onClick = onClick
     )

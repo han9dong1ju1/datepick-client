@@ -1,26 +1,15 @@
 package app.hdj.datepick.android.ui.screens.kakaoplacesearch
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.hdj.datepick.android.ui.components.list.kakaoPlaceList
+import app.hdj.datepick.android.ui.components.searchbox.SearchBox
 import app.hdj.datepick.android.utils.extract
 import app.hdj.datepick.domain.onSucceed
 import app.hdj.datepick.presentation.kakaoplacesearch.KakaoPlaceSearchScreenViewModel
@@ -62,8 +51,6 @@ private fun KakaoPlaceSearchScreenContent(
         }
     }
 
-    var searchText by remember { mutableStateOf("") }
-
     BaseScaffold(
         topBar = {
             InsetTopBar(
@@ -76,49 +63,14 @@ private fun KakaoPlaceSearchScreenContent(
         LazyColumn(modifier = Modifier.padding(it)) {
 
             stickyHeader {
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    shape = RoundedCornerShape(100.dp),
-                    color = MaterialTheme.colors.onSurface.copy(0.01f)
-                        .compositeOver(MaterialTheme.colors.background)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 2.dp, horizontal = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        OutlinedTextField(
-                            modifier = Modifier.weight(1f),
-                            value = searchText,
-                            onValueChange = { searchText = it },
-                            placeholder = { Text(text = "검색어를 입력해주세요.") },
-                            maxLines = 1,
-                            singleLine = true,
-                            keyboardActions = KeyboardActions(
-                                onSearch = {
-                                    event(Event.Search(searchText))
-                                }
-                            ),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                disabledBorderColor = Color.Unspecified,
-                                focusedBorderColor = Color.Unspecified,
-                                unfocusedBorderColor = Color.Unspecified
-                            )
-                        )
-
-                        IconButton(onClick = {
-                            if (searchText.isNotBlank()) {
-                                event(Event.Search(searchText))
-                            }
-                        }) {
-                            Icon(imageVector = Icons.Rounded.Search, contentDescription = null)
+                SearchBox(
+                    onSearch = { query ->
+                        if (query.isNotBlank()) {
+                            event(Event.Search(query))
                         }
                     }
-                }
+                )
+                Divider(color = MaterialTheme.colors.onBackground.copy(0.05f))
             }
 
             state.results?.onSucceed { results ->

@@ -13,8 +13,6 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.delay
 
 fun fakePlaceApi(): PlaceApi = object : PlaceApi {
-    override val client: HttpClient
-        get() = TODO("Not yet implemented")
 
     override suspend fun getById(id: Long): ApiResponse<PlaceResponse> {
         delay(1000)
@@ -64,20 +62,27 @@ interface PlaceApi : Api {
 }
 
 @Singleton
-class PlaceApiImp @Inject constructor(override val client: HttpClient) : PlaceApi {
+class PlaceApiImp @Inject constructor() : PlaceApi {
 
     override suspend fun getById(id: Long) = get<ApiResponse<PlaceResponse>>("$id/")
 
     override suspend fun queryPlaces(page: Long, placeQueryParams: PlaceQueryParams) =
         get<ApiResponse<PagingResponse<PlaceResponse>>> {
+            parameter("sort", placeQueryParams.pagingParams.sort.value)
             parameter("page", page.toString())
             parameter("size", 10)
             parameter("keyword", placeQueryParams.filterParams.keyword)
             placeQueryParams.filterParams.categoryIds?.forEach { parameter("category_id", it) }
-            parameter("latitude", placeQueryParams.filterParams.latitude)
-            parameter("longitude", placeQueryParams.filterParams.longitude)
-            parameter("distance", placeQueryParams.filterParams.distance)
-            parameter("courseId", placeQueryParams.filterParams.courseId)
+
+            if (placeQueryParams.filterParams.latitude != null &&
+                placeQueryParams.filterParams.longitude != null
+            ) {
+                parameter("latitude", placeQueryParams.filterParams.latitude)
+                parameter("longitude", placeQueryParams.filterParams.longitude)
+                parameter("distance", placeQueryParams.filterParams.distance)
+            }
+            
+            parameter("course_id", placeQueryParams.filterParams.courseId)
         }
 
     override suspend fun addPlace(request: PlaceAddRequest): ApiResponse<PlaceResponse> = post {

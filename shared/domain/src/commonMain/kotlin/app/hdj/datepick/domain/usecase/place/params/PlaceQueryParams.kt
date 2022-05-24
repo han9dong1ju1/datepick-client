@@ -2,6 +2,9 @@ package app.hdj.datepick.domain.usecase.place.params
 
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.place.Place
+import com.kuuurt.paging.multiplatform.PagingData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 @kotlinx.serialization.Serializable
 data class PlaceQueryParams(
@@ -19,8 +22,7 @@ data class PlaceQueryParams(
             Popular("popular"),
             RatingDesc("rating_desc"),
             RatingAsc("rating_asc"),
-            DistanceDesc("distance_desc"),
-            DistanceAsc("distance_asc"),
+            Distance("distance")
         }
     }
 
@@ -34,10 +36,10 @@ data class PlaceQueryParams(
         var courseId: Long? = null
     ) {
 
-        fun nearby(latitude: Double, longitude: Double, distance: Double) {
+        fun nearby(latitude: Double, longitude: Double, distance: Double? = null) {
             this.latitude = latitude
             this.longitude = longitude
-            this.distance = distance
+            this.distance = distance ?: 1.0
         }
 
     }
@@ -55,6 +57,11 @@ fun PlaceQueryParams.filterParams(block: PlaceQueryParams.FilterParams.() -> Uni
 }
 
 data class PlaceQueryWithResult(
-    val queryParams: PlaceQueryParams = PlaceQueryParams(),
+    var queryParams: PlaceQueryParams = PlaceQueryParams(),
     val result: LoadState<List<Place>> = LoadState.idle()
+)
+
+data class PlaceQueryWithPagingResult(
+    var queryParams: PlaceQueryParams = PlaceQueryParams(),
+    val result: Flow<PagingData<Place>> = flowOf()
 )

@@ -1,6 +1,9 @@
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.get
 import java.io.ByteArrayOutputStream
+import com.android.build.gradle.*
+import com.android.build.api.dsl.DefaultConfig
+import com.android.build.gradle.internal.dsl.*
 
 fun Project.kapt(path: Any) {
     configurations["kapt"].dependencies.add(project.dependencies.create(path))
@@ -50,3 +53,26 @@ val Project.developer: String
         }
         return String(byteOut.toByteArray()).trim().replace("/", ":")
     }
+
+fun LibraryExtension.baseDefaultConfig(block : DefaultConfig.() -> Unit = {}) {
+    compileSdkPreview = Properties.androidCompileSDK
+    defaultConfig {
+        minSdk = Properties.androidMinSDK
+        targetSdkPreview = Properties.androidTargetSDK
+        block()
+    }
+
+}
+
+fun BaseAppModuleExtension.baseDefaultConfig(block : DefaultConfig.() -> Unit = {}) {
+    compileSdkPreview = Properties.androidCompileSDK
+    defaultConfig {
+        minSdk = Properties.androidMinSDK
+        targetSdkPreview = Properties.androidTargetSDK
+        applicationId = Properties.androidPackageName
+        versionCode = Properties.androidAppVersionCode
+        versionName = Properties.androidAppVersionName
+        block()
+    }
+
+}

@@ -2,6 +2,7 @@ package app.hdj.datepick.data.remote.client
 
 import app.hdj.datepick.data.model.request.auth.AuthRefreshTokenRequest
 import app.hdj.datepick.data.model.response.auth.AuthTokenResponse
+import app.hdj.datepick.data.remote.ApiResponse
 import app.hdj.datepick.data.utils.AuthTokenManager
 import app.hdj.datepick.utils.AppInfo
 import app.hdj.datepick.utils.PlatformLogger
@@ -29,15 +30,14 @@ private val responseKotlinSerializationJson =
         prettyPrint = true
     }
 
+expect fun getClient(): HttpClient
+
 @Suppress("FunctionName")
-fun <T : HttpClientEngineConfig> DatepickApiHttpClient(
+internal fun <T : HttpClientEngineConfig> DatepickApiHttpClient(
     engineFactory: HttpClientEngineFactory<T>,
-    authTokenManager: AuthTokenManager,
-    appInfo: AppInfo,
     block: HttpClientConfig<T>.() -> Unit = {}
 ) = HttpClient(engineFactory) {
 
-    developmentMode = appInfo.debug
     expectSuccess = true
 
     install(ContentNegotiation) {
@@ -49,21 +49,13 @@ fun <T : HttpClientEngineConfig> DatepickApiHttpClient(
 
     install(Auth) {
         bearer {
-            loadTokens {
-                val accessToken = authTokenManager.getAccessToken()
-                val refreshToken = authTokenManager.getRefreshToken()
-                PlatformLogger.d("Auth | accessToken: $accessToken")
-                PlatformLogger.d("Auth | refreshToken: $refreshToken")
-                if (accessToken != null && refreshToken != null)
-                    BearerTokens(accessToken, refreshToken)
-                else null
-            }
+            loadTokens(AuthTokenManager.tokenStorage::lastOrNull)
             refreshTokens {
-                val refreshToken = authTokenManager.getRefreshToken()
+                val refreshToken = AuthTokenManager.tokenStorage.lastOrNull()?.refreshToken
                 val response = client.post("https://$URL/v1/auth/refresh") {
-                    setBody(AuthRefreshTokenRequest(refreshToken!!))
-                }.body<AuthTokenResponse>()
-                authTokenManager.setToken(response)
+                    setBody(AuthRefreshTokenRequest(refreshToken ?: ""))
+                }.body<ApiResponse<AuthTokenResponse>>().data
+                AuthTokenManager.addToken(response)
                 BearerTokens(
                     accessToken = response.accessToken,
                     refreshToken = response.refreshToken

@@ -6,7 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import app.hdj.datepick.domain.model.place.KakaoPlaceSearch
-import app.hdj.datepick.ui.components.ListItem
+import app.hdj.datepick.ui.components.BasicListItem
 
 @Composable
 fun KakaoPlaceListItem(
@@ -15,7 +15,7 @@ fun KakaoPlaceListItem(
     onClick: (KakaoPlaceSearch.Document) -> Unit
 ) {
 
-    ListItem(
+    BasicListItem(
         modifier = modifier,
         title = kakaoPlace.placeName,
         subtitle = "${kakaoPlace.categoryName} | ${kakaoPlace.roadAddressName}",

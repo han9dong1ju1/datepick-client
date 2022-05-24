@@ -16,11 +16,9 @@ import kotlinx.serialization.json.Json
 @Suppress("FunctionName")
 fun <T : HttpClientEngineConfig> KakaoApiHttpClient(
     engineFactory: HttpClientEngineFactory<T>,
-    appInfo: AppInfo,
     block: HttpClientConfig<T>.() -> Unit = {}
 ) = HttpClient(engineFactory) {
 
-    developmentMode = appInfo.debug
     expectSuccess = false
 
     install(ContentNegotiation) {

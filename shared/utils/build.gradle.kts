@@ -79,12 +79,8 @@ kotlin {
 }
 
 android {
-    compileSdk = Properties.androidCompileSDK
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = Properties.androidMinSDK
-        targetSdk = Properties.androidTargetSDK
-    }
+    baseDefaultConfig()
 }
 
 kotlin {

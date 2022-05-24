@@ -27,7 +27,7 @@ fun ListHeader(
 }
 
 @Composable
-fun ListItem(
+fun BasicListItem(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,

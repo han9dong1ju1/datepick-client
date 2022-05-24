@@ -1,101 +1,125 @@
 package app.hdj.datepick.android.ui.screens.main.map
 
-import android.graphics.Color
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.BottomSheetValue.Collapsed
 import androidx.compose.material.BottomSheetValue.Expanded
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Place
-import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.hdj.datepick.android.ui.components.SearchBox
-import app.hdj.datepick.android.ui.components.SearchBoxExpandedContent
-import app.hdj.datepick.android.ui.components.list.itemHorizontalCoursesWithHeader
-import app.hdj.datepick.android.ui.components.list.itemHorizontalPlacesWithHeader
-import app.hdj.datepick.android.ui.components.rememberSearchBoxState
+import app.hdj.datepick.android.ui.components.googlemap.PlaceGoogleMapMarker
+import app.hdj.datepick.android.ui.components.list.PlacesCardGridWithHeaderWithQuery
+import app.hdj.datepick.android.ui.components.searchbox.SearchBox
+import app.hdj.datepick.android.ui.destinations.CheckboxSelectDialogDestination
 import app.hdj.datepick.android.ui.destinations.KakaoPlaceSearchScreenDestination
 import app.hdj.datepick.android.ui.destinations.RegionSelectScreenDestination
-import app.hdj.datepick.android.ui.providers.preview.FakeCoursePreviewProvider
+import app.hdj.datepick.android.ui.dialog.CheckboxSelectDialogConfig
+import app.hdj.datepick.android.ui.dialog.CheckboxSelectDialogResult
 import app.hdj.datepick.android.ui.screens.course.courseDetail.SEOUL_LAT_LNG
-import app.hdj.datepick.android.utils.extract
-import app.hdj.datepick.android.utils.onCourseClicked
-import app.hdj.datepick.android.utils.onPlaceClicked
-import app.hdj.datepick.android.utils.onSucceedComposable
+import app.hdj.datepick.android.utils.*
 import app.hdj.datepick.domain.LoadState
 import app.hdj.datepick.domain.model.course.Course
 import app.hdj.datepick.domain.model.place.Place
-import app.hdj.datepick.domain.onSucceed
+import app.hdj.datepick.domain.usecase.place.params.PlaceQueryParams
+import app.hdj.datepick.domain.usecase.place.params.PlaceQueryWithResult
 import app.hdj.datepick.presentation.main.MapScreenViewModel
 import app.hdj.datepick.presentation.main.MapScreenViewModelDelegate
+import app.hdj.datepick.presentation.main.MapScreenViewModelDelegate.Event.PlaceQueryChanged
 import app.hdj.datepick.ui.R
 import app.hdj.datepick.ui.components.BaseButton
 import app.hdj.datepick.ui.components.BaseScaffold
 import app.hdj.datepick.utils.location.LatLng
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.*
-import com.google.maps.android.ui.IconGenerator
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.ResultRecipient
 import kotlinx.coroutines.launch
-
-
-private val BottomSheetState.currentFraction: Float
-    get() {
-        val fraction = progress.fraction
-        val targetValue = targetValue
-        val currentValue = currentValue
-
-        return when {
-            currentValue == Collapsed && targetValue == Collapsed -> 0f
-            currentValue == Expanded && targetValue == Expanded -> 1f
-            currentValue == Collapsed && targetValue == Expanded -> fraction
-            else -> 1f - fraction
-        }
-    }
-
 
 @Composable
 @Destination
 fun MapScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    resultRecipient: ResultRecipient<CheckboxSelectDialogDestination, CheckboxSelectDialogResult>
 ) {
+
+    val vm = hiltViewModel<MapScreenViewModel>()
+
+    val (state) = vm.extract()
+
+    resultRecipient.onNavResult {
+        if (it is NavResult.Value) {
+            vm.event(
+                PlaceQueryChanged(
+                    state.searchedPlacesResult.queryParams.run {
+                        copy(filterParams = filterParams.copy(categoryIds = it.value.selected))
+                    }
+                )
+            )
+        }
+    }
+
     MapScreenContent(
+        vm = vm,
         popBackStack = { navigator.popBackStack() },
         onSelectRegionClicked = { navigator.navigate(RegionSelectScreenDestination) },
         onPlaceClicked = navigator.onPlaceClicked,
+        onMorePlacesClicked = navigator.onMorePlaceListClicked,
         onCourseClicked = navigator.onCourseClicked,
-        onKakaoPlaceSearchClicked = {
-            navigator.navigate(KakaoPlaceSearchScreenDestination)
-        }
+        onKakaoPlaceSearchClicked = { navigator.navigate(KakaoPlaceSearchScreenDestination) },
+        onCategoryRemove = { category ->
+            state.searchedPlacesResult.queryParams.run {
+                val previousCategories = filterParams.categoryIds
+                if (!previousCategories.isNullOrEmpty()) {
+                    vm.event(
+                        PlaceQueryChanged(
+                            copy(
+                                filterParams = filterParams.copy(
+                                    categoryIds = previousCategories - category.id
+                                )
+                            )
+                        )
+                    )
+                }
+            }
+        },
+        onCategoryChangeClicked = {
+            navigator.navigate(CheckboxSelectDialogDestination(CheckboxSelectDialogConfig(
+                "카테고리 선택",
+                "카테고리를 선택해주세요.",
+                state.placeCategoriesState.dataOrNull?.map { it.id to it.name }
+                    .orEmpty(),
+                it,
+            )))
+        },
     )
 }
 
 
 @Composable
 private fun MapScreenContent(
-    vm: MapScreenViewModelDelegate = hiltViewModel<MapScreenViewModel>(),
+    vm: MapScreenViewModelDelegate,
     popBackStack: () -> Unit = {},
     onSelectRegionClicked: () -> Unit = {},
     onPlaceClicked: (Place) -> Unit = {},
+    onMorePlacesClicked: (PlaceQueryParams) -> Unit = {},
     onCourseClicked: (Course) -> Unit = {},
+    onCategoryRemove: (Place.Category) -> Unit = {},
+    onCategoryChangeClicked: (List<Long>) -> Unit = {},
     onKakaoPlaceSearchClicked: () -> Unit = {}
 ) {
 
@@ -103,8 +127,6 @@ private fun MapScreenContent(
 
     val context = LocalContext.current
     val isLight = MaterialTheme.colors.isLight
-
-    val searchBoxState = rememberSearchBoxState()
 
     var mapProperties by remember {
         mutableStateOf(
@@ -131,14 +153,17 @@ private fun MapScreenContent(
         )
     }
 
-    var previousCameraPosition by remember {
-        mutableStateOf(
-            CameraPosition.fromLatLngZoom(SEOUL_LAT_LNG, 15f)
-        )
-    }
-
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(SEOUL_LAT_LNG, 15f)
+    }
+
+    LaunchedEffect(cameraPositionState.position) {
+        event(MapScreenViewModelDelegate.Event.ThisLocationSearchClicked(
+            LatLng(
+                cameraPositionState.position.target.latitude,
+                cameraPositionState.position.target.longitude
+            )
+        ))
     }
 
     val bottomSheetState = rememberBottomSheetState(initialValue = Collapsed)
@@ -148,230 +173,227 @@ private fun MapScreenContent(
 
     val coroutineScope = rememberCoroutineScope()
 
+    var selectedLocation by remember { mutableStateOf<LatLng?>(null) }
+
     BackHandler {
         when {
             bottomSheetState.isExpanded -> coroutineScope.launch { bottomSheetState.collapse() }
-            searchBoxState.isExpanded -> searchBoxState.collapse()
-            else -> popBackStack()
+            else -> {
+                if (selectedLocation != null) {
+                    selectedLocation = null
+                } else {
+                    popBackStack()
+                }
+            }
         }
     }
 
+
     BaseScaffold(modifier = Modifier.fillMaxSize()) {
 
-        val roundedCornerRadius by animateDpAsState(if (bottomSheetState.isExpanded) 0.dp else 20.dp)
+        CompositionLocalProvider(LocalElevationOverlay provides null) {
 
-        BottomSheetScaffold(
-            scaffoldState = bottomSheetScaffoldState,
-            sheetBackgroundColor = MaterialTheme.colors.surface,
-            sheetPeekHeight = 300.dp,
-            sheetShape = RoundedCornerShape(
-                topStart = roundedCornerRadius,
-                topEnd = roundedCornerRadius
-            ),
-            sheetElevation = 0.dp,
-            sheetContent = {
-                MapScreenListContent(
-                    popularPlacesState = state.searchedPlacesState.result,
-                    onPlaceClicked = onPlaceClicked,
-                    onCourseClicked = onCourseClicked,
-                    onKakaoPlaceSearchClicked = onKakaoPlaceSearchClicked,
-                )
-            }
-        ) {
-            BaseScaffold(Modifier.fillMaxSize()) {
-                GoogleMap(
-                    modifier = Modifier.fillMaxSize(),
-                    properties = mapProperties,
-                    uiSettings = mapUiSettings,
-                    cameraPositionState = cameraPositionState
+            val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+
+            BottomSheetScaffold(
+                scaffoldState = bottomSheetScaffoldState,
+                sheetBackgroundColor = MaterialTheme.colors.surface,
+                sheetPeekHeight = if (selectedLocation == null) 0.dp else screenHeight * 0.4f,
+                sheetShape = RoundedCornerShape(
+                    topStart = 30.dp,
+                    topEnd = 30.dp
+                ),
+                sheetElevation = 10.dp,
+                sheetContent = {
+                    MapScreenListContent(
+                        searchedPlacesResult = state.searchedPlacesResult,
+                        categoriesState = state.placeCategoriesState,
+                        onPlaceQueryParamsChanged = {
+                            event(PlaceQueryChanged(it))
+                        },
+                        onPlaceClicked = onPlaceClicked,
+                        onCourseClicked = onCourseClicked,
+                        onKakaoPlaceSearchClicked = onKakaoPlaceSearchClicked,
+                        onMorePlacesClicked = { onMorePlacesClicked(state.searchedPlacesResult.queryParams) },
+                        onCategoryRemove = onCategoryRemove,
+                        onCategoryChangeClicked = onCategoryChangeClicked,
+                        onSearchBoxFocused = { coroutineScope.launch { bottomSheetState.expand() } }
+                    )
+                }
+            ) {
+                BaseScaffold(
+                    Modifier.fillMaxSize()
                 ) {
-                    state.searchedPlacesState.result.onSucceedComposable { places ->
-                        places.forEach { place ->
 
-                            MarkerInfoWindow(
-                                state = rememberMarkerState(
-                                    key = place.id.toString(),
-                                    position = com.google.android.gms.maps.model.LatLng(
-                                        place.latitude,
-                                        place.longitude
+                    Box(modifier = Modifier.padding(it)) {
+
+                        GoogleMap(
+                            modifier = Modifier.fillMaxSize(),
+                            properties = mapProperties,
+                            uiSettings = mapUiSettings,
+                            cameraPositionState = cameraPositionState
+                        ) {
+                            state.searchedPlacesResult.result.onSucceedComposable { places ->
+                                places.forEach { place ->
+                                    PlaceGoogleMapMarker(
+                                        markerState = rememberMarkerState(
+                                            key = place.id.toString(),
+                                            position = com.google.android.gms.maps.model.LatLng(
+                                                place.latitude,
+                                                place.longitude
+                                            )
+                                        ),
+                                        place = place,
+                                        onMarkerClicked = onPlaceClicked
                                     )
-                                ),
-                                snippet = place.name,
-                                title = place.name,
-                                icon = BitmapDescriptorFactory.fromBitmap(
-                                    IconGenerator(context)
-                                        .apply {
-                                            setColor(Color.BLACK)
-                                        }
-                                        .makeIcon(place.name)
+                                }
+                            }
+                        }
+
+                        AnimatedVisibility(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(bottom = 200.dp),
+                            visible = selectedLocation == null,
+                            enter = slideInVertically { it },
+                            exit = slideOutVertically { it }
+                        ) {
+                            Button(onClick = {
+                                selectedLocation = LatLng(
+                                    cameraPositionState.position.target.latitude,
+                                    cameraPositionState.position.target.longitude
                                 )
+                            }) {
+                                Text("테스트")
+                            }
+                        }
+
+                        Column {
+                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.statusBarsPadding())
+                            AnimatedVisibility(
+                                modifier = Modifier,
+                                visible = selectedLocation != null,
+                                enter = scaleIn(),
+                                exit = scaleOut()
                             ) {
-                                Box(modifier = Modifier.padding(bottom = 20.dp)) {
-                                    Surface(
-                                        shape = RoundedCornerShape(10.dp)
-                                    ) {
-                                        Column(
-                                            modifier = Modifier.padding(10.dp)
-                                        ) {
-
-                                            Text(
-                                                text = it.title ?: place.name,
-                                                style = MaterialTheme.typography.body1
-                                            )
-
-                                            Spacer(modifier = Modifier.height(4.dp))
-
-                                            Text(
-                                                text = place.categories.joinToString(separator = ",") { it.name },
-                                                style = MaterialTheme.typography.body2,
-                                                color = MaterialTheme.colors.onSurface.copy(0.5f)
-                                            )
-
-                                            Spacer(modifier = Modifier.height(4.dp))
-
-                                            Row(verticalAlignment = Alignment.CenterVertically) {
-
-                                                Icon(
-                                                    modifier = Modifier.size(10.dp),
-                                                    imageVector = Icons.Rounded.Star,
-                                                    contentDescription = null,
-                                                    tint = MaterialTheme.colors.secondary
+                                Box(modifier = Modifier.fillMaxWidth()) {
+                                    BaseButton(
+                                        modifier = Modifier.align(Alignment.Center),
+                                        text = "이 장소에서 검색",
+                                        icon = Icons.Rounded.Place,
+                                        elevation = 4.dp,
+                                        onClick = {
+                                            event(
+                                                MapScreenViewModelDelegate.Event.ThisLocationSearchClicked(
+                                                    LatLng(
+                                                        cameraPositionState.position.target.latitude,
+                                                        cameraPositionState.position.target.longitude,
+                                                    )
                                                 )
-
-                                                Spacer(modifier = Modifier.width(4.dp))
-
-                                                Text(
-                                                    color = MaterialTheme.colors.secondary,
-                                                    text = place.rating?.toString() ?: "-",
-                                                    style = MaterialTheme.typography.caption,
-                                                    textAlign = TextAlign.Center
-                                                )
-                                            }
-
-                                        }
-                                    }
-
+                                            )
+                                        },
+                                        shape = RoundedCornerShape(20.dp),
+                                        colors = ButtonDefaults.buttonColors(
+                                            backgroundColor = MaterialTheme.colors.surface
+                                        )
+                                    )
                                 }
                             }
                         }
                     }
                 }
             }
+
         }
 
-        Box(modifier = Modifier.fillMaxWidth()) {
-
-            val statusBarScrimStartAlpha by animateFloatAsState(
-                targetValue = if (searchBoxState.isExpanded) 1f else {
-                    if (MaterialTheme.colors.isLight) 0.7f
-                    else 0.5f
-                }
-            )
-
-            val statusBarScrimEndAlpha by animateFloatAsState(
-                targetValue = if (searchBoxState.isExpanded) 1f else 0f
-            )
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(WindowInsets.statusBars.getBottom(LocalDensity.current).dp)
-                    .background(
-                        Brush.verticalGradient(
-                            listOf(
-                                MaterialTheme.colors.surface.copy(alpha = statusBarScrimStartAlpha),
-                                MaterialTheme.colors.surface.copy(alpha = statusBarScrimEndAlpha)
-                            )
-                        )
-                    )
-            )
-
-            Column(modifier = Modifier.align(Alignment.TopCenter)) {
-                Spacer(Modifier.statusBarsPadding())
-                Spacer(Modifier.height(80.dp))
-                BaseButton(
-                    modifier = Modifier,
-                    text = "이 장소에서 검색",
-                    icon = Icons.Rounded.Place,
-                    onClick = {
-                        event(
-                            MapScreenViewModelDelegate.Event.ThisLocationSearchClicked(
-                                LatLng(
-                                    cameraPositionState.position.target.latitude,
-                                    cameraPositionState.position.target.longitude,
-                                )
-                            )
-                        )
-                    },
-                    shape = RoundedCornerShape(20.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = MaterialTheme.colors.surface
-                    )
-                )
-            }
-
-            SearchBox(state = searchBoxState) {
-                SearchBoxExpandedContent(
-                    onCollapse = { searchBoxState.collapse() },
-                    onSearch = {
-                        coroutineScope.launch {
-                            bottomSheetState.collapse()
-                            searchBoxState.collapse()
-                        }
-                    },
-                    onSelectRegionClicked = onSelectRegionClicked
-                )
-            }
-        }
     }
-
 }
 
 @Composable
 private fun MapScreenListContent(
-    popularPlacesState: LoadState<List<Place>>,
-    popularCoursesState: LoadState<List<Course>> = remember {
-        LoadState.success(
-            FakeCoursePreviewProvider().values.first()
-        )
-    },
+    searchedPlacesResult: PlaceQueryWithResult,
+    categoriesState: LoadState<List<Place.Category>>,
+    onPlaceQueryParamsChanged: (PlaceQueryParams) -> Unit,
     onPlaceClicked: (Place) -> Unit,
+    onMorePlacesClicked: () -> Unit,
     onCourseClicked: (Course) -> Unit,
-    onKakaoPlaceSearchClicked: () -> Unit
+    onCategoryRemove: (Place.Category) -> Unit,
+    onCategoryChangeClicked: (List<Long>) -> Unit,
+    onKakaoPlaceSearchClicked: () -> Unit,
+    onSearchBoxFocused: () -> Unit
 ) {
 
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
+    val configuration = LocalConfiguration.current
 
-        stickyHeader {
-            Spacer(Modifier.statusBarsPadding())
-            Surface(modifier = Modifier.fillMaxWidth()) {
-                Box(modifier = Modifier.padding(20.dp)) {
-                    Text("인기", style = MaterialTheme.typography.h5)
-                }
+    val screenHeight = configuration.screenHeightDp.dp
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(screenHeight)
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.surface)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .height(4.dp)
+                        .width(50.dp)
+                        .background(
+                            MaterialTheme.colors.onSurface.copy(alpha = 0.2f),
+                            shape = RoundedCornerShape(100.dp)
+                        )
+                )
             }
+            Spacer(modifier = Modifier.height(10.dp))
+            SearchBox(
+                onFocused = onSearchBoxFocused,
+                onSearch = {
+
+                }
+            )
         }
 
-        popularPlacesState.onSucceed {
-            itemHorizontalPlacesWithHeader("인기 장소", it, onPlaceClicked, onMoreClicked = {})
-        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
 
-        popularCoursesState.onSucceed {
-            itemHorizontalCoursesWithHeader("인기 코스", it, onCourseClicked, onMoreClicked = {})
-        }
+            PlacesCardGridWithHeaderWithQuery(
+                "검색된 장소",
+                categoriesState,
+                searchedPlacesResult.result,
+                onPlaceClicked,
+                onMoreClicked = onMorePlacesClicked,
+                searchedPlacesResult.queryParams,
+                onPlaceQueryParamsChanged,
+                onCategoryRemove,
+                onCategoryChangeClicked
+            )
 
-        item {
             Spacer(Modifier.height(30.dp))
+
             BaseButton(
                 modifier = Modifier,
                 text = "찾는 장소가 없나요?",
                 onClick = onKakaoPlaceSearchClicked
             )
-        }
 
-        item {
             Spacer(modifier = Modifier.height(100.dp))
             Spacer(modifier = Modifier.navigationBarsPadding())
-        }
 
+        }
     }
+
 }

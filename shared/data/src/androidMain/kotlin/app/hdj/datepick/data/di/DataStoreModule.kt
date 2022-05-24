@@ -46,7 +46,7 @@ interface DataStoreModule {
         @Singleton
         @Named("encrypted")
         fun provideEncryptSettings(@ApplicationContext context: Context): Settings =
-            EncryptedSettingsHolder(context).settings
+            EncryptedSettingsHolder.newInstance(context).settings
     }
 
 }

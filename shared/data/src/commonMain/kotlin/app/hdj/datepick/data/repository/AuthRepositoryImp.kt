@@ -24,17 +24,17 @@ class AuthRepositoryImp @Inject constructor(
     }
 
     override fun refreshToken(forceRefresh: Boolean) = flow {
-        val refreshToken = authTokenManager.getRefreshToken()
+        val refreshToken = AuthTokenManager.tokenStorage.lastOrNull()?.refreshToken
 
         if (refreshToken == null) {
             emit(RefreshTokenResult.NotSigned)
         } else {
-            if (!authTokenManager.isTokenExpired() && !forceRefresh) {
-                emit(RefreshTokenResult.NoNeedToRefresh)
-            } else {
+            if (authTokenManager.isTokenExpired() || forceRefresh) {
                 val response = authApi.refreshToken(AuthRefreshTokenRequest(refreshToken))
                 authTokenManager.setToken(response.data)
                 emit(RefreshTokenResult.Refreshed)
+            } else {
+                emit(RefreshTokenResult.NoNeedToRefresh)
             }
         }
 

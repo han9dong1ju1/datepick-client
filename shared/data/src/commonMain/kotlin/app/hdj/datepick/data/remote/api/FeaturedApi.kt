@@ -4,18 +4,18 @@ import app.hdj.datepick.data.model.response.featured.FeaturedResponse
 import app.hdj.datepick.data.remote.Api
 import app.hdj.datepick.data.remote.ApiResponse
 import app.hdj.datepick.data.remote.PagingResponse
+import app.hdj.datepick.data.remote.client.DatepickApiHttpClient
 import app.hdj.datepick.data.remote.get
 import app.hdj.datepick.data.utils.MockResponses
 import app.hdj.datepick.data.utils.MockResponses.featuredPaged
 import app.hdj.datepick.utils.di.Inject
 import app.hdj.datepick.utils.di.Singleton
 import io.ktor.client.*
+import io.ktor.client.engine.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.delay
 
 fun fakeFeaturedApi() = object : FeaturedApi {
-    override val client: HttpClient
-        get() = TODO("Not yet implemented")
 
     override suspend fun getPagedFeatured(
         page: Long,
@@ -51,7 +51,7 @@ interface FeaturedApi : Api {
 }
 
 @Singleton
-class FeaturedApiImp @Inject constructor(override val client: HttpClient) : FeaturedApi {
+class FeaturedApiImp @Inject constructor() : FeaturedApi {
 
     override suspend fun getPagedFeatured(
         page: Long,
